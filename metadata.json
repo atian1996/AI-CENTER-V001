@@ -1,0 +1,6 @@
+{
+  "name": "AI运营中心",
+  "description": "全场景一站式 AI应用 + 社区 + 算力 综合平台",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
