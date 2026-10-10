@@ -356,8 +356,8 @@ export const WorkspaceTasks: React.FC = () => {
                             } else if (tkRejected) {
                               statusText = '已驳回';
                             } else if (isTaskDone) {
-                              if (tk.status === '成果未通过' || tkHasSub || tk.status === '已提交') {
-                                statusText = '成果未通过';
+                              if (tk.status === '成果未通过' || tkHasSub || tk.status === '已提交' || tk.status === '已驳回') {
+                                statusText = '已驳回';
                               } else {
                                 statusText = '未提交';
                               }
@@ -560,10 +560,26 @@ export const WorkspaceTasks: React.FC = () => {
                                 <span>成果被驳回</span>
                               </span>
                             </>
+                          ) : hasSubmitted ? (
+                            <>
+                              <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-emerald-500 text-white shadow-2xs">
+                                进行中
+                              </span>
+                              <span className="px-3 py-0.5 rounded-full text-xs font-black bg-amber-100 text-amber-800 border border-amber-200 flex items-center gap-1 shadow-2xs">
+                                <Clock className="w-3.5 h-3.5 text-amber-600" />
+                                <span>待验收</span>
+                              </span>
+                            </>
                           ) : (
-                            <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-emerald-500 text-white shadow-2xs">
-                              进行中
-                            </span>
+                            <>
+                              <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-emerald-500 text-white shadow-2xs">
+                                进行中
+                              </span>
+                              <span className="px-3 py-0.5 rounded-full text-xs font-black bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center gap-1 shadow-2xs">
+                                <Clock className="w-3.5 h-3.5 text-indigo-600" />
+                                <span>待提交</span>
+                              </span>
+                            </>
                           )}
                         </div>
 
@@ -677,7 +693,7 @@ export const WorkspaceTasks: React.FC = () => {
                                 submitTime: '近期',
                                 notes: '已提交项目源码包、测试文档与环境交付配置说明。',
                                 files: [{ id: `f_${task.id}`, name: `${task.title}_交付源码.zip`, size: '8.5 MB' }],
-                                status: isWinner ? '已通过' : isRejected ? '已驳回' : (isFinished ? '成果未通过' : '待验收'),
+                                status: isWinner ? '已通过' : isRejected ? '已驳回' : (isFinished ? '未通过验收' : '待验收'),
                                 rejectReason: mySub?.rejectReason
                               });
                             }}

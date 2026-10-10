@@ -788,6 +788,262 @@ export const mockRichTasks: TaskItem[] = [
     bountyUnit: '¥'
   },
 
+  // [我接单 - 进行中 - 待提交/临近截止预警]
+  {
+    id: 'tsk_und_urgent_deadline',
+    title: '基于 DeepSeek-V3 的电商高并发智能导购 Agent 引擎',
+    taskType: '接单任务',
+    brief: '打造具备多轮拟人推荐、购物车上下文关联与秒级促销计算的客服导购 Agent',
+    domain: '技术开发',
+    difficulty: '困难',
+    recommendedResources: {
+      models: ['mod_deepseek_v4_pro', 'mod_qwen_25_coder'],
+      skills: ['sk_sse_stream_rewriter', 'sk_milvus_vector_retriever'],
+      environment: {
+        spec: 'NVIDIA A100 / 80GB',
+        image: 'Python 3.11 + vLLM + FastAPI'
+      }
+    },
+    description: `<h3>【项目痛点与业务场景】</h3><p>在大促活动期间，海量买家咨询容易导致客服系统瘫痪。现需基于 <b>DeepSeek-V3</b> 打造一套高并发电商智能导购 Agent，支持根据对话上下文分析用户潜在购物偏好，并进行商品组合推荐与优惠券自动核算。</p><h3>【核心需求点】</h3><ul><li>支持与 SKU 商品向量数据库（10 万级商品）联动进行语义相似度搜索；</li><li>支持多轮对话状态保持（Stateful Session Management）；</li><li>流式输出 HTTP/2 SSE 接口，首字延迟 ≤ 600ms。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收与考核标准】</h3><ol><li>模拟 100 用户高并发同时咨询场景，意图识别准确率 ≥ 91%；</li><li>代码结构规范，包含完整 Locust 压测与 Docker 部署日志；</li><li>提供 Postman / Curl 接口文档说明。</li></ol>`,
+    cashReward: 8500,
+    pointsReward: 600,
+    totalCashReward: 8500,
+    totalPointsReward: 600,
+    startTime: '2026-08-18 00:00:00',
+    endTime: '2026-09-22 20:00:00',
+    remainingDays: 1,
+    publisher: '三只松鼠电商技术部',
+    publisherAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-18 10:00:00',
+    status: '进行中',
+    acceptedCount: 4,
+    submittedCount: 2,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_urg_1',
+        taskId: 'tsk_und_urgent_deadline',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-18 11:00:00',
+        status: '已接单'
+      },
+      {
+        id: 'tk_urg_2',
+        taskId: 'tsk_und_urgent_deadline',
+        username: '电商AI开发队',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-18 14:20:00',
+        status: '已提交',
+        submissionId: 'sub_urg_2'
+      },
+      {
+        id: 'tk_urg_3',
+        taskId: 'tsk_und_urgent_deadline',
+        username: '全栈架构师老张',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-19 09:30:00',
+        status: '已接单'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_urg_2',
+        taskId: 'tsk_und_urgent_deadline',
+        username: '电商AI开发队',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-20 15:00:00',
+        notes: '完成了基于 DeepSeek-V3 的 FastSession 状态管理与 SKU 向量匹配，测试通过。',
+        files: [{ id: 'f_urg2', name: 'ECommerce_Shopping_Agent.zip', size: '31.2 MB' }],
+        status: '待验收'
+      }
+    ],
+    bounty: 8500,
+    bountyUnit: '¥'
+  },
+
+  // [我接单 - 进行中 - 修正后二次提交待验收]
+  {
+    id: 'tsk_und_resubmit_v2',
+    title: '基于 LangChain 的企业级多源知识库 (Confluence/Notion/PDF) 增量同步 Agent',
+    taskType: '接单任务',
+    brief: '支持文档更新自动捕获、向量缓存增量更新与鉴权 Token 自动刷新的分布式 Agent',
+    domain: '技术开发',
+    difficulty: '困难',
+    description: `<h3>【需求描述】</h3><p>面向企业内部知识管理，搭建支持第三方平台（Confluence / Notion API / Google Drive）文档变动自动感知与向量索引增量刷新的管道组件。</p><h3>【核心改进要求】</h3><ul><li>支持 Notion Webhook / Confluence Event 增量挂钩；</li><li>支持断点续传与 API Token 自动续期逻辑；</li><li>包含统一的知识库嵌入向量一致性校验工具。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>文档更新后 30 秒内完成向量数据库增量 Embedding 写入；</li><li>异常断网恢复后可自动重试并补齐遗漏文档；</li><li>提供完整 Python/TypeScript 模块源码及单元测试。</li></ol>`,
+    cashReward: 6800,
+    pointsReward: 450,
+    totalCashReward: 6800,
+    totalPointsReward: 450,
+    startTime: '2026-08-10 00:00:00',
+    endTime: '2026-09-27 23:59:59',
+    remainingDays: 8,
+    publisher: '字节跳动飞书生态团队',
+    publisherAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-10 09:00:00',
+    status: '进行中',
+    acceptedCount: 3,
+    submittedCount: 2,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_resub_1',
+        taskId: 'tsk_und_resubmit_v2',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-10 11:30:00',
+        status: '已提交',
+        submissionId: 'sub_resub_v2_mine'
+      },
+      {
+        id: 'tk_resub_2',
+        taskId: 'tsk_und_resubmit_v2',
+        username: '飞书开发极客组',
+        userAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-11 14:00:00',
+        status: '已提交',
+        submissionId: 'sub_resub_v2_other'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_resub_v2_mine',
+        taskId: 'tsk_und_resubmit_v2',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-20 11:20:00',
+        notes: '【第 2 版修改重提成果】针对首轮验收意见，已修复 Notion Webhook 幂等性去重机制与 OAuth Token 定时刷新 Handler，并补齐了 Confluence API 增量比对用例。',
+        files: [
+          { id: 'f_resub_1', name: 'Feishu_Knowledge_Agent_v2.0.zip', size: '28.4 MB' },
+          { id: 'f_resub_2', name: 'v2.0修改说明与单元测试报告.pdf', size: '2.6 MB' }
+        ],
+        status: '待验收'
+      },
+      {
+        id: 'sub_resub_v2_other',
+        taskId: 'tsk_und_resubmit_v2',
+        username: '飞书开发极客组',
+        userAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-19 16:00:00',
+        notes: '完成了 Confluence 与 Notion 知识同步插件开发。',
+        files: [{ id: 'f_resub_3', name: 'Lark_Knowledge_Sync.zip', size: '22.1 MB' }],
+        status: '待验收'
+      }
+    ],
+    bounty: 6800,
+    bountyUnit: '¥'
+  },
+
+  // [我接单 - 进行中 - 多极客团队高强度竞争中]
+  {
+    id: 'tsk_und_multi_competition',
+    title: '高频量化交易 Agent 的 Python C-Extension 算子扩展与内存零拷贝重构',
+    taskType: '接单任务',
+    brief: '重构行情数据解析与 OrderBook 挂单比对引擎，将单笔订单撮合延迟由 85μs 降低至 12μs 内',
+    domain: '技术开发',
+    difficulty: '困难',
+    description: `<h3>【任务背景】</h3><p>在金融高频量化交易系统中，Python 原生 GIL 锁与内存拷贝开销制约了挂单撮合吞吐量。现需使用 C++20 / Rust 对核心 OrderBook 数据结构与 Level-2 滴答行情解析器进行 C-Extension 重新实现。</p><h3>【技术难点】</h3><ul><li>设计无锁队列 (Lock-Free RingBuffer) 与内存映射 (mmap) 零拷贝反序列化；</li><li>与 Pybind11 / Cython 高效绑定，暴露原生 Python 接口；</li><li>包含 Linux 平台 CPU 亲和性绑核 (CPU Pinning) 调优。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收考核标准】</h3><ol><li>Level-2 行情推送处理 P999 延迟 ≤ 12μs；</li><li>在 1,000,000 次高频挂单撤单压测下无内存泄漏或 Segmentation Fault；</li><li>提供完整的 Google Benchmark 性能对比测试与源码。</li></ol>`,
+    cashReward: 12000,
+    pointsReward: 800,
+    totalCashReward: 12000,
+    totalPointsReward: 800,
+    startTime: '2026-08-12 00:00:00',
+    endTime: '2026-09-30 23:59:59',
+    remainingDays: 12,
+    publisher: '华泰证券 AI 量化实验室',
+    publisherAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-12 11:00:00',
+    status: '进行中',
+    acceptedCount: 5,
+    submittedCount: 3,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_multi_1',
+        taskId: 'tsk_und_multi_competition',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-13 09:30:00',
+        status: '已提交',
+        submissionId: 'sub_multi_mine'
+      },
+      {
+        id: 'tk_multi_2',
+        taskId: 'tsk_und_multi_competition',
+        username: '量化先锋C++小分队',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-13 14:00:00',
+        status: '已提交',
+        submissionId: 'sub_multi_2'
+      },
+      {
+        id: 'tk_multi_3',
+        taskId: 'tsk_und_multi_competition',
+        username: '华尔街极客算法社',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-14 10:15:00',
+        status: '已提交',
+        submissionId: 'sub_multi_3'
+      },
+      {
+        id: 'tk_multi_4',
+        taskId: 'tsk_und_multi_competition',
+        username: '高频交易HFT团队',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-15 16:00:00',
+        status: '已接单'
+      },
+      {
+        id: 'tk_multi_5',
+        taskId: 'tsk_und_multi_competition',
+        username: '无锁队列专家',
+        userAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-16 11:20:00',
+        status: '已接单'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_multi_mine',
+        taskId: 'tsk_und_multi_competition',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-18 19:30:00',
+        notes: '使用 C++20 无锁 RingBuffer 与 Pybind11 完成扩展封装，实测 P999 延迟降至 9.8μs，包含 Google Benchmark 压测对比代码。',
+        files: [
+          { id: 'f_multi_1', name: 'OrderBook_Cpp_Extension.tar.gz', size: '18.6 MB' },
+          { id: 'f_multi_2', name: 'Microsecond_Benchmark_Report.pdf', size: '2.8 MB' }
+        ],
+        status: '待验收'
+      },
+      {
+        id: 'sub_multi_2',
+        taskId: 'tsk_und_multi_competition',
+        username: '量化先锋C++小分队',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-17 16:00:00',
+        notes: '采用 Cython 构建的 C 扩展模块，压测通过。',
+        files: [{ id: 'f_multi_2_file', name: 'cython_orderbook.zip', size: '14.2 MB' }],
+        status: '待验收'
+      },
+      {
+        id: 'sub_multi_3',
+        taskId: 'tsk_und_multi_competition',
+        username: '华尔街极客算法社',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-18 11:00:00',
+        notes: '基于 Rust PyO3 绑定的高频引擎。',
+        files: [{ id: 'f_multi_3_file', name: 'rust_hft_engine.zip', size: '16.5 MB' }],
+        status: '待验收'
+      }
+    ],
+    bounty: 12000,
+    bountyUnit: '¥'
+  },
+
   // [我接单 - 已结束 - 通过验收获胜 1]
   {
     id: 'tsk_my_und_fcfs_win',

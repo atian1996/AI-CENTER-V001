@@ -706,7 +706,7 @@ export interface TaskSubmissionRecord {
   submitTime: string;
   notes: string;
   files: TaskFileItem[];
-  status: '待验收' | '已通过' | '已驳回' | '成果未通过';
+  status: '待验收' | '已通过' | '已驳回' | '成果未通过' | '未通过验收';
   rejectReason?: string;
   verifiedTime?: string;
 }
@@ -717,7 +717,7 @@ export interface TaskTakerRecord {
   username: string;
   userAvatar: string;
   takeTime: string;
-  status: '已接单' | '已提交' | '已验收' | '已驳回' | '成果未通过';
+  status: '已接单' | '已提交' | '已验收' | '已驳回' | '成果未通过' | '未通过验收';
   submissionId?: string;
   submission?: TaskSubmissionRecord;
 }

@@ -348,16 +348,14 @@ export const TaskVerificationModal: React.FC<TaskVerificationModalProps> = ({ ta
                               className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
                                 isPassed
                                   ? 'bg-emerald-100 text-emerald-700'
-                                  : isRejected
+                                  : isRejected || isNotPassed
                                   ? 'bg-rose-100 text-rose-700 border border-rose-200'
-                                  : isNotPassed
-                                  ? 'bg-slate-100 text-slate-600 border border-slate-200'
                                   : isSelected
                                   ? 'bg-indigo-100 text-indigo-700'
                                   : 'bg-amber-100 text-amber-700'
                               }`}
                             >
-                              {isPassed ? '🏆 验收通过 (获胜者)' : isRejected ? '发布人已驳回 (无法选中)' : isNotPassed ? '成果未通过' : isSelected ? '待点击“确认验收”' : sub.status}
+                              {isPassed ? '🏆 验收通过 (获胜者)' : (isRejected || isNotPassed) ? '已驳回' : isSelected ? '待点击“确认验收”' : sub.status}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5">

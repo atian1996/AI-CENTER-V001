@@ -978,22 +978,17 @@ export const TaskDetailSubPage: React.FC<TaskDetailSubPageProps> = ({ taskId, on
                         </div>
                       </div>
 
-                      {/* 右侧状态标准展示：未提交成果 | 待验收 | 通过验收 | 已驳回 | 成果未通过 */}
+                      {/* 右侧状态标准展示：未提交成果 | 待验收 | 通过验收 | 已驳回 */}
                       <div className="shrink-0">
                         {isAcceptedWinner ? (
                           <span className="px-3.5 py-1.5 bg-emerald-600 text-white font-black text-xs rounded-xl shadow-xs flex items-center gap-1.5">
                             <CheckCircle2 className="w-4 h-4" />
                             <span>通过验收</span>
                           </span>
-                        ) : isRejected ? (
+                        ) : (isRejected || isSubmissionUnsuccessful) ? (
                           <span className="px-3.5 py-1.5 bg-red-100 text-red-700 font-bold text-xs rounded-xl border border-red-200 flex items-center gap-1.5">
                             <XCircle className="w-4 h-4 text-red-600" />
                             <span>已驳回</span>
-                          </span>
-                        ) : isSubmissionUnsuccessful ? (
-                          <span className="px-3.5 py-1.5 bg-slate-100 text-slate-600 font-bold text-xs rounded-xl border border-slate-200/90 flex items-center gap-1.5">
-                            <AlertCircle className="w-4 h-4 text-slate-400" />
-                            <span>成果未通过</span>
                           </span>
                         ) : isPending ? (
                           <span className="px-3.5 py-1.5 bg-amber-100 text-amber-800 font-bold text-xs rounded-xl border border-amber-200 flex items-center gap-1.5">

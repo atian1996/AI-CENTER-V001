@@ -323,15 +323,10 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ taskId, isOpen
                                 <CheckCircle2 className="w-3.5 h-3.5" />
                                 <span>通过验收</span>
                               </span>
-                            ) : isRejected ? (
+                            ) : (isRejected || isSubmissionUnsuccessful) ? (
                               <span className="px-3 py-1.5 bg-red-100 text-red-700 font-bold text-xs rounded-xl border border-red-200 flex items-center gap-1">
                                 <XCircle className="w-3.5 h-3.5 text-red-600" />
                                 <span>已驳回</span>
-                              </span>
-                            ) : isSubmissionUnsuccessful ? (
-                              <span className="px-3 py-1.5 bg-slate-100 text-slate-600 font-bold text-xs rounded-xl border border-slate-200 flex items-center gap-1">
-                                <AlertCircle className="w-3.5 h-3.5 text-slate-400" />
-                                <span>成果未通过</span>
                               </span>
                             ) : isPending ? (
                               <span className="px-3 py-1.5 bg-amber-100 text-amber-800 font-bold text-xs rounded-xl border border-amber-200 flex items-center gap-1">

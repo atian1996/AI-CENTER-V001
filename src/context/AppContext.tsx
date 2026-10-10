@@ -2727,11 +2727,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             if (s.status === '已驳回') {
               return s;
             }
-            // 其他所有已提交但未被选中的成果：状态全部变更为 “成果未通过”
+            // 其他所有已提交但未被选中的成果：状态全部变更为 “已驳回”
             return {
               ...s,
-              status: '成果未通过' as const,
-              rejectReason: s.rejectReason || '发布人已验收通过其他接单人的交付方案，您的交付成果未被选为获胜方案（成果未通过）。'
+              status: '已驳回' as const,
+              rejectReason: s.rejectReason || '发布人已验收通过其他接单人的交付方案，您的交付成果未被选为获胜方案（已驳回）。'
             };
           }
           return s;
@@ -2756,11 +2756,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 status: '已驳回' as const
               };
             }
-            // 其他所有已提交但未被选中的成果：对应接单人状态同步变更为 “成果未通过”
-            if (takerSub || tk.status === '已提交' || tk.status === '成果未通过') {
+            // 其他所有已提交但未被选中的成果：对应接单人状态同步变更为 “已驳回”
+            if (takerSub || tk.status === '已提交' || (tk.status as string) === '成果未通过' || (tk.status as string) === '未通过验收') {
               return {
                 ...tk,
-                status: '成果未通过' as const
+                status: '已驳回' as const
               };
             }
             // 未提交的接单人保持原有未提交状态（“已接单” / “未提交成果”）

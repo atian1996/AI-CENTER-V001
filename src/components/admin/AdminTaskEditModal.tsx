@@ -1082,15 +1082,10 @@ export const AdminTaskEditModal: React.FC<AdminTaskEditModalProps> = ({
                                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                                   <span>已通过验收</span>
                                 </span>
-                              ) : isRejected ? (
+                              ) : (isRejected || isSubmissionNotPassed) ? (
                                 <span className="px-2.5 py-1 bg-rose-500/20 text-rose-300 border border-rose-500/40 text-xs font-bold rounded-lg flex items-center gap-1">
                                   <XCircle className="w-3.5 h-3.5 text-rose-400" />
                                   <span>已驳回</span>
-                                </span>
-                              ) : isSubmissionNotPassed ? (
-                                <span className="px-2.5 py-1 bg-slate-800 text-slate-300 border border-slate-700 text-xs font-bold rounded-lg flex items-center gap-1">
-                                  <AlertCircle className="w-3.5 h-3.5 text-slate-400" />
-                                  <span>成果未通过</span>
                                 </span>
                               ) : isSubmitted ? (
                                 <span className="px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold rounded-lg flex items-center gap-1">
