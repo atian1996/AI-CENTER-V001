@@ -527,7 +527,7 @@ export const WorkspaceTasks: React.FC = () => {
                             {task.difficulty}难度
                           </span>
 
-                          {/* 列表项中的 通过验收 / 成果未通过 / 已驳回 / 进行中 显著标记 */}
+                          {/* 列表项中的 通过验收 / 未通过验收 / 进行中 显著标记 */}
                           {isFinished ? (
                             <>
                               <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-slate-500 text-white shadow-2xs">
@@ -538,20 +538,15 @@ export const WorkspaceTasks: React.FC = () => {
                                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                                   <span>通过验收</span>
                                 </span>
-                              ) : isRejected ? (
+                              ) : (isRejected || hasSubmitted) ? (
                                 <span className="px-3 py-0.5 rounded-full text-xs font-black bg-rose-100 text-rose-700 border border-rose-200 flex items-center gap-1 shadow-2xs">
                                   <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
-                                  <span>已驳回</span>
-                                </span>
-                              ) : !hasSubmitted ? (
-                                <span className="px-3 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1">
-                                  <Clock className="w-3.5 h-3.5 text-slate-400" />
-                                  <span>未提交</span>
+                                  <span>未通过验收</span>
                                 </span>
                               ) : (
                                 <span className="px-3 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1">
-                                  <AlertCircle className="w-3.5 h-3.5 text-slate-400" />
-                                  <span>成果未通过</span>
+                                  <Clock className="w-3.5 h-3.5 text-slate-400" />
+                                  <span>未提交</span>
                                 </span>
                               )}
                             </>
@@ -588,24 +583,6 @@ export const WorkspaceTasks: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* 被驳回状态：展示驳回意见与重提引导提示栏 */}
-                    {isRejected && (
-                      <div className="p-4 bg-rose-50/90 border border-rose-200 rounded-2xl space-y-2 text-xs">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-rose-800 font-black">
-                            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-                            <span>雇主验收驳回意见：</span>
-                          </div>
-                          <span className="text-[11px] font-bold text-rose-600 bg-rose-100/80 px-2.5 py-0.5 rounded-md">
-                            任务未验收 · 支持修改后重新提交
-                          </span>
-                        </div>
-                        <p className="text-rose-700 leading-relaxed font-medium pl-6 bg-white/80 p-2.5 rounded-xl border border-rose-100">
-                          {mySub?.rejectReason || '成果未完全达到验收指标要求，请根据需求规范调整修改后重新提交。'}
-                        </p>
-                      </div>
-                    )}
-
                     {/* 其他接单极客与竞标状态 */}
                     {(task.takers || []).length > 0 && (
                       <div className="p-3 bg-slate-50/80 border border-slate-100 rounded-xl flex flex-wrap items-center justify-between gap-2 text-xs">
@@ -637,10 +614,10 @@ export const WorkspaceTasks: React.FC = () => {
                             if (tkWinner) {
                               tkStatusLabel = '已验收';
                             } else if (tkRejected) {
-                              tkStatusLabel = '已驳回';
+                              tkStatusLabel = '未通过验收';
                             } else if (isFinished) {
-                              if (tk.status === '成果未通过' || tkHasSub || tk.status === '已提交') {
-                                tkStatusLabel = '成果未通过';
+                              if (tkHasSub || tk.status === '已提交' || (tk.status as string) === '成果未通过' || (tk.status as string) === '未通过验收') {
+                                tkStatusLabel = '未通过验收';
                               } else {
                                 tkStatusLabel = '未提交';
                               }
@@ -656,8 +633,7 @@ export const WorkspaceTasks: React.FC = () => {
                                 <span className={`text-[10px] font-bold ${
                                   tkStatusLabel === '已验收' ? 'text-emerald-600' :
                                   tkStatusLabel === '已提交' ? 'text-indigo-600' :
-                                  tkStatusLabel === '已驳回' ? 'text-rose-500' :
-                                  tkStatusLabel === '成果未通过' ? 'text-rose-600' : 'text-slate-400'
+                                  tkStatusLabel === '未通过验收' || tkStatusLabel === '已驳回' || tkStatusLabel === '成果未通过' ? 'text-rose-600' : 'text-slate-400'
                                 }`}>({tkStatusLabel})</span>
                               </span>
                             );

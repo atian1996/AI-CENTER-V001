@@ -81,7 +81,7 @@ export const MySubmissionModal: React.FC<MySubmissionModalProps> = ({
                         : 'bg-amber-100 text-amber-800 border border-amber-200'
                     }`}
                   >
-                    {isApproved ? '🏆 验收通过' : isRejected ? '已驳回修改' : isNotSelected ? '成果未通过' : '待雇主验收'}
+                    {isApproved ? '🏆 验收通过' : isRejected ? '已驳回修改' : isNotSelected ? '未通过验收' : '待雇主验收'}
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 line-clamp-1 mt-0.5">针对任务：{task.title}</p>
@@ -133,9 +133,9 @@ export const MySubmissionModal: React.FC<MySubmissionModalProps> = ({
               <div className="p-4 bg-rose-50 border border-rose-200 rounded-2xl flex items-center gap-3">
                 <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
                 <div>
-                  <div className="text-sm font-black text-rose-950">成果未通过</div>
+                  <div className="text-sm font-black text-rose-950">未通过验收</div>
                   <div className="text-xs text-rose-800 leading-relaxed font-medium mt-0.5">
-                    发布人已验收通过其他接单人的交付方案，您的交付成果未被选为获胜方案（成果未通过）。
+                    发布人已验收通过其他接单人的交付方案，您的交付成果未通过验收。
                   </div>
                 </div>
               </div>
