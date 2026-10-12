@@ -1220,6 +1220,8 @@ export interface LoginDeviceItem {
 // 后台管理菜单
 export type AdminMenuKey = 
   | 'operations'          // 运营中心
+  | 'eco_dashboard'       // AI生态看板
+  | 'compute_ops_center'  // 算力运营中心
   | 'marketplace_admin'   // AI集市管理
   | 'publish_audit'       // 任务管理 - 发布审核
   | 'task_monitor'        // 任务管理 - 任务监控

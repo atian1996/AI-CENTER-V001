@@ -27,6 +27,7 @@ import { SkillDetailModal } from './components/modals/SkillDetailModal';
 import { ModelCompareBar } from './components/modals/ModelCompareBar';
 import { Toast } from './components/common/Toast';
 import { AgentTrialPageView } from './components/marketplace/AgentTrialPageView';
+import { ScreencastPlayerView } from './components/admin/screencast/ScreencastPlayerView';
 
 const AppContent: React.FC = () => {
   const { 
@@ -91,6 +92,17 @@ const AppContent: React.FC = () => {
         </div>
       );
     }
+  }
+
+  // 投屏模式：在新标签页全屏展示 AI生态看板 或 算力运营中心（不包含 TAB 按钮，自动轮播）
+  const screencastType = queryParams.get('screencast');
+  if (screencastType === 'ecosystem' || screencastType === 'compute-ops') {
+    return (
+      <div className="min-h-screen w-full bg-[#0a0f1d] text-slate-100 font-sans selection:bg-blue-600 selection:text-white">
+        <ScreencastPlayerView type={screencastType} />
+        <Toast />
+      </div>
+    );
   }
 
   // 如果处于后台管理模式，渲染后台左侧导航专属界面

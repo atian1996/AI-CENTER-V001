@@ -14,6 +14,8 @@ import { DatasetAdminViews } from './dataset/DatasetAdminViews';
 import { SkillAdminView } from './skill/SkillAdminView';
 import { CommunityAdminViews } from './community/CommunityAdminViews';
 import { OperationsDashboard } from './operations/OperationsDashboard';
+import { EcoDashboardView } from './ecosystem/EcoDashboardView';
+import { ComputeOpsDashboardView } from './compute-ops/ComputeOpsDashboardView';
 import {
   ModelListAdminView,
   ModelCallsAdminView,
@@ -110,6 +112,16 @@ export const AdminLayout: React.FC = () => {
 
   // Navigation Items
   const mainNav = [
+    {
+      id: 'eco_dashboard' as AdminMenuKey,
+      label: 'AI生态看板',
+      icon: <Sparkles className="w-4 h-4 text-amber-400" />
+    },
+    {
+      id: 'compute_ops_center' as AdminMenuKey,
+      label: '算力运营中心',
+      icon: <Cpu className="w-4 h-4 text-blue-400" />
+    },
     {
       id: 'operations' as AdminMenuKey,
       label: '运营中心',
@@ -306,6 +318,20 @@ export const AdminLayout: React.FC = () => {
   // Helper to get page title and breadcrumb
   const getPageMeta = () => {
     switch (activeAdminMenu) {
+      case 'eco_dashboard':
+        return {
+          title: 'AI生态看板大屏',
+          subtitle: '钱花得值不值？产业生态成果与全景运营台账“数字-证据-过程-产出”完整叙事大屏',
+          category: '生态看板',
+          crumb: ['后台运营中心', 'AI生态看板']
+        };
+      case 'compute_ops_center':
+        return {
+          title: '算力运营中心大屏',
+          subtitle: '面向算力中心资方，用核心指标和负载曲线回答“我的算力被谁用了、负载结构好不好”',
+          category: '算力运营',
+          crumb: ['后台运营中心', '算力运营中心']
+        };
       case 'operations':
         return {
           title: '运营中心大屏',
@@ -718,34 +744,38 @@ export const AdminLayout: React.FC = () => {
           </header>
 
           {/* 主内容区域 */}
-          <main className="p-8 flex-1 space-y-6 max-w-[1660px]">
+          <main className={`${activeAdminMenu === 'eco_dashboard' || activeAdminMenu === 'compute_ops_center' ? 'p-4 sm:p-5 max-w-[1920px] space-y-3' : 'p-8 max-w-[1660px] space-y-6'} flex-1`}>
             
-            {/* 页面 Header 介绍卡片 */}
-            <div className="relative rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 p-6 overflow-hidden shadow-lg shadow-black/40">
-              <div className="absolute top-0 right-0 w-96 h-full bg-gradient-to-l from-indigo-500/10 to-transparent pointer-events-none" />
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
-                <div>
-                  <div className="flex items-center gap-2.5">
-                    <span className="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] font-mono font-bold">
-                      {meta.category}
-                    </span>
-                    <h1 className="text-xl font-black text-white tracking-tight">{meta.title}</h1>
+            {/* 页面 Header 介绍卡片 (非大屏看板页面展示) */}
+            {activeAdminMenu !== 'eco_dashboard' && activeAdminMenu !== 'compute_ops_center' && (
+              <div className="relative rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 p-6 overflow-hidden shadow-lg shadow-black/40">
+                <div className="absolute top-0 right-0 w-96 h-full bg-gradient-to-l from-indigo-500/10 to-transparent pointer-events-none" />
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+                  <div>
+                    <div className="flex items-center gap-2.5">
+                      <span className="px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] font-mono font-bold">
+                        {meta.category}
+                      </span>
+                      <h1 className="text-xl font-black text-white tracking-tight">{meta.title}</h1>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-1 max-w-3xl leading-relaxed">
+                      {meta.subtitle}
+                    </p>
                   </div>
-                  <p className="text-xs text-slate-400 mt-1 max-w-3xl leading-relaxed">
-                    {meta.subtitle}
-                  </p>
-                </div>
 
-                <div className="flex items-center gap-2">
-                  <div className="px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/80 text-xs font-mono text-slate-300 flex items-center gap-2">
-                    <Clock className="w-3.5 h-3.5 text-indigo-400" />
-                    <span>系统时间：2026-08-17</span>
+                  <div className="flex items-center gap-2">
+                    <div className="px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/80 text-xs font-mono text-slate-300 flex items-center gap-2">
+                      <Clock className="w-3.5 h-3.5 text-indigo-400" />
+                      <span>系统时间：2026-08-17</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* 页面具体内容区（按当前选中的菜单渲染） */}
+            {activeAdminMenu === 'eco_dashboard' && <EcoDashboardView />}
+            {activeAdminMenu === 'compute_ops_center' && <ComputeOpsDashboardView />}
             {activeAdminMenu === 'operations' && <OperationsDashboard />}
             {activeAdminMenu === 'publish_audit' && <PublishAuditAdminView />}
             {activeAdminMenu === 'task_monitor' && <TaskMonitorAdminView />}

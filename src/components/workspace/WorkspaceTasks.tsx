@@ -82,6 +82,39 @@ export const WorkspaceTasks: React.FC = () => {
     });
   }, [myPublishedTasks, publishedFilter]);
 
+  // 接单任务统计数据
+  const undertakenStats = useMemo(() => {
+    let all = myUndertakenTasks.length;
+    let inProgress = 0;
+    let pendingSubmit = 0;
+    let pendingVerify = 0;
+    let rejected = 0;
+    let finished = 0;
+
+    myUndertakenTasks.forEach(t => {
+      const isFinished = t.status === '已结束' || t.status === '已验收' || (t.endTime && new Date(t.endTime) < new Date());
+      const myRecord = (t.takers || []).find(tk => tk.username === user.name || tk.username.includes('你') || tk.username.includes('极客小千'));
+      const mySub = (t.submissions || []).find(s => s.username === user.name || s.username.includes('你') || s.username.includes('极客小千'));
+      const isRej = !isFinished && (mySub?.status === '已驳回' || myRecord?.status === '已驳回');
+      const hasSub = !!mySub || myRecord?.status === '已提交' || myRecord?.status === '已验收' || myRecord?.status === '已驳回' || myRecord?.status === '成果未通过';
+
+      if (isFinished) {
+        finished++;
+      } else {
+        inProgress++;
+        if (isRej) {
+          rejected++;
+        } else if (hasSub) {
+          pendingVerify++;
+        } else {
+          pendingSubmit++;
+        }
+      }
+    });
+
+    return { all, inProgress, pendingSubmit, pendingVerify, rejected, finished };
+  }, [myUndertakenTasks, user.name]);
+
   // 过滤后的接单任务
   const filteredUndertakenTasks = useMemo(() => {
     return myUndertakenTasks.filter(t => {
@@ -89,10 +122,20 @@ export const WorkspaceTasks: React.FC = () => {
       const myRecord = (t.takers || []).find(tk => tk.username === user.name || tk.username.includes('你') || tk.username.includes('极客小千'));
       const mySub = (t.submissions || []).find(s => s.username === user.name || s.username.includes('你') || s.username.includes('极客小千'));
       const isRejected = !isFinished && (mySub?.status === '已驳回' || myRecord?.status === '已驳回');
+      const hasSubmitted = !!mySub || myRecord?.status === '已提交' || myRecord?.status === '已验收' || myRecord?.status === '已驳回' || myRecord?.status === '成果未通过';
 
       if (undertakenFilter === '全部') return true;
       if (undertakenFilter === '进行中') {
         return !isFinished;
+      }
+      if (undertakenFilter === '待提交') {
+        return !isFinished && !hasSubmitted && !isRejected;
+      }
+      if (undertakenFilter === '待验收') {
+        return !isFinished && hasSubmitted && !isRejected;
+      }
+      if (undertakenFilter === '成果被驳回') {
+        return !isFinished && isRejected;
       }
       if (undertakenFilter === '已结束') {
         return isFinished;
@@ -102,7 +145,7 @@ export const WorkspaceTasks: React.FC = () => {
   }, [myUndertakenTasks, undertakenFilter, user.name]);
 
   const publishedFilterList = ['全部', '审核中', '进行中', '已驳回', '已结束'];
-  const undertakenFilterList = ['全部', '进行中', '已结束'];
+  const undertakenFilterList = ['全部', '进行中', '待提交', '待验收', '成果被驳回', '已结束'];
 
   // If publishing or editing task, render UserTaskPublishForm
   if (isCreatingTask || editingTask) {
@@ -472,22 +515,41 @@ export const WorkspaceTasks: React.FC = () => {
       {/* 视角二：我接单的任务 */}
       {activeTab === 'undertaken' && (
         <div className="space-y-4">
-          {/* 子状态筛选标签: 只有 进行中 | 已结束 两个状态 */}
-          <div className="flex items-center gap-2 px-1">
+          {/* 子状态筛选标签: 支持按 全部 | 进行中 | 待提交 | 待验收 | 成果被驳回 | 已结束 快速筛选 */}
+          <div className="flex flex-wrap items-center gap-2 px-1">
             <span className="text-xs text-slate-400 font-bold mr-1">分类状态:</span>
-            {undertakenFilterList.map(f => (
-              <button
-                key={f}
-                onClick={() => setUndertakenFilter(f)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  undertakenFilter === f
-                    ? 'bg-slate-900 text-white shadow-2xs'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-                }`}
-              >
-                {f}
-              </button>
-            ))}
+            {undertakenFilterList.map(f => {
+              let count = 0;
+              if (f === '全部') count = undertakenStats.all;
+              else if (f === '进行中') count = undertakenStats.inProgress;
+              else if (f === '待提交') count = undertakenStats.pendingSubmit;
+              else if (f === '待验收') count = undertakenStats.pendingVerify;
+              else if (f === '成果被驳回') count = undertakenStats.rejected;
+              else if (f === '已结束') count = undertakenStats.finished;
+
+              return (
+                <button
+                  key={f}
+                  onClick={() => setUndertakenFilter(f)}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    undertakenFilter === f
+                      ? 'bg-slate-900 text-white shadow-2xs'
+                      : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                  }`}
+                >
+                  <span>{f}</span>
+                  <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                    undertakenFilter === f
+                      ? 'bg-white/20 text-white'
+                      : f === '成果被驳回' && count > 0
+                      ? 'bg-rose-100 text-rose-700 font-bold'
+                      : 'bg-slate-100 text-slate-500'
+                  }`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {filteredUndertakenTasks.length === 0 ? (
