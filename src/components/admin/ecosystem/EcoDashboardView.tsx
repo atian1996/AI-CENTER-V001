@@ -118,7 +118,7 @@ export const EcoDashboardView: React.FC = () => {
         {/* 右侧大屏演示控制按钮 */}
         <div className="flex items-center gap-2 shrink-0 self-end md:self-auto">
           <button
-            onClick={() => showToast('已刷新 AI 生态看板全部数据源与图表遥测')}
+            onClick={() => showToast('已刷新 AI 生态看板全部指标与图表数据')}
             className="p-1.5 rounded-lg bg-slate-950 border border-slate-800 hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer"
             title="刷新数据"
           >

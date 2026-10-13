@@ -98,7 +98,7 @@ export const ComputeOpsOverviewTab: React.FC = () => {
           <Calendar className="w-3.5 h-3.5 text-blue-400" />
           <span>2026年10月12日</span>
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
-          <span className="text-[10px] text-emerald-400 font-sans font-bold">实时遥测同步</span>
+          <span className="text-[10px] text-emerald-400 font-sans font-bold">数据实时同步</span>
         </div>
       </div>
 
@@ -115,7 +115,7 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               <Server className="w-3.5 h-3.5 text-blue-400" />
               <span>资源池总数</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">资源池表</span>
+            <span className="text-[10px] font-mono text-emerald-400 font-bold">全量在线</span>
           </div>
           <div className="my-1">
             <div className="flex items-baseline gap-1.5">
@@ -139,7 +139,7 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               <Cpu className="w-3.5 h-3.5 text-cyan-400" />
               <span>GPU总卡数</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">同步数据</span>
+            <span className="text-[10px] font-mono text-cyan-400 font-bold">全网纳管</span>
           </div>
           <div className="my-1">
             <div className="flex items-baseline gap-1.5">
@@ -205,7 +205,7 @@ export const ComputeOpsOverviewTab: React.FC = () => {
             </div>
           </div>
           <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>算力工坊日志</span>
+            <span>调度记录</span>
             <span className="text-[10px] text-slate-500 font-mono">秒级归档</span>
           </div>
         </div>
@@ -233,8 +233,8 @@ export const ComputeOpsOverviewTab: React.FC = () => {
             </div>
           </div>
           <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>计费订单表</span>
-            <span className="text-[10px] text-slate-500 font-mono">实时核算</span>
+            <span>计费核算</span>
+            <span className="text-[10px] text-slate-500 font-mono">实时结算</span>
           </div>
         </div>
 
@@ -609,7 +609,7 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <h3 className="text-xs font-black text-white">资源池健康状态</h3>
             </div>
-            <span className="text-[10px] text-slate-400 font-mono">心跳遥测</span>
+            <span className="text-[10px] text-slate-400 font-mono">实时巡检</span>
           </div>
 
           {/* 列表形式 */}

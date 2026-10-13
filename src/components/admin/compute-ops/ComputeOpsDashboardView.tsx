@@ -129,7 +129,7 @@ export const ComputeOpsDashboardView: React.FC = () => {
         {/* 右侧大屏控制 */}
         <div className="flex items-center gap-2 shrink-0 self-end md:self-auto">
           <button
-            onClick={() => showToast('已刷新 算力运营中心 遥测指标与结算数据源')}
+            onClick={() => showToast('已刷新 算力运营中心 全部运行指标与结算数据')}
             className="p-1.5 rounded-lg bg-slate-950 border border-slate-800 hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer"
             title="刷新数据"
           >

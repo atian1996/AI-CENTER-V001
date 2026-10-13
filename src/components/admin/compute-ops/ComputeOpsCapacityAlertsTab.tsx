@@ -67,7 +67,7 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
 
       {/* ========================================================
           第一行：五个核心指标卡片 (横向等宽排列，高度适配1920*1080大屏)
-          每个卡片包含：指标名称、主数字、副标签、数据来源
+          每个卡片包含：指标名称、主数字、副标签、状态标识
          ======================================================== */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 shrink-0 h-[135px]">
         
@@ -78,7 +78,7 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
               <Server className="w-3.5 h-3.5 text-blue-400" />
               <span>集群总容量</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">资源池表</span>
+            <span className="text-[10px] font-mono text-blue-400 font-bold">全池纳管</span>
           </div>
           <div className="my-0.5">
             <div className="flex items-baseline gap-1.5">
@@ -102,7 +102,7 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
               <Activity className="w-3.5 h-3.5 text-amber-400" />
               <span>当前水位</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">同步数据</span>
+            <span className="text-[10px] font-mono text-amber-400 font-bold">实时感知</span>
           </div>
           <div className="my-0.5">
             <div className="flex items-baseline gap-1.5">
@@ -125,7 +125,7 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
               <ShieldAlert className="w-3.5 h-3.5 text-rose-400 animate-pulse" />
               <span>活跃告警数</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">告警表</span>
+            <span className="text-[10px] font-mono text-rose-400 font-bold">阈值巡检</span>
           </div>
           <div className="my-0.5">
             <div className="flex items-baseline gap-1.5">
@@ -150,7 +150,7 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
               <span>实例下发成功率</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">实例订单表</span>
+            <span className="text-[10px] font-mono text-emerald-400 font-bold">订单闭环</span>
           </div>
           <div className="my-0.5">
             <div className="flex items-baseline gap-1.5">
@@ -173,7 +173,7 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
               <Clock className="w-3.5 h-3.5 text-indigo-400" />
               <span>平均下发耗时</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">实例订单表</span>
+            <span className="text-[10px] font-mono text-indigo-400 font-bold">秒级调度</span>
           </div>
           <div className="my-0.5">
             <div className="flex items-baseline gap-1.5">

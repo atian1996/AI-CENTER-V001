@@ -27,7 +27,7 @@ export const DataRefreshBanner: React.FC<DataRefreshBannerProps> = ({
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            聚合自 <span className="text-indigo-300 font-medium">订单表</span> (历史累计)、<span className="text-emerald-300 font-medium">计费记录表</span> (流水营收) 与 <span className="text-cyan-300 font-medium">资源池API同步</span> (实时库存与负载)。
+            全方位展现算力利用率走势、规格分布结构与用户资源消耗明细。
           </p>
         </div>
       </div>

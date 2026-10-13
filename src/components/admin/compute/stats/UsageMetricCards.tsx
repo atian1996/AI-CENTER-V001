@@ -49,7 +49,6 @@ export const UsageMetricCards: React.FC<MetricCardsProps> = ({
             <ArrowUpRight className="w-3.5 h-3.5" />
             <span>+18.4% 环比上月</span>
           </div>
-          <span className="text-slate-500 text-[11px]">数据来源: 订单表</span>
         </div>
       </div>
 
@@ -72,7 +71,6 @@ export const UsageMetricCards: React.FC<MetricCardsProps> = ({
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block" />
             <span>挂起关机: {stoppedInstances} 台</span>
           </div>
-          <span className="text-slate-500 text-[11px]">数据来源: 实例监控</span>
         </div>
       </div>
 
@@ -94,7 +92,6 @@ export const UsageMetricCards: React.FC<MetricCardsProps> = ({
           <div className="flex items-center gap-1 text-slate-400 text-[11px]">
             <span>告警水位阈值: 85%</span>
           </div>
-          <span className="text-slate-500 text-[11px]">数据来源: 资源池同步</span>
         </div>
       </div>
 
@@ -117,7 +114,6 @@ export const UsageMetricCards: React.FC<MetricCardsProps> = ({
             <span className="text-slate-600">·</span>
             <span>客单均价: ¥{(monthlyRevenue / Math.max(1, totalInstances / 6)).toFixed(0)}</span>
           </div>
-          <span className="text-slate-500 text-[11px]">数据来源: 计费记录</span>
         </div>
       </div>
     </div>

@@ -731,7 +731,7 @@ export const EcoActivitiesTab: React.FC<EcoActivitiesTabProps> = ({
 
           <div className="text-[11px] text-slate-400 pt-1.5 border-t border-slate-800/80 flex items-center justify-between">
             <span>赛事 3 场 · 实训 2 期 · 沙龙 4 场 · 路演 2 场</span>
-            <span className="text-slate-500 font-mono">数据来源：活动排期台账</span>
+            <span className="text-slate-500 font-mono">重点活动闭环推进</span>
           </div>
         </div>
 

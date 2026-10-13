@@ -69,7 +69,7 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
               <Server className="w-3.5 h-3.5 text-blue-400" />
               <span>目标纳管规模</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">规划指标库</span>
+            <span className="text-[10px] font-mono text-blue-400 font-bold">统筹规划</span>
           </div>
           <div className="my-0.5">
             <div className="flex items-baseline gap-1.5">
@@ -95,7 +95,7 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
               <span>已接入就绪卡数</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">纳管台账</span>
+            <span className="text-[10px] font-mono text-emerald-400 font-bold">接入就绪</span>
           </div>
           <div className="my-0.5">
             <div className="flex items-baseline gap-1.5">
@@ -121,7 +121,7 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
               <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
               <span>全流程就绪集群</span>
             </span>
-            <span className="text-[10px] font-mono text-slate-500">集群表</span>
+            <span className="text-[10px] font-mono text-purple-400 font-bold">集群纳管</span>
           </div>
           <div className="my-0.5">
             <div className="flex items-baseline gap-1.5">

@@ -343,8 +343,8 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
           </div>
 
           <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500 shrink-0">
-            <span>左Y轴：活跃用户（个） ｜ 右Y轴：认证企业（家）</span>
-            <span>数据源：活跃用户（登录遥测表） ｜ 认证企业（企业实名库）</span>
+            <span className="font-mono text-slate-400">近10个月累计规模趋势</span>
+            <span className="text-emerald-400 font-medium">连续稳步增长</span>
           </div>
         </div>
 
@@ -407,9 +407,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
               <span>日均调度：<strong className="text-cyan-400">420</strong> 卡时/天</span>
               <span className="text-slate-600">｜</span>
               <span>Token调用：<strong className="text-purple-400">2.3亿</strong></span>
-            </div>
-            <div className="text-[11px] text-slate-500 text-right pr-1">
-              数据来源：算力工坊调用记录 + 模型API网关记录
             </div>
           </div>
         </div>
@@ -493,8 +490,9 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800/60 text-xs text-slate-500 shrink-0">
-            数据来源：赛事作品库 + 任务交付验收物 + 场景实验场备案项目
+          <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500 shrink-0">
+            <span>赋能本地主导产业场景创新</span>
+            <span className="text-slate-400 font-mono">核定成果 128 项</span>
           </div>
         </div>
 
@@ -533,15 +531,16 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-800/60 text-[10px] text-slate-500 truncate" title={item.source}>
-                  {item.source}
+                <div className="pt-2 border-t border-slate-800/60 text-[10px] text-emerald-400 font-medium truncate">
+                  运行服务中
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="pt-2 border-t border-slate-800/60 text-xs text-slate-500 shrink-0">
-            数据来源：Agent表（已上架）、模型表（已上架）、数据集表（已上架）、资源池表、案例标签统计
+          <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500 shrink-0">
+            <span>涵盖智能体、大模型、数据集与算力基础设施</span>
+            <span className="text-cyan-400 font-mono font-bold">全流程要素汇聚</span>
           </div>
         </div>
 

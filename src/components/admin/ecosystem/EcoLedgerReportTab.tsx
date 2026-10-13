@@ -974,7 +974,7 @@ export const EcoLedgerReportTab: React.FC<EcoLedgerReportTabProps> = ({
                     <div className="w-2 h-4 rounded-full bg-blue-500" />
                     <h3 className="text-sm font-bold text-slate-200">用户与企业主体培育结构台账</h3>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">数据来源：登录日志 + 企业认证表</span>
+                  <span className="text-xs text-blue-400 font-mono">实名认证核算</span>
                 </div>
 
                 {/* 用户结构 */}
@@ -1054,7 +1054,7 @@ export const EcoLedgerReportTab: React.FC<EcoLedgerReportTabProps> = ({
                     <div className="w-2 h-4 rounded-full bg-emerald-500" />
                     <h3 className="text-sm font-bold text-slate-200">任务履约与能力建设台账</h3>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">数据来源：任务工坊 + 模型库调用</span>
+                  <span className="text-xs text-emerald-400 font-mono">全周期流转存证</span>
                 </div>
 
                 {/* 任务类型分布条形 */}
@@ -1460,7 +1460,7 @@ export const EcoLedgerReportTab: React.FC<EcoLedgerReportTabProps> = ({
                     <div className="w-2 h-4 rounded-full bg-amber-500" />
                     <h3 className="text-sm font-bold text-slate-200">四大类产业活动投入产出对比台账</h3>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">数据来源：活动结案报告表</span>
+                  <span className="text-xs text-amber-400 font-mono">结案核销合规存证</span>
                 </div>
 
                 <div className="space-y-3">
@@ -1502,7 +1502,7 @@ export const EcoLedgerReportTab: React.FC<EcoLedgerReportTabProps> = ({
                     <div className="w-2 h-4 rounded-full bg-blue-500" />
                     <h3 className="text-sm font-bold text-slate-200">活动赋能人才引育与校企协同台账</h3>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">数据来源：学员档案与合作协议</span>
+                  <span className="text-xs text-blue-400 font-mono">校企双签协议存证</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3.5">
@@ -1720,7 +1720,7 @@ export const EcoLedgerReportTab: React.FC<EcoLedgerReportTabProps> = ({
                     <div className="w-2 h-4 rounded-full bg-blue-500" />
                     <h3 className="text-sm font-bold text-slate-200">三大算力集群资源池负载台账</h3>
                   </div>
-                  <span className="text-xs text-slate-400 font-mono">实时硬件遥测汇聚</span>
+                  <span className="text-xs text-slate-400 font-mono">硬件状态实时监测</span>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3">
@@ -2257,20 +2257,16 @@ export const EcoLedgerReportTab: React.FC<EcoLedgerReportTabProps> = ({
                 </p>
               </div>
 
-              {/* 审计存证与数据源溯源 */}
+              {/* 审计备案与存证凭据 */}
               <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2.5">
                 <div className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>台账审计编号与官方数据源溯源</span>
+                  <span>台账审计编号与官方备案存证</span>
                 </div>
-                <div className="grid grid-cols-2 gap-3 text-xs">
-                  <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div className="grid grid-cols-1 gap-3 text-xs">
+                  <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between">
                     <span className="text-slate-400">审计备案凭证：</span>
                     <span className="font-mono text-emerald-400 font-bold ml-1">{selectedDetail.auditCode}</span>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-                    <span className="text-slate-400">权威数据来源：</span>
-                    <span className="text-slate-200 font-medium ml-1">{selectedDetail.dataSource}</span>
                   </div>
                 </div>
                 <p className="text-[11px] text-slate-400">
