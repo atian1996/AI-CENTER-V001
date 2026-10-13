@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useApp } from '../../context/AppContext';
 import {
   Bot,
@@ -16,7 +16,6 @@ import {
   Pause,
   Volume2,
   VolumeX,
-  Maximize2,
   X,
   CheckCircle2,
   Share2,
@@ -44,10 +43,7 @@ import {
   Activity,
   Award,
   BookOpen,
-  Send,
-  Radio,
-  Sliders,
-  RotateCcw
+  Send
 } from 'lucide-react';
 import { AgentItem, ModelItem, DatasetItem, SkillPluginItem, RentalGPUCard } from '../../types';
 
@@ -142,7 +138,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [inviteCopied, setInviteCopied] = useState(false);
 
-  // 4. 视频教程高科技大弹窗
+  // 4. 视频教程大弹窗
   const [activeVideoModal, setActiveVideoModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -154,15 +150,14 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
 
   // 模拟视频播放状态
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
-  const [videoProgress, setVideoProgress] = useState(28);
+  const [videoProgress, setVideoProgress] = useState(25);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
   const [isMuted, setIsMuted] = useState(false);
-  const [activeChapterIndex, setActiveChapterIndex] = useState(0);
 
   // 5. 新用户横幅关闭状态
   const [isNewUserBannerDismissed, setIsNewUserBannerDismissed] = useState(false);
 
-  // 轮播 Banner 列表 (5条，5秒自动切换，高科技轻奢质感)
+  // 轮播 Banner 列表 (5条，5秒自动切换，亮色明亮通透设计)
   const banners = useMemo(() => [
     {
       id: 1,
@@ -171,8 +166,8 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       subtitle: '超强 671B MoE 架构，通用推理与代码生成领先，API 每百万 Token 仅 ¥9.0',
       buttonText: '立即查看模型',
       bgImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80',
-      accentColor: 'text-blue-600',
-      badgeBorder: 'border-blue-200/80 bg-blue-50/90 text-blue-700',
+      tagColor: 'bg-blue-100 text-blue-700 border-blue-200',
+      btnColor: 'bg-blue-600 hover:bg-blue-700',
       action: () => {
         const found = models.find(m => m.name.toLowerCase().includes('deepseek')) || models[0];
         if (found) openModelDetail(found);
@@ -188,9 +183,9 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       title: 'RTX 4090 算力限时抢购 ¥1.2 / 小时',
       subtitle: '支持一键拉起 PyTorch / vLLM / ComfyUI 官方镜像，秒级调度，即开即用零等待',
       buttonText: '启动算力工坊',
-      bgImage: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&auto=format&fit=crop&q=80',
-      accentColor: 'text-emerald-600',
-      badgeBorder: 'border-emerald-200/80 bg-emerald-50/90 text-emerald-700',
+      bgImage: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&auto=format&fit=crop&q=80',
+      tagColor: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+      btnColor: 'bg-emerald-600 hover:bg-emerald-700',
       action: () => {
         const found = availableRentalCards?.find(c => c.gpuModel.toLowerCase().includes('4090')) || availableRentalCards?.[0];
         if (found) {
@@ -205,9 +200,9 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       title: '注册即送 20 元体验金，无门槛畅享百款模型',
       subtitle: '可全额抵扣大模型 API 调用、Agent 智能体订阅与 GPU 算力租赁计费',
       buttonText: '查看体验金说明',
-      bgImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&auto=format&fit=crop&q=80',
-      accentColor: 'text-purple-600',
-      badgeBorder: 'border-purple-200/80 bg-purple-50/90 text-purple-700',
+      bgImage: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200&auto=format&fit=crop&q=80',
+      tagColor: 'bg-purple-100 text-purple-700 border-purple-200',
+      btnColor: 'bg-purple-600 hover:bg-purple-700',
       action: () => {
         showToast('20元新用户体验金已发放至钱包账户，可抵扣任意模型与算力订单！');
       }
@@ -218,9 +213,9 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       title: '2026 AI 数据科学挑战赛火热报名中',
       subtitle: '面向产业和高校算法开发者，提供专属免费算力配额与企业直接签约通道',
       buttonText: '立即报名参赛',
-      bgImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&auto=format&fit=crop&q=80',
-      accentColor: 'text-amber-600',
-      badgeBorder: 'border-amber-200/80 bg-amber-50/90 text-amber-700',
+      bgImage: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&auto=format&fit=crop&q=80',
+      tagColor: 'bg-amber-100 text-amber-800 border-amber-200',
+      btnColor: 'bg-amber-600 hover:bg-amber-700',
       action: () => {
         setActiveTab('creative');
       }
@@ -231,9 +226,9 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       title: '金融模型优化需求揭榜挂帅，赏金 ¥2,000',
       subtitle: '华泰数科创新实验室发布，真实金融研报实体抽取与合规对齐，协同开发',
       buttonText: '查看揭榜任务',
-      bgImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80',
-      accentColor: 'text-indigo-600',
-      badgeBorder: 'border-indigo-200/80 bg-indigo-50/90 text-indigo-700',
+      bgImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80',
+      tagColor: 'bg-indigo-100 text-indigo-700 border-indigo-200',
+      btnColor: 'bg-indigo-600 hover:bg-indigo-700',
       action: () => {
         setActiveTab('tasks');
       }
@@ -259,20 +254,23 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
     return () => clearInterval(progressTimer);
   }, [banners.length, isBannerPaused]);
 
-  // 当手动切换 bannerIndex 时重置进度条
+  // 手动切换 banner
   const handleSelectBanner = (index: number) => {
     setBannerIndex(index);
     setBannerProgress(0);
   };
 
-  // 快捷入口 6 个图标卡片配置（科技感图片背景 + 细腻遮罩，不使用高饱和纯色）
+  // 快捷入口 6 个图标卡片配置（明亮、生动彩色图片，绝不发黑！）
   const quickActions = [
     {
       icon: '🤖',
       name: '使用Agent',
       desc: '356 款场景智能体',
       subTag: '开箱即用',
-      bgImage: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&auto=format&fit=crop&q=80',
+      iconBg: 'bg-blue-50 text-blue-600 border-blue-200',
+      tintBg: 'from-blue-50/70 via-white to-white',
+      accentColor: 'text-blue-600',
+      bgImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=80',
       action: () => {
         setMarketplaceTab('agent');
         setActiveTab('marketplace');
@@ -283,7 +281,10 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       name: '找模型',
       desc: '主流开源与商业模型',
       subTag: '64+ 款基座',
-      bgImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=500&auto=format&fit=crop&q=80',
+      iconBg: 'bg-indigo-50 text-indigo-600 border-indigo-200',
+      tintBg: 'from-indigo-50/70 via-white to-white',
+      accentColor: 'text-indigo-600',
+      bgImage: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=500&auto=format&fit=crop&q=80',
       action: () => {
         setMarketplaceTab('model');
         setActiveTab('marketplace');
@@ -292,9 +293,12 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
     {
       icon: '⚡',
       name: '启动算力',
-      desc: 'RTX 4090 / A100 秒级拉起',
+      desc: 'RTX 4090 / A100 秒拉起',
       subTag: '按需租赁',
-      bgImage: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&auto=format&fit=crop&q=80',
+      iconBg: 'bg-emerald-50 text-emerald-600 border-emerald-200',
+      tintBg: 'from-emerald-50/70 via-white to-white',
+      accentColor: 'text-emerald-600',
+      bgImage: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500&auto=format&fit=crop&q=80',
       action: () => {
         setActiveTab('compute');
       }
@@ -304,7 +308,10 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       name: '发布任务',
       desc: '揭榜挂帅众包协同',
       subTag: '万企协同',
-      bgImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&auto=format&fit=crop&q=80',
+      iconBg: 'bg-purple-50 text-purple-600 border-purple-200',
+      tintBg: 'from-purple-50/70 via-white to-white',
+      accentColor: 'text-purple-600',
+      bgImage: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&auto=format&fit=crop&q=80',
       action: () => {
         setPublishTaskModalOpen(true);
       }
@@ -313,8 +320,11 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       icon: '🏆',
       name: '看赛事',
       desc: '高额奖金巅峰对抗',
-      subTag: '奖金池 ¥120K+',
-      bgImage: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=80',
+      subTag: '¥120K+ 奖池',
+      iconBg: 'bg-amber-50 text-amber-600 border-amber-200',
+      tintBg: 'from-amber-50/70 via-white to-white',
+      accentColor: 'text-amber-600',
+      bgImage: 'https://images.unsplash.com/photo-1569517282132-25d22f4573e6?w=500&auto=format&fit=crop&q=80',
       action: () => {
         setActiveTab('creative');
       }
@@ -322,8 +332,11 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
     {
       icon: '✅',
       name: '每日签到',
-      desc: '领积分兑换调用额度',
+      desc: '领积分抵扣调用额度',
       subTag: '每日 +5 积分',
+      iconBg: 'bg-rose-50 text-rose-600 border-rose-200',
+      tintBg: 'from-rose-50/70 via-white to-white',
+      accentColor: 'text-rose-600',
       bgImage: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=500&auto=format&fit=crop&q=80',
       action: () => {
         setIsCheckInModalOpen(true);
@@ -331,7 +344,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
     }
   ];
 
-  // 特价模型专区真实模型数据（浅色科技感质感，原价划线 + 现价 + 折扣标签）
+  // 特价模型专区真实模型数据（浅色明亮科技质感，原价划线 + 现价 + 折扣标签）
   const specialModels = [
     {
       name: 'DeepSeek-V3',
@@ -342,7 +355,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       discount: '7.5折',
       tags: ['671B MoE', '128K 上下文', '高性价比'],
       searchKeyword: 'DeepSeek',
-      bgPattern: 'from-blue-50/60 to-indigo-50/30'
+      bgPattern: 'from-blue-50/80 via-white to-slate-50/50'
     },
     {
       name: '通义千问 Qwen2.5',
@@ -353,7 +366,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       discount: '7.5折',
       tags: ['指令对齐', '工具调用', '企业商用'],
       searchKeyword: 'Qwen',
-      bgPattern: 'from-sky-50/60 to-cyan-50/30'
+      bgPattern: 'from-sky-50/80 via-white to-slate-50/50'
     },
     {
       name: '文心一言 4.0',
@@ -364,7 +377,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       discount: '7折',
       tags: ['知识检索', '政企业务', '逻辑推演'],
       searchKeyword: 'ERNIE',
-      bgPattern: 'from-purple-50/60 to-pink-50/30'
+      bgPattern: 'from-purple-50/80 via-white to-slate-50/50'
     },
     {
       name: 'GLM-4',
@@ -375,11 +388,11 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       discount: '7.5折',
       tags: ['极速响应', '智能体协同', '长文档分析'],
       searchKeyword: 'GLM',
-      bgPattern: 'from-emerald-50/60 to-teal-50/30'
+      bgPattern: 'from-emerald-50/80 via-white to-slate-50/50'
     }
   ];
 
-  // 场景化“我猜你想...”卡片配置（带精致科技感背景图、推荐Agent、视频教程弹窗）
+  // 场景化“我猜你想...”卡片配置（彩色生动高清水印图 + 浅色明亮卡片）
   const scenarioSolutions = [
     {
       id: 'custom-service',
@@ -388,10 +401,10 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       desc: '接入企业私有知识库，自动识别访客意图并秒级解答，降低 80% 人工转接成本',
       recommendAgent: '智能客服Agent',
       badge: '快速搭建',
+      badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
       videoDuration: '3分钟上手',
-      bgImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80',
-      icon: MessageSquare,
-      chapters: ['01 导入客服知识库', '02 设定机器人人设规则', '03 嵌入网页与公众号']
+      bgImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop&q=80',
+      icon: MessageSquare
     },
     {
       id: 'data-analysis',
@@ -400,10 +413,10 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       desc: '上传 Excel / CSV 数据表，自动清洗脏数据、绘制关键走势图表并输出洞察分析',
       recommendAgent: '数据分析助手',
       badge: '一键生成',
+      badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
       videoDuration: '5分钟实战',
-      bgImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80',
-      icon: TrendingUp,
-      chapters: ['01 上传财务与销售数据', '02 自然语言提问生成图表', '03 一键导出 PDF/PPT']
+      bgImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=80',
+      icon: TrendingUp
     },
     {
       id: 'ai-painting',
@@ -412,10 +425,10 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       desc: '支持 Flux / SDXL 商业模型，快速生成电商主图、游戏素材与广告海报高清设计稿',
       recommendAgent: '文生图Pro',
       badge: '高质量生成',
+      badgeColor: 'bg-purple-50 text-purple-700 border-purple-200',
       videoDuration: '4分钟工作流',
       bgImage: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80',
-      icon: Sparkles,
-      chapters: ['01 提示词工程与风格选择', '02 ControlNet 姿态精细控制', '03 4K 超分辨率放大']
+      icon: Sparkles
     },
     {
       id: 'code-assistant',
@@ -424,10 +437,10 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       desc: '支持 Python / TS / Go / Java 等主流语言，智能定位逻辑 Bug 并提供性能重构建议',
       recommendAgent: '代码助手Agent',
       badge: '代码调试',
+      badgeColor: 'bg-amber-50 text-amber-800 border-amber-200',
       videoDuration: '3分钟配置',
-      bgImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&auto=format&fit=crop&q=80',
-      icon: Code2,
-      chapters: ['01 IDE 插件端侧配置', '02 单元测试自动化编写', '03 代码重构与语法纠错']
+      bgImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&auto=format&fit=crop&q=80',
+      icon: Code2
     }
   ];
 
@@ -437,7 +450,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'models',
       title: '模型调用榜',
       icon: Brain,
-      iconColor: 'text-blue-600 bg-blue-50/80 border border-blue-200/50',
+      iconColor: 'text-blue-600 bg-blue-50/80 border border-blue-200/60',
       metricLabel: '调用量',
       items: [
         { rank: 1, name: 'DeepSeek-V3', metric: '23.4万', category: '通用语言', progress: 100 },
@@ -463,7 +476,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'agents',
       title: 'Agent调用榜',
       icon: Bot,
-      iconColor: 'text-indigo-600 bg-indigo-50/80 border border-indigo-200/50',
+      iconColor: 'text-indigo-600 bg-indigo-50/80 border border-indigo-200/60',
       metricLabel: '调用量',
       items: [
         { rank: 1, name: '智能客服Agent', metric: '1,234', category: '客户服务', progress: 100 },
@@ -489,7 +502,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'skills',
       title: 'Skill下载榜',
       icon: Wrench,
-      iconColor: 'text-amber-600 bg-amber-50/80 border border-amber-200/50',
+      iconColor: 'text-amber-600 bg-amber-50/80 border border-amber-200/60',
       metricLabel: '下载量',
       items: [
         { rank: 1, name: 'WebSearch Pro', metric: '3,456', category: '全网检索', progress: 100 },
@@ -515,7 +528,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'datasets',
       title: '数据集下载榜',
       icon: Database,
-      iconColor: 'text-emerald-600 bg-emerald-50/80 border border-emerald-200/50',
+      iconColor: 'text-emerald-600 bg-emerald-50/80 border border-emerald-200/60',
       metricLabel: '下载量',
       items: [
         { rank: 1, name: '中文金融对话语料', metric: '890次', category: '垂直微调', progress: 100 },
@@ -541,7 +554,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'gpus',
       title: 'GPU实例租用榜',
       icon: Cpu,
-      iconColor: 'text-purple-600 bg-purple-50/80 border border-purple-200/50',
+      iconColor: 'text-purple-600 bg-purple-50/80 border border-purple-200/60',
       metricLabel: '租用量',
       items: [
         { rank: 1, name: 'RTX 4090 (24G)', metric: '5,800卡时', category: '性价比之王', progress: 100 },
@@ -608,7 +621,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
     }
   ];
 
-  // 11. 热门赛事（横向 3 个赛事卡片）
+  // 11. 热门赛事（横向 3 个赛事卡片，彩色明亮封面）
   const hotCompetitionList = [
     {
       id: 'c1',
@@ -617,8 +630,8 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       status: '进行中',
       prize: '¥50,000',
       participants: '1,420 人已参赛',
-      cover: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80',
-      statusBadge: 'bg-emerald-50 text-emerald-600 border-emerald-200/80'
+      cover: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&auto=format&fit=crop&q=80',
+      statusBadge: 'bg-emerald-50 text-emerald-700 border-emerald-200'
     },
     {
       id: 'c2',
@@ -627,8 +640,8 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       status: '即将开赛',
       prize: '¥30,000',
       participants: '890 人已预约',
-      cover: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80',
-      statusBadge: 'bg-amber-50 text-amber-600 border-amber-200/80'
+      cover: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&auto=format&fit=crop&q=80',
+      statusBadge: 'bg-amber-50 text-amber-700 border-amber-200'
     },
     {
       id: 'c3',
@@ -637,47 +650,51 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       status: '进行中',
       prize: '¥40,000',
       participants: '650 人已参赛',
-      cover: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&auto=format&fit=crop&q=80',
-      statusBadge: 'bg-emerald-50 text-emerald-600 border-emerald-200/80'
+      cover: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&auto=format&fit=crop&q=80',
+      statusBadge: 'bg-emerald-50 text-emerald-700 border-emerald-200'
     }
   ];
 
-  // 12. 社区热帖（横向 4 个卡片，卡片带封面图）
+  // 12. 社区热帖（横向 4 个卡片，卡片带鲜艳彩色封面图）
   const communityPosts = [
     {
       id: 'post-1',
       title: 'DeepSeek-V3 / R1 满血版私有化部署避坑与首字加速指引',
       section: '干货分享',
+      sectionBadge: 'bg-blue-50 text-blue-700 border-blue-200',
       author: '技术专家 · 林峰',
       time: '2小时前',
       comments: 28,
       likes: 142,
-      cover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=80'
+      cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=80'
     },
     {
       id: 'post-2',
       title: '构建高质量企业级 RAG：向量切分与混合重排的实践思考',
       section: '架构探索',
+      sectionBadge: 'bg-indigo-50 text-indigo-700 border-indigo-200',
       author: '架构师 · 李晨',
       time: '4小时前',
       comments: 19,
       likes: 98,
-      cover: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format&fit=crop&q=80'
+      cover: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=80'
     },
     {
       id: 'post-3',
       title: '从0打造电商超清产品海报：ComfyUI 工业级工作流实战拆解',
       section: '创意视觉',
+      sectionBadge: 'bg-purple-50 text-purple-700 border-purple-200',
       author: '设计导师 · 王薇',
       time: '昨天',
       comments: 36,
       likes: 215,
-      cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=80'
+      cover: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=500&auto=format&fit=crop&q=80'
     },
     {
       id: 'post-4',
       title: '揭榜挂帅金融知识图谱抽取任务经验复盘：组队协同心得',
       section: '同行交流',
+      sectionBadge: 'bg-amber-50 text-amber-800 border-amber-200',
       author: '算法极客 · 赵宇',
       time: '2天前',
       comments: 15,
@@ -709,80 +726,131 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
   return (
     <div className="w-full space-y-6 antialiased text-slate-800 pb-20 select-none relative">
       
-      {/* 科技感浅色背景纹理与微光晕 */}
+      {/* 科技感浅色背景纹理与柔和微光晕 */}
       <div className="fixed inset-0 pointer-events-none -z-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute top-48 left-1/4 w-96 h-96 bg-indigo-100/25 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-purple-100/35 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-48 left-1/4 w-[450px] h-[450px] bg-indigo-100/30 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ========================================================
-          1. Hero 区 (科技感浅色背景 · 标语 + 实时遥测指标条 · 无多余搜索框)
+          1. Hero 区 (艺术感浅紫色渐变主题 · 标语 + 创意交互组件 + 平台核心能力)
          ======================================================== */}
-      <div className="relative rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/90 p-8 sm:p-10 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
-        {/* 背景微网格与科技光斑 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/40 via-transparent to-sky-50/40 pointer-events-none" />
-        <div className="absolute -top-16 -right-16 w-64 h-64 bg-gradient-to-br from-indigo-200/20 to-blue-200/20 rounded-full blur-2xl pointer-events-none" />
+      <div className="relative rounded-3xl bg-gradient-to-br from-purple-50/90 via-violet-50/50 via-indigo-50/30 to-white/95 backdrop-blur-2xl border border-purple-200/70 p-8 sm:p-12 shadow-[0_12px_44px_-10px_rgba(168,85,247,0.08),0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+        {/* 背景艺术极光柔光与矢量动态微网格 */}
+        <div className="absolute -top-28 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-gradient-to-r from-purple-300/30 via-violet-200/25 to-fuchsia-200/25 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-purple-200/25 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-sky-200/20 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(#c4b5fd_1px,transparent_1px)] [background-size:24px_24px] opacity-35 pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
-          {/* 实时平台状态胶囊微标签 */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50/90 border border-slate-200/80 text-slate-700 text-xs font-medium shadow-2xs mb-4">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+        {/* 优雅装饰性背景流动曲线 */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="purpleSplineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#A855F7" />
+              <stop offset="50%" stopColor="#6366F1" />
+              <stop offset="100%" stopColor="#EC4899" />
+            </linearGradient>
+          </defs>
+          <path d="M-100,120 C200,60 400,220 800,100 C1200,-20 1400,180 1800,90" fill="none" stroke="url(#purpleSplineGrad)" strokeWidth="2" strokeDasharray="6 6" />
+        </svg>
+
+        <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto pt-2 sm:pt-4">
+          {/* 艺术感主标题（浅紫与深青渐变） */}
+          <h1 className="text-3xl sm:text-5xl lg:text-[48px] font-black text-slate-900 tracking-tight leading-[1.2]">
+            汇聚 AI 之力，成就
+            <span className="relative inline-block ml-1.5 sm:ml-2.5">
+              <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 drop-shadow-xs">
+                万千可能
+              </span>
+              {/* 艺术感浅紫色柔光弧线 */}
+              <svg className="absolute -bottom-2.5 left-0 w-full h-3.5 text-purple-400/50" viewBox="0 0 180 12" fill="none">
+                <path d="M2.5 9C45 2.5 135 2.5 177.5 9" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
+              </svg>
             </span>
-            <span className="font-mono text-slate-500">ENGINE ONLINE</span>
-            <span className="text-slate-300">|</span>
-            <span>今日已有 <strong className="font-mono font-bold text-indigo-600">1,283</strong> 人在此找到并交付 AI 方案</span>
-          </div>
-
-          {/* 主标题 */}
-          <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-900 tracking-tight leading-tight">
-            汇聚 AI 之力，成就万千可能
           </h1>
 
           {/* 副标题 */}
-          <p className="text-base sm:text-lg text-slate-600 font-medium mt-3 max-w-2xl">
-            从基础基座模型到自主 Agent 智能体，一站式赋能产业智能化研发与场景落地
+          <p className="text-lg sm:text-xl text-slate-700 font-bold mt-4 tracking-tight">
+            从模型到 Agent，一站式搞定
+          </p>
+          <p className="text-sm font-semibold text-purple-700 mt-2 tracking-wide flex items-center justify-center gap-1.5">
+            <span>今日已有</span>
+            <strong className="font-mono font-black text-base text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600">1,283</strong>
+            <span>人在此找到AI方案</span>
           </p>
 
-          {/* 创意前端组件：平台四大生产力核心引擎状态微条 */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full mt-7 pt-6 border-t border-slate-100">
-            <div className="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 flex items-center gap-2.5 text-left">
-              <div className="w-8 h-8 rounded-lg bg-blue-100/70 text-blue-600 flex items-center justify-center shrink-0">
-                <Brain className="w-4 h-4" />
+          {/* 平台四大生产力核心引擎状态微条（浅紫主题玻璃态） */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full mt-7 pt-6 border-t border-purple-100/70">
+            <div
+              onClick={() => {
+                setMarketplaceTab('model');
+                setActiveTab('marketplace');
+              }}
+              className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-purple-100/90 hover:border-purple-300 flex items-center gap-3 text-left shadow-2xs hover:shadow-md hover:shadow-purple-500/5 transition-all duration-300 group cursor-pointer"
+            >
+              <div className="w-10 h-10 rounded-xl bg-purple-100/70 text-purple-600 border border-purple-200/60 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                <Brain className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] text-slate-400 font-medium">模型广场</div>
-                <div className="text-xs font-bold text-slate-800 truncate font-mono">64+ 款主流架构</div>
+                <div className="text-[11px] text-purple-600 font-semibold flex items-center gap-1">
+                  <span>模型广场</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                </div>
+                <div className="text-xs font-black text-slate-800 truncate font-mono mt-0.5">64+ 款主流架构</div>
+                <div className="text-[10px] text-slate-400 truncate">MoE · 长文 · 视觉全覆</div>
               </div>
             </div>
 
-            <div className="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 flex items-center gap-2.5 text-left">
-              <div className="w-8 h-8 rounded-lg bg-indigo-100/70 text-indigo-600 flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4" />
+            <div
+              onClick={() => {
+                setMarketplaceTab('agent');
+                setActiveTab('marketplace');
+              }}
+              className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-purple-100/90 hover:border-purple-300 flex items-center gap-3 text-left shadow-2xs hover:shadow-md hover:shadow-indigo-500/5 transition-all duration-300 group cursor-pointer"
+            >
+              <div className="w-10 h-10 rounded-xl bg-indigo-100/70 text-indigo-600 border border-indigo-200/60 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                <Bot className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] text-slate-400 font-medium">场景智能体</div>
-                <div className="text-xs font-bold text-slate-800 truncate font-mono">356 款即用方案</div>
+                <div className="text-[11px] text-indigo-600 font-semibold flex items-center gap-1">
+                  <span>场景智能体</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                </div>
+                <div className="text-xs font-black text-slate-800 truncate font-mono mt-0.5">356 款即用方案</div>
+                <div className="text-[10px] text-slate-400 truncate">开箱即用 · 垂直行业赋能</div>
               </div>
             </div>
 
-            <div className="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 flex items-center gap-2.5 text-left">
-              <div className="w-8 h-8 rounded-lg bg-emerald-100/70 text-emerald-600 flex items-center justify-center shrink-0">
-                <Cpu className="w-4 h-4" />
+            <div
+              onClick={() => setActiveTab('compute')}
+              className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-purple-100/90 hover:border-purple-300 flex items-center gap-3 text-left shadow-2xs hover:shadow-md hover:shadow-fuchsia-500/5 transition-all duration-300 group cursor-pointer"
+            >
+              <div className="w-10 h-10 rounded-xl bg-fuchsia-100/70 text-fuchsia-600 border border-fuchsia-200/60 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                <Cpu className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] text-slate-400 font-medium">纳管算力池</div>
-                <div className="text-xs font-bold text-slate-800 truncate font-mono">1,200 卡异构算力</div>
+                <div className="text-[11px] text-fuchsia-600 font-semibold flex items-center gap-1">
+                  <span>纳管算力池</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                </div>
+                <div className="text-xs font-black text-slate-800 truncate font-mono mt-0.5">1,200 卡异构算力</div>
+                <div className="text-[10px] text-slate-400 truncate">4090 / A100 秒级拉起</div>
               </div>
             </div>
 
-            <div className="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/60 flex items-center gap-2.5 text-left">
-              <div className="w-8 h-8 rounded-lg bg-purple-100/70 text-purple-600 flex items-center justify-center shrink-0">
-                <Zap className="w-4 h-4" />
+            <div
+              onClick={() => setActiveTab('compute')}
+              className="p-3.5 rounded-2xl bg-white/80 hover:bg-white border border-purple-100/90 hover:border-purple-300 flex items-center gap-3 text-left shadow-2xs hover:shadow-md hover:shadow-sky-500/5 transition-all duration-300 group cursor-pointer"
+            >
+              <div className="w-10 h-10 rounded-xl bg-sky-100/70 text-sky-600 border border-sky-200/60 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                <Zap className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] text-slate-400 font-medium">推理响应延迟</div>
-                <div className="text-xs font-bold text-slate-800 truncate font-mono">38ms 全网专线</div>
+                <div className="text-[11px] text-sky-600 font-semibold flex items-center gap-1">
+                  <span>推理专线时延</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                </div>
+                <div className="text-xs font-black text-slate-800 truncate font-mono mt-0.5">38ms 超快响应</div>
+                <div className="text-[10px] text-slate-400 truncate">全网专线加速 · 99.99%可用</div>
               </div>
             </div>
           </div>
@@ -790,14 +858,12 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       </div>
 
       {/* ========================================================
-          2. 新用户提示横幅 (科技感全息浅色卡片 · 仅未登录/新用户可见)
+          2. 新用户提示横幅 (明亮彩度卡片 · 仅未登录/新用户可见)
          ======================================================== */}
       {!isNewUserBannerDismissed && (
-        <div className="rounded-2xl bg-gradient-to-r from-indigo-50/90 via-sky-50/70 to-purple-50/80 border border-indigo-200/80 p-3.5 sm:px-5 flex items-center justify-between gap-3 shadow-2xs relative overflow-hidden">
-          <div className="absolute right-0 top-0 bottom-0 w-48 bg-gradient-to-l from-white/40 to-transparent pointer-events-none" />
-          
+        <div className="rounded-2xl bg-gradient-to-r from-indigo-50 via-sky-50 to-purple-50 border border-indigo-200/80 p-3.5 sm:px-5 flex items-center justify-between gap-3 shadow-2xs relative overflow-hidden">
           <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold text-slate-800 truncate relative z-10">
-            <span className="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-sm shadow-2xs shrink-0">
+            <span className="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-sm shadow-xs shrink-0">
               🎁
             </span>
             <span className="truncate">
@@ -828,42 +894,43 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       )}
 
       {/* ========================================================
-          3. 快捷入口 (6个卡片 · 宽约160px，高约100px，科技感图片背景+细腻磨砂，不使用高饱和纯色)
+          3. 快捷入口 (6个卡片 · 宽约160px，高约108px · 亮色明快背景 + 彩色高清水印图，绝不发黑！)
          ======================================================== */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
         {quickActions.map((item, idx) => (
           <button
             key={idx}
             onClick={item.action}
-            className="relative h-[105px] rounded-[16px] overflow-hidden p-3.5 flex flex-col justify-between text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer group select-none border border-slate-200/90 bg-slate-900 shadow-xs"
+            className={`relative h-[108px] rounded-2xl overflow-hidden p-3.5 flex flex-col justify-between text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer group select-none border border-slate-200/90 bg-gradient-to-br ${item.tintBg} shadow-xs hover:border-slate-300`}
           >
-            {/* 高清科技摄影背景 */}
-            <img
-              src={item.bgImage}
-              alt={item.name}
-              className="absolute inset-0 w-full h-full object-cover opacity-45 group-hover:opacity-55 group-hover:scale-110 transition-all duration-700"
-            />
-            
-            {/* 深邃精致玻璃遮罩，文字极高对比 */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-slate-950/40" />
+            {/* 右侧生动清晰的彩色背景图，带平滑渐变过度，绝不黑化 */}
+            <div className="absolute right-0 top-0 bottom-0 w-[55%] overflow-hidden pointer-events-none">
+              <img
+                src={item.bgImage}
+                alt={item.name}
+                className="w-full h-full object-cover object-center opacity-85 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+              />
+              {/* 明亮浅色横向渐变平滑融入白色背景，保证左侧深色文字极高对比 */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-transparent" />
+            </div>
 
             {/* 卡片顶栏 */}
             <div className="relative z-10 flex items-center justify-between">
-              <span className="text-2xl filter drop-shadow">
+              <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-lg border ${item.iconBg} shadow-2xs`}>
                 {item.icon}
               </span>
-              <span className="text-[10px] font-mono font-medium text-white/80 bg-white/15 px-1.5 py-0.5 rounded backdrop-blur-xs">
+              <span className="text-[10px] font-mono font-medium text-slate-600 bg-white/90 px-2 py-0.5 rounded-full border border-slate-200/70 shadow-2xs">
                 {item.subTag}
               </span>
             </div>
 
-            {/* 卡片底栏 */}
+            {/* 卡片底栏：清晰深色文字 */}
             <div className="relative z-10">
-              <div className="font-bold text-xs text-white tracking-wide group-hover:text-blue-300 transition-colors flex items-center justify-between">
+              <div className="font-black text-sm text-slate-900 group-hover:text-blue-600 transition-colors flex items-center justify-between">
                 <span>{item.name}</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-white/60 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
+                <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
               </div>
-              <div className="text-[10px] text-slate-300 font-medium truncate mt-0.5">
+              <div className="text-[11px] text-slate-500 font-medium truncate mt-0.5">
                 {item.desc}
               </div>
             </div>
@@ -872,9 +939,9 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       </div>
 
       {/* ========================================================
-          4. 邀请返利小横幅 (浅色微香槟金质感 · 优雅圆角横幅)
+          4. 邀请返利小横幅 (浅色明快香槟金 · 优雅圆角横幅)
          ======================================================== */}
-      <div className="rounded-2xl bg-gradient-to-r from-amber-50/80 via-orange-50/50 to-white border border-amber-200/80 p-3.5 sm:px-5 flex items-center justify-between gap-3 shadow-2xs">
+      <div className="rounded-2xl bg-gradient-to-r from-amber-50/90 via-orange-50/60 to-white border border-amber-200/80 p-3.5 sm:px-5 flex items-center justify-between gap-3 shadow-2xs">
         <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-800">
           <span className="w-7 h-7 rounded-lg bg-amber-500/15 border border-amber-400/30 text-amber-600 flex items-center justify-center text-sm shadow-2xs shrink-0">
             🤝
@@ -893,12 +960,12 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       </div>
 
       {/* ========================================================
-          5. 轮播 Banner (5秒自动切换 · 科技摄影质感 + 动态进度条)
+          5. 轮播 Banner (5秒自动切换 · 亮色明快通透底 + 彩色高清水印大图)
          ======================================================== */}
       <div
         onMouseEnter={() => setIsBannerPaused(true)}
         onMouseLeave={() => setIsBannerPaused(false)}
-        className="relative rounded-2xl overflow-hidden h-[190px] sm:h-[210px] border border-slate-200/90 shadow-sm select-none bg-slate-950 group"
+        className="relative rounded-2xl overflow-hidden h-[190px] sm:h-[210px] border border-slate-200/90 shadow-sm select-none bg-white group"
       >
         {banners.map((item, idx) => (
           <div
@@ -907,25 +974,27 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
               idx === bannerIndex ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 pointer-events-none z-0'
             }`}
           >
-            {/* 背景大图 */}
-            <img
-              src={item.bgImage}
-              alt={item.title}
-              className="absolute inset-0 w-full h-full object-cover opacity-40 scale-100 group-hover:scale-105 transition-transform duration-1000"
-            />
-            {/* 渐变遮罩 */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/40" />
+            {/* 右侧生动清晰的彩色大图 */}
+            <div className="absolute right-0 top-0 bottom-0 w-3/5 overflow-hidden">
+              <img
+                src={item.bgImage}
+                alt={item.title}
+                className="w-full h-full object-cover object-center opacity-90 scale-100 group-hover:scale-105 transition-transform duration-1000"
+              />
+              {/* 从左往右纯白渐变遮罩，绝不发黑，让文字清晰自然 */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent" />
+            </div>
 
-            {/* 文字与内容 */}
-            <div className="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between text-white">
-              <div className="max-w-2xl">
-                <span className={`inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold border ${item.badgeBorder} mb-2 shadow-xs`}>
+            {/* 左侧文字与内容：文字深色高对比 */}
+            <div className="relative z-10 h-full p-6 sm:p-8 flex flex-col justify-between max-w-xl">
+              <div>
+                <span className={`inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold border ${item.tagColor} mb-2 shadow-2xs`}>
                   {item.badge}
                 </span>
-                <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-snug">
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-snug">
                   {item.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-300 font-medium mt-1.5 line-clamp-2">
+                <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1.5 line-clamp-2">
                   {item.subtitle}
                 </p>
               </div>
@@ -933,7 +1002,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
               <div className="flex items-center justify-between mt-2">
                 <button
                   onClick={item.action}
-                  className="px-4 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs shadow-md transition cursor-pointer flex items-center gap-1.5"
+                  className={`px-4 py-2 rounded-xl ${item.btnColor} text-white font-bold text-xs shadow-sm transition cursor-pointer flex items-center gap-1.5`}
                 >
                   <span>{item.buttonText}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -944,16 +1013,16 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
         ))}
 
         {/* 顶部微型自动播放进度条 */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 z-20 overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100 z-20 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-blue-400 to-indigo-400 transition-all duration-75"
+            className="h-full bg-blue-600 transition-all duration-75"
             style={{ width: `${bannerProgress}%` }}
           />
         </div>
 
-        {/* 轮播指示器与切换小控制台 */}
-        <div className="absolute bottom-4 right-6 z-20 flex items-center gap-2 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-700/80 text-white text-xs">
-          <span className="font-mono text-[11px] text-slate-400">
+        {/* 亮色轮播指示器与切换小控制台 */}
+        <div className="absolute bottom-4 right-6 z-20 flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200/90 shadow-sm text-slate-700 text-xs">
+          <span className="font-mono text-[11px] text-slate-500 font-bold">
             0{bannerIndex + 1} / 0{banners.length}
           </span>
           <div className="flex items-center gap-1 ml-1">
@@ -962,7 +1031,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
                 key={i}
                 onClick={() => handleSelectBanner(i)}
                 className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                  i === bannerIndex ? 'w-4 bg-blue-400' : 'w-1.5 bg-slate-600 hover:bg-slate-400'
+                  i === bannerIndex ? 'w-4 bg-blue-600' : 'w-1.5 bg-slate-300 hover:bg-slate-400'
                 }`}
                 title={`切换至第 ${i + 1} 张`}
               />
@@ -973,14 +1042,14 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
         {/* 上一张 / 下一张控制按钮 */}
         <button
           onClick={() => handleSelectBanner((bannerIndex - 1 + banners.length) % banners.length)}
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-slate-900/60 hover:bg-slate-900/90 text-white flex items-center justify-center backdrop-blur-sm transition cursor-pointer border border-slate-700/60 opacity-0 group-hover:opacity-100"
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow-md transition cursor-pointer border border-slate-200 opacity-0 group-hover:opacity-100"
           title="上一张"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
         <button
           onClick={() => handleSelectBanner((bannerIndex + 1) % banners.length)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-slate-900/60 hover:bg-slate-900/90 text-white flex items-center justify-center backdrop-blur-sm transition cursor-pointer border border-slate-700/60 opacity-0 group-hover:opacity-100"
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow-md transition cursor-pointer border border-slate-200 opacity-0 group-hover:opacity-100"
           title="下一张"
         >
           <ChevronRight className="w-4 h-4" />
@@ -988,9 +1057,9 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       </div>
 
       {/* ========================================================
-          6. 特价模型专区 (横向 4 个真实热门模型卡片 · 浅色科技网格)
+          6. 特价模型专区 (横向 4 个真实热门模型卡片 · 浅色明快)
          ======================================================== */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
+      <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200/60">
@@ -1041,10 +1110,10 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
                   {model.desc}
                 </p>
 
-                {/* 科技特性标签 */}
+                {/* 特性标签 */}
                 <div className="flex flex-wrap gap-1 mt-2.5">
                   {model.tags.map(tag => (
-                    <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded bg-white/80 border border-slate-200/80 text-slate-600 font-mono">
+                    <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-slate-200/80 text-slate-600 font-mono shadow-2xs">
                       {tag}
                     </span>
                   ))}
@@ -1082,9 +1151,9 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       </div>
 
       {/* ========================================================
-          7. 我猜你想（场景化解决方案 · 精致背景图 + 真实视频教程弹窗）
+          7. 我猜你想（场景化解决方案 · 生动彩色封面，绝不黑漆漆）
          ======================================================== */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
+      <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-200/60">
@@ -1112,7 +1181,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
                 key={s.id}
                 className="rounded-xl border border-slate-200/80 hover:border-indigo-400 bg-white overflow-hidden flex flex-col justify-between transition-all duration-300 shadow-2xs hover:shadow-md hover:-translate-y-0.5 group"
               >
-                {/* 顶部：科技摄影背景 + 细腻深邃渐变 + 场景图标 */}
+                {/* 顶部：生动鲜明彩色摄影封面 + 柔和通透遮罩 */}
                 <div
                   onClick={() => {
                     const matched = agents.find(a => a.name.includes(s.recommendAgent.replace('Agent', ''))) || agents[0];
@@ -1122,29 +1191,30 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
                       setActiveTab('marketplace');
                     }
                   }}
-                  className="relative h-28 p-3.5 flex flex-col justify-between text-white cursor-pointer overflow-hidden bg-slate-900"
+                  className="relative h-28 p-3 flex flex-col justify-between cursor-pointer overflow-hidden bg-slate-100"
                 >
                   <img
                     src={s.bgImage}
                     alt={s.title}
-                    className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 group-hover:opacity-60 transition-all duration-700"
+                    className="absolute inset-0 w-full h-full object-cover object-center opacity-95 group-hover:scale-105 transition-all duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/30" />
+                  {/* 柔和透光微遮罩，画面明亮通透鲜艳 */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent" />
 
                   <div className="relative z-10 flex items-center justify-between">
-                    <div className="w-8 h-8 rounded-lg bg-white/20 backdrop-blur-xs border border-white/20 flex items-center justify-center text-white">
-                      <IconComp className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-lg bg-white/95 text-slate-900 shadow-sm flex items-center justify-center">
+                      <IconComp className="w-4 h-4 text-indigo-600" />
                     </div>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-black/40 text-white/95 border border-white/20 backdrop-blur-xs font-semibold">
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full border shadow-2xs font-semibold ${s.badgeColor} bg-white/95`}>
                       {s.badge}
                     </span>
                   </div>
 
                   <div className="relative z-10">
-                    <h3 className="font-black text-sm tracking-wide text-white group-hover:text-blue-200 transition-colors">
+                    <h3 className="font-black text-sm tracking-wide text-white drop-shadow-sm group-hover:text-blue-200 transition-colors">
                       {s.title}
                     </h3>
-                    <p className="text-[11px] text-slate-300 truncate mt-0.5">
+                    <p className="text-[11px] text-white/90 drop-shadow-sm truncate mt-0.5 font-medium">
                       {s.subtitle}
                     </p>
                   </div>
@@ -1206,7 +1276,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       {/* ========================================================
           8. AI资源榜单 (5个子榜单横向排列：模型、Agent、Skill、数据集、GPU实例)
          ======================================================== */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
+      <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-amber-50 text-amber-600 border border-amber-200/60">
@@ -1261,7 +1331,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
                         >
                           {/* 背景刻度指示条 */}
                           <div
-                            className="absolute left-0 top-0 bottom-0 bg-blue-50/40 group-hover:bg-blue-100/50 transition-all pointer-events-none"
+                            className="absolute left-0 top-0 bottom-0 bg-blue-50/50 group-hover:bg-blue-100/60 transition-all pointer-events-none"
                             style={{ width: `${item.progress}%` }}
                           />
 
@@ -1318,7 +1388,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       {/* ========================================================
           9. 热门任务 (独立一栏 · 横向4个任务卡片 · 展示高赏金需求)
          ======================================================== */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
+      <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200/60">
@@ -1387,9 +1457,9 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       </div>
 
       {/* ========================================================
-          10. 热门赛事 (独立一栏 · 横向3个赛事卡片)
+          10. 热门赛事 (独立一栏 · 横向3个赛事卡片 · 鲜艳明亮全彩封面)
          ======================================================== */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
+      <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-rose-50 text-rose-600 border border-rose-200/60">
@@ -1420,17 +1490,16 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
               onClick={() => setActiveTab('creative')}
               className="rounded-xl border border-slate-200/80 hover:border-amber-400 bg-white overflow-hidden transition-all duration-200 group cursor-pointer shadow-2xs hover:shadow-md flex flex-col justify-between hover:-translate-y-0.5"
             >
-              <div className="h-32 w-full relative overflow-hidden bg-slate-950">
+              <div className="h-32 w-full relative overflow-hidden bg-slate-100">
                 <img
                   src={comp.cover}
                   alt={comp.title}
-                  className="w-full h-full object-cover opacity-85 group-hover:scale-105 group-hover:opacity-95 transition-all duration-500"
+                  className="w-full h-full object-cover opacity-95 group-hover:scale-105 transition-all duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 <span className={`absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-[10px] font-bold border ${comp.statusBadge} bg-white/95 backdrop-blur-xs shadow-2xs`}>
                   {comp.status}
                 </span>
-                <div className="absolute bottom-2.5 left-3 text-white font-bold text-sm truncate max-w-[85%]">
+                <div className="absolute bottom-2.5 left-3 text-white font-bold text-sm truncate max-w-[85%] drop-shadow-md">
                   {comp.title}
                 </div>
               </div>
@@ -1453,9 +1522,9 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       </div>
 
       {/* ========================================================
-          11. 社区热帖 (横向4个卡片 · 卡片带封面图)
+          11. 社区热帖 (横向4个卡片 · 全彩封面，明亮通透)
          ======================================================== */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
+      <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-purple-50 text-purple-600 border border-purple-200/60">
@@ -1486,13 +1555,13 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
               onClick={() => setActiveTab('community')}
               className="rounded-xl border border-slate-200/80 hover:border-purple-400 bg-white overflow-hidden flex flex-col justify-between transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md group hover:-translate-y-0.5"
             >
-              <div className="h-28 w-full relative overflow-hidden bg-slate-950">
+              <div className="h-28 w-full relative overflow-hidden bg-slate-100">
                 <img
                   src={p.cover}
                   alt={p.title}
-                  className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-90 transition-all duration-500"
+                  className="w-full h-full object-cover opacity-95 group-hover:scale-105 transition-all duration-500"
                 />
-                <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-900/80 text-white backdrop-blur-xs border border-white/10">
+                <span className={`absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold border ${p.sectionBadge} bg-white/95 backdrop-blur-xs shadow-2xs`}>
                   {p.section}
                 </span>
               </div>
@@ -1518,7 +1587,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       {/* ========================================================
           12. 平台数据 + 合作伙伴 (数据 + Logo墙)
          ======================================================== */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] text-center space-y-4">
+      <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 p-5 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] text-center space-y-4">
         {/* 实时平台数据证明 */}
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm font-semibold text-slate-700">
           <div className="flex items-center gap-1.5">
@@ -1542,7 +1611,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
           </div>
         </div>
 
-        {/* 合作伙伴 Logo 墙 (浅灰色科技风) */}
+        {/* 合作伙伴 Logo 墙 (清爽明亮浅灰色) */}
         <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-center gap-3 sm:gap-6">
           {partnerLogos.map(p => (
             <div
@@ -1744,45 +1813,45 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       )}
 
       {/* ========================================================
-          弹窗组件 3: 创意前端组件 · 交互式沉浸视频实战教程播放器
+          弹窗组件 3: 沉浸视频实战教程播放器 (亮色明亮框架)
          ======================================================== */}
       {activeVideoModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl max-w-3xl w-full overflow-hidden text-white animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-3xl w-full overflow-hidden text-slate-900 animate-in fade-in zoom-in-95 duration-200">
             {/* 顶栏 */}
-            <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+            <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <div className="flex items-center gap-2.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <h3 className="font-bold text-sm text-slate-200">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <h3 className="font-bold text-sm text-slate-900">
                   {activeVideoModal.title}
                 </h3>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono">
+                <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-mono font-medium">
                   {activeVideoModal.duration}
                 </span>
               </div>
               <button
                 onClick={() => setActiveVideoModal(null)}
-                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition cursor-pointer"
+                className="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* 模拟现代科技感视频播放画布 */}
-            <div className="relative aspect-video bg-slate-950 flex flex-col justify-between p-6 overflow-hidden">
+            {/* 现代科技感视频播放画布 */}
+            <div className="relative aspect-video bg-slate-900 flex flex-col justify-between p-6 overflow-hidden text-white">
               {/* 背景仿真演示画面 */}
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/60 via-slate-950 to-cyan-950/40 pointer-events-none" />
-              <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-slate-900 to-sky-950 pointer-events-none" />
+              <div className="absolute inset-0 bg-[radial-gradient(#475569_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
 
               {/* 视频中心动态演示界面模拟 */}
               <div className="relative z-10 my-auto flex flex-col items-center text-center max-w-md mx-auto">
-                <div className="w-16 h-16 rounded-2xl bg-indigo-600/30 border border-indigo-400/40 backdrop-blur-md flex items-center justify-center text-indigo-300 mb-3 shadow-lg shadow-indigo-500/20">
+                <div className="w-16 h-16 rounded-2xl bg-indigo-500/20 border border-indigo-400/40 backdrop-blur-md flex items-center justify-center text-indigo-300 mb-3 shadow-lg shadow-indigo-500/20">
                   <Play className={`w-8 h-8 fill-indigo-400 ${isVideoPlaying ? 'animate-pulse' : ''}`} />
                 </div>
                 <h4 className="font-black text-lg text-white">
                   【{activeVideoModal.agentName}】应用部署流程
                 </h4>
-                <p className="text-xs text-slate-400 mt-1 max-w-sm">
+                <p className="text-xs text-slate-300 mt-1 max-w-sm">
                   {activeVideoModal.description || '当前正在演示从配置提示词到 API 接口打通的端到端最佳实践'}
                 </p>
                 <div className="flex items-center gap-2 mt-4">
@@ -1796,7 +1865,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
               </div>
 
               {/* 播放器底栏控制条 */}
-              <div className="relative z-10 bg-slate-900/90 backdrop-blur-md p-3 rounded-2xl border border-slate-800 space-y-2 mt-auto">
+              <div className="relative z-10 bg-slate-900/90 backdrop-blur-md p-3 rounded-2xl border border-slate-700/80 space-y-2 mt-auto">
                 {/* 进度条 */}
                 <div
                   onClick={(e) => {
@@ -1807,7 +1876,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
                   className="w-full h-1.5 bg-slate-800 rounded-full cursor-pointer overflow-hidden group"
                 >
                   <div
-                    className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all"
+                    className="h-full bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full transition-all"
                     style={{ width: `${videoProgress}%` }}
                   />
                 </div>
