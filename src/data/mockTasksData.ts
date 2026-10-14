@@ -1469,7 +1469,7 @@ export const mockRichTasks: TaskItem[] = [
     startTime: '2026-08-18 00:00:00',
     endTime: '2026-09-20 23:59:59',
     remainingDays: 2,
-    publisher: '极客小千',
+    publisher: '极客小千 (你)',
     publisherAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
     publishTime: '2026-08-18 10:30:00',
     status: '审核中',
@@ -1499,7 +1499,7 @@ export const mockRichTasks: TaskItem[] = [
     startTime: '2026-08-15 00:00:00',
     endTime: '2026-09-28 23:59:59',
     remainingDays: 10,
-    publisher: '极客小千',
+    publisher: '极客小千 (你)',
     publisherAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
     publishTime: '2026-08-15 15:00:00',
     status: '进行中',
@@ -1666,7 +1666,7 @@ export const mockRichTasks: TaskItem[] = [
     startTime: '2026-08-14 00:00:00',
     endTime: '2026-09-26 23:59:59',
     remainingDays: 8,
-    publisher: '极客小千',
+    publisher: '极客小千 (你)',
     publisherAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
     publishTime: '2026-08-14 14:00:00',
     status: '进行中',
@@ -1716,6 +1716,252 @@ export const mockRichTasks: TaskItem[] = [
       }
     ],
     bounty: 4800,
+    bountyUnit: '¥'
+  },
+
+  // [我发布 - 进行中 - 没人接单 示例]
+  {
+    id: 'tsk_my_pub_ing_no_takers',
+    title: '基于 DeepSeek-V3 的企业级财务报表智能比对与异常审计 Agent',
+    taskType: '接单任务',
+    brief: '自动解析资产负债表与利润表 CSV/PDF，勾稽关系比对与异常数据审计警报',
+    domain: '技术开发',
+    difficulty: '困难',
+    recommendedResources: {
+      models: ['mod_deepseek_v4_pro', 'mod_qwen_25_coder'],
+      skills: ['sk_pdf_ocr_extractor', 'sk_milvus_vector_retriever'],
+      environment: {
+        spec: 'NVIDIA A100 / 80GB',
+        image: 'Python 3.11 + DeepSeek API Sandbox'
+      }
+    },
+    description: `<h3>【项目背景与业务需求】</h3><p>面向企业财务风控与审计场景，开发基于 <b>DeepSeek-V3</b> 的自动化报表勾稽审查 Agent。自动解析资产负债表、现金流量表与利润表，自动识别科目差额不一致、跨期费用异常与未核销账目风险。</p><h3>【核心功能与架构】</h3><ul><li>支持 PDF、XLSX、CSV 多表格解析与数据清洗转换；</li><li>内置 40+ 项财务勾稽逻辑（资产=负债+所有者权益，主营业务收入与现金流对齐等）；</li><li>自动输出结构化 Markdown 审计报告与 HTML 异常标记视图。</li></ul>`,
+    acceptanceCriteria: `<h3>【成果验收标准】</h3><ol><li>在 100 组真实脱敏财务报表测试集中，异常数据识别召回率 ≥ 95.0%；</li><li>提供完整的 FastApi 接口服务源码与 Docker 一键部署配置；</li><li>提供 Postman 测试用例集与 API 说明文档。</li></ol>`,
+    cashReward: 7500,
+    pointsReward: 500,
+    totalCashReward: 7500,
+    totalPointsReward: 500,
+    startTime: '2026-08-18 00:00:00',
+    endTime: '2026-09-30 23:59:59',
+    remainingDays: 14,
+    publisher: '极客小千 (你)',
+    publisherAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-18 10:00:00',
+    status: '进行中',
+    acceptedCount: 0,
+    submittedCount: 0,
+    verifiedCount: 0,
+    takers: [],
+    submissions: [],
+    bounty: 7500,
+    bountyUnit: '¥'
+  },
+
+  // [我发布 - 进行中 - 有人接单但是没人提交 示例]
+  {
+    id: 'tsk_my_pub_ing_takers_no_sub',
+    title: '基于 vLLM + Qwen2.5-Coder 的多语言 API 代码存根自动生成与 Swagger 对齐组件',
+    taskType: '接单任务',
+    brief: '解析 OpenAPI 3.0/Swagger 定义，自动生成 TypeScript/Python/Go 前后端存根代码',
+    domain: '技术开发',
+    difficulty: '中等',
+    description: `<h3>【需求描述】</h3><p>为了提升团队 API 开发协同效率，开发一套命令行+ Web 端代码生成 Agent。读取 OpenAPI 3.0 / Swagger JSON 描述文件，自动调用大模型生成格式规范的前后端接口 Client / Server 存根代码及 Mock 假数据生成器。</p>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>生成的 TypeScript / Go 代码通过 Strict 语法检查与 TypeScript 编译；</li><li>支持 CLI 指令 <code>qianji-codegen -i swagger.json -o ./src/api</code> 一键输出；</li><li>包含完整的 CLI 源码与单元测试用例。</li></ol>`,
+    cashReward: 6200,
+    pointsReward: 400,
+    totalCashReward: 6200,
+    totalPointsReward: 400,
+    startTime: '2026-08-16 00:00:00',
+    endTime: '2026-09-28 23:59:59',
+    remainingDays: 9,
+    publisher: '极客小千 (你)',
+    publisherAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-16 11:00:00',
+    status: '进行中',
+    acceptedCount: 3,
+    submittedCount: 0,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_pub_no_sub_1',
+        taskId: 'tsk_my_pub_ing_takers_no_sub',
+        username: '清华AI工程队',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-16 12:30:00',
+        status: '已接单'
+      },
+      {
+        id: 'tk_pub_no_sub_2',
+        taskId: 'tsk_my_pub_ing_takers_no_sub',
+        username: '全栈极客小张',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-17 09:15:00',
+        status: '已接单'
+      },
+      {
+        id: 'tk_pub_no_sub_3',
+        taskId: 'tsk_my_pub_ing_takers_no_sub',
+        username: '云原生架构师老王',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-17 14:00:00',
+        status: '已接单'
+      }
+    ],
+    submissions: [],
+    bounty: 6200,
+    bountyUnit: '¥'
+  },
+
+  // [我发布 - 进行中 - 有人提交但是全部驳回 示例]
+  {
+    id: 'tsk_my_pub_ing_all_rejected',
+    title: '基于 CLIP 与 Milvus 的跨模态电商商品高并发图像检索与去重 SDK',
+    taskType: '接单任务',
+    brief: '构建毫秒级电商同款商品图片查重与向量搜索 API，支持 100 QPS 高并发与多 GPU 并行处理',
+    domain: '技术开发',
+    difficulty: '困难',
+    description: `<h3>【项目需求】</h3><p>在海量电商图库中，需秒级识别相同/高度相似的商品主图。要求基于 ViT-CLIP 提取图片多模态特征，并写入 Milvus 向量集群，暴露 REST/gRPC 接口提供带相似度打分的查重服务。</p>`,
+    acceptanceCriteria: `<h3>【验收考核标准】</h3><ol><li>在 100 QPS 持续并发下 P99 响应延迟 ≤ 80ms，且无显存泄漏（OOM）；</li><li>使用 ViT-CLIP 跨模态网络，Top-1 同款识别准确率 ≥ 90.0%；</li><li>提供完整的 Dockerfile 与多 GPU 并行部署说明。</li></ol>`,
+    cashReward: 8800,
+    pointsReward: 600,
+    totalCashReward: 8800,
+    totalPointsReward: 600,
+    startTime: '2026-08-15 00:00:00',
+    endTime: '2026-09-25 23:59:59',
+    remainingDays: 6,
+    publisher: '极客小千 (你)',
+    publisherAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-15 14:00:00',
+    status: '进行中',
+    acceptedCount: 2,
+    submittedCount: 2,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_pub_all_rej_1',
+        taskId: 'tsk_my_pub_ing_all_rejected',
+        username: '视觉算法极客社',
+        userAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-16 10:00:00',
+        status: '已驳回',
+        submissionId: 'sub_pub_all_rej_1'
+      },
+      {
+        id: 'tk_pub_all_rej_2',
+        taskId: 'tsk_my_pub_ing_all_rejected',
+        username: '智算工程联合队',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-16 15:30:00',
+        status: '已驳回',
+        submissionId: 'sub_pub_all_rej_2'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_pub_all_rej_1',
+        taskId: 'tsk_my_pub_ing_all_rejected',
+        username: '视觉算法极客社',
+        userAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-17 16:30:00',
+        notes: '交付了 CLIP 特征提取脚本与 Milvus 部署镜像，经过本地 1 万条商品测试。',
+        files: [{ id: 'f_pub_rej_1', name: 'CLIP_Milvus_Deduplicate.zip', size: '32.1 MB' }],
+        status: '已驳回',
+        rejectReason: '【雇主验收意见】100 QPS 高并发压测下显存泄漏严重（发生 CUDA OOM）；缺少多 GPU 卡并行处理说明，请修复后再重新提交。',
+        verifiedTime: '2026-08-18 09:30:00'
+      },
+      {
+        id: 'sub_pub_all_rej_2',
+        taskId: 'tsk_my_pub_ing_all_rejected',
+        username: '智算工程联合队',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-18 11:00:00',
+        notes: '基于 ResNet+Milvus 构建了相似图搜索模块。',
+        files: [{ id: 'f_pub_rej_2', name: 'resnet_milvus_search.tar.gz', size: '28.5 MB' }],
+        status: '已驳回',
+        rejectReason: '【雇主验收意见】模型未采用需求明确指定的 ViT-CLIP 跨模态特征网络（采用了过时的 ResNet50），检索准确率仅 76% 未达 90% 及格线，请按需求重构后重新提交。',
+        verifiedTime: '2026-08-18 14:20:00'
+      }
+    ],
+    bounty: 8800,
+    bountyUnit: '¥'
+  },
+
+  // [我发布 - 已结束 - 有人提交但是全部驳回 (到期终止/托管已全额退款) 示例]
+  {
+    id: 'tsk_my_pub_finished_all_rejected',
+    title: '基于三维点云 PointNet++ 的高精工业零件表面微小缺陷识别算法 C++ 扩展',
+    taskType: '接单任务',
+    brief: '针对产线 3D 传感器扫描点云计算微小刮痕与凹坑，单次推理耗时在 100ms 内',
+    domain: 'AI模型与数据',
+    difficulty: '困难',
+    description: `<h3>【任务目标与交付要求】</h3><p>面向工业零部件 3D 视觉检测产线，基于 PointNet++ 深度神经网络识别结构件表面微小缺陷（裂纹、打孔变形、划痕），封装 Windows / Linux C++ 动态链接库（DLL/SO）。</p>`,
+    acceptanceCriteria: `<h3>【验收考核标准】</h3><ol><li>在 500 个复杂工业构件测试集上，微小刮痕漏检率 ≤ 5.0%；</li><li>单次点云推算耗时 ≤ 100ms；</li><li>提供完整的 CMake 构建工程与 C++ 样例用例。</li></ol>`,
+    cashReward: 9500,
+    pointsReward: 700,
+    totalCashReward: 9500,
+    totalPointsReward: 700,
+    startTime: '2026-07-20 00:00:00',
+    endTime: '2026-08-15 23:59:59',
+    remainingDays: 0,
+    publisher: '极客小千 (你)',
+    publisherAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-07-20 10:00:00',
+    status: '已结束',
+    refunded: true,
+    refundCash: 9500,
+    refundPoints: 700,
+    refundReason: '任务已截止到期，全部提交成果经验收打分均未达到合格及格线，无获胜中标人。预扣托管赏金与积分已全额退还给发布者。',
+    refundTime: '2026-08-16 00:00:00',
+    acceptedCount: 2,
+    submittedCount: 2,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_pub_fin_rej_1',
+        taskId: 'tsk_my_pub_finished_all_rejected',
+        username: '三维点云算法工作室',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-22 09:30:00',
+        status: '已驳回',
+        submissionId: 'sub_pub_fin_rej_1'
+      },
+      {
+        id: 'tk_pub_fin_rej_2',
+        taskId: 'tsk_my_pub_finished_all_rejected',
+        username: '工业CV智造社',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-23 14:00:00',
+        status: '已驳回',
+        submissionId: 'sub_pub_fin_rej_2'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_pub_fin_rej_1',
+        taskId: 'tsk_my_pub_finished_all_rejected',
+        username: '三维点云算法工作室',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-12 18:00:00',
+        notes: '交付了 PointNet++ 的 PyTorch 权重与 C++ Libtorch 推理 Wrapper。',
+        files: [{ id: 'f_pub_fin_rej_1', name: 'PointNet_Defect_Cpp.zip', size: '48.6 MB' }],
+        status: '已驳回',
+        rejectReason: '【终审验收未通过】在包含 500 个复杂工业构件测试集上，微小刮痕漏检率高达 24.5%，严重超出 ≤5% 的红线要求；且 C++ 动态库在 Windows 平台无法载入。',
+        verifiedTime: '2026-08-13 10:00:00'
+      },
+      {
+        id: 'sub_pub_fin_rej_2',
+        taskId: 'tsk_my_pub_finished_all_rejected',
+        username: '工业CV智造社',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-13 20:00:00',
+        notes: '基于 PointCNN 完成的点云缺陷标注与算法开发。',
+        files: [{ id: 'f_pub_fin_rej_2', name: 'PointCNN_Defect_Inspection.tar.gz', size: '52.1 MB' }],
+        status: '已驳回',
+        rejectReason: '【终审验收未通过】单次点云推算耗时 850ms，无法满足产线 100ms 实时流速要求，且未能提供依赖库的 CMake 构建工程。',
+        verifiedTime: '2026-08-14 11:30:00'
+      }
+    ],
+    bounty: 9500,
     bountyUnit: '¥'
   },
 

@@ -22,6 +22,93 @@
   }
 }
 
+/* 5个独立 Hero 光斑 animation 类 */
+.hero-glow-spot-1 {
+  animation: glowFloatSpot1 22s ease-in-out infinite alternate !important;
+  will-change: transform;
+}
+
+.hero-glow-spot-2 {
+  animation: glowFloatSpot2 27s ease-in-out infinite alternate -4s !important;
+  will-change: transform;
+}
+
+.hero-glow-spot-3 {
+  animation: glowFloatSpot3 21s ease-in-out infinite alternate -9s !important;
+  will-change: transform;
+}
+
+.hero-glow-spot-4 {
+  animation: glowFloatSpot4 25s ease-in-out infinite alternate -2s !important;
+  will-change: transform;
+}
+
+.hero-glow-spot-5 {
+  animation: glowFloatSpot5 29s ease-in-out infinite alternate -7s !important;
+  will-change: transform;
+}
+
+/* 5个极光光斑 Keyframes 独立位移 (±80px) 与缩放 (0.9 ~ 1.1) 动画 */
+@keyframes glowFloatSpot1 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(75px, -65px) scale(1.1);
+  }
+  100% {
+    transform: translate(-60px, 50px) scale(0.9);
+  }
+}
+
+@keyframes glowFloatSpot2 {
+  0% {
+    transform: translate(0px, 0px) scale(1.05);
+  }
+  50% {
+    transform: translate(-70px, 60px) scale(0.9);
+  }
+  100% {
+    transform: translate(55px, -70px) scale(1.08);
+  }
+}
+
+@keyframes glowFloatSpot3 {
+  0% {
+    transform: translate(0px, 0px) scale(0.92);
+  }
+  50% {
+    transform: translate(65px, 75px) scale(1.1);
+  }
+  100% {
+    transform: translate(-75px, -45px) scale(0.95);
+  }
+}
+
+@keyframes glowFloatSpot4 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(-65px, -75px) scale(1.08);
+  }
+  100% {
+    transform: translate(70px, 55px) scale(0.92);
+  }
+}
+
+@keyframes glowFloatSpot5 {
+  0% {
+    transform: translate(0px, 0px) scale(1.08);
+  }
+  50% {
+    transform: translate(50px, -80px) scale(0.9);
+  }
+  100% {
+    transform: translate(-65px, 60px) scale(1.1);
+  }
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0%);
