@@ -27,16 +27,35 @@ import { SubmitResultModal } from '../tasks/SubmitResultModal';
 import { MySubmissionModal } from '../tasks/MySubmissionModal';
 import { UserTaskPublishForm } from '../tasks/UserTaskPublishForm';
 
+const parseTime = (timeStr?: string): number => {
+  if (!timeStr) return 0;
+  const t = new Date(timeStr.replace(/-/g, '/')).getTime();
+  return isNaN(t) ? 0 : t;
+};
+
 export const WorkspaceTasks: React.FC = () => {
   const { tasks, user, withdrawTask, deleteTask, showToast } = useApp();
 
-  // 主切换: 我发布的任务 | 我接单的任务
-  const [activeTab, setActiveTab] = useState<'published' | 'undertaken'>('published');
+  // 主切换: 我发布的任务 | 我接单的任务 (默认直接打开我接单的任务，支持记忆切换偏好)
+  const [activeTab, setActiveTab] = useState<'published' | 'undertaken'>(() => {
+    try {
+      const saved = localStorage.getItem('app_workspace_tasks_tab');
+      if (saved === 'published' || saved === 'undertaken') return saved;
+    } catch (e) {}
+    return 'undertaken';
+  });
+
+  const handleTabChange = (tab: 'published' | 'undertaken') => {
+    setActiveTab(tab);
+    try {
+      localStorage.setItem('app_workspace_tasks_tab', tab);
+    } catch (e) {}
+  };
   
   // 我发布的任务 状态过滤: 全部 | 审核中 | 进行中 | 已驳回 | 已结束
   const [publishedFilter, setPublishedFilter] = useState<string>('全部');
 
-  // 我接单的任务 状态过滤: 全部 | 进行中 | 已结束
+  // 我接单的任务 状态过滤: 全部 | 进行中 | 待提交 | 待验收 | 成果被驳回 | 已验收
   const [undertakenFilter, setUndertakenFilter] = useState<string>('全部');
 
   // 二级页面与弹窗控制
@@ -70,38 +89,42 @@ export const WorkspaceTasks: React.FC = () => {
     );
   }, [tasks, user.name]);
 
-  // 过滤后的发布任务
+  // 过滤后的发布任务（按发布时间由近到远排序）
   const filteredPublishedTasks = useMemo(() => {
-    return myPublishedTasks.filter(t => {
-      if (publishedFilter === '全部') return true;
-      if (publishedFilter === '审核中') return t.status === '审核中';
-      if (publishedFilter === '进行中') return t.status === '进行中' || t.status === '已发布';
-      if (publishedFilter === '已驳回') return t.status === '已驳回';
-      if (publishedFilter === '已结束') return t.status === '已结束' || t.status === '已验收';
-      return true;
-    });
+    return myPublishedTasks
+      .filter(t => {
+        if (publishedFilter === '全部') return true;
+        if (publishedFilter === '审核中') return t.status === '审核中';
+        if (publishedFilter === '进行中') return t.status === '进行中' || t.status === '已发布';
+        if (publishedFilter === '已驳回') return t.status === '已驳回';
+        if (publishedFilter === '已结束') return t.status === '已结束' || t.status === '已验收';
+        return true;
+      })
+      .sort((a, b) => {
+        const timeA = parseTime(a.publishTime || a.startTime);
+        const timeB = parseTime(b.publishTime || b.startTime);
+        return timeB - timeA;
+      });
   }, [myPublishedTasks, publishedFilter]);
 
   // 接单任务统计数据
   const undertakenStats = useMemo(() => {
     let all = myUndertakenTasks.length;
-    let inProgress = 0;
     let pendingSubmit = 0;
     let pendingVerify = 0;
     let rejected = 0;
-    let finished = 0;
+    let accepted = 0;
 
     myUndertakenTasks.forEach(t => {
-      const isFinished = t.status === '已结束' || t.status === '已验收' || (t.endTime && new Date(t.endTime) < new Date());
       const myRecord = (t.takers || []).find(tk => tk.username === user.name || tk.username.includes('你') || tk.username.includes('极客小千'));
       const mySub = (t.submissions || []).find(s => s.username === user.name || s.username.includes('你') || s.username.includes('极客小千'));
-      const isRej = !isFinished && (mySub?.status === '已驳回' || myRecord?.status === '已驳回');
-      const hasSub = !!mySub || myRecord?.status === '已提交' || myRecord?.status === '已验收' || myRecord?.status === '已驳回' || myRecord?.status === '成果未通过';
+      const isWinner = t.winner?.username === myRecord?.username || t.winner?.username === user.name || t.winner?.username?.includes('你') || mySub?.status === '已通过' || myRecord?.status === '已验收' || t.status === '已验收';
+      const isRej = !isWinner && (mySub?.status === '已驳回' || myRecord?.status === '已驳回');
+      const hasSub = !isWinner && !isRej && (!!mySub || myRecord?.status === '已提交');
 
-      if (isFinished) {
-        finished++;
+      if (isWinner) {
+        accepted++;
       } else {
-        inProgress++;
         if (isRej) {
           rejected++;
         } else if (hasSub) {
@@ -112,40 +135,58 @@ export const WorkspaceTasks: React.FC = () => {
       }
     });
 
-    return { all, inProgress, pendingSubmit, pendingVerify, rejected, finished };
+    return { all, pendingSubmit, pendingVerify, rejected, accepted };
   }, [myUndertakenTasks, user.name]);
 
-  // 过滤后的接单任务
+  // 过滤后的接单任务（按进行中优先、已结束次之，然后再按接单时间由近到远排序）
   const filteredUndertakenTasks = useMemo(() => {
-    return myUndertakenTasks.filter(t => {
-      const isFinished = t.status === '已结束' || t.status === '已验收' || (t.endTime && new Date(t.endTime) < new Date());
-      const myRecord = (t.takers || []).find(tk => tk.username === user.name || tk.username.includes('你') || tk.username.includes('极客小千'));
-      const mySub = (t.submissions || []).find(s => s.username === user.name || s.username.includes('你') || s.username.includes('极客小千'));
-      const isRejected = !isFinished && (mySub?.status === '已驳回' || myRecord?.status === '已驳回');
-      const hasSubmitted = !!mySub || myRecord?.status === '已提交' || myRecord?.status === '已验收' || myRecord?.status === '已驳回' || myRecord?.status === '成果未通过';
+    return myUndertakenTasks
+      .filter(t => {
+        const myRecord = (t.takers || []).find(tk => tk.username === user.name || tk.username.includes('你') || tk.username.includes('极客小千'));
+        const mySub = (t.submissions || []).find(s => s.username === user.name || s.username.includes('你') || s.username.includes('极客小千'));
+        const isWinner = t.winner?.username === myRecord?.username || t.winner?.username === user.name || t.winner?.username?.includes('你') || mySub?.status === '已通过' || myRecord?.status === '已验收' || t.status === '已验收';
+        const isRejected = !isWinner && (mySub?.status === '已驳回' || myRecord?.status === '已驳回');
+        const hasSubmitted = !isWinner && !isRejected && (!!mySub || myRecord?.status === '已提交');
 
-      if (undertakenFilter === '全部') return true;
-      if (undertakenFilter === '进行中') {
-        return !isFinished;
-      }
-      if (undertakenFilter === '待提交') {
-        return !isFinished && !hasSubmitted && !isRejected;
-      }
-      if (undertakenFilter === '待验收') {
-        return !isFinished && hasSubmitted && !isRejected;
-      }
-      if (undertakenFilter === '成果被驳回') {
-        return !isFinished && isRejected;
-      }
-      if (undertakenFilter === '已结束') {
-        return isFinished;
-      }
-      return true;
-    });
+        if (undertakenFilter === '全部') return true;
+        if (undertakenFilter === '待提交') {
+          return !isWinner && !isRejected && !hasSubmitted;
+        }
+        if (undertakenFilter === '待验收') {
+          return !isWinner && !isRejected && hasSubmitted;
+        }
+        if (undertakenFilter === '成果被驳回') {
+          return isRejected;
+        }
+        if (undertakenFilter === '已验收') {
+          return isWinner;
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const myRecordA = (a.takers || []).find(tk => tk.username === user.name || tk.username.includes('你') || tk.username.includes('极客小千'));
+        const mySubA = (a.submissions || []).find(s => s.username === user.name || s.username.includes('你') || s.username.includes('极客小千'));
+        const isWinnerA = a.winner?.username === myRecordA?.username || a.winner?.username === user.name || a.winner?.username?.includes('你') || mySubA?.status === '已通过' || myRecordA?.status === '已验收' || a.status === '已验收';
+        const isFinishedA = a.status === '已结束' || a.status === '已验收' || isWinnerA;
+
+        const myRecordB = (b.takers || []).find(tk => tk.username === user.name || tk.username.includes('你') || tk.username.includes('极客小千'));
+        const mySubB = (b.submissions || []).find(s => s.username === user.name || s.username.includes('你') || s.username.includes('极客小千'));
+        const isWinnerB = b.winner?.username === myRecordB?.username || b.winner?.username === user.name || b.winner?.username?.includes('你') || mySubB?.status === '已通过' || myRecordB?.status === '已验收' || b.status === '已验收';
+        const isFinishedB = b.status === '已结束' || b.status === '已验收' || isWinnerB;
+
+        // 1. 按照进行中、已结束的顺序排序（进行中排在已结束前面）
+        if (!isFinishedA && isFinishedB) return -1;
+        if (isFinishedA && !isFinishedB) return 1;
+
+        // 2. 然后再按接单时间由近到远排序（最新接单时间排在前面）
+        const timeA = parseTime(myRecordA?.takeTime || a.startTime || a.publishTime);
+        const timeB = parseTime(myRecordB?.takeTime || b.startTime || b.publishTime);
+        return timeB - timeA;
+      });
   }, [myUndertakenTasks, undertakenFilter, user.name]);
 
   const publishedFilterList = ['全部', '审核中', '进行中', '已驳回', '已结束'];
-  const undertakenFilterList = ['全部', '进行中', '待提交', '待验收', '成果被驳回', '已结束'];
+  const undertakenFilterList = ['全部', '待提交', '待验收', '成果被驳回', '已验收'];
 
   // If publishing or editing task, render UserTaskPublishForm
   if (isCreatingTask || editingTask) {
@@ -178,7 +219,7 @@ export const WorkspaceTasks: React.FC = () => {
       <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-2 bg-slate-100/90 p-1.5 rounded-xl border border-slate-200/80">
           <button
-            onClick={() => setActiveTab('published')}
+            onClick={() => handleTabChange('published')}
             className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
               activeTab === 'published'
                 ? 'bg-indigo-600 text-white shadow-xs'
@@ -188,7 +229,7 @@ export const WorkspaceTasks: React.FC = () => {
             我发布的任务 ({myPublishedTasks.length})
           </button>
           <button
-            onClick={() => setActiveTab('undertaken')}
+            onClick={() => handleTabChange('undertaken')}
             className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
               activeTab === 'undertaken'
                 ? 'bg-indigo-600 text-white shadow-xs'
@@ -515,17 +556,16 @@ export const WorkspaceTasks: React.FC = () => {
       {/* 视角二：我接单的任务 */}
       {activeTab === 'undertaken' && (
         <div className="space-y-4">
-          {/* 子状态筛选标签: 支持按 全部 | 进行中 | 待提交 | 待验收 | 成果被驳回 | 已结束 快速筛选 */}
+          {/* 子状态筛选标签: 支持按 全部 | 待提交 | 待验收 | 成果被驳回 | 已验收 快速筛选 */}
           <div className="flex flex-wrap items-center gap-2 px-1">
             <span className="text-xs text-slate-400 font-bold mr-1">分类状态:</span>
             {undertakenFilterList.map(f => {
               let count = 0;
               if (f === '全部') count = undertakenStats.all;
-              else if (f === '进行中') count = undertakenStats.inProgress;
               else if (f === '待提交') count = undertakenStats.pendingSubmit;
               else if (f === '待验收') count = undertakenStats.pendingVerify;
               else if (f === '成果被驳回') count = undertakenStats.rejected;
-              else if (f === '已结束') count = undertakenStats.finished;
+              else if (f === '已验收') count = undertakenStats.accepted;
 
               return (
                 <button
@@ -543,6 +583,8 @@ export const WorkspaceTasks: React.FC = () => {
                       ? 'bg-white/20 text-white'
                       : f === '成果被驳回' && count > 0
                       ? 'bg-rose-100 text-rose-700 font-bold'
+                      : f === '已验收' && count > 0
+                      ? 'bg-indigo-100 text-indigo-700 font-bold'
                       : 'bg-slate-100 text-slate-500'
                   }`}>
                     {count}
@@ -563,10 +605,10 @@ export const WorkspaceTasks: React.FC = () => {
               {filteredUndertakenTasks.map(task => {
                 const myRecord = (task.takers || []).find(tk => tk.username === user.name || tk.username.includes('你') || tk.username.includes('极客小千'));
                 const mySub = (task.submissions || []).find(s => s.username === user.name || s.username.includes('你') || s.username.includes('极客小千'));
-                const isFinished = task.status === '已结束' || task.status === '已验收' || (task.endTime && new Date(task.endTime) < new Date());
-                const isWinner = task.winner?.username === myRecord?.username || task.winner?.username === user.name || mySub?.status === '已通过' || myRecord?.status === '已验收';
-                const isRejected = mySub?.status === '已驳回' || myRecord?.status === '已驳回';
-                const hasSubmitted = !!mySub || myRecord?.status === '已提交' || myRecord?.status === '已验收' || myRecord?.status === '已驳回' || myRecord?.status === '成果未通过';
+                const isWinner = task.winner?.username === myRecord?.username || task.winner?.username === user.name || task.winner?.username?.includes('你') || mySub?.status === '已通过' || myRecord?.status === '已验收' || task.status === '已验收';
+                const isFinished = task.status === '已结束' || task.status === '已验收' || isWinner;
+                const isRejected = !isWinner && (mySub?.status === '已驳回' || myRecord?.status === '已驳回');
+                const hasSubmitted = !isWinner && !isRejected && (!!mySub || myRecord?.status === '已提交');
 
                 return (
                   <div
@@ -589,7 +631,7 @@ export const WorkspaceTasks: React.FC = () => {
                             {task.difficulty}难度
                           </span>
 
-                          {/* 列表项中的 通过验收 / 未通过验收 / 进行中 显著标记 */}
+                          {/* 列表项中的 状态 显著标记 */}
                           {isFinished ? (
                             <>
                               <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-slate-500 text-white shadow-2xs">
@@ -600,15 +642,20 @@ export const WorkspaceTasks: React.FC = () => {
                                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                                   <span>通过验收</span>
                                 </span>
-                              ) : (isRejected || hasSubmitted) ? (
+                              ) : isRejected ? (
                                 <span className="px-3 py-0.5 rounded-full text-xs font-black bg-rose-100 text-rose-700 border border-rose-200 flex items-center gap-1 shadow-2xs">
                                   <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
-                                  <span>未通过验收</span>
+                                  <span>成果被驳回</span>
+                                </span>
+                              ) : hasSubmitted ? (
+                                <span className="px-3 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1 shadow-2xs">
+                                  <Clock className="w-3.5 h-3.5 text-slate-400" />
+                                  <span>待验收</span>
                                 </span>
                               ) : (
-                                <span className="px-3 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1">
+                                <span className="px-3 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1 shadow-2xs">
                                   <Clock className="w-3.5 h-3.5 text-slate-400" />
-                                  <span>未提交</span>
+                                  <span>待提交</span>
                                 </span>
                               )}
                             </>
@@ -692,15 +739,19 @@ export const WorkspaceTasks: React.FC = () => {
                             if (tkWinner) {
                               tkStatusLabel = '已验收';
                             } else if (tkRejected) {
-                              tkStatusLabel = '未通过验收';
+                              tkStatusLabel = '成果被驳回';
                             } else if (isFinished) {
-                              if (tkHasSub || tk.status === '已提交' || (tk.status as string) === '成果未通过' || (tk.status as string) === '未通过验收') {
-                                tkStatusLabel = '未通过验收';
+                              if (tkHasSub || tk.status === '已提交') {
+                                tkStatusLabel = '待验收';
+                              } else if ((tk.status as string) === '成果未通过' || (tk.status as string) === '未通过验收') {
+                                tkStatusLabel = '成果被驳回';
                               } else {
-                                tkStatusLabel = '未提交';
+                                tkStatusLabel = '待提交';
                               }
-                            } else if (tk.status === '已接单' && !tkHasSub) {
-                              tkStatusLabel = '未提交';
+                            } else if (tkHasSub || tk.status === '已提交') {
+                              tkStatusLabel = '待验收';
+                            } else if (tk.status === '已接单') {
+                              tkStatusLabel = '待提交';
                             }
 
                             return (
@@ -710,8 +761,9 @@ export const WorkspaceTasks: React.FC = () => {
                                 <span>{tk.username}</span>
                                 <span className={`text-[10px] font-bold ${
                                   tkStatusLabel === '已验收' ? 'text-emerald-600' :
-                                  tkStatusLabel === '已提交' ? 'text-indigo-600' :
-                                  tkStatusLabel === '未通过验收' || tkStatusLabel === '已驳回' || tkStatusLabel === '成果未通过' ? 'text-rose-600' : 'text-slate-400'
+                                  tkStatusLabel === '成果被驳回' || tkStatusLabel === '已驳回' ? 'text-rose-600' :
+                                  tkStatusLabel === '待验收' && !isFinished ? 'text-amber-600' :
+                                  'text-slate-400'
                                 }`}>({tkStatusLabel})</span>
                               </span>
                             );
@@ -755,7 +807,7 @@ export const WorkspaceTasks: React.FC = () => {
                                 submitTime: '近期',
                                 notes: '已提交项目源码包、测试文档与环境交付配置说明。',
                                 files: [{ id: `f_${task.id}`, name: `${task.title}_交付源码.zip`, size: '8.5 MB' }],
-                                status: isWinner ? '已通过' : isRejected ? '已驳回' : (isFinished ? '未通过验收' : '待验收'),
+                                status: isWinner ? '已通过' : isRejected ? '已驳回' : '待验收',
                                 rejectReason: mySub?.rejectReason
                               });
                             }}

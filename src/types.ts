@@ -292,6 +292,8 @@ export interface ModelItem {
 
   // 状态与协议
   status?: '已上架' | '已下架' | '草稿';
+  hasFreeTrial?: boolean; // 是否提供免费体验
+  freeTrialUrl?: string; // 免费体验地址
   trialCountLimit?: number; // 每日在线体验次数限制（默认5次，设置为0时前台置灰）
 
   // API文档与代码示例

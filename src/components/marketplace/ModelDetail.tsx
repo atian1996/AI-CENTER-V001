@@ -353,7 +353,7 @@ for chunk in response:
 
             <div className="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-4">
               <Markdown>
-                {model.apiDocContent || model.description || '暂无 Markdown 详细介绍文档。'}
+                {model.description || '暂无 Markdown 详细介绍文档。'}
               </Markdown>
             </div>
 
@@ -604,6 +604,19 @@ for chunk in response:
               </div>
               <span className="text-xs font-mono text-slate-500">HTTP REST / Streaming Gateway</span>
             </h3>
+
+            {/* API Markdown 文档指南 */}
+            {model.apiDocContent && (
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <h4 className="text-xs font-bold text-slate-800 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-indigo-600" />
+                  <span>API 接口使用说明文档</span>
+                </h4>
+                <div className="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed">
+                  <Markdown>{model.apiDocContent}</Markdown>
+                </div>
+              </div>
+            )}
 
             {/* 接入概览 */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

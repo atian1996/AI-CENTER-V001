@@ -162,6 +162,8 @@ export const ModelListAdminView: React.FC = () => {
       contextLengthValue: 128,
       contextLengthUnit: 'K',
       maxOutputTokens: 65536,
+      hasFreeTrial: true,
+      freeTrialUrl: 'https://chat.deepseek.com',
       trialCountLimit: 5,
       apiUrl: 'https://api.deepseek.com/v1/chat/completions',
       authType: 'API Key',
@@ -184,6 +186,8 @@ export const ModelListAdminView: React.FC = () => {
     setEditingModel(model);
     setFormData({ 
       ...model,
+      hasFreeTrial: model.hasFreeTrial !== undefined ? model.hasFreeTrial : (model.trialCountLimit !== 0),
+      freeTrialUrl: model.freeTrialUrl || '',
       trialCountLimit: model.trialCountLimit !== undefined ? model.trialCountLimit : 5
     });
     setFormError(null);
@@ -322,7 +326,9 @@ export const ModelListAdminView: React.FC = () => {
       contextLengthValue: formData.contextLengthValue || 128,
       contextLengthUnit: formData.contextLengthUnit || 'K',
       maxOutputTokens: formData.maxOutputTokens || 65536,
-      trialCountLimit: formData.trialCountLimit !== undefined ? Number(formData.trialCountLimit) : 5,
+      hasFreeTrial: formData.hasFreeTrial !== false,
+      freeTrialUrl: formData.hasFreeTrial !== false ? (formData.freeTrialUrl?.trim() || '') : '',
+      trialCountLimit: formData.hasFreeTrial !== false ? (formData.trialCountLimit !== undefined ? Number(formData.trialCountLimit) : 5) : 0,
       apiUrl: formData.apiUrl!.trim(),
       authType: formData.authType || 'API Key',
       authCredential: formData.authCredential || '',
@@ -381,15 +387,7 @@ export const ModelListAdminView: React.FC = () => {
               <p className="text-xs text-slate-400">请配置模型属性、规格参数与计费策略</p>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={handleSubmitForm}
-            className="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white text-xs font-bold rounded-xl shadow-md shadow-indigo-600/30 transition cursor-pointer"
-          >
-            {editingModel ? '保存变更配置' : '立即保存上架'}
-          </button>
         </div>
-
         {/* Tab Navigation */}
         <div className="flex border-b border-slate-800 bg-slate-950/40 px-4 text-xs overflow-x-auto rounded-xl">
           {[
@@ -398,7 +396,7 @@ export const ModelListAdminView: React.FC = () => {
             { key: 'auth', label: '接入与凭证' },
             { key: 'billing', label: '计费策略' },
             { key: 'protocol', label: '支持协议与状态' },
-            { key: 'doc', label: '文档与示例代码' }
+            { key: 'doc', label: 'API文档' }
           ].map(tab => (
             <button
               key={tab.key}
@@ -517,31 +515,95 @@ export const ModelListAdminView: React.FC = () => {
                 </div>
               </div>
 
+              {/* 一句话介绍 */}
               <div>
-                <label className="block text-slate-300 font-bold mb-1">模型功能简介</label>
-                <textarea
-                  rows={3}
-                  placeholder="简要描述模型核心优势、适用场景等..."
-                  value={formData.description || ''}
-                  onChange={e => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white placeholder:text-slate-600 focus:border-indigo-500 outline-none transition"
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-slate-300 font-bold">一句话介绍</label>
+                  <span className="text-[11px] text-slate-500">用于前台模型广场卡片与详情页顶部展示</span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="如：新一代开源大语言模型，兼具强悍的代码生成与长文本推理能力"
+                  value={formData.brief || ''}
+                  onChange={e => setFormData({ ...formData, brief: e.target.value })}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder:text-slate-600 focus:border-indigo-500 outline-none transition text-xs"
                 />
               </div>
 
+              {/* 详细模型介绍与背景 (Markdown 格式) */}
               <div>
-                <label className="block text-slate-300 font-bold mb-1">免费体验次数上限</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="number"
-                    min={0}
-                    max={1000}
-                    value={formData.trialCountLimit !== undefined ? formData.trialCountLimit : 5}
-                    onChange={e => setFormData({ ...formData, trialCountLimit: parseInt(e.target.value) || 0 })}
-                    className="w-32 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white font-mono focus:border-indigo-500 outline-none transition"
-                  />
-                  <span className="text-slate-400">次 / 用户 (设置为 0 时禁用前台对话体验功能)</span>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-slate-300 font-bold">详细模型介绍与背景 (Markdown 格式)</label>
+                  <span className="text-[11px] text-slate-500">对应展示在前台模型详情【模型介绍】标签页中</span>
+                </div>
+                <textarea
+                  rows={8}
+                  placeholder="### 模型背景与核心优势&#10;&#10;输入 Markdown 格式的模型技术背景、架构细节与评测表现..."
+                  value={formData.description || ''}
+                  onChange={e => setFormData({ ...formData, description: e.target.value })}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 font-mono text-xs text-slate-200 placeholder:text-slate-600 focus:border-indigo-500 outline-none transition leading-relaxed"
+                />
+              </div>
+
+              {/* 是否提供免费体验 */}
+              <div>
+                <label className="block text-slate-300 font-bold mb-1">
+                  是否提供免费体验 <span className="text-rose-400">*</span>
+                </label>
+                <div className="flex items-center gap-6 p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-200">
+                    <input
+                      type="radio"
+                      name="hasFreeTrial"
+                      checked={formData.hasFreeTrial !== false}
+                      onChange={() => setFormData({ ...formData, hasFreeTrial: true })}
+                      className="text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                    />
+                    <span>是 (提供免费在线体验)</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-200">
+                    <input
+                      type="radio"
+                      name="hasFreeTrial"
+                      checked={formData.hasFreeTrial === false}
+                      onChange={() => setFormData({ ...formData, hasFreeTrial: false })}
+                      className="text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                    />
+                    <span>否 (不提供免费体验)</span>
+                  </label>
                 </div>
               </div>
+
+              {/* 免费体验地址 与 免费体验次数上限 (仅当选择“是”时展示) */}
+              {formData.hasFreeTrial !== false && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in p-3.5 bg-slate-950/60 border border-slate-800/80 rounded-2xl">
+                  <div>
+                    <label className="block text-slate-300 font-bold mb-1">免费体验地址</label>
+                    <input
+                      type="text"
+                      placeholder="如: https://chat.deepseek.com 或独立体验页面 URL"
+                      value={formData.freeTrialUrl || ''}
+                      onChange={e => setFormData({ ...formData, freeTrialUrl: e.target.value })}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder:text-slate-600 focus:border-indigo-500 outline-none transition text-xs font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-slate-300 font-bold mb-1">免费体验次数上限</label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="number"
+                        min={1}
+                        max={1000}
+                        value={formData.trialCountLimit !== undefined ? formData.trialCountLimit : 5}
+                        onChange={e => setFormData({ ...formData, trialCountLimit: parseInt(e.target.value) || 0 })}
+                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white font-mono focus:border-indigo-500 outline-none transition text-xs"
+                      />
+                      <span className="text-slate-400 text-xs shrink-0 font-medium">次 / 用户</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -830,37 +892,20 @@ export const ModelListAdminView: React.FC = () => {
             </div>
           )}
 
-          {/* 第六选项卡：文档与示例代码 */}
+          {/* 第六选项卡：API文档 */}
           {activeFormTab === 'doc' && (
             <div className="space-y-4">
               <div>
-                <label className="block text-slate-300 font-bold mb-1">cURL 请求示例</label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-slate-300 font-bold">API 文档内容 (Markdown 格式)</label>
+                  <span className="text-[11px] text-slate-400">此文档对应展示在前台模型详情中的【API文档】页面/标签中</span>
+                </div>
                 <textarea
-                  rows={3}
-                  value={formData.codeCurl || ''}
-                  onChange={e => setFormData({ ...formData, codeCurl: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 font-mono text-xs text-indigo-300 focus:border-indigo-500 outline-none transition"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-300 font-bold mb-1">Python 调用示例</label>
-                <textarea
-                  rows={4}
-                  value={formData.codePython || ''}
-                  onChange={e => setFormData({ ...formData, codePython: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 font-mono text-xs text-emerald-300 focus:border-indigo-500 outline-none transition"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-300 font-bold mb-1">官方 API 文档链接</label>
-                <input
-                  type="text"
-                  placeholder="https://platform.openai.com/docs"
-                  value={formData.apiDocsUrl || ''}
-                  onChange={e => setFormData({ ...formData, apiDocsUrl: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white font-mono placeholder:text-slate-600 focus:border-indigo-500 outline-none transition"
+                  rows={14}
+                  placeholder="### API 调用指南与接口说明&#10;&#10;输入 Markdown 格式的 API 接口文档，包含 Base URL、请求参数、返回格式及示例..."
+                  value={formData.apiDocContent || ''}
+                  onChange={e => setFormData({ ...formData, apiDocContent: e.target.value })}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-200 placeholder:text-slate-600 focus:border-indigo-500 outline-none transition leading-relaxed"
                 />
               </div>
             </div>

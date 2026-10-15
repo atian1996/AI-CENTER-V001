@@ -186,7 +186,7 @@ main();`;
             { id: 'overview', label: '全览', icon: Layers },
             { id: 'providers', label: '服务商', icon: Server },
             { id: 'performance', label: '性能', icon: Activity },
-            { id: 'quickstart', label: '快速开始', icon: Terminal },
+            { id: 'quickstart', label: 'API文档', icon: Terminal },
           ].map(tab => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -406,14 +406,14 @@ main();`;
             </div>
           )}
 
-          {/* Section 3: 快速开始 */}
+          {/* Section 3: API文档 */}
           {(activeTab === 'overview' || activeTab === 'quickstart') && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
                     <Terminal className="w-4 h-4 text-indigo-600" />
-                    <span>{model.vendor}: {model.name} 代码调用快捷集成</span>
+                    <span>{model.vendor}: {model.name} API文档与调用说明</span>
                   </h3>
                   <p className="text-slate-500 text-[11px] mt-0.5">
                     替换 <code className="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded font-mono font-bold">YOUR_API_KEY</code> 密钥即可通过标准 API 访问该模型。
@@ -428,6 +428,13 @@ main();`;
                   <span>复制为 Markdown</span>
                 </button>
               </div>
+
+              {/* 后台可配置的 Markdown API文档内容 */}
+              {model.apiDocContent && (
+                <div className="p-4 rounded-2xl border border-slate-200/90 bg-slate-900 text-slate-200 font-mono text-xs whitespace-pre-wrap leading-relaxed shadow-xs overflow-x-auto max-h-80 overflow-y-auto">
+                  {model.apiDocContent}
+                </div>
+              )}
 
               {/* Language Tabs */}
               <div className="rounded-2xl border border-slate-900 bg-slate-950 overflow-hidden shadow-xl">

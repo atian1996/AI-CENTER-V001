@@ -2,10 +2,767 @@ import { TaskItem } from '../types';
 
 export const mockRichTasks: TaskItem[] = [
   // =========================================================================
-  // 1. 我接单的任务 (My Undertaken Tasks) - 各种状态 & 每项 3~5 个接单人
+  // 1. 我接单的任务 (My Undertaken Tasks) - 置顶核心进行中示例
   // =========================================================================
 
-  // [我接单 - 进行中 - 已提交待验收]
+  // [置顶示例 1：我接单 - 进行中 - 待提交]
+  {
+    id: 'tsk_und_new_ing_1',
+    title: '基于 DeepSeek-R1 的代码仓库自动化分支逻辑与单元测试生成 Agent',
+    taskType: '接单任务',
+    brief: '智能分析 TypeScript/Python/Rust 变更，自动生成 100% 覆盖率的边界单元测试',
+    domain: '技术开发',
+    difficulty: '困难',
+    recommendedResources: {
+      models: ['mod_deepseek_v4_pro', 'mod_qwen_25_coder'],
+      skills: ['sk_python_code_runner'],
+      environment: {
+        spec: '8核CPU / 32GB内存',
+        image: 'Python 3.11 + PyTest + Jest Runtime'
+      }
+    },
+    description: `<h3>【项目背景与需求】</h3><p>在大型企业级微服务架构重构中，人工编写单元测试极其耗时且易遗漏复杂的边缘判定分支。现需基于 <b>DeepSeek-R1 深度推理大模型</b>，打造一款智能 CLI & GitHub Action 单元测试生成 Agent。</p><h3>【核心功能点】</h3><ul><li>解析 AST 语法树，识别未覆盖的条件判定（Branch Coverage）；</li><li>自动针对 null、溢出、并发争用等异常边界生成 pytest / jest / cargo test 用例；</li><li>提供测试报告大屏导出与自动修复提 PR（Pull Request）能力。</li></ul>`,
+    acceptanceCriteria: `<h3>【成果验收标准】</h3><ol><li>在 10 个开源微服务项目测试上，生成的单测可直接执行率 ≥ 92%；</li><li>分支覆盖率平均提升 35% 以上，且无报错熔断；</li><li>提供包含 Docker 隔离环境与 CLI 工具源码包及详细 API 文档。</li></ol>`,
+    cashReward: 9500,
+    pointsReward: 650,
+    totalCashReward: 9500,
+    totalPointsReward: 650,
+    startTime: '2026-08-18 00:00:00',
+    endTime: '2026-10-05 23:59:59',
+    remainingDays: 14,
+    publisher: '美团基础软件架构中心',
+    publisherAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-18 09:30:00',
+    status: '进行中',
+    acceptedCount: 3,
+    submittedCount: 1,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_ning_1_1',
+        taskId: 'tsk_und_new_ing_1',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-18 10:15:00',
+        status: '已接单'
+      },
+      {
+        id: 'tk_ning_1_2',
+        taskId: 'tsk_und_new_ing_1',
+        username: '智能单测攻城狮',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-18 14:00:00',
+        status: '已提交',
+        submissionId: 'sub_ning_1_2'
+      },
+      {
+        id: 'tk_ning_1_3',
+        taskId: 'tsk_und_new_ing_1',
+        username: '全栈质量保障组',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-19 11:20:00',
+        status: '已接单'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_ning_1_2',
+        taskId: 'tsk_und_new_ing_1',
+        username: '智能单测攻城狮',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-20 16:00:00',
+        notes: '交付了 Jest 与 Pytest 自动化单测生成 CLI 工具包与基准评测报告。',
+        files: [{ id: 'f_ning_12', name: 'UnitTest_Agent_DeepSeek.zip', size: '24.5 MB' }],
+        status: '待验收'
+      }
+    ],
+    bounty: 9500,
+    bountyUnit: '¥'
+  },
+
+  // [置顶示例 2：我接单 - 进行中 - 待验收]
+  {
+    id: 'tsk_und_new_ing_2',
+    title: '企业级 WebRTC 多模态实时语音对讲与毫秒级 VAD 断句前端 SDK',
+    taskType: '接单任务',
+    brief: '实现降噪、回声消除、实时端侧 VAD 唤醒断句与 Websocket/WebRTC 高并发传输',
+    domain: '工具与自动化',
+    difficulty: '中等',
+    recommendedResources: {
+      skills: ['sk_web_search'],
+      environment: {
+        spec: '4核CPU / 16GB内存',
+        image: 'Node.js 20 + WebAudio / WebAssembly Toolchain'
+      }
+    },
+    description: `<h3>【需求描述】</h3><p>面向 AI 语音助理，开发一套纯前端 JavaScript/TypeScript 原生语音流处理 SDK，支持直接挂载 Opus 编码流并推送到后端 Live API 服务。</p><h3>【核心考核点】</h3><ul><li>纯 WebAudio API + WebAssembly 实现毫秒级 VAD 智能语音断句；</li><li>支持自动增益 (AGC) 与智能降噪，防止人声被切断破音；</li><li>提供 React & Vue 示例 Demo 与完整的 API 文档。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>端侧语音断句迟滞 ≤ 120ms，丢包率 5% 下传输流畅；</li><li>兼容 Chrome, Safari (iOS), Edge 主流浏览器；</li><li>交付 ES Module NPM 编译包与 TypeScript 声明文件。</li></ol>`,
+    cashReward: 6200,
+    pointsReward: 450,
+    totalCashReward: 6200,
+    totalPointsReward: 450,
+    startTime: '2026-08-16 00:00:00',
+    endTime: '2026-09-30 23:59:59',
+    remainingDays: 12,
+    publisher: '小米小爱同学团队',
+    publisherAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-16 14:00:00',
+    status: '进行中',
+    acceptedCount: 3,
+    submittedCount: 2,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_ning_2_1',
+        taskId: 'tsk_und_new_ing_2',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-16 15:30:00',
+        status: '已提交',
+        submissionId: 'sub_ning_2_1'
+      },
+      {
+        id: 'tk_ning_2_2',
+        taskId: 'tsk_und_new_ing_2',
+        username: '音频算法极客社',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-17 09:10:00',
+        status: '已接单'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_ning_2_1',
+        taskId: 'tsk_und_new_ing_2',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-20 18:20:00',
+        notes: '已完成基于 WebAssembly Silero VAD 的毫秒级断句与 WebRTC 语音流传输组件，包含 React 和 Vue3 音频对讲 Demo，经 Chrome/Safari 真机实测无杂音破音。',
+        files: [
+          { id: 'f_ning_21', name: 'webrtc_voice_vad_sdk_v1.0.zip', size: '18.2 MB' },
+          { id: 'f_ning_22', name: 'iOS与Android兼容测试报告.pdf', size: '2.1 MB' }
+        ],
+        status: '待验收'
+      }
+    ],
+    bounty: 6200,
+    bountyUnit: '¥'
+  },
+
+  // [置顶示例 3：我接单 - 进行中 - 成果被驳回待重新提交]
+  {
+    id: 'tsk_und_new_ing_3',
+    title: '基于 Flux.1 Dev 的高精电商产品 3D 渲染光影质感匹配 ControlNet 工作流',
+    taskType: '接单任务',
+    brief: '实现玻璃、金属、皮革等复杂材质在虚拟 3D 场景中的物理级光影融合',
+    domain: 'AI模型与数据',
+    difficulty: '困难',
+    description: `<h3>【任务概述】</h3><p>为了降低工业设计与商业宣发渲染成本，搭建基于 <b>Flux.1 Dev</b> 的高精度产品换景与光影融合 Agent 工作流。</p><h3>【核心交付要求】</h3><ul><li>支持 Depth & Canny 控制网组合约束，保持产品 3D 几何外形绝对不变形；</li><li>支持 HDRI 环境光映射与光线追踪级阴影重构；</li><li>交付完整的 ComfyUI 流程图 JSON 及其 API 一键脚本。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>玻璃透明材质折射与金属高光自然不失真；</li><li>在 20 组复杂产品写真上批量测试无边缘虚化崩塌；</li><li>包含 4K 超分节点配置与压测示例。</li></ol>`,
+    cashReward: 7800,
+    pointsReward: 550,
+    totalCashReward: 7800,
+    totalPointsReward: 550,
+    startTime: '2026-08-15 00:00:00',
+    endTime: '2026-09-28 23:59:59',
+    remainingDays: 10,
+    publisher: '联想工业设计中心',
+    publisherAvatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-15 10:00:00',
+    status: '进行中',
+    acceptedCount: 3,
+    submittedCount: 1,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_ning_3_1',
+        taskId: 'tsk_und_new_ing_3',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-15 11:00:00',
+        status: '已驳回',
+        submissionId: 'sub_ning_3_1'
+      },
+      {
+        id: 'tk_ning_3_2',
+        taskId: 'tsk_und_new_ing_3',
+        username: 'AIGC 3D极客社',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-16 14:00:00',
+        status: '已接单'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_ning_3_1',
+        taskId: 'tsk_und_new_ing_3',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-18 19:00:00',
+        notes: '交付了基于 SDXL ControlNet 的试衣换景工作流 JSON 文件与高清渲染示例。',
+        files: [
+          { id: 'f_ning_31', name: 'Flux_Light_Reflect_Workflow.json', size: '3.8 MB' },
+          { id: 'f_ning_32', name: '4K_Render_Benchmark_Test.zip', size: '65.2 MB' }
+        ],
+        status: '已驳回',
+        rejectReason: '【雇主验收驳回意见】提交的工作流采用了旧版 SDXL ControlNet 节点而非指定的 Flux.1 Dev 架构，在金属拉丝透明玻璃材质上高光折射失真严重；且缺少了 4K 放大超分节点。请改用 Flux.1 模型重构节点后重新提交。',
+        verifiedTime: '2026-08-19 10:30:00'
+      }
+    ],
+    bounty: 7800,
+    bountyUnit: '¥'
+  },
+
+  // [置顶示例 4：我接单 - 进行中 - 待提交]
+  {
+    id: 'tsk_und_new_ing_4',
+    title: '基于 GLM-4V 的多模态工业图纸 CAD 尺寸标注自动化解析引擎',
+    taskType: '接单任务',
+    brief: '对复杂机械装配图、公差配合标注解构为矢量化三维装配树与 BOM 清单',
+    domain: '技术开发',
+    difficulty: '困难',
+    recommendedResources: {
+      models: ['mod_qwen_25_coder'],
+      environment: {
+        spec: 'NVIDIA RTX 4090 / 24GB',
+        image: 'PyTorch 2.3 + OpenCV + DXF Parser'
+      }
+    },
+    description: `<h3>【任务背景】</h3><p>重工企业拥有数十万历史扫描 DWG/DXF 工业二维图纸，需利用多模态视觉大模型 <b>GLM-4V</b> 结合 OCR 技术，自动提取装配基准尺寸、形位公差及技术要求说明，并建立结构化零组件 BOM 表。</p><h3>【核心要求】</h3><ul><li>高精识别二维图纸中的箭头、引出线与粗糙度符号；</li><li>解析多视图（主视图、俯视图、左视图）三向投影几何关系；</li><li>支持批量导出标准化 JSON 数据并写入 PLM 系统。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>尺寸数字与公差带标注综合识别精确率 ≥ 96.8%；</li><li>单张 A0 超大幅面图纸解析耗时 ≤ 10 秒；</li><li>交付完整的 Python/FastAPI 接口源码及 100 张实测图纸评测报告。</li></ol>`,
+    cashReward: 11000,
+    pointsReward: 800,
+    totalCashReward: 11000,
+    totalPointsReward: 800,
+    startTime: '2026-08-19 00:00:00',
+    endTime: '2026-10-15 23:59:59',
+    remainingDays: 24,
+    publisher: '三一重工智能制造研究院',
+    publisherAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-19 10:00:00',
+    status: '进行中',
+    acceptedCount: 3,
+    submittedCount: 0,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_ning_4_1',
+        taskId: 'tsk_und_new_ing_4',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-19 11:30:00',
+        status: '已接单'
+      },
+      {
+        id: 'tk_ning_4_2',
+        taskId: 'tsk_und_new_ing_4',
+        username: '重工AI感知实验室',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-19 14:00:00',
+        status: '已接单'
+      }
+    ],
+    submissions: [],
+    bounty: 11000,
+    bountyUnit: '¥'
+  },
+
+  // [置顶示例 5：我接单 - 进行中 - 待验收]
+  {
+    id: 'tsk_und_new_ing_5',
+    title: '端侧轻量化语音情感识别 (SER) ONNX 模型量化与 WebAssembly 部署',
+    taskType: '接单任务',
+    brief: '高精识别对话中的喜怒哀乐与犹豫状态，在浏览器端毫秒级实时推理',
+    domain: 'AI模型与数据',
+    difficulty: '中等',
+    description: `<h3>【项目概述】</h3><p>为了在在线客服与语音社交中实时评估用户情绪，需将语音情感识别模型（Speech Emotion Recognition）蒸馏量化为 ONNX 格式，并通过 ONNX Runtime Web (WASM+WebGL) 部署到客户端。</p><h3>【核心考核】</h3><ul><li>支持 7 种基础情绪（高兴、悲伤、愤怒、平静、惊讶、恐惧、厌恶）分类；</li><li>模型权重压缩至 25MB 以内，内存占用小于 120MB；</li><li>提供纯前端麦克风实时音频流采集与情感波形动态大屏 Demo。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>在 IEMOCAP 公开测试集与内部测试集上未加权平均准确率（UAR）≥ 74.2%；</li><li>浏览器端单帧 200ms 音频片段推理延迟 ≤ 35ms；</li><li>支持跨平台 Chrome/Edge/Safari 前端直接调用。</li></ol>`,
+    cashReward: 5600,
+    pointsReward: 400,
+    totalCashReward: 5600,
+    totalPointsReward: 400,
+    startTime: '2026-08-17 00:00:00',
+    endTime: '2026-09-25 23:59:59',
+    remainingDays: 8,
+    publisher: '网易云音乐音频实验室',
+    publisherAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-17 11:00:00',
+    status: '进行中',
+    acceptedCount: 3,
+    submittedCount: 2,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_ning_5_1',
+        taskId: 'tsk_und_new_ing_5',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-17 12:00:00',
+        status: '已提交',
+        submissionId: 'sub_ning_5_1'
+      },
+      {
+        id: 'tk_ning_5_2',
+        taskId: 'tsk_und_new_ing_5',
+        username: '音频智感前沿组',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-18 09:30:00',
+        status: '已接单'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_ning_5_1',
+        taskId: 'tsk_und_new_ing_5',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-20 19:30:00',
+        notes: '交付了量化至 INT8 的 Emotion2Vec+ 蒸馏模型 ONNX 权重文件及 React 音频可视化体验包，单帧延迟仅 28ms。',
+        files: [
+          { id: 'f_ning_51', name: 'ser_onnx_wasm_bundle.zip', size: '22.8 MB' },
+          { id: 'f_ning_52', name: '模型量化精度对比与压测白皮书.pdf', size: '3.4 MB' }
+        ],
+        status: '待验收'
+      }
+    ],
+    bounty: 5600,
+    bountyUnit: '¥'
+  },
+
+  // [置顶示例 6：我接单 - 进行中 - 成果被驳回待重新提交]
+  {
+    id: 'tsk_und_new_ing_6',
+    title: '跨平台 AI 智能体沙箱执行环境 Docker/Firecracker 安全隔离中间件',
+    taskType: '接单任务',
+    brief: '防范恶意 Python 代码逃逸与网络滥用，毫秒级快速冷启动与资源配额熔断',
+    domain: '技术开发',
+    difficulty: '困难',
+    description: `<h3>【项目需求】</h3><p>在开放式智能体代码执行（Code Interpreter）场景下，用户输入的大模型生成代码存在执行系统危险指令、反弹 shell 与扫描内网的高危风险。现需基于 <b>Firecracker 微虚拟机 / gVisor</b> 构建企业级轻量级隔离容器池。</p><h3>【核心考核】</h3><ul><li>容器冷启动时间 ≤ 80ms，支持最大 200 个并发容器毫秒级销毁重建；</li><li>支持精细化限制 CPU、内存、网络 egress 白名单与系统调用（seccomp 策略）；</li><li>阻断常见 Linux 提权与逃逸漏洞。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>通过 50 套已知容器逃逸与提权渗透测试攻击，拦截率 100%；</li><li>提供 Go / Rust 实现的微服务 API 接口；</li><li>包含详尽的压力测试报告与生产部署指南。</li></ol>`,
+    cashReward: 8900,
+    pointsReward: 600,
+    totalCashReward: 8900,
+    totalPointsReward: 600,
+    startTime: '2026-08-16 00:00:00',
+    endTime: '2026-10-10 23:59:59',
+    remainingDays: 18,
+    publisher: '字节跳动火山引擎安全组',
+    publisherAvatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-08-16 11:30:00',
+    status: '进行中',
+    acceptedCount: 3,
+    submittedCount: 1,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_ning_6_1',
+        taskId: 'tsk_und_new_ing_6',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-16 14:00:00',
+        status: '已驳回',
+        submissionId: 'sub_ning_6_1'
+      },
+      {
+        id: 'tk_ning_6_2',
+        taskId: 'tsk_und_new_ing_6',
+        username: '云原生安全极客军团',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-08-17 10:00:00',
+        status: '已接单'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_ning_6_1',
+        taskId: 'tsk_und_new_ing_6',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-19 16:00:00',
+        notes: '交付了基于 standard runc + rootless 容器方案实现的沙箱隔离中间件与 API。',
+        files: [
+          { id: 'f_ning_61', name: 'sandbox_security_agent_source.tar.gz', size: '15.4 MB' },
+          { id: 'f_ning_62', name: '渗透测试自检报告.pdf', size: '2.8 MB' }
+        ],
+        status: '已驳回',
+        rejectReason: '【雇主验收驳回意见】提交的方案采用了普通 rootless runc 容器，在内核共享层面未能阻断潜在的 0-day 内核漏洞提权，且冷启动在 250ms 左右未达到需求指定的 80ms 毫秒级标准。请严格按照要求基于 Firecracker 微虚机或 gVisor runsc 重构后重新提交。',
+        verifiedTime: '2026-08-20 11:00:00'
+      }
+    ],
+    bounty: 8900,
+    bountyUnit: '¥'
+  },
+
+  // =========================================================================
+  // 2. 我接单的任务 - 已结束任务核心示例 (待验收 / 待提交 / 成果被驳回)
+  // =========================================================================
+
+  // [我接单 - 已结束 - 待验收 示例 1]
+  {
+    id: 'tsk_und_fin_pending_1',
+    title: '面向智慧交通的多源传感器时空数据融合与异常轨迹检测算法',
+    taskType: '接单任务',
+    brief: '融合激光雷达、毫米波雷达与路侧摄像头数据，构建高鲁棒性时空图卷积轨迹异常检测',
+    domain: '技术开发',
+    difficulty: '困难',
+    recommendedResources: {
+      models: ['mod_deepseek_v4_pro'],
+      skills: ['sk_python_code_runner'],
+      environment: {
+        spec: '8核CPU / 32GB内存',
+        image: 'PyTorch 2.4 + CUDA 12.4 + Spatio-Temporal Graph Sandbox'
+      }
+    },
+    description: `<h3>【项目背景与终审阶段】</h3><p>本任务征集与交付周期已截止，目前已封盘进入专家技术委员会集中验收阶段。接单极客已按期提交成果包，正在等待雇主完成多源仿真测试与准确率评测。</p><h3>【核心考核点】</h3><ul><li>针对遮挡、雨雪弱光场景的多传感器自适应融合机制；</li><li>基于 ST-GCN 时空图神经网络的轨迹异常实时检测，F1-Score ≥ 0.92；</li><li>端到端推理时延 ≤ 45ms。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>在 5 个公开交通数据集上轨迹异常检测召回率 ≥ 93%；</li><li>交付完整的模型权重、C++ 推理封装库与基准评测报告；</li><li>经专家复审通过后即发放全额悬赏。</li></ol>`,
+    cashReward: 9200,
+    pointsReward: 600,
+    totalCashReward: 9200,
+    totalPointsReward: 600,
+    startTime: '2026-07-20 00:00:00',
+    endTime: '2026-08-30 23:59:59',
+    remainingDays: 0,
+    publisher: '百度智能交通实验室',
+    publisherAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-07-20 10:00:00',
+    status: '已结束',
+    acceptedCount: 4,
+    submittedCount: 3,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_fin_p1_1',
+        taskId: 'tsk_und_fin_pending_1',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-21 10:30:00',
+        status: '已提交',
+        submissionId: 'sub_fin_p1_mine'
+      },
+      {
+        id: 'tk_fin_p1_2',
+        taskId: 'tsk_und_fin_pending_1',
+        username: '清华车联网先锋组',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-21 14:00:00',
+        status: '已提交',
+        submissionId: 'sub_fin_p1_2'
+      },
+      {
+        id: 'tk_fin_p1_3',
+        taskId: 'tsk_und_fin_pending_1',
+        username: '时空图算法极客',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-22 09:15:00',
+        status: '已提交',
+        submissionId: 'sub_fin_p1_3'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_fin_p1_mine',
+        taskId: 'tsk_und_fin_pending_1',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-28 16:30:00',
+        notes: '已按期交付多传感器时空融合算法核心模块源码、TensorRT 优化引擎及基准测试文档，等待雇主专家复审验收。',
+        files: [
+          { id: 'f_fin_p1_1', name: 'ST_GCN_SensorFusion_Source.tar.gz', size: '38.6 MB' },
+          { id: 'f_fin_p1_2', name: '时空轨迹异常检测评测报告.pdf', size: '4.2 MB' }
+        ],
+        status: '待验收'
+      }
+    ],
+    bounty: 9200,
+    bountyUnit: '¥'
+  },
+
+  // [我接单 - 已结束 - 待验收 示例 2]
+  {
+    id: 'tsk_und_fin_pending_2',
+    title: '基于 Qwen-VL 的工业高精细表面缺陷检测与细粒度视觉问答流水线',
+    taskType: '接单任务',
+    brief: '实现 12 类工业缺陷多模态精准语义定位与缺陷原因分析，支持产线边缘端低时延推理',
+    domain: 'AI模型与数据',
+    difficulty: '困难',
+    recommendedResources: {
+      models: ['mod_deepseek_v4_pro'],
+      skills: ['sk_python_code_runner'],
+      environment: {
+        spec: '16核CPU / 64GB内存',
+        image: 'PyTorch 2.3 + TensorRT + Qwen-VL Toolchain'
+      }
+    },
+    description: `<h3>【项目现状】</h3><p>产线质检任务征集已于截止日结案，目前正处于雇主工程师在实际流水线沙盒机台跑分复测的最后验收期。</p><h3>【验收关注点】</h3><ul><li>针对微裂纹、划痕、气孔等微小缺陷检测精度 mAP ≥ 89.5%；</li><li>支持视觉问答（VQA）交互式定位缺陷严重度；</li><li>支持边缘端 15ms 极低延迟响应。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>完成真实产线 1000 块样板数据盲测，准确率达标；</li><li>交付量化部署 ONNX / TensorRT 模型文件与完整部署手册。</li></ol>`,
+    cashReward: 8500,
+    pointsReward: 550,
+    totalCashReward: 8500,
+    totalPointsReward: 550,
+    startTime: '2026-07-25 00:00:00',
+    endTime: '2026-09-05 23:59:59',
+    remainingDays: 0,
+    publisher: '工业富联 AI 创新研究院',
+    publisherAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-07-25 14:00:00',
+    status: '已结束',
+    acceptedCount: 3,
+    submittedCount: 2,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_fin_p2_1',
+        taskId: 'tsk_und_fin_pending_2',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-26 11:20:00',
+        status: '已提交',
+        submissionId: 'sub_fin_p2_mine'
+      },
+      {
+        id: 'tk_fin_p2_2',
+        taskId: 'tsk_und_fin_pending_2',
+        username: '工业视觉创客组',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-27 15:30:00',
+        status: '已提交',
+        submissionId: 'sub_fin_p2_2'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_fin_p2_mine',
+        taskId: 'tsk_und_fin_pending_2',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-09-03 18:00:00',
+        notes: '交付了工业缺陷检测多模态微调模型与 TensorRT 8.6 加速推理包，机台复测中，等待最终验收结算。',
+        files: [
+          { id: 'f_fin_p2_1', name: 'QwenVL_Defect_Inspection_TRT.zip', size: '54.2 MB' },
+          { id: 'f_fin_p2_2', name: '机台实测性能指标.pdf', size: '3.1 MB' }
+        ],
+        status: '待验收'
+      }
+    ],
+    bounty: 8500,
+    bountyUnit: '¥'
+  },
+
+  // [我接单 - 已结束 - 待验收 示例 3]
+  {
+    id: 'tsk_und_fin_pending_3',
+    title: '金融交易反欺诈超大图计算子图匹配与实时风控系统优化',
+    taskType: '接单任务',
+    brief: '亿级节点图计算环境下的实时欺诈环路检测与多跳关联网子图匹配',
+    domain: '技术开发',
+    difficulty: '困难',
+    recommendedResources: {
+      skills: ['sk_python_code_runner'],
+      environment: {
+        spec: '32核CPU / 128GB内存',
+        image: 'C++20 / OpenMP + GraphX / NetworkX High Performance Toolchain'
+      }
+    },
+    description: `<h3>【项目背景】</h3><p>针对跨卡跨账户资金秒级洗钱链路，在亿级图网络中实时查找闭环与星型异常聚集子图。本任务已于截止日结束提测，目前正在由风控专家组统一进行准确率验证。</p><h3>【核心要求】</h3><ul><li>C++ 深度优化图遍历与多线程内存对齐，避免 GC 停顿；</li><li>多跳关联匹配（5跳以内）查询响应 ≤ 20ms；</li><li>支持动态流式增量图更新。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>通过压测集验证，高并发吞吐达到 80,000 QPS；</li><li>源码包含完整单元测试与 C++ / Python 互调接口，等待验收报告出具。</li></ol>`,
+    cashReward: 11000,
+    pointsReward: 800,
+    totalCashReward: 11000,
+    totalPointsReward: 800,
+    startTime: '2026-07-10 00:00:00',
+    endTime: '2026-08-20 23:59:59',
+    remainingDays: 0,
+    publisher: '蚂蚁集团安全实验室',
+    publisherAvatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-07-10 10:00:00',
+    status: '已结束',
+    acceptedCount: 3,
+    submittedCount: 2,
+    verifiedCount: 0,
+    takers: [
+      {
+        id: 'tk_fin_p3_1',
+        taskId: 'tsk_und_fin_pending_3',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-12 11:00:00',
+        status: '已提交',
+        submissionId: 'sub_fin_p3_mine'
+      },
+      {
+        id: 'tk_fin_p3_2',
+        taskId: 'tsk_und_fin_pending_3',
+        username: '图计算极客社',
+        userAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-13 16:00:00',
+        status: '已提交',
+        submissionId: 'sub_fin_p3_2'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_fin_p3_mine',
+        taskId: 'tsk_und_fin_pending_3',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-18 20:00:00',
+        notes: '交付了基于 C++20 与无锁环形队列的分布式图子图挖掘引擎，实测 5 跳查询平均 16ms，等待验收终审结果。',
+        files: [
+          { id: 'f_fin_p3_1', name: 'FraudGraph_Matcher_CPP20.tar.gz', size: '28.4 MB' },
+          { id: 'f_fin_p3_2', name: '压测报告与架构设计说明.pdf', size: '5.1 MB' }
+        ],
+        status: '待验收'
+      }
+    ],
+    bounty: 11000,
+    bountyUnit: '¥'
+  },
+
+  // [我接单 - 已结束 - 待提交 示例 2]
+  {
+    id: 'tsk_und_fin_unsub_2',
+    title: '分布式高并发 GPU 算力集群调度模拟器与负载均衡仿真系统',
+    taskType: '接单任务',
+    brief: '模拟千卡级别 GPU 拓扑感知调度，优化通信拥塞与任务排队优先级算法',
+    domain: '工具与自动化',
+    difficulty: '困难',
+    description: `<h3>【任务已结束说明】</h3><p>本任务交付周期已截止，接单人在规定截止日前因个人排期冲突未提交有效成果，任务已按期封盘结束。</p><h3>【需求回顾】</h3><ul><li>针对 RoCEv2 与 NVLink 拓扑结构构建网络瓶颈仿真模型；</li><li>调度吞吐量相比传统 Slurm 策略提升 20% 以上。</li></ul>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>提供 Python/C++ 仿真器及测试报告；</li><li>任务逾期未提交，不计入信用分违约扣分但不可再次提交。</li></ol>`,
+    cashReward: 7500,
+    pointsReward: 480,
+    totalCashReward: 7500,
+    totalPointsReward: 480,
+    startTime: '2026-07-01 00:00:00',
+    endTime: '2026-08-15 23:59:59',
+    remainingDays: 0,
+    publisher: '阿里云高性能计算集群',
+    publisherAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-07-01 10:00:00',
+    status: '已结束',
+    winner: {
+      username: '高性能拓扑先锋',
+      userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+      passTime: '2026-08-14 17:00:00',
+      notes: '高性能拓扑先锋提交的仿真调度器在 1024 卡规模下拓扑利用率提升 24.3%，表现优异，通过验收。'
+    },
+    acceptedCount: 4,
+    submittedCount: 2,
+    verifiedCount: 1,
+    takers: [
+      {
+        id: 'tk_fin_u2_1',
+        taskId: 'tsk_und_fin_unsub_2',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-05 14:00:00',
+        status: '已接单'
+      },
+      {
+        id: 'tk_fin_u2_2',
+        taskId: 'tsk_und_fin_unsub_2',
+        username: '高性能拓扑先锋',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-03 10:00:00',
+        status: '已验收',
+        submissionId: 'sub_fin_u2_win'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_fin_u2_win',
+        taskId: 'tsk_und_fin_unsub_2',
+        username: '高性能拓扑先锋',
+        userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-10 14:30:00',
+        notes: '交付千卡集群拓扑仿真器源码及网络通信优化基准对比白皮书。',
+        files: [{ id: 'f_fin_u2_1', name: 'GPU_Cluster_Topology_Sim.zip', size: '21.5 MB' }],
+        status: '已通过'
+      }
+    ],
+    bounty: 7500,
+    bountyUnit: '¥'
+  },
+
+  // [我接单 - 已结束 - 成果被驳回 示例 2]
+  {
+    id: 'tsk_und_fin_rej_2',
+    title: '基于多模态大模型的企业级 BI 报表自动语义解释与图表生成引擎',
+    taskType: '接单任务',
+    brief: '根据复杂财务/运营多维数据表，自动生成洞察文字与交互式 ECharts 图表配置',
+    domain: '技术开发',
+    difficulty: '中等',
+    description: `<h3>【任务已结束说明】</h3><p>本任务征集已于截止日结束。雇主对所有接单人成果进行了终审评审，另一竞标团队方案获选，本提交成果未通过验收并已被驳回结案。</p><h3>【驳回原因与复盘】</h3><p>提交的报表语义生成方案在面对多维度透视表交叉计算时出现数值幻觉，且未接入本地沙盒代码解释器，未达到商用准入标准。</p>`,
+    acceptanceCriteria: `<h3>【验收标准】</h3><ol><li>财务报表分析数字准确率 100%，无跨列计算错漏；</li><li>自动输出符合规范的 ECharts 完整配置。</li></ol>`,
+    cashReward: 6800,
+    pointsReward: 450,
+    totalCashReward: 6800,
+    totalPointsReward: 450,
+    startTime: '2026-07-05 00:00:00',
+    endTime: '2026-08-12 23:59:59',
+    remainingDays: 0,
+    publisher: '用友商业智能实验室',
+    publisherAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+    publishTime: '2026-07-05 09:30:00',
+    status: '已结束',
+    winner: {
+      username: '商业智能算法队',
+      userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+      passTime: '2026-08-11 15:30:00',
+      notes: '商业智能算法队方案内置 Python 沙盒双重核算，数字 100% 准确，验收通过！'
+    },
+    acceptedCount: 4,
+    submittedCount: 3,
+    verifiedCount: 1,
+    takers: [
+      {
+        id: 'tk_fin_r2_1',
+        taskId: 'tsk_und_fin_rej_2',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-08 10:15:00',
+        status: '已驳回',
+        submissionId: 'sub_fin_r2_mine'
+      },
+      {
+        id: 'tk_fin_r2_2',
+        taskId: 'tsk_und_fin_rej_2',
+        username: '商业智能算法队',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        takeTime: '2026-07-07 14:20:00',
+        status: '已验收',
+        submissionId: 'sub_fin_r2_win'
+      }
+    ],
+    submissions: [
+      {
+        id: 'sub_fin_r2_mine',
+        taskId: 'tsk_und_fin_rej_2',
+        username: '极客小千 (你)',
+        userAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-05 17:00:00',
+        notes: '提交了基于 Prompt Engineering 的 BI 报表语义生成组件及前端 ECharts 渲染 Demo。',
+        files: [{ id: 'f_fin_r2_1', name: 'BI_Semantic_Report_Engine.zip', size: '18.2 MB' }],
+        status: '已驳回',
+        rejectReason: '成果被驳回：多维度透视表交叉计算时出现偶发性数值幻觉，且未接入本地沙盒代码解释器，未达到商用准入标准。'
+      },
+      {
+        id: 'sub_fin_r2_win',
+        taskId: 'tsk_und_fin_rej_2',
+        username: '商业智能算法队',
+        userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+        submitTime: '2026-08-06 11:00:00',
+        notes: '内置 DuckDB 与沙盒代码解释器核算机制的报表引擎，指标 100% 准确。',
+        files: [{ id: 'f_fin_r2_w', name: 'BI_Enterprise_Engine_DuckDB.zip', size: '32.1 MB' }],
+        status: '已通过'
+      }
+    ],
+    bounty: 6800,
+    bountyUnit: '¥'
+  },
+
+  // =========================================================================
+  // 3. 其他已有我接单任务
+  // =========================================================================
   {
     id: 'tsk_101',
     title: '定制基于 Qwen2.5 的法律合同智能审查 Agent',
@@ -29,12 +786,12 @@ export const mockRichTasks: TaskItem[] = [
     pointsReward: 500,
     totalCashReward: 8000,
     totalPointsReward: 500,
-    startTime: '2026-08-01 00:00:00',
-    endTime: '2026-09-25 23:59:59',
-    remainingDays: 7,
+    startTime: '2026-10-01 00:00:00',
+    endTime: '2026-11-20 23:59:59',
+    remainingDays: 37,
     publisher: '天元律师事务所',
     publisherAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
-    publishTime: '2026-08-01 10:00:00',
+    publishTime: '2026-10-01 10:00:00',
     status: '进行中',
     acceptedCount: 4,
     submittedCount: 2,
@@ -120,12 +877,12 @@ export const mockRichTasks: TaskItem[] = [
     pointsReward: 500,
     totalCashReward: 5500,
     totalPointsReward: 500,
-    startTime: '2026-08-12 00:00:00',
-    endTime: '2026-09-30 23:59:59',
-    remainingDays: 12,
+    startTime: '2026-10-05 00:00:00',
+    endTime: '2026-11-25 23:59:59',
+    remainingDays: 42,
     publisher: '平台开发者社区',
     publisherAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
-    publishTime: '2026-08-12 14:00:00',
+    publishTime: '2026-10-05 14:00:00',
     status: '进行中',
     acceptedCount: 4,
     submittedCount: 2,
@@ -217,12 +974,12 @@ export const mockRichTasks: TaskItem[] = [
     pointsReward: 600,
     totalCashReward: 7200,
     totalPointsReward: 600,
-    startTime: '2026-08-15 00:00:00',
-    endTime: '2026-09-28 23:59:59',
-    remainingDays: 10,
+    startTime: '2026-10-08 00:00:00',
+    endTime: '2026-11-28 23:59:59',
+    remainingDays: 45,
     publisher: '国家金融科技研究院',
     publisherAvatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&auto=format&fit=crop&q=80',
-    publishTime: '2026-08-15 10:00:00',
+    publishTime: '2026-10-08 10:00:00',
     status: '进行中',
     acceptedCount: 4,
     submittedCount: 2,
