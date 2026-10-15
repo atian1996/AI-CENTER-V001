@@ -151,9 +151,8 @@ export const MySubmissionModal: React.FC<MySubmissionModalProps> = ({
             )}
 
             {/* 提交元信息 */}
-            <div className="flex items-center justify-between text-xs text-slate-500 px-1">
+            <div className="flex items-center text-xs text-slate-500 px-1">
               <span className="font-bold text-slate-700">提交时间：{submission.submitTime}</span>
-              <span className="font-mono text-slate-400">交付记录 ID: {submission.id}</span>
             </div>
 
             {/* 交付说明与复现指南 */}

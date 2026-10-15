@@ -195,7 +195,7 @@ export const WorkspaceTasks: React.FC = () => {
                 : 'text-slate-600 hover:text-slate-900 font-bold'
             }`}
           >
-            我发布的任务 ({myPublishedTasks.length})
+            我发布的任务
           </button>
           <button
             onClick={() => handleTabChange('undertaken')}
@@ -205,7 +205,7 @@ export const WorkspaceTasks: React.FC = () => {
                 : 'text-slate-600 hover:text-slate-900 font-bold'
             }`}
           >
-            我接单的任务 ({myUndertakenTasks.length})
+            我接单的任务
           </button>
         </div>
 
