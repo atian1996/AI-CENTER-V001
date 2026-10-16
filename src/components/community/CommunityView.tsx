@@ -43,7 +43,8 @@ import {
   ChevronRight,
   ArrowUp,
   Trash2,
-  AlertCircle
+  AlertCircle,
+  RotateCcw
 } from 'lucide-react';
 import { validateTextOnlyComment } from '../../utils/commentValidator';
 import { mockUserPostsExtended } from '../../data/mockWorkspaceCommunity';
@@ -698,8 +699,259 @@ export const CommunityView: React.FC = () => {
     return { count: post.likesCount, isLiked: !!post.isLiked };
   };
 
-  // Open Post Detail - 支持防刷查看计数（同一用户/IP对同一帖子多次查看只计1次）
+  // ================= 瀑布流分页与滚动恢复引擎 =================
+  const WATERFALL_PAGE_SIZE = 20;
+  const WATERFALL_MAX_PAGES = 10; // 最多加载 10 页，共 200 条
+
+  interface FeedWaterfallCache {
+    scrollPosition: number;
+    currentPage: number;
+    hasMore: boolean;
+    isMaxLimitReached: boolean;
+    leftPosts: FeedPost[];
+    rightPosts: FeedPost[];
+    columnHeights: [number, number];
+    board: 'all' | CommunityBoard;
+    filter: 'recommend' | 'latest';
+    search: string;
+  }
+
+  // 预估卡片高度（用于初始贪心最短列计算）
+  const estimateCardHeight = (p: FeedPost): number => {
+    let h = 175;
+    if (p.title) h += 32;
+    if (p.content) {
+      h += Math.min(Math.round(p.content.length * 0.42), 76);
+    }
+    const firstImg = getPostFirstImage(p);
+    if (firstImg) h += 168;
+    if (p.tags && p.tags.length > 0) h += 28;
+    return h;
+  };
+
+  // 按“最短列优先”规则逐条插入左右两列
+  const distributePosts = (
+    items: FeedPost[],
+    initialHeights: [number, number]
+  ): { left: FeedPost[]; right: FeedPost[]; newHeights: [number, number] } => {
+    const left: FeedPost[] = [];
+    const right: FeedPost[] = [];
+    let [h0, h1] = initialHeights;
+
+    for (const post of items) {
+      const cardH = estimateCardHeight(post);
+      if (h0 <= h1) {
+        left.push(post);
+        h0 += cardH + 16;
+      } else {
+        right.push(post);
+        h1 += cardH + 16;
+      }
+    }
+
+    return { left, right, newHeights: [h0, h1] };
+  };
+
+  // 瀑布流与分页状态
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [leftColumnPosts, setLeftColumnPosts] = useState<FeedPost[]>([]);
+  const [rightColumnPosts, setRightColumnPosts] = useState<FeedPost[]>([]);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [isLoadError, setIsLoadError] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [isMaxLimitReached, setIsMaxLimitReached] = useState<boolean>(false);
+  const [showBackToTop, setShowBackToTop] = useState<boolean>(false);
+
+  // 内部稳定 Refs
+  const columnHeightsRef = useRef<[number, number]>([0, 0]);
+  const leftColRef = useRef<HTMLDivElement>(null);
+  const rightColRef = useRef<HTMLDivElement>(null);
+  const currentPageRef = useRef<number>(1);
+  const isLoadingMoreRef = useRef<boolean>(false);
+  const hasMoreRef = useRef<boolean>(true);
+  const isMaxLimitReachedRef = useRef<boolean>(false);
+  const isLoadErrorRef = useRef<boolean>(false);
+  const isScrollingToTopRef = useRef<boolean>(false);
+  const filteredPostsRef = useRef<FeedPost[]>([]);
+  filteredPostsRef.current = filteredPosts;
+
+  // 详情页返回列表恢复缓存
+  const feedCacheRef = useRef<FeedWaterfallCache | null>(null);
+  const isRestoringFromCacheRef = useRef<boolean>(false);
+
+  // 图片懒加载完成更新列累计高度，但不重排已展示卡片
+  const handleImageLoad = () => {
+    if (leftColRef.current && rightColRef.current) {
+      columnHeightsRef.current = [leftColRef.current.offsetHeight, rightColRef.current.offsetHeight];
+    }
+  };
+
+  // 板块/筛选/搜索词变化或初次打开页面时加载首屏 20 条
+  useEffect(() => {
+    if (isRestoringFromCacheRef.current) {
+      isRestoringFromCacheRef.current = false;
+      return;
+    }
+
+    const initialSlice = filteredPosts.slice(0, WATERFALL_PAGE_SIZE);
+    const distributed = distributePosts(initialSlice, [0, 0]);
+
+    setLeftColumnPosts(distributed.left);
+    setRightColumnPosts(distributed.right);
+    setCurrentPage(1);
+    currentPageRef.current = 1;
+    columnHeightsRef.current = distributed.newHeights;
+    setIsLoadingMore(false);
+    isLoadingMoreRef.current = false;
+    setIsLoadError(false);
+    isLoadErrorRef.current = false;
+
+    const more = filteredPosts.length > WATERFALL_PAGE_SIZE;
+    setHasMore(more);
+    hasMoreRef.current = more;
+    setIsMaxLimitReached(false);
+    isMaxLimitReachedRef.current = false;
+  }, [activeBoard, activeFilter, searchQuery, posts, communityBoards]);
+
+  // 滚动加载下一页（每页 20 条，最多 10 页 200 条）
+  const loadNextPage = () => {
+    if (
+      isLoadingMoreRef.current ||
+      !hasMoreRef.current ||
+      isMaxLimitReachedRef.current ||
+      isLoadErrorRef.current
+    ) {
+      return;
+    }
+
+    setIsLoadingMore(true);
+    isLoadingMoreRef.current = true;
+    setIsLoadError(false);
+    isLoadErrorRef.current = false;
+
+    // 模拟微延迟，提供清晰加载中反馈
+    setTimeout(() => {
+      const nextPage = currentPageRef.current + 1;
+      const startIndex = (nextPage - 1) * WATERFALL_PAGE_SIZE;
+      const endIndex = startIndex + WATERFALL_PAGE_SIZE;
+      const nextSlice = filteredPostsRef.current.slice(startIndex, endIndex);
+
+      if (nextSlice.length === 0) {
+        setHasMore(false);
+        hasMoreRef.current = false;
+        setIsLoadingMore(false);
+        isLoadingMoreRef.current = false;
+        return;
+      }
+
+      // 获取当前左右两列的真实 DOM 高度
+      const realH0 = leftColRef.current ? leftColRef.current.offsetHeight : columnHeightsRef.current[0];
+      const realH1 = rightColRef.current ? rightColRef.current.offsetHeight : columnHeightsRef.current[1];
+
+      // 按最短列优先逐条插入，不重置左右列高度，继续基于当前两列真实高度计算
+      const distributed = distributePosts(nextSlice, [realH0, realH1]);
+
+      setLeftColumnPosts(prev => [...prev, ...distributed.left]);
+      setRightColumnPosts(prev => [...prev, ...distributed.right]);
+      setCurrentPage(nextPage);
+      currentPageRef.current = nextPage;
+      columnHeightsRef.current = distributed.newHeights;
+
+      const totalLoaded = startIndex + nextSlice.length;
+      if (nextPage >= WATERFALL_MAX_PAGES || totalLoaded >= 200) {
+        setIsMaxLimitReached(true);
+        isMaxLimitReachedRef.current = true;
+        setHasMore(false);
+        hasMoreRef.current = false;
+      } else if (endIndex >= filteredPostsRef.current.length) {
+        setHasMore(false);
+        hasMoreRef.current = false;
+      }
+
+      setIsLoadingMore(false);
+      isLoadingMoreRef.current = false;
+    }, 350);
+  };
+
+  const handleRetry = () => {
+    setIsLoadError(false);
+    isLoadErrorRef.current = false;
+    loadNextPage();
+  };
+
+  // 滚动监听（requestAnimationFrame 节流）
+  useEffect(() => {
+    if (viewMode !== 'feed') return;
+
+    let ticking = false;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setShowBackToTop(scrollY > 400 && filteredPostsRef.current.length > 0);
+
+      // 当滚动到距离底部约 200px 时，自动加载下 20 条
+      const docHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+      const distanceFromBottom = docHeight - (scrollY + clientHeight);
+
+      if (
+        distanceFromBottom <= 200 &&
+        !isLoadingMoreRef.current &&
+        hasMoreRef.current &&
+        !isMaxLimitReachedRef.current &&
+        !isLoadErrorRef.current &&
+        filteredPostsRef.current.length > 0
+      ) {
+        loadNextPage();
+      }
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [viewMode]);
+
+  // 平滑回到顶部
+  const handleScrollToTop = () => {
+    if (isScrollingToTopRef.current) return;
+    isScrollingToTopRef.current = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      isScrollingToTopRef.current = false;
+      setShowBackToTop(false);
+    }, 550);
+  };
+
+  // Open Post Detail - 缓存完整列表状态（包括滚动位置、数据、列高度、分配）
   const openPostDetail = (postId: string) => {
+    const currentScroll = window.scrollY;
+    const h0 = leftColRef.current ? leftColRef.current.offsetHeight : columnHeightsRef.current[0];
+    const h1 = rightColRef.current ? rightColRef.current.offsetHeight : columnHeightsRef.current[1];
+
+    feedCacheRef.current = {
+      scrollPosition: currentScroll,
+      currentPage: currentPageRef.current,
+      hasMore: hasMoreRef.current,
+      isMaxLimitReached: isMaxLimitReachedRef.current,
+      leftPosts: leftColumnPosts,
+      rightPosts: rightColumnPosts,
+      columnHeights: [h0, h1],
+      board: activeBoard,
+      filter: activeFilter,
+      search: searchQuery
+    };
+
     recordPostView(postId);
     setSelectedPostId(postId);
     setViewMode('detail');
@@ -709,7 +961,55 @@ export const CommunityView: React.FC = () => {
     setReplyTarget(null);
     setIsFullInputModalOpen(false);
     setIsFloatingInput(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  // 从帖子详情页返回列表：恢复滚动位置、已加载数据、页码、列高度与列分配
+  const handleBackToFeed = () => {
+    if (selectedPostDetailOrigin) {
+      const origin = selectedPostDetailOrigin;
+      setSelectedPostIdForDetail(null);
+      setSelectedPostDetailOrigin(null);
+      if (origin.startsWith('workspace')) {
+        setActiveTab('workspace');
+        setWorkspaceSubTab('community');
+        if (origin.includes('posts')) {
+          setWorkspaceCommunitySubTab('posts');
+        } else if (origin.includes('comments')) {
+          setWorkspaceCommunitySubTab('comments');
+        } else if (origin.includes('favorites')) {
+          setWorkspaceCommunitySubTab('favorites');
+        }
+      } else {
+        setActiveTab(origin as any);
+      }
+    } else {
+      if (feedCacheRef.current) {
+        isRestoringFromCacheRef.current = true;
+        const cache = feedCacheRef.current;
+        setLeftColumnPosts(cache.leftPosts);
+        setRightColumnPosts(cache.rightPosts);
+        setCurrentPage(cache.currentPage);
+        currentPageRef.current = cache.currentPage;
+        setHasMore(cache.hasMore);
+        hasMoreRef.current = cache.hasMore;
+        setIsMaxLimitReached(cache.isMaxLimitReached);
+        isMaxLimitReachedRef.current = cache.isMaxLimitReached;
+        columnHeightsRef.current = cache.columnHeights;
+      }
+      setViewMode('feed');
+      setSelectedPostId(null);
+      setSelectedPostIdForDetail(null);
+
+      // 恢复滚动位置与回到顶部按钮
+      if (feedCacheRef.current) {
+        const savedScroll = feedCacheRef.current.scrollPosition;
+        setTimeout(() => {
+          window.scrollTo({ top: savedScroll, behavior: 'instant' });
+          setShowBackToTop(savedScroll > 400);
+        }, 30);
+      }
+    }
   };
 
   // 监听输入框滚动位置，当输入框超出视口上方时自动固定悬浮在屏幕底部，并提供回到顶部按钮
@@ -999,30 +1299,7 @@ export const CommunityView: React.FC = () => {
         {/* Top Header & Back Button Bar */}
         <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex items-center justify-between gap-4">
           <button
-            onClick={() => {
-              if (selectedPostDetailOrigin) {
-                const origin = selectedPostDetailOrigin;
-                setSelectedPostIdForDetail(null);
-                setSelectedPostDetailOrigin(null);
-                if (origin.startsWith('workspace')) {
-                  setActiveTab('workspace');
-                  setWorkspaceSubTab('community');
-                  if (origin.includes('posts')) {
-                    setWorkspaceCommunitySubTab('posts');
-                  } else if (origin.includes('comments')) {
-                    setWorkspaceCommunitySubTab('comments');
-                  } else if (origin.includes('favorites')) {
-                    setWorkspaceCommunitySubTab('favorites');
-                  }
-                } else {
-                  setActiveTab(origin as any);
-                }
-              } else {
-                setViewMode('feed');
-                setSelectedPostId(null);
-                setSelectedPostIdForDetail(null);
-              }
-            }}
+            onClick={handleBackToFeed}
             className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-2 transition cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -2094,8 +2371,8 @@ export const CommunityView: React.FC = () => {
       {/* Main Grid: Left Sidebar (Category Navigation) + Right Stream (Waterfall Feed) */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
         
-        {/* Left Sidebar: Clean Categories (Tags & Numbers deleted as requested) */}
-        <div className="lg:col-span-1 space-y-3 sticky top-4">
+        {/* Left Sidebar: 保持固定 */}
+        <div className="lg:col-span-1 space-y-3 sticky top-20 z-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto pr-1">
           <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-3">
             <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-2">
               社区板块分类
@@ -2138,8 +2415,8 @@ export const CommunityView: React.FC = () => {
         {/* Right Area: Top Filter Bar & Waterfall Feed */}
         <div className="lg:col-span-3 space-y-4">
           
-          {/* Top Filter Bar: 推荐 / 最新 (Removed "关注" tab as requested) & Search */}
-          <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          {/* Top Filter Bar: 推荐 / 最新 & Search - 保持固定 */}
+          <div className="sticky top-20 z-30 p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             
             {/* Filter Tabs: Only 推荐 & 最新 */}
             <div className="flex items-center gap-1.5 bg-slate-100/80 p-1 rounded-xl">
@@ -2174,7 +2451,7 @@ export const CommunityView: React.FC = () => {
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -2184,7 +2461,9 @@ export const CommunityView: React.FC = () => {
 
           {/* Feed Post Status Indicator */}
           <div className="flex items-center justify-between text-xs text-slate-500 px-1 font-medium">
-            <span>正在展示 <strong className="text-slate-900 font-bold">{filteredPosts.length}</strong> 条社区动态</span>
+            <span>
+              已加载 <strong className="text-slate-900 font-bold">{leftColumnPosts.length + rightColumnPosts.length}</strong> / 共 {filteredPosts.length} 篇帖子
+            </span>
             {activeBoard !== 'all' && (
               <span className="text-indigo-600 font-bold">当前板块：{activeBoard}</span>
             )}
@@ -2194,171 +2473,383 @@ export const CommunityView: React.FC = () => {
           {filteredPosts.length === 0 ? (
             <div className="p-12 text-center rounded-2xl bg-white border border-slate-200/80 space-y-3">
               <Sparkles className="w-8 h-8 text-slate-300 mx-auto" />
-              <div className="text-sm font-bold text-slate-800">暂无相关社区动态</div>
+              <div className="text-sm font-bold text-slate-800">暂无帖子，快来发布第一篇吧</div>
               <p className="text-xs text-slate-400">尝试更换搜索词或选择其他板块，也可以发布第一条动态！</p>
               <button
                 onClick={() => setViewMode('publish')}
-                className="mt-2 px-4 py-2 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer"
+                className="mt-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer transition"
               >
-                发布动态
+                我要发帖
               </button>
             </div>
           ) : (
-            <div className="columns-1 md:columns-2 xl:columns-2 gap-4 space-y-4">
-              {filteredPosts.map(post => {
-                const isCollected = !!collectedPosts[post.id];
-                const likesInfo = getPostLikes(post);
-                const boardStyle = getBoardStyle(post.board);
+            <div className="space-y-4">
+              {/* 左右两列瀑布流容器 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                {/* 左列 */}
+                <div ref={leftColRef} className="space-y-4 flex flex-col">
+                  {leftColumnPosts.map(post => {
+                    const isCollected = !!collectedPosts[post.id];
+                    const likesInfo = getPostLikes(post);
+                    const boardStyle = getBoardStyle(post.board);
+                    const firstImg = getPostFirstImage(post);
 
-                return (
-                  <div
-                    key={post.id}
-                    onClick={() => openPostDetail(post.id)}
-                    className="break-inside-avoid p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-indigo-300 transition-all shadow-xs hover:shadow-md space-y-3.5 group cursor-pointer"
+                    return (
+                      <div
+                        key={post.id}
+                        onClick={() => openPostDetail(post.id)}
+                        className="p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-indigo-300 transition-all shadow-xs hover:shadow-md space-y-3.5 group cursor-pointer"
+                      >
+                        {/* Card Header: Author Info & Board Badge */}
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-2.5">
+                            <img 
+                              src={post.authorAvatar} 
+                              alt={post.author} 
+                              loading="lazy"
+                              decoding="async"
+                              className="w-9 h-9 rounded-full object-cover ring-2 ring-slate-100" 
+                            />
+                            <div>
+                              <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                                <span>{post.author}</span>
+                              </div>
+                              <div className="text-[10px] text-slate-400 font-medium flex items-center gap-1.5 mt-0.5">
+                                <span className="text-indigo-600 font-bold">{post.authorTag}</span>
+                                <span>·</span>
+                                <span>{post.time}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Tags: 置顶, 精华 & 板块标签 */}
+                          <div className="flex items-center gap-1.5 flex-wrap shrink-0">
+                            {(post.isPinned || post.isTop) && (
+                              <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-rose-50 text-rose-600 border border-rose-200/90 flex items-center gap-1 shadow-2xs">
+                                <Pin className="w-3 h-3 text-rose-600 fill-rose-100" />
+                                置顶
+                              </span>
+                            )}
+                            {post.isEssential && (
+                              <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-amber-50 text-amber-700 border border-amber-200/90 flex items-center gap-1 shadow-2xs">
+                                <Sparkles className="w-3 h-3 text-amber-600 fill-amber-100" />
+                                精华
+                              </span>
+                            )}
+                            <span className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold border shrink-0 ${boardStyle}`}>
+                              {post.board}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Post Title */}
+                        {post.title && (
+                          <h3 className="text-sm font-black text-slate-900 group-hover:text-indigo-600 transition leading-snug">
+                            {post.title}
+                          </h3>
+                        )}
+
+                        {/* Post Content Snippet */}
+                        <p className="text-xs text-slate-600 leading-relaxed font-normal line-clamp-4">
+                          {post.content}
+                        </p>
+
+                        {/* 帖子卡片封面：图片懒加载，加载完成后动态更新列高度 */}
+                        {firstImg && (
+                          <div className="rounded-xl overflow-hidden border border-slate-100 pt-1">
+                            <img 
+                              src={firstImg} 
+                              alt={post.title || "post cover"} 
+                              loading="lazy"
+                              decoding="async"
+                              onLoad={handleImageLoad}
+                              className="w-full h-40 object-cover hover:scale-105 transition duration-300" 
+                            />
+                          </div>
+                        )}
+
+                        {/* Tags Pills */}
+                        {post.tags && post.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 pt-1">
+                            {post.tags.map((t, idx) => (
+                              <span key={idx} className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium hover:bg-indigo-50 hover:text-indigo-600 transition">
+                                #{t}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Footer Actions */}
+                        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
+                          <div className="flex items-center gap-4">
+                            {/* Like Button */}
+                            <button
+                              onClick={(e) => handleLikePost(post.id, e)}
+                              className={`flex items-center gap-1 hover:text-indigo-600 transition cursor-pointer ${
+                                likesInfo.isLiked ? 'text-indigo-600 font-bold' : ''
+                              }`}
+                            >
+                              <ThumbsUp className={`w-3.5 h-3.5 ${likesInfo.isLiked ? 'fill-indigo-600' : ''}`} />
+                              <span>{likesInfo.count}</span>
+                            </button>
+
+                            {/* Comment Button */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openPostDetail(post.id);
+                              }}
+                              className="flex items-center gap-1 hover:text-cyan-600 transition cursor-pointer"
+                            >
+                              <MessageSquare className="w-3.5 h-3.5" />
+                              <span>{post.commentsCount || 12}</span>
+                            </button>
+
+                            {/* Bookmark Button */}
+                            <button
+                              onClick={(e) => toggleBookmark(post.id, e)}
+                              className={`flex items-center gap-1 hover:text-amber-600 transition cursor-pointer ${
+                                isCollected ? 'text-amber-600 font-bold' : ''
+                              }`}
+                            >
+                              <Bookmark className={`w-3.5 h-3.5 ${isCollected ? 'fill-amber-500' : ''}`} />
+                            </button>
+
+                            {/* Share Button */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                showToast('动态链接已复制到剪贴板');
+                              }}
+                              className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer"
+                            >
+                              <Share2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          {/* Views Count */}
+                          <div className="flex items-center gap-1 text-[10px] text-slate-400 font-mono">
+                            <Eye className="w-3 h-3" />
+                            <span>{post.viewsCount || 120}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* 右列 */}
+                <div ref={rightColRef} className="space-y-4 flex flex-col">
+                  {rightColumnPosts.map(post => {
+                    const isCollected = !!collectedPosts[post.id];
+                    const likesInfo = getPostLikes(post);
+                    const boardStyle = getBoardStyle(post.board);
+                    const firstImg = getPostFirstImage(post);
+
+                    return (
+                      <div
+                        key={post.id}
+                        onClick={() => openPostDetail(post.id)}
+                        className="p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-indigo-300 transition-all shadow-xs hover:shadow-md space-y-3.5 group cursor-pointer"
+                      >
+                        {/* Card Header: Author Info & Board Badge */}
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-2.5">
+                            <img 
+                              src={post.authorAvatar} 
+                              alt={post.author} 
+                              loading="lazy"
+                              decoding="async"
+                              className="w-9 h-9 rounded-full object-cover ring-2 ring-slate-100" 
+                            />
+                            <div>
+                              <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                                <span>{post.author}</span>
+                              </div>
+                              <div className="text-[10px] text-slate-400 font-medium flex items-center gap-1.5 mt-0.5">
+                                <span className="text-indigo-600 font-bold">{post.authorTag}</span>
+                                <span>·</span>
+                                <span>{post.time}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Tags: 置顶, 精华 & 板块标签 */}
+                          <div className="flex items-center gap-1.5 flex-wrap shrink-0">
+                            {(post.isPinned || post.isTop) && (
+                              <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-rose-50 text-rose-600 border border-rose-200/90 flex items-center gap-1 shadow-2xs">
+                                <Pin className="w-3 h-3 text-rose-600 fill-rose-100" />
+                                置顶
+                              </span>
+                            )}
+                            {post.isEssential && (
+                              <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-amber-50 text-amber-700 border border-amber-200/90 flex items-center gap-1 shadow-2xs">
+                                <Sparkles className="w-3 h-3 text-amber-600 fill-amber-100" />
+                                精华
+                              </span>
+                            )}
+                            <span className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold border shrink-0 ${boardStyle}`}>
+                              {post.board}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Post Title */}
+                        {post.title && (
+                          <h3 className="text-sm font-black text-slate-900 group-hover:text-indigo-600 transition leading-snug">
+                            {post.title}
+                          </h3>
+                        )}
+
+                        {/* Post Content Snippet */}
+                        <p className="text-xs text-slate-600 leading-relaxed font-normal line-clamp-4">
+                          {post.content}
+                        </p>
+
+                        {/* 帖子卡片封面：图片懒加载，加载完成后动态更新列高度 */}
+                        {firstImg && (
+                          <div className="rounded-xl overflow-hidden border border-slate-100 pt-1">
+                            <img 
+                              src={firstImg} 
+                              alt={post.title || "post cover"} 
+                              loading="lazy"
+                              decoding="async"
+                              onLoad={handleImageLoad}
+                              className="w-full h-40 object-cover hover:scale-105 transition duration-300" 
+                            />
+                          </div>
+                        )}
+
+                        {/* Tags Pills */}
+                        {post.tags && post.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 pt-1">
+                            {post.tags.map((t, idx) => (
+                              <span key={idx} className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium hover:bg-indigo-50 hover:text-indigo-600 transition">
+                                #{t}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Footer Actions */}
+                        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
+                          <div className="flex items-center gap-4">
+                            {/* Like Button */}
+                            <button
+                              onClick={(e) => handleLikePost(post.id, e)}
+                              className={`flex items-center gap-1 hover:text-indigo-600 transition cursor-pointer ${
+                                likesInfo.isLiked ? 'text-indigo-600 font-bold' : ''
+                              }`}
+                            >
+                              <ThumbsUp className={`w-3.5 h-3.5 ${likesInfo.isLiked ? 'fill-indigo-600' : ''}`} />
+                              <span>{likesInfo.count}</span>
+                            </button>
+
+                            {/* Comment Button */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openPostDetail(post.id);
+                              }}
+                              className="flex items-center gap-1 hover:text-cyan-600 transition cursor-pointer"
+                            >
+                              <MessageSquare className="w-3.5 h-3.5" />
+                              <span>{post.commentsCount || 12}</span>
+                            </button>
+
+                            {/* Bookmark Button */}
+                            <button
+                              onClick={(e) => toggleBookmark(post.id, e)}
+                              className={`flex items-center gap-1 hover:text-amber-600 transition cursor-pointer ${
+                                isCollected ? 'text-amber-600 font-bold' : ''
+                              }`}
+                            >
+                              <Bookmark className={`w-3.5 h-3.5 ${isCollected ? 'fill-amber-500' : ''}`} />
+                            </button>
+
+                            {/* Share Button */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                showToast('动态链接已复制到剪贴板');
+                              }}
+                              className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer"
+                            >
+                              <Share2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          {/* Views Count */}
+                          <div className="flex items-center gap-1 text-[10px] text-slate-400 font-mono">
+                            <Eye className="w-3 h-3" />
+                            <span>{post.viewsCount || 120}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 底部加载状态指示条 */}
+              {isLoadingMore && (
+                <div className="py-6 flex items-center justify-center gap-2 text-xs font-bold text-slate-500">
+                  <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                  <span>加载中...</span>
+                </div>
+              )}
+
+              {isLoadError && (
+                <div className="py-6 flex flex-col items-center justify-center gap-2 text-xs">
+                  <span className="text-rose-500 font-bold">加载失败，点击重试</span>
+                  <button
+                    onClick={handleRetry}
+                    className="px-4 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition cursor-pointer flex items-center gap-1.5"
                   >
-                    {/* Card Header: Author Info & Board Badge */}
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-2.5">
-                        <img 
-                          src={post.authorAvatar} 
-                          alt={post.author} 
-                          className="w-9 h-9 rounded-full object-cover ring-2 ring-slate-100" 
-                        />
-                        <div>
-                          <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                            <span>{post.author}</span>
-                          </div>
-                          <div className="text-[10px] text-slate-400 font-medium flex items-center gap-1.5 mt-0.5">
-                            <span className="text-indigo-600 font-bold">{post.authorTag}</span>
-                            <span>·</span>
-                            <span>{post.time}</span>
-                          </div>
-                        </div>
-                      </div>
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>点击重试</span>
+                  </button>
+                </div>
+              )}
 
-                      {/* Tags: 置顶, 精华 & 板块标签 */}
-                      <div className="flex items-center gap-1.5 flex-wrap shrink-0">
-                        {(post.isPinned || post.isTop) && (
-                          <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-rose-50 text-rose-600 border border-rose-200/90 flex items-center gap-1 shadow-2xs">
-                            <Pin className="w-3 h-3 text-rose-600 fill-rose-100" />
-                            置顶
-                          </span>
-                        )}
-                        {post.isEssential && (
-                          <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-amber-50 text-amber-700 border border-amber-200/90 flex items-center gap-1 shadow-2xs">
-                            <Sparkles className="w-3 h-3 text-amber-600 fill-amber-100" />
-                            精华
-                          </span>
-                        )}
-                        <span className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold border shrink-0 ${boardStyle}`}>
-                          {post.board}
-                        </span>
-                      </div>
-                    </div>
+              {isMaxLimitReached && (
+                <div className="py-6 text-center text-xs text-slate-400 font-medium border-t border-slate-100/80">
+                  请使用筛选或搜索查看更多
+                </div>
+              )}
 
-                    {/* Post Title */}
-                    {post.title && (
-                      <h3 className="text-sm font-black text-slate-900 group-hover:text-indigo-600 transition leading-snug">
-                        {post.title}
-                      </h3>
-                    )}
-
-                    {/* Post Content Snippet */}
-                    <p className="text-xs text-slate-600 leading-relaxed font-normal line-clamp-4">
-                      {post.content}
-                    </p>
-
-                    {/* 帖子卡片封面：取自帖子详情中的第一张图片，若详情中没有图片则没有封面 */}
-                    {(() => {
-                      const firstImg = getPostFirstImage(post);
-                      if (!firstImg) return null;
-                      return (
-                        <div className="rounded-xl overflow-hidden border border-slate-100 pt-1">
-                          <img 
-                            src={firstImg} 
-                            alt={post.title || "post cover"} 
-                            className="w-full h-40 object-cover hover:scale-105 transition duration-300" 
-                          />
-                        </div>
-                      );
-                    })()}
-
-                    {/* Tags Pills */}
-                    {post.tags && post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        {post.tags.map((t, idx) => (
-                          <span key={idx} className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium hover:bg-indigo-50 hover:text-indigo-600 transition">
-                            #{t}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Footer Actions */}
-                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
-                      
-                      <div className="flex items-center gap-4">
-                        {/* Like Button */}
-                        <button
-                          onClick={(e) => handleLikePost(post.id, e)}
-                          className={`flex items-center gap-1 hover:text-indigo-600 transition cursor-pointer ${
-                            likesInfo.isLiked ? 'text-indigo-600 font-bold' : ''
-                          }`}
-                        >
-                          <ThumbsUp className={`w-3.5 h-3.5 ${likesInfo.isLiked ? 'fill-indigo-600' : ''}`} />
-                          <span>{likesInfo.count}</span>
-                        </button>
-
-                        {/* Comment Button */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openPostDetail(post.id);
-                          }}
-                          className="flex items-center gap-1 hover:text-cyan-600 transition cursor-pointer"
-                        >
-                          <MessageSquare className="w-3.5 h-3.5" />
-                          <span>{post.commentsCount || 12}</span>
-                        </button>
-
-                        {/* Bookmark Button */}
-                        <button
-                          onClick={(e) => toggleBookmark(post.id, e)}
-                          className={`flex items-center gap-1 hover:text-amber-600 transition cursor-pointer ${
-                            isCollected ? 'text-amber-600 font-bold' : ''
-                          }`}
-                        >
-                          <Bookmark className={`w-3.5 h-3.5 ${isCollected ? 'fill-amber-500' : ''}`} />
-                        </button>
-
-                        {/* Share Button */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            showToast('动态链接已复制到剪贴板');
-                          }}
-                          className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer"
-                        >
-                          <Share2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-
-                      {/* Views Count */}
-                      <div className="flex items-center gap-1 text-[10px] text-slate-400 font-mono">
-                        <Eye className="w-3 h-3" />
-                        <span>{post.viewsCount || 120}</span>
-                      </div>
-                    </div>
-
-                  </div>
-                );
-              })}
+              {!hasMore && !isMaxLimitReached && !isLoadingMore && (leftColumnPosts.length + rightColumnPosts.length > 0) && (
+                <div className="py-6 flex items-center justify-center gap-3 text-xs text-slate-400 font-medium">
+                  <span className="w-12 h-px bg-slate-200" />
+                  <span>没有更多了</span>
+                  <span className="w-12 h-px bg-slate-200" />
+                </div>
+              )}
             </div>
           )}
 
         </div>
 
       </div>
+
+      {/* 五、回到顶部悬浮按钮 */}
+      {showBackToTop && filteredPosts.length > 0 && viewMode === 'feed' && (
+        <button
+          onClick={handleScrollToTop}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleScrollToTop();
+            }
+          }}
+          aria-label="回到顶部"
+          title="回到顶部"
+          tabIndex={0}
+          className="fixed right-6 bottom-[calc(80px+env(safe-area-inset-bottom))] sm:bottom-6 sm:right-6 z-40 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white/95 backdrop-blur-md text-slate-700 hover:text-indigo-600 hover:bg-white border border-slate-200/90 shadow-lg shadow-slate-300/30 flex items-center justify-center cursor-pointer transition-all duration-200 active:scale-90 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+        >
+          <ArrowUp className="w-5 h-5 stroke-[2.5]" />
+        </button>
+      )}
 
     </div>
   );

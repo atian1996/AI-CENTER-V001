@@ -33,6 +33,10 @@ import { EcoFourLedgerDrilldownModal, DrilldownType } from '../ecosystem/EcoFour
 import { EcoCaseDetailModal } from '../ecosystem/EcoCaseDetailModal';
 import { EcoActivityDetailModal } from '../ecosystem/EcoActivityDetailModal';
 import { EcoReportPreviewModal } from '../ecosystem/EcoReportPreviewModal';
+import { EcoV2OverviewTab } from '../ecosystem/v2/EcoV2OverviewTab';
+import { EcoV2IndustryTab } from '../ecosystem/v2/EcoV2IndustryTab';
+import { EcoV2ActivitiesTab } from '../ecosystem/v2/EcoV2ActivitiesTab';
+import { EcoV2LedgersTab } from '../ecosystem/v2/EcoV2LedgersTab';
 
 // Compute Ops tab components
 import { ComputeOpsOverviewTab } from '../compute-ops/ComputeOpsOverviewTab';
@@ -476,31 +480,44 @@ export const ScreencastPlayerView: React.FC<ScreencastPlayerViewProps> = ({ type
           }
         >
           {/* AI 生态看板的 4 个 TAB 页面 */}
-          {type === 'ecosystem' && currentPage && (
-            <div key={`eco-${currentPage.id}`} className="w-full h-full animate-fadeIn flex flex-col justify-between">
-              {currentPage.id === 'overview' && (
-                <EcoOverviewTab
-                  onOpenDrilldown={t => setDrilldownType(t)}
-                  onSelectCase={c => setSelectedCase(c)}
-                />
-              )}
-              {currentPage.id === 'industry' && (
-                <EcoIndustryTab
-                  onSelectCase={c => setSelectedCase(c)}
-                />
-              )}
-              {currentPage.id === 'activities' && (
-                <EcoActivitiesTab
-                  onSelectActivity={act => setSelectedActivity(act)}
-                />
-              )}
-              {currentPage.id === 'reports' && (
-                <EcoLedgerReportTab
-                  onPreviewReport={rep => setPreviewReport(rep)}
-                />
-              )}
-            </div>
-          )}
+          {type === 'ecosystem' && currentPage && (() => {
+            const version = (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('version') : null) || '0.2';
+            if (version === '0.2') {
+              return (
+                <div key={`eco-v2-${currentPage.id}`} className="w-full h-full animate-fadeIn flex flex-col justify-between overflow-y-auto">
+                  {currentPage.id === 'overview' && <EcoV2OverviewTab />}
+                  {currentPage.id === 'industry' && <EcoV2IndustryTab />}
+                  {currentPage.id === 'activities' && <EcoV2ActivitiesTab />}
+                  {currentPage.id === 'reports' && <EcoV2LedgersTab />}
+                </div>
+              );
+            }
+            return (
+              <div key={`eco-${currentPage.id}`} className="w-full h-full animate-fadeIn flex flex-col justify-between">
+                {currentPage.id === 'overview' && (
+                  <EcoOverviewTab
+                    onOpenDrilldown={t => setDrilldownType(t)}
+                    onSelectCase={c => setSelectedCase(c)}
+                  />
+                )}
+                {currentPage.id === 'industry' && (
+                  <EcoIndustryTab
+                    onSelectCase={c => setSelectedCase(c)}
+                  />
+                )}
+                {currentPage.id === 'activities' && (
+                  <EcoActivitiesTab
+                    onSelectActivity={act => setSelectedActivity(act)}
+                  />
+                )}
+                {currentPage.id === 'reports' && (
+                  <EcoLedgerReportTab
+                    onPreviewReport={rep => setPreviewReport(rep)}
+                  />
+                )}
+              </div>
+            );
+          })()}
 
           {/* 算力运营中心的 5 个 TAB 页面 */}
           {type === 'compute-ops' && currentPage && (

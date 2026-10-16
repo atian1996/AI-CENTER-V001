@@ -14,8 +14,10 @@ import {
   Layers,
   Globe,
   Settings,
-  Tv
+  Tv,
+  Repeat
 } from 'lucide-react';
+// v0.1 components
 import { EcoOverviewTab } from './EcoOverviewTab';
 import { EcoIndustryTab } from './EcoIndustryTab';
 import { EcoActivitiesTab } from './EcoActivitiesTab';
@@ -25,11 +27,21 @@ import { EcoCaseDetailModal } from './EcoCaseDetailModal';
 import { EcoActivityDetailModal } from './EcoActivityDetailModal';
 import { EcoReportPreviewModal } from './EcoReportPreviewModal';
 import { EcoCaseItem, EcoActivityItem, EcoReportItem } from './mockEcoData';
+
+// v0.2 components
+import { EcoV2OverviewTab } from './v2/EcoV2OverviewTab';
+import { EcoV2IndustryTab } from './v2/EcoV2IndustryTab';
+import { EcoV2ActivitiesTab } from './v2/EcoV2ActivitiesTab';
+import { EcoV2LedgersTab } from './v2/EcoV2LedgersTab';
+
 import { ScreencastSettingsModal } from '../screencast/ScreencastSettingsModal';
 import { useApp } from '../../../context/AppContext';
 
 export const EcoDashboardView: React.FC = () => {
   const { showToast } = useApp();
+
+  // Version: '0.1' (经典运营) | '0.2' (考核大屏)
+  const [ecoVersion, setEcoVersion] = useState<'0.1' | '0.2'>('0.2');
 
   // Active TAB: 'overview' | 'industry' | 'activities' | 'reports'
   const [activeEcoTab, setActiveEcoTab] = useState<'overview' | 'industry' | 'activities' | 'reports'>('overview');
@@ -38,7 +50,7 @@ export const EcoDashboardView: React.FC = () => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
-  // Drilldown Modal state
+  // Drilldown Modal state (v0.1)
   const [drilldownType, setDrilldownType] = useState<DrilldownType>(null);
   const [selectedCase, setSelectedCase] = useState<EcoCaseItem | null>(null);
   const [selectedActivity, setSelectedActivity] = useState<EcoActivityItem | null>(null);
@@ -55,17 +67,59 @@ export const EcoDashboardView: React.FC = () => {
   };
 
   const handleLaunchScreencast = () => {
-    const url = `${window.location.origin}${window.location.pathname}?screencast=ecosystem`;
+    const url = `${window.location.origin}${window.location.pathname}?screencast=ecosystem&version=${ecoVersion}`;
     window.open(url, '_blank');
   };
 
+  const toggleVersion = () => {
+    const nextVer = ecoVersion === '0.2' ? '0.1' : '0.2';
+    setEcoVersion(nextVer);
+    showToast(`已切换至 AI生态看板 ${nextVer === '0.2' ? 'v0.2 考核大屏版' : 'v0.1 经典运营版'}`);
+  };
+
   return (
-    <div className={`space-y-3.5 ${isFullScreen ? 'fixed inset-0 z-50 bg-slate-950 p-6 overflow-y-auto' : ''}`}>
+    <div className={`space-y-3.5 relative ${isFullScreen ? 'fixed inset-0 z-50 bg-slate-950 p-6 overflow-y-auto' : ''}`}>
       
       {/* 顶部大屏 Header 控制条 */}
       <div className="rounded-2xl bg-slate-900/95 border border-slate-800 px-4 py-2.5 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-3 sticky top-0 z-20 backdrop-blur-xl">
-        {/* 左侧 4 大 TAB 页导航按钮 */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 md:pb-0">
+        
+        {/* 左侧：版本切换胶囊 + 4 大 TAB 页导航按钮 */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-0.5 md:pb-0">
+          
+          {/* 版本快速切换开关 */}
+          <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 shrink-0">
+            <button
+              onClick={() => {
+                setEcoVersion('0.1');
+                showToast('已切换至 v0.1 经典运营版');
+              }}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                ecoVersion === '0.1'
+                  ? 'bg-slate-800 text-white shadow-sm font-black'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              v0.1 经典版
+            </button>
+            <button
+              onClick={() => {
+                setEcoVersion('0.2');
+                showToast('已切换至 v0.2 考核大屏版');
+              }}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
+                ecoVersion === '0.2'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm font-black'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Sparkles className="w-3 h-3 text-amber-300" />
+              <span>v0.2 考核大屏</span>
+            </button>
+          </div>
+
+          <div className="w-[1px] h-6 bg-slate-800 mx-1 shrink-0"></div>
+
+          {/* 4 大 TAB 按钮 */}
           <button
             onClick={() => setActiveEcoTab('overview')}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
@@ -75,7 +129,7 @@ export const EcoDashboardView: React.FC = () => {
             }`}
           >
             <BarChart3 className="w-3.5 h-3.5 text-indigo-400" />
-            <span>1. 平台运营总览</span>
+            <span>{ecoVersion === '0.2' ? '1. 考核指标总览' : '1. 平台运营总览'}</span>
           </button>
 
           <button
@@ -111,7 +165,7 @@ export const EcoDashboardView: React.FC = () => {
             }`}
           >
             <FileText className="w-3.5 h-3.5 text-emerald-400" />
-            <span>4. 数据台账报告</span>
+            <span>{ecoVersion === '0.2' ? '4. 四本台账' : '4. 数据台账报告'}</span>
           </button>
         </div>
 
@@ -145,7 +199,7 @@ export const EcoDashboardView: React.FC = () => {
             <span>投屏</span>
           </button>
 
-          {/* 全屏按钮 (原大屏投影模式) */}
+          {/* 全屏按钮 */}
           <button
             onClick={toggleFullScreen}
             className="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
@@ -157,33 +211,75 @@ export const EcoDashboardView: React.FC = () => {
         </div>
       </div>
 
-      {/* 4 大 TAB 内容视图 */}
-      {activeEcoTab === 'overview' && (
-        <EcoOverviewTab
-          onOpenDrilldown={type => setDrilldownType(type)}
-          onSelectCase={c => setSelectedCase(c)}
-        />
+      {/* 4 大 TAB 内容视图：按版本条件渲染 */}
+      {ecoVersion === '0.2' ? (
+        // === 0.2 考核大屏版本 ===
+        <>
+          {activeEcoTab === 'overview' && (
+            <EcoV2OverviewTab
+              onSwitchToLedgerTab={() => setActiveEcoTab('reports')}
+              onSwitchToIndustryTab={() => setActiveEcoTab('industry')}
+            />
+          )}
+
+          {activeEcoTab === 'industry' && (
+            <EcoV2IndustryTab />
+          )}
+
+          {activeEcoTab === 'activities' && (
+            <EcoV2ActivitiesTab />
+          )}
+
+          {activeEcoTab === 'reports' && (
+            <EcoV2LedgersTab />
+          )}
+        </>
+      ) : (
+        // === 0.1 经典运营版本 ===
+        <>
+          {activeEcoTab === 'overview' && (
+            <EcoOverviewTab
+              onOpenDrilldown={type => setDrilldownType(type)}
+              onSelectCase={c => setSelectedCase(c)}
+            />
+          )}
+
+          {activeEcoTab === 'industry' && (
+            <EcoIndustryTab
+              onSelectCase={c => setSelectedCase(c)}
+            />
+          )}
+
+          {activeEcoTab === 'activities' && (
+            <EcoActivitiesTab
+              onSelectActivity={act => setSelectedActivity(act)}
+            />
+          )}
+
+          {activeEcoTab === 'reports' && (
+            <EcoLedgerReportTab
+              onPreviewReport={rep => setPreviewReport(rep)}
+            />
+          )}
+        </>
       )}
 
-      {activeEcoTab === 'industry' && (
-        <EcoIndustryTab
-          onSelectCase={c => setSelectedCase(c)}
-        />
-      )}
+      {/* 右下角悬浮版本切换按钮 (保留0.1与0.2随时无缝切换) */}
+      <div className="fixed right-6 bottom-6 z-40">
+        <button
+          onClick={toggleVersion}
+          className="px-4 py-2.5 rounded-2xl bg-slate-900/95 hover:bg-slate-900 border border-slate-700/80 hover:border-blue-500/60 shadow-2xl backdrop-blur-xl text-white text-xs font-black flex items-center gap-2.5 transition-all transform hover:scale-105 cursor-pointer ring-1 ring-white/10"
+          title="点击切换 AI 生态看板版本"
+        >
+          <div className={`w-2.5 h-2.5 rounded-full ${ecoVersion === '0.2' ? 'bg-amber-400 animate-pulse' : 'bg-blue-400'}`}></div>
+          <span className="font-extrabold text-white">当前：{ecoVersion === '0.2' ? 'v0.2 考核大屏版' : 'v0.1 经典运营版'}</span>
+          <span className="text-slate-600">|</span>
+          <Repeat className="w-3.5 h-3.5 text-blue-400" />
+          <span className="text-blue-400 hover:text-blue-300 font-bold">切至 {ecoVersion === '0.2' ? 'v0.1 经典版' : 'v0.2 考核大屏'}</span>
+        </button>
+      </div>
 
-      {activeEcoTab === 'activities' && (
-        <EcoActivitiesTab
-          onSelectActivity={act => setSelectedActivity(act)}
-        />
-      )}
-
-      {activeEcoTab === 'reports' && (
-        <EcoLedgerReportTab
-          onPreviewReport={rep => setPreviewReport(rep)}
-        />
-      )}
-
-      {/* 挂载 4 个关联穿透弹窗 */}
+      {/* 挂载 4 个关联穿透弹窗 (v0.1) */}
       <EcoFourLedgerDrilldownModal
         type={drilldownType}
         isOpen={!!drilldownType}

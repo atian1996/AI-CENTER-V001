@@ -50,9 +50,11 @@ export const TaskVerificationModal: React.FC<TaskVerificationModalProps> = ({ ta
   const isWon = !!task?.winner || (submissions || []).some(s => s.status === '已通过');
   const isRefunded = !!task?.refunded;
   const isTaskExpired = task ? (
-    (task.remainingDays !== undefined && task.remainingDays <= 0) || 
-    (task.endTime ? new Date(task.endTime.replace(' ', 'T')).getTime() <= Date.now() : false) || 
-    task.status === '已结束'
+    task.status !== '进行中' && task.status !== '已发布' && (
+      (task.remainingDays !== undefined && task.remainingDays <= 0) || 
+      (task.endTime ? new Date(task.endTime.replace(' ', 'T')).getTime() <= Date.now() : false) || 
+      task.status === '已结束'
+    )
   ) : false;
 
   const isFinished = isWon || isRefunded;
@@ -213,39 +215,8 @@ export const TaskVerificationModal: React.FC<TaskVerificationModalProps> = ({ ta
               </div>
             )}
 
-            {/* 3. 到期未验收提示 (若到期且未通过且未退款) */}
-            {!isWon && !isRefunded && isTaskExpired && (
-              <div className="p-4 bg-amber-50/90 border border-amber-300 rounded-2xl text-xs text-amber-950 flex items-start gap-3 shadow-2xs">
-                <div className="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 mt-0.5">
-                  <Clock className="w-4 h-4" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <h4 className="font-black text-sm text-amber-900">任务已到期截止 · 验收与退回规则</h4>
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-200 text-amber-900">
-                      到期评审
-                    </span>
-                  </div>
-                  <p className="text-amber-800 text-xs mt-1 leading-relaxed font-medium">
-                    当前任务已到达截止时间。若有符合验收标准的方案，可勾选并通过验收；<span className="font-extrabold text-rose-600">若发布人将所有成果都驳回，则任务预付金额 (¥{(task.cashReward ?? task.bounty ?? 0).toLocaleString()}) 和积分 ({task.pointsReward || 0} 积分) 将全部原路退回至您的账户。</span>
-                  </p>
-                  {submissions.some(s => !isSubRejected(s)) && (
-                    <div className="mt-3">
-                      <button
-                        onClick={() => setBatchRejectModalOpen(true)}
-                        className="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5 cursor-pointer"
-                      >
-                        <RotateCcw className="w-3.5 h-3.5" />
-                        <span>到期全部驳回并全额退回赏金与积分</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* 4. 常规进行中规则说明 */}
-            {!isFinished && !isTaskExpired && (
+            {/* 常规验收规则说明 */}
+            {!isFinished && (
               <div className="p-3.5 bg-indigo-50/80 border border-indigo-200/80 rounded-xl text-xs text-indigo-900 flex items-start gap-2.5">
                 <AlertCircle className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
                 <div className="leading-relaxed font-medium">
