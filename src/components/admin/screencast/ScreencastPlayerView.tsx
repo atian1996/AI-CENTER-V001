@@ -484,7 +484,7 @@ export const ScreencastPlayerView: React.FC<ScreencastPlayerViewProps> = ({ type
             const version = (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('version') : null) || '0.2';
             if (version === '0.2') {
               return (
-                <div key={`eco-v2-${currentPage.id}`} className="w-full h-full animate-fadeIn flex flex-col justify-between overflow-y-auto">
+                <div key={`eco-v2-${currentPage.id}`} className="w-full h-full animate-fadeIn flex flex-col justify-between overflow-hidden">
                   {currentPage.id === 'overview' && <EcoV2OverviewTab />}
                   {currentPage.id === 'industry' && <EcoV2IndustryTab />}
                   {currentPage.id === 'activities' && <EcoV2ActivitiesTab />}

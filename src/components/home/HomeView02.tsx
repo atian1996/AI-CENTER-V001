@@ -357,51 +357,51 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
     }
   ];
 
-  // 特价模型专区真实模型数据（浅色明亮科技质感，原价划线 + 现价 + 折扣标签）
+  // 特价模型专区真实模型数据（换用最新最前沿指定4大模型，原价划线 + 现价区分输入输出 + 高亮折扣标签）
   const specialModels = [
     {
-      name: 'DeepSeek-V3',
-      provider: 'DeepSeek 深度求索',
-      desc: '671B MoE 全能推理大模型，代码编写与长文本推导领先，中文理解极其卓越',
-      originalPrice: '¥12 / 百万Token',
-      currentPrice: '¥9 / 百万Token',
-      discount: '7.5折',
-      tags: ['671B MoE', '128K 上下文', '高性价比'],
+      name: 'DeepSeek-V4.1-Flash (1017版)',
+      provider: '深度求索（DeepSeek）',
+      desc: '智能体推理与“许愿式编程”能力全面升级，极致的智效比与高并发吞吐。',
+      originalPrice: '输入 ¥6 ｜ 输出 ¥20',
+      currentPrice: '输入 ¥3.6 ｜ 输出 ¥12',
+      discount: '6.0折',
+      tags: ['百万上下文', '原生Agent', '极速推理'],
       searchKeyword: 'DeepSeek',
       bgPattern: 'from-blue-50/80 via-white to-slate-50/50'
     },
     {
-      name: '通义千问 Qwen2.5',
+      name: 'Qwen3.8-Max',
       provider: '阿里云百炼',
-      desc: '多语言编程与复杂指令遵循标杆，企业系统自动化与多工具插件调用首选',
-      originalPrice: '¥8 / 百万Token',
-      currentPrice: '¥6 / 百万Token',
+      desc: '2.4万亿总参数MoE架构，智能体编程与复杂工具调用达到领域SOTA水平，支持深度思考模式。',
+      originalPrice: '输入 ¥12 ｜ 输出 ¥36',
+      currentPrice: '输入 ¥9 ｜ 输出 ¥27',
       discount: '7.5折',
-      tags: ['指令对齐', '工具调用', '企业商用'],
+      tags: ['超万亿MoE', '深度思考', '全能编程'],
       searchKeyword: 'Qwen',
       bgPattern: 'from-sky-50/80 via-white to-slate-50/50'
     },
     {
-      name: '文心一言 4.0',
-      provider: '百度智能云',
-      desc: '理解、生成、逻辑与记忆四大核心能力大幅跃升，国内政企知识库高匹配度',
-      originalPrice: '¥10 / 百万Token',
-      currentPrice: '¥7 / 百万Token',
-      discount: '7折',
-      tags: ['知识检索', '政企业务', '逻辑推演'],
-      searchKeyword: 'ERNIE',
-      bgPattern: 'from-purple-50/80 via-white to-slate-50/50'
+      name: 'Kimi K3 (Max)',
+      provider: '月之暗面（Moonshot AI）',
+      desc: '2.8万亿参数全球最大开源模型，原生多模态视觉理解，在软件工程、长文本深度推理及前端开发中表现顶尖。',
+      originalPrice: '输入 ¥20 ｜ 输出 ¥100',
+      currentPrice: '输入 ¥13 ｜ 输出 ¥66',
+      discount: '6.6折',
+      tags: ['2.8T旗舰参数', '原生多模态', '超强长文本'],
+      searchKeyword: 'Kimi',
+      bgPattern: 'from-emerald-50/80 via-white to-slate-50/50'
     },
     {
-      name: 'GLM-4',
+      name: 'GLM-5.3',
       provider: '智谱 AI',
-      desc: '新一代基座大模型，毫秒级低延迟极速响应，外挂知识库检索与全流程调优出众',
-      originalPrice: '¥6 / 百万Token',
-      currentPrice: '¥4.5 / 百万Token',
-      discount: '7.5折',
-      tags: ['极速响应', '智能体协同', '长文档分析'],
+      desc: '智谱最新旗舰，通过极致后训练Scaling大幅提升复杂软件工程与多步Agent任务能力，编程体验跃升50%。',
+      originalPrice: '输入 ¥8 ｜ 输出 ¥28',
+      currentPrice: '输入 ¥4 ｜ 输出 ¥14',
+      discount: '5.0折',
+      tags: ['新一代旗舰', '极速编程', '复杂Agent协同'],
       searchKeyword: 'GLM',
-      bgPattern: 'from-emerald-50/80 via-white to-slate-50/50'
+      bgPattern: 'from-purple-50/80 via-white to-slate-50/50'
     }
   ];
 
@@ -1202,12 +1202,13 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
               className={`p-4 rounded-xl border border-slate-200/80 hover:border-indigo-300 bg-gradient-to-b ${model.bgPattern} flex flex-col justify-between transition-all duration-200 group shadow-2xs hover:shadow-md hover:-translate-y-0.5`}
             >
               <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="font-black text-sm text-slate-900 group-hover:text-indigo-600 transition">
+                <div className="flex items-center justify-between mb-1.5 gap-1">
+                  <span className="font-black text-sm text-slate-900 group-hover:text-indigo-600 transition truncate">
                     {model.name}
                   </span>
-                  <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 border border-rose-200 text-[10px] font-bold">
-                    {model.discount}
+                  <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-rose-500 via-rose-600 to-amber-500 text-white shadow-xs text-[11px] font-black tracking-tight shrink-0 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                    <span>{model.discount}</span>
                   </span>
                 </div>
                 
@@ -1215,28 +1216,39 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
                   {model.provider}
                 </div>
 
-                <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">
+                <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed min-h-[32px]">
                   {model.desc}
                 </p>
 
-                {/* 特性标签 */}
-                <div className="flex flex-wrap gap-1 mt-2.5">
+                {/* 特性标签（精炼3个卖点） */}
+                <div className="flex flex-wrap gap-1.5 mt-2.5">
                   {model.tags.map(tag => (
-                    <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-slate-200/80 text-slate-600 font-mono shadow-2xs">
+                    <span key={tag} className="text-[10px] px-2 py-0.5 rounded-md bg-white/95 border border-slate-200/90 text-slate-700 font-semibold shadow-2xs">
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-200/60 mt-3">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-xs text-slate-400 line-through font-mono">
+              <div className="pt-2.5 border-t border-slate-200/80 mt-3 space-y-1">
+                <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                  <span className="text-slate-400 font-sans">原价</span>
+                  <span className="line-through text-slate-400 font-medium">
                     {model.originalPrice}
+                    <span className="text-[9px] text-slate-400 font-sans ml-0.5">/M</span>
                   </span>
-                  <span className="text-sm font-black font-mono text-rose-600">
-                    {model.currentPrice}
+                </div>
+
+                <div className="flex items-baseline justify-between pt-0.5">
+                  <span className="text-[11px] font-black text-rose-600 flex items-center gap-1 shrink-0">
+                    <span>现价</span>
                   </span>
+                  <div className="text-right">
+                    <span className="text-xs font-black font-mono text-rose-600 tracking-tight">
+                      {model.currentPrice}
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-mono ml-0.5">/1M</span>
+                  </div>
                 </div>
 
                 <button
@@ -1248,7 +1260,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
                       setActiveTab('marketplace');
                     }
                   }}
-                  className="w-full mt-2.5 py-1.5 rounded-lg bg-white hover:bg-gradient-to-r hover:from-indigo-600 hover:to-violet-600 text-indigo-600 hover:text-white border border-indigo-200 hover:border-transparent font-bold text-xs transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 shadow-2xs hover:shadow-xs"
+                  className="w-full mt-2 py-1.5 rounded-lg bg-white hover:bg-gradient-to-r hover:from-indigo-600 hover:to-violet-600 text-indigo-600 hover:text-white border border-indigo-200 hover:border-transparent font-bold text-xs transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 shadow-2xs hover:shadow-xs"
                 >
                   <span>立即使用</span>
                   <ArrowUpRight className="w-3 h-3" />

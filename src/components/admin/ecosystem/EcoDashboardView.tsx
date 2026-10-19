@@ -129,7 +129,7 @@ export const EcoDashboardView: React.FC = () => {
             }`}
           >
             <BarChart3 className="w-3.5 h-3.5 text-indigo-400" />
-            <span>{ecoVersion === '0.2' ? '1. 考核指标总览' : '1. 平台运营总览'}</span>
+            <span>1. 平台运营总览</span>
           </button>
 
           <button
@@ -165,7 +165,7 @@ export const EcoDashboardView: React.FC = () => {
             }`}
           >
             <FileText className="w-3.5 h-3.5 text-emerald-400" />
-            <span>{ecoVersion === '0.2' ? '4. 四本台账' : '4. 数据台账报告'}</span>
+            <span>{ecoVersion === '0.2' ? '4. 数据台账汇总' : '4. 数据台账报告'}</span>
           </button>
         </div>
 

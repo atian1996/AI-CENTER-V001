@@ -667,7 +667,7 @@ export const mockV2IndustryCarousels: EcoV2IndustryCarouselItem[] = [
   }
 ];
 
-// 四本台账明细数据源
+// 数据台账汇总明细数据源
 export interface EcoV2TalentRecord {
   id: string;
   name: string;
