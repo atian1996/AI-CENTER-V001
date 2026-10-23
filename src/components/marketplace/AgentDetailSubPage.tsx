@@ -116,7 +116,9 @@ export const AgentDetailSubPage: React.FC<AgentDetailSubPageProps> = ({
       ? agent.industryTags 
       : (agent.industry ? [agent.industry] : ['通用']);
 
-  const freeQuota = agent.freeTokenQuota ?? 50000;
+  const freeQuotaAmount = agent.freeQuotaAmount !== undefined 
+    ? agent.freeQuotaAmount 
+    : (agent.freeTokenQuota ? agent.freeTokenQuota * 0.5 : 5.0);
 
   return (
     <div className="space-y-6 select-none animate-fade-in max-w-7xl mx-auto pb-12">
@@ -190,8 +192,6 @@ export const AgentDetailSubPage: React.FC<AgentDetailSubPageProps> = ({
                 </span>
               ))}
               <span className="text-slate-300">•</span>
-              <span className="text-slate-500 font-medium">开发者：<strong className="text-slate-800">{agent.developer || agent.author || 'AI 平台官方'}</strong></span>
-              <span className="text-slate-300">•</span>
               <span className="text-slate-500 font-medium">调用用户：<strong className="text-indigo-600 font-extrabold">{(agent.callUsersCount ?? agent.subscribersCount ?? 128).toLocaleString()} 人</strong></span>
             </div>
 
@@ -214,7 +214,9 @@ export const AgentDetailSubPage: React.FC<AgentDetailSubPageProps> = ({
             </div>
             <div className="text-[11px] text-slate-500 font-medium flex items-center justify-between">
               <span>免费赠送额度:</span>
-              <span className="font-extrabold text-slate-900">{freeQuota.toLocaleString()} Tokens</span>
+              <span className="font-extrabold text-slate-900 font-mono text-xs">
+                {freeQuotaAmount > 0 ? `${freeQuotaAmount.toFixed(freeQuotaAmount % 1 === 0 ? 0 : 2)} 元` : '0 元'}
+              </span>
             </div>
           </div>
         </div>

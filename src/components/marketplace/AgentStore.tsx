@@ -345,7 +345,7 @@ export const AgentStore: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="搜索智能体名称、功能亮点、标签或开发者..."
+              placeholder="搜索智能体名称"
               className="w-full pl-10 pr-14 py-2 bg-slate-50 hover:bg-slate-100/70 border border-slate-200/80 rounded-xl text-xs font-semibold text-slate-900 placeholder-slate-400 outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100/50 transition-all"
             />
             {searchQuery && (
@@ -400,9 +400,12 @@ export const AgentStore: React.FC = () => {
                 ? ag.industryTags 
                 : (ag.industry ? [ag.industry] : []);
 
-            const freeTokensText = ag.freeTokenQuota 
-              ? `${(ag.freeTokenQuota >= 10000 ? (ag.freeTokenQuota / 10000) + '万' : (ag.freeTokenQuota / 1000) + 'k')} Token 免费额度`
-              : '5万 Token 免费额度';
+            const freeAmount = ag.freeQuotaAmount !== undefined 
+              ? ag.freeQuotaAmount 
+              : (ag.freeTokenQuota ? ag.freeTokenQuota * 0.5 : 5.0);
+            const freeQuotaText = freeAmount > 0 
+              ? `¥${freeAmount.toFixed(freeAmount % 1 === 0 ? 0 : 2)} 免费额度` 
+              : '按量计费';
 
             return (
               <div
@@ -426,7 +429,7 @@ export const AgentStore: React.FC = () => {
                           <span className="truncate">{ag.name}</span>
                           <span className="bg-indigo-50 text-indigo-700 border border-indigo-200/80 text-[10px] font-extrabold px-1.5 py-0.5 rounded-md shrink-0 flex items-center gap-0.5 shadow-2xs">
                             <Sparkles className="w-3 h-3 text-indigo-600" />
-                            {freeTokensText}
+                            {freeQuotaText}
                           </span>
                         </h3>
                         <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 text-[11px] mt-0.5">

@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import {
-  GitPullRequest,
   Server,
-  Layers,
   Cpu,
   CheckCircle2,
-  Clock,
-  Activity,
-  Calendar,
   ShieldCheck,
-  Zap,
   Network
 } from 'lucide-react';
 import {
@@ -35,7 +29,6 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
       {/* ========================================================
           顶部标题栏 (约 60px)
           左侧: 算力运营中心 · 算力纳管进度 (标题固定)
-          右侧: 2026年10月12日 (当前日期，自动更新)
          ======================================================== */}
       <div className="flex items-center justify-between px-1 shrink-0 h-9">
         <div className="flex items-center gap-2.5">
@@ -43,17 +36,6 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
           <h2 className="text-base font-black text-white tracking-wide flex items-center gap-2">
             算力运营中心 · 算力纳管进度
           </h2>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20">
-            多源异构算力并网
-          </span>
-        </div>
-
-        {/* 右侧：日期与实时标识 */}
-        <div className="text-xs font-mono font-bold text-slate-300 bg-slate-900/90 px-3.5 py-1 rounded-xl border border-slate-800 shadow-sm flex items-center gap-2">
-          <Calendar className="w-3.5 h-3.5 text-purple-400" />
-          <span>2026年10月12日</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse ml-0.5" />
-          <span className="text-[10px] text-purple-400 font-sans font-bold">全网纳管联调中</span>
         </div>
       </div>
 
@@ -208,13 +190,9 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
                 <h3 className="text-xs font-black text-white tracking-wide">
                   纳管集群进展一览
                 </h3>
-                <span className="text-[10px] text-slate-400">（点击集群可聚焦查看阶段详情）</span>
               </div>
               <span className="text-[11px] text-slate-400">共 6 个算力节点</span>
             </div>
-            <p className="text-[11px] text-slate-400 mb-3">
-              实时监测各资方及科研集群规划卡数、已并网卡数、适配阶段及当前健康状态
-            </p>
           </div>
 
           {/* 集群卡片展示列表 */}
@@ -266,15 +244,6 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
               );
             })}
           </div>
-
-          {/* 底部摘要 */}
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>
-              当前聚焦：<strong className="text-white">{selectedCluster.clusterName}</strong>
-              <span className="text-slate-400 ml-2">（运营主体：{selectedCluster.provider}，更新于 {selectedCluster.updatedDate}）</span>
-            </span>
-            <span className="text-purple-400 font-bold font-mono">责任人：{selectedCluster.operator}</span>
-          </div>
         </div>
 
         {/* 右侧：五大纳管阶段里程碑（占5列） */}
@@ -285,11 +254,7 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
                 <div className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
                 <h3 className="text-xs font-black text-white tracking-wide">五阶纳管标准化里程碑</h3>
               </div>
-              <span className="text-[11px] text-slate-400">SLA标定通道</span>
             </div>
-            <p className="text-[11px] text-slate-400 mb-3">
-              全网统一纳管遵循标准5步闭环流程（网络打通 → 驱动适配 → 计量流 → 验收 → 正式开通）
-            </p>
           </div>
 
           {/* 5个阶段里程碑垂直步进条 */}
@@ -333,15 +298,6 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
               );
             })}
           </div>
-
-          {/* 底部保障 */}
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              统一调度Agent自动化探针就绪
-            </span>
-            <span className="text-slate-500">周期：7个工作日/集群</span>
-          </div>
         </div>
 
       </div>
@@ -355,14 +311,8 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
             <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
             <h3 className="text-xs font-black text-white tracking-wide flex items-center gap-2">
               集群并网联调与验收审计日志
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono font-bold">
-                实时流式存证
-              </span>
             </h3>
           </div>
-          <span className="text-[11px] text-slate-400 font-medium">
-            自动留痕 NCCL环路延迟、镜像拉取校验、网络打通边界等合规凭证
-          </span>
         </div>
 
         {/* 表格区 */}
@@ -409,7 +359,6 @@ export const ComputeOpsClusterOnboardingTab: React.FC = () => {
           <span>
             已通过自动化验收用例 <strong className="text-white font-mono">148 / 148</strong> 项
           </span>
-          <span className="text-emerald-400 font-medium">全网算力安全防篡改与国密审计链路正常</span>
         </div>
       </div>
 

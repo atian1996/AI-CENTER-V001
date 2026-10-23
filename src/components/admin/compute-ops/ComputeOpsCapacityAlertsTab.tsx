@@ -6,9 +6,6 @@ import {
   Activity,
   CheckCircle2,
   Clock,
-  Calendar,
-  Sliders,
-  BellRing,
   Play,
   Pause
 } from 'lucide-react';
@@ -16,7 +13,6 @@ import {
   mockClusterWatermarks,
   mockDispatchSuccessTrends,
   mockActiveAlerts,
-  mockAlertThresholdRules,
   ActiveAlertItem
 } from './mockComputeOpsData';
 
@@ -43,7 +39,6 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
       {/* ========================================================
           顶部标题栏 (约 60px)
           左侧: 算力运营中心 · 算力容量告警 (标题固定)
-          右侧: 2026年10月12日 (当前日期，自动更新)
          ======================================================== */}
       <div className="flex items-center justify-between px-1 shrink-0 h-9">
         <div className="flex items-center gap-2.5">
@@ -51,17 +46,6 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
           <h2 className="text-base font-black text-white tracking-wide flex items-center gap-2">
             算力运营中心 · 算力容量告警
           </h2>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20">
-            实时容量水位 & 告警盯盘
-          </span>
-        </div>
-
-        {/* 右侧：日期与实时标识 */}
-        <div className="text-xs font-mono font-bold text-slate-300 bg-slate-900/90 px-3.5 py-1 rounded-xl border border-slate-800 shadow-sm flex items-center gap-2">
-          <Calendar className="w-3.5 h-3.5 text-amber-400" />
-          <span>2026年10月12日</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
-          <span className="text-[10px] text-emerald-400 font-sans font-bold">LIVE PING 28ms</span>
         </div>
       </div>
 
@@ -219,9 +203,6 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
                 </div>
               </div>
             </div>
-            <p className="text-[11px] text-slate-400 mb-3">
-              展示各资源池容量负荷与安全告警线（绿色 &lt;70%健康、橙色 70%-85%注意、红色 &gt;85%告警）
-            </p>
           </div>
 
           {/* 3大资源池 横向堆叠柱条 */}
@@ -394,7 +375,6 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
               {isAlertAutoScrolling ? <Pause className="w-3 h-3 text-amber-400" /> : <Play className="w-3 h-3 text-emerald-400" />}
               <span>{isAlertAutoScrolling ? '暂停滚动' : '自动滚动'}</span>
             </button>
-            <span className="text-[11px] text-slate-400 font-medium">每5秒自动向上滚动一行</span>
           </div>
         </div>
 
@@ -463,48 +443,6 @@ export const ComputeOpsCapacityAlertsTab: React.FC = () => {
               })}
             </tbody>
           </table>
-        </div>
-
-        {/* 底部联动提示 */}
-        <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-          <span>
-            当前聚焦处理：<strong className="text-white font-semibold">{selectedAlert.title}</strong>
-            <span className="text-slate-400 ml-2">（触发阈值：{selectedAlert.thresholdValue}，数值：{selectedAlert.metricValue}）</span>
-          </span>
-          <span className="text-emerald-400 font-medium">推荐处置：{selectedAlert.suggestedAction}</span>
-        </div>
-      </div>
-
-      {/* ========================================================
-          第四行：告警阈值配置摘要（高度适配 72px）
-         ======================================================== */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl px-5 py-3 shadow-md flex items-center justify-between shrink-0 h-[72px]">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 shadow-sm shrink-0">
-            <Sliders className="w-4 h-4" />
-          </div>
-          <div className="flex flex-wrap items-center gap-6 text-xs">
-            <span className="font-bold text-white flex items-center gap-1.5">
-              告警阈值配置摘要
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            </span>
-
-            {mockAlertThresholdRules.map(rule => (
-              <div key={rule.id} className="flex items-center gap-2 text-slate-300">
-                <span className="text-slate-400 font-medium">{rule.targetMetric}:</span>
-                <span className="font-mono text-amber-300 text-[11px]">{rule.warningThreshold.split(' ')[0]}</span>
-                <span className="text-slate-600">/</span>
-                <span className="font-mono text-rose-400 text-[11px]">{rule.criticalThreshold.split(' ')[0]}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="flex items-center gap-2 text-xs text-slate-400">
-            <BellRing className="w-3.5 h-3.5 text-blue-400" />
-            <span>联动渠道：短信 / 企业微信 / 大屏声光提醒已就绪</span>
-          </div>
         </div>
       </div>
 

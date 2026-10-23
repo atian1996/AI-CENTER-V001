@@ -88,17 +88,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
           <h2 className="text-base font-black text-white tracking-wide flex items-center gap-2">
             算力运营中心 · 算力资源总览
           </h2>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20">
-            面向算力中心资方
-          </span>
-        </div>
-
-        {/* 右侧：日期与实时标识 */}
-        <div className="text-xs font-mono font-bold text-slate-300 bg-slate-900/90 px-3.5 py-1 rounded-xl border border-slate-800 shadow-sm flex items-center gap-2">
-          <Calendar className="w-3.5 h-3.5 text-blue-400" />
-          <span>2026年10月12日</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
-          <span className="text-[10px] text-emerald-400 font-sans font-bold">数据实时同步</span>
         </div>
       </div>
 
@@ -126,10 +115,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               正常 2 / 维护 1
             </div>
           </div>
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>环比</span>
-            <span className="font-mono text-slate-300 font-medium">—</span>
-          </div>
         </div>
 
         {/* 卡片 2: GPU总卡数 */}
@@ -149,10 +134,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
             <div className="text-xs text-cyan-400 font-medium mt-1">
               已分配 942 / 空闲 258
             </div>
-          </div>
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>环比</span>
-            <span className="font-mono text-slate-300 font-medium">—</span>
           </div>
         </div>
 
@@ -177,10 +158,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               分配率 78.5%
             </div>
           </div>
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>资源池负荷</span>
-            <span className="font-mono text-slate-300 font-medium">稳健高位</span>
-          </div>
         </div>
 
         {/* 卡片 4: 今日调度量 */}
@@ -203,10 +180,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
             <div className="text-xs text-amber-400 font-medium mt-1">
               日均 420卡时/天
             </div>
-          </div>
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>调度记录</span>
-            <span className="text-[10px] text-slate-500 font-mono">秒级归档</span>
           </div>
         </div>
 
@@ -232,10 +205,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               本月累计 ¥45,200
             </div>
           </div>
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>计费核算</span>
-            <span className="text-[10px] text-slate-500 font-mono">实时结算</span>
-          </div>
         </div>
 
         {/* 卡片 6: 资源池健康度 */}
@@ -257,10 +226,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               1个维护中 (联通云)
             </div>
           </div>
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>SLA 99.98%</span>
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          </div>
         </div>
 
       </div>
@@ -277,9 +242,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-blue-500" />
                 <h3 className="text-xs font-black text-white">资源池负载曲线</h3>
-                <span className="text-[10px] text-slate-400 font-sans">
-                  按业务形态着色（展示填谷与造峰价值）
-                </span>
               </div>
             </div>
             {/* 图例 */}
@@ -457,12 +419,8 @@ export const ComputeOpsOverviewTab: React.FC = () => {
             )}
           </div>
 
-          {/* 底部摘要 */}
           <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-800/80">
             <span>X轴：近7天（2026-10-06 — 2026-10-12）</span>
-            <span className="text-slate-300">
-              波谷阶段利用率：<strong className="text-emerald-400 font-mono">稳定600+卡时(实训托底)</strong> ｜ 峰值阶段：<strong className="text-blue-400 font-mono">突破1,800卡时</strong>
-            </span>
           </div>
         </div>
 
@@ -473,7 +431,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               <span className="w-2 h-2 rounded-full bg-cyan-500" />
               <h3 className="text-xs font-black text-white">各资源池负载排名</h3>
             </div>
-            <span className="text-[10px] text-slate-400 font-mono">利用率 (%) 横向柱状</span>
           </div>
 
           <div className="space-y-3 my-auto py-2">
@@ -516,10 +473,7 @@ export const ComputeOpsOverviewTab: React.FC = () => {
             ))}
           </div>
 
-          <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-            <span>识别指引：高负载资源池适度扩容；低负载资源池引导实训排期</span>
-            <span className="font-mono text-emerald-400 font-semibold">健康阈值：65%~85%</span>
-          </div>
+
         </div>
 
       </div>
@@ -535,9 +489,7 @@ export const ComputeOpsOverviewTab: React.FC = () => {
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-blue-500" />
               <h3 className="text-xs font-black text-white">GPU型号使用分布</h3>
-              <span className="text-[10px] text-slate-400 ml-1">展示各GPU型号的卡时消耗占比</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-mono">环形占比</span>
           </div>
 
           <div className="flex items-center justify-between gap-5 py-2">
@@ -596,10 +548,7 @@ export const ComputeOpsOverviewTab: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1.5 border-t border-slate-800/80">
-            <span>RTX 4090 占比最高 (45%)，广泛支撑大模型Prompt调试与赛事日常演练</span>
-            <span className="font-mono text-slate-300">合计：12,580卡时 (100%)</span>
-          </div>
+
         </div>
 
         {/* 右侧：资源池健康状态（列表） */}
@@ -609,7 +558,6 @@ export const ComputeOpsOverviewTab: React.FC = () => {
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <h3 className="text-xs font-black text-white">资源池健康状态</h3>
             </div>
-            <span className="text-[10px] text-slate-400 font-mono">实时巡检</span>
           </div>
 
           {/* 列表形式 */}
@@ -644,13 +592,7 @@ export const ComputeOpsOverviewTab: React.FC = () => {
             ))}
           </div>
 
-          <div className="p-2 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-            <span className="flex items-center gap-1.5 text-slate-300">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span>集群心跳自检通过：未发现不可用网络切片</span>
-            </span>
-            <span className="text-emerald-400 font-mono font-bold">SLA 99.98%</span>
-          </div>
+
         </div>
 
       </div>

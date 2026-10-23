@@ -5,12 +5,7 @@ import {
   Coins,
   AlertTriangle,
   GitPullRequest,
-  Maximize2,
-  Minimize2,
   RefreshCw,
-  Clock,
-  ShieldAlert,
-  Settings,
   Tv
 } from 'lucide-react';
 import { ComputeOpsOverviewTab } from './ComputeOpsOverviewTab';
@@ -19,7 +14,6 @@ import { ComputeOpsRevenueTab } from './ComputeOpsRevenueTab';
 import { ComputeOpsCapacityAlertsTab } from './ComputeOpsCapacityAlertsTab';
 import { ComputeOpsClusterOnboardingTab } from './ComputeOpsClusterOnboardingTab';
 import { ComputeOpsInstanceDetailModal } from './ComputeOpsInstanceDetailModal';
-import { ScreencastSettingsModal } from '../screencast/ScreencastSettingsModal';
 import { ConsumptionDetailRow } from './mockComputeOpsData';
 import { useApp } from '../../../context/AppContext';
 
@@ -36,22 +30,8 @@ export const ComputeOpsDashboardView: React.FC = () => {
   // 当前选中的 TAB
   const [activeTab, setActiveTab] = useState<ComputeOpsTabKey>('overview');
 
-  // 全屏展示状态
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-
   // 选中的实例下钻详情
   const [selectedInstance, setSelectedInstance] = useState<ConsumptionDetailRow | null>(null);
-
-  const toggleFullScreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().then(() => setIsFullScreen(true)).catch(() => setIsFullScreen(true));
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen().then(() => setIsFullScreen(false)).catch(() => setIsFullScreen(false));
-      }
-    }
-  };
 
   const handleLaunchScreencast = () => {
     const url = `${window.location.origin}${window.location.pathname}?screencast=compute-ops`;
@@ -59,7 +39,7 @@ export const ComputeOpsDashboardView: React.FC = () => {
   };
 
   return (
-    <div className={`space-y-3.5 ${isFullScreen ? 'fixed inset-0 z-50 bg-[#0F172A] p-6 overflow-y-auto' : ''}`}>
+    <div className="space-y-3.5">
       
       {/* 顶部大屏 Header 控制条 (与 AI生态看板 风格一致) */}
       <div className="rounded-2xl bg-slate-900/95 border border-slate-800 px-4 py-2.5 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-3 sticky top-0 z-20 backdrop-blur-xl">
@@ -126,7 +106,7 @@ export const ComputeOpsDashboardView: React.FC = () => {
           </button>
         </div>
 
-        {/* 右侧大屏控制 */}
+        {/* 右侧大屏控制（已删除“设置”和“全屏”，保留刷新和投屏） */}
         <div className="flex items-center gap-2 shrink-0 self-end md:self-auto">
           <button
             onClick={() => showToast('已刷新 算力运营中心 全部运行指标与结算数据')}
@@ -134,16 +114,6 @@ export const ComputeOpsDashboardView: React.FC = () => {
             title="刷新数据"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-          </button>
-
-          {/* 设置按钮 */}
-          <button
-            onClick={() => setIsSettingsModalOpen(true)}
-            className="px-2.5 py-1.5 rounded-xl bg-slate-950 border border-slate-800 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm"
-            title="投屏播放设置"
-          >
-            <Settings className="w-3.5 h-3.5 text-slate-400" />
-            <span>设置</span>
           </button>
 
           {/* 投屏按钮 */}
@@ -154,16 +124,6 @@ export const ComputeOpsDashboardView: React.FC = () => {
           >
             <Tv className="w-3.5 h-3.5 text-blue-200" />
             <span>投屏</span>
-          </button>
-
-          {/* 全屏按钮 (原大屏投影模式) */}
-          <button
-            onClick={toggleFullScreen}
-            className="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
-            title={isFullScreen ? '退出浏览器全屏' : '进入全屏大屏模式'}
-          >
-            {isFullScreen ? <Minimize2 className="w-3.5 h-3.5 text-blue-400" /> : <Maximize2 className="w-3.5 h-3.5 text-blue-400" />}
-            <span>{isFullScreen ? '退出全屏' : '全屏'}</span>
           </button>
         </div>
       </div>
@@ -188,14 +148,6 @@ export const ComputeOpsDashboardView: React.FC = () => {
         item={selectedInstance}
         isOpen={!!selectedInstance}
         onClose={() => setSelectedInstance(null)}
-      />
-
-      {/* 挂载投屏播放设置弹窗 */}
-      <ScreencastSettingsModal
-        isOpen={isSettingsModalOpen}
-        onClose={() => setIsSettingsModalOpen(false)}
-        type="compute-ops"
-        onLaunch={handleLaunchScreencast}
       />
 
     </div>

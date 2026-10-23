@@ -26,6 +26,8 @@ import { DatasetDetailModal } from './components/modals/DatasetDetailModal';
 import { SkillDetailModal } from './components/modals/SkillDetailModal';
 import { ModelCompareBar } from './components/modals/ModelCompareBar';
 import { Toast } from './components/common/Toast';
+import { AuthModal } from './components/modals/AuthModal';
+import { InviteFriendsModal } from './components/modals/InviteFriendsModal';
 import { AgentTrialPageView } from './components/marketplace/AgentTrialPageView';
 import { ScreencastPlayerView } from './components/admin/screencast/ScreencastPlayerView';
 
@@ -271,6 +273,8 @@ const AppContent: React.FC = () => {
         onClose={() => setDetailSkill(null)}
       />
       <ModelCompareBar />
+      <AuthModal />
+      <InviteFriendsModal />
       <Toast />
     </div>
   );

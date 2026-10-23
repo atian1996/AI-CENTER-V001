@@ -76,15 +76,12 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
   return (
     <div className="w-full text-slate-100 flex flex-col gap-2.5 select-none">
       
-      {/* 顶部标题与账期 */}
-      <div className="flex items-center justify-between px-1 shrink-0">
-        <div className="flex items-center gap-2.5">
-          <h2 className="text-base font-black text-white tracking-wide">
-            AI生态看板 · 平台运营总览
-          </h2>
-        </div>
-        <div className="text-xs font-mono font-bold text-slate-300 bg-slate-900/90 px-3.5 py-1 rounded-xl border border-slate-800 shadow-sm">
-          2026年10月12日
+      {/* 1. 顶部标题栏 */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 pt-2 pb-1 border-b border-slate-800/80">
+        <div>
+          <h1 className="text-3xl font-black text-white tracking-tight">
+            平台运营总览
+          </h1>
         </div>
       </div>
 
@@ -113,10 +110,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>注册 <strong className="font-mono text-slate-200">12,580</strong></span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-blue-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
-          </div>
         </div>
 
         {/* 指标卡 2：认证企业 */}
@@ -141,13 +134,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <div className="flex items-center gap-2">
-              <span>发任务 <strong className="font-mono text-slate-200">89</strong></span>
-              <span>实训 <strong className="font-mono text-slate-200">42</strong></span>
-            </div>
-            <ArrowUpRight className="w-3.5 h-3.5 text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
-          </div>
         </div>
 
         {/* 指标卡 3：累计案例 */}
@@ -171,14 +157,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <div className="flex items-center gap-1.5 text-[10.5px]">
-              <span>赛事 <strong className="font-mono text-slate-200">67</strong></span>
-              <span>实训 <strong className="font-mono text-slate-200">38</strong></span>
-              <span>实验场 <strong className="font-mono text-slate-200">23</strong></span>
-            </div>
-            <ArrowUpRight className="w-3.5 h-3.5 text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
-          </div>
         </div>
 
         {/* 指标卡 4：人才总数 */}
@@ -202,14 +180,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <div className="flex items-center gap-1.5 text-[10.5px]">
-              <span>结业 <strong className="font-mono text-slate-200">320</strong></span>
-              <span>认证 <strong className="font-mono text-slate-200">156</strong></span>
-              <span>讲师 <strong className="font-mono text-slate-200">44</strong></span>
-            </div>
-            <ArrowUpRight className="w-3.5 h-3.5 text-purple-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
-          </div>
         </div>
 
         {/* 指标卡 5：累计任务 */}
@@ -231,12 +201,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <div className="flex items-center gap-2">
-              <span>进行中 <strong className="font-mono text-slate-200">89</strong></span>
-              <span>已完成 <strong className="font-mono text-slate-200">1,145</strong></span>
-            </div>
-          </div>
         </div>
 
         {/* 指标卡 6：算力总消耗 */}
@@ -258,10 +222,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>Token <strong className="font-mono text-cyan-300">2.3亿</strong></span>
-            <span className="text-[10px] font-mono text-slate-500">GPU算力消纳</span>
-          </div>
         </div>
 
       </div>
@@ -276,7 +236,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500" />
                 <h3 className="text-sm font-black text-white">平台主体培育趋势</h3>
-                <span className="text-xs text-slate-400 font-sans">近12个月连续增长趋势</span>
               </div>
             </div>
 
@@ -344,7 +303,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
 
           <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500 shrink-0">
             <span className="font-mono text-slate-400">近10个月累计规模趋势</span>
-            <span className="text-emerald-400 font-medium">连续稳步增长</span>
           </div>
         </div>
 
@@ -352,7 +310,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
         <div className="lg:col-span-5 p-4 bg-slate-900/90 border border-slate-800 rounded-2xl flex flex-col justify-between shadow-md h-full">
           <div className="flex items-center justify-between pb-2 border-b border-slate-800/80 shrink-0">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500" />
               <h3 className="text-sm font-black text-white">算力资源调度与使用结构</h3>
             </div>
 
@@ -399,16 +356,7 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             </ResponsiveContainer>
           </div>
 
-          {/* 底部汇总栏 */}
-          <div className="pt-2 border-t border-slate-800/80 flex flex-col gap-1.5 shrink-0">
-            <div className="px-3 py-2 rounded-xl bg-slate-950/80 border border-slate-800/80 text-xs font-mono font-bold text-slate-300 flex items-center justify-between">
-              <span>总调度量：<strong className="text-emerald-400">12,580</strong> 卡时</span>
-              <span className="text-slate-600">｜</span>
-              <span>日均调度：<strong className="text-cyan-400">420</strong> 卡时/天</span>
-              <span className="text-slate-600">｜</span>
-              <span>Token调用：<strong className="text-purple-400">2.3亿</strong></span>
-            </div>
-          </div>
+
         </div>
 
       </div>
@@ -423,9 +371,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400" />
               <h3 className="text-sm font-black text-white">产业成果来源结构</h3>
             </div>
-            <span className="text-xs text-slate-400">
-              多元渠道构成比例
-            </span>
           </div>
 
           <div className="flex items-center gap-6 py-2 flex-1 min-h-0">
@@ -490,10 +435,7 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500 shrink-0">
-            <span>赋能本地主导产业场景创新</span>
-            <span className="text-slate-400 font-mono">核定成果 128 项</span>
-          </div>
+
         </div>
 
         {/* 四、平台能力建设成效（数字卡片列表 5 项） */}
@@ -503,9 +445,6 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
               <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400" />
               <h3 className="text-sm font-black text-white">平台能力建设成效</h3>
             </div>
-            <span className="text-xs text-slate-400">
-              已建成核心能力 · 产业基础支撑
-            </span>
           </div>
 
           {/* 5 项数字卡片列表 */}
@@ -538,10 +477,7 @@ export const EcoOverviewTab: React.FC<EcoOverviewTabProps> = ({
             ))}
           </div>
 
-          <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500 shrink-0">
-            <span>涵盖智能体、大模型、数据集与算力基础设施</span>
-            <span className="text-cyan-400 font-mono font-bold">全流程要素汇聚</span>
-          </div>
+
         </div>
 
       </div>

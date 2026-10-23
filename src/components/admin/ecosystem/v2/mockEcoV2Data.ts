@@ -400,7 +400,7 @@ export const mockV2MediaReports: EcoV2MediaReport[] = [
   }
 ];
 
-// 年度活动时间轴数据 (1月~12月)
+// 年度活动时间轴数据 (1月~11月，共11个每月1个)
 export const mockV2TimelineActivities: EcoV2TimelineActivity[] = [
   {
     id: 'act-01',
@@ -417,6 +417,19 @@ export const mockV2TimelineActivities: EcoV2TimelineActivity[] = [
   },
   {
     id: 'act-02',
+    month: '2月',
+    name: '开发者极客沙龙',
+    type: '社区运营',
+    participants: 95,
+    outputCount: 16,
+    computeHours: 920,
+    serviceItem: '开源模型与Agent开发实战',
+    district: '鼓楼区',
+    date: '2026-02-20',
+    description: '聚焦开源模型轻量化部署与端侧AI代理实践，聚集骨干开发者技术切磋'
+  },
+  {
+    id: 'act-03',
     month: '3月',
     name: '工程师实训第1期',
     type: '工程师实训',
@@ -429,7 +442,20 @@ export const mockV2TimelineActivities: EcoV2TimelineActivity[] = [
     description: '工业质检与行业知识库微调技能封闭式集训，实操真实算力资源'
   },
   {
-    id: 'act-03',
+    id: 'act-04',
+    month: '4月',
+    name: '产业大模型问诊会',
+    type: '社区运营',
+    participants: 110,
+    outputCount: 18,
+    computeHours: 1100,
+    serviceItem: '智造企业智能化转型问诊',
+    district: '玄武区',
+    date: '2026-04-18',
+    description: '邀请传统制造业CTO与AI平台专家面对面，梳理算力赋能与智能化改造路径'
+  },
+  {
+    id: 'act-05',
     month: '5月',
     name: '技术沙龙',
     type: '社区运营',
@@ -442,7 +468,7 @@ export const mockV2TimelineActivities: EcoV2TimelineActivity[] = [
     description: '探讨多Agent协同与工作流编排，本地开发者社群深度技术切磋'
   },
   {
-    id: 'act-04',
+    id: 'act-06',
     month: '6月',
     name: '场景匹配赛',
     type: '场景匹配赛',
@@ -455,7 +481,7 @@ export const mockV2TimelineActivities: EcoV2TimelineActivity[] = [
     description: '龙头制造企业发布真实质检缺陷痛点，开发者带算法上门打靶对接'
   },
   {
-    id: 'act-05',
+    id: 'act-07',
     month: '7月',
     name: '工程师实训第2期',
     type: '工程师实训',
@@ -468,7 +494,20 @@ export const mockV2TimelineActivities: EcoV2TimelineActivity[] = [
     description: '面向企业骨干研发的多模态检索增强生成实战，提升企业内训成效'
   },
   {
-    id: 'act-06',
+    id: 'act-08',
+    month: '8月',
+    name: '青年创客实战营',
+    type: '工程师实训',
+    participants: 150,
+    outputCount: 24,
+    computeHours: 1650,
+    serviceItem: '高校算力实训与场景孵化',
+    district: '浦口区',
+    date: '2026-08-16',
+    description: '联合驻宁高校青年极客，开展为期两周的公共算力实训与实战开发营'
+  },
+  {
+    id: 'act-09',
     month: '9月',
     name: '技术路演',
     type: '揭榜项目',
@@ -481,7 +520,7 @@ export const mockV2TimelineActivities: EcoV2TimelineActivity[] = [
     description: '首批揭榜挂帅产业化项目中期答辩与创投资本闭门对接'
   },
   {
-    id: 'act-07',
+    id: 'act-10',
     month: '10月',
     name: '行业沙龙',
     type: '社区运营',
@@ -494,7 +533,7 @@ export const mockV2TimelineActivities: EcoV2TimelineActivity[] = [
     description: '医药研发企业与AI生信科研团队面对面探讨先导化合物筛选合作'
   },
   {
-    id: 'act-08',
+    id: 'act-11',
     month: '11月',
     name: '年度巅峰赛',
     type: '认知唤醒赛',
@@ -503,21 +542,8 @@ export const mockV2TimelineActivities: EcoV2TimelineActivity[] = [
     computeHours: 1200,
     serviceItem: '年度产业场景创新大决赛',
     district: '鼓楼区',
-    date: '预计 2026-11-20',
+    date: '2026-11-20',
     description: '全年度优秀产业场景总决赛与成果展，决策层领导亲临现场颁奖'
-  },
-  {
-    id: 'act-09',
-    month: '12月',
-    name: '年度总结路演',
-    type: '揭榜项目',
-    participants: 60,
-    outputCount: 6,
-    computeHours: 680,
-    serviceItem: '产业落地签约与成果发布',
-    district: '秦淮区',
-    date: '预计 2026-12-28',
-    description: '年度四大台账正式验收发布，首批规上企业入统授牌仪式'
   }
 ];
 

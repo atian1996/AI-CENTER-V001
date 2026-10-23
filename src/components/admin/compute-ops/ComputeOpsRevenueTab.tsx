@@ -3,16 +3,9 @@ import {
   Coins,
   TrendingUp,
   DollarSign,
-  Calendar,
   CheckCircle2,
-  Clock,
-  PieChart,
-  ShieldCheck,
-  ChevronRight,
   Play,
   Pause,
-  Server,
-  Activity,
   Layers
 } from 'lucide-react';
 import {
@@ -74,28 +67,17 @@ export const ComputeOpsRevenueTab: React.FC = () => {
           <h2 className="text-base font-black text-white tracking-wide flex items-center gap-2">
             算力运营中心 · 算力收益分成
           </h2>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-            面向算力中心资方
-          </span>
-        </div>
-
-        {/* 右侧：日期与在线标识 */}
-        <div className="text-xs font-mono font-bold text-slate-300 bg-slate-900/90 px-3.5 py-1 rounded-xl border border-slate-800 shadow-sm flex items-center gap-2">
-          <Calendar className="w-3.5 h-3.5 text-emerald-400" />
-          <span>2026年10月12日</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
-          <span className="text-[10px] text-emerald-400 font-sans font-bold">闭环运转中</span>
         </div>
       </div>
 
       {/* ========================================================
           第一行：五个核心指标卡片 (横向等宽排列，高度适配1920*1080大屏)
-          每个卡片包含：指标名称、主数字、副标签、环比增长
+          每个卡片包含：指标名称、主数字、副标签
          ======================================================== */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 shrink-0 h-[135px]">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 shrink-0 h-[115px]">
         
         {/* 卡片 1: 累计分成收入 */}
-        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/40 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md hover:shadow-blue-500/10 min-h-[110px]">
+        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/40 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md hover:shadow-blue-500/10 min-h-[95px]">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400 group-hover:text-slate-300 transition-colors flex items-center gap-1.5">
               <Coins className="w-3.5 h-3.5 text-blue-400" />
@@ -113,14 +95,10 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               自2026年1月起
             </div>
           </div>
-          <div className="pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>环比</span>
-            <span className="font-mono text-slate-300 font-medium">—</span>
-          </div>
         </div>
 
         {/* 卡片 2: 本月分成收入 */}
-        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-emerald-500/40 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md hover:shadow-emerald-500/10 min-h-[110px]">
+        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-emerald-500/40 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md hover:shadow-emerald-500/10 min-h-[95px]">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400 group-hover:text-slate-300 transition-colors flex items-center gap-1.5">
               <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
@@ -138,16 +116,10 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               2026年9月
             </div>
           </div>
-          <div className="pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>环比</span>
-            <span className="font-mono text-emerald-400 font-bold flex items-center">
-              ↑18%
-            </span>
-          </div>
         </div>
 
         {/* 卡片 3: 上月分成收入 */}
-        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md min-h-[110px]">
+        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md min-h-[95px]">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400 group-hover:text-slate-300 transition-colors flex items-center gap-1.5">
               <DollarSign className="w-3.5 h-3.5 text-slate-400" />
@@ -165,14 +137,10 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               2026年8月
             </div>
           </div>
-          <div className="pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>环比</span>
-            <span className="font-mono text-slate-300 font-medium">—</span>
-          </div>
         </div>
 
         {/* 卡片 4: 结算状态 */}
-        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/40 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md hover:shadow-cyan-500/10 min-h-[110px]">
+        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/40 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md hover:shadow-cyan-500/10 min-h-[95px]">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400 group-hover:text-slate-300 transition-colors flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
@@ -190,14 +158,10 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               9月已结算
             </div>
           </div>
-          <div className="pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>到账</span>
-            <span className="font-semibold text-emerald-400">全额完成</span>
-          </div>
         </div>
 
         {/* 卡片 5: 累计卡时 */}
-        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-purple-500/40 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md hover:shadow-purple-500/10 min-h-[110px]">
+        <div className="group p-3 bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-purple-500/40 rounded-2xl flex flex-col justify-between transition-all duration-200 shadow-md hover:shadow-purple-500/10 min-h-[95px]">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400 group-hover:text-slate-300 transition-colors flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5 text-purple-400" />
@@ -216,10 +180,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               自2026年1月起
             </div>
           </div>
-          <div className="pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-            <span>环比</span>
-            <span className="font-mono text-slate-300 font-medium">—</span>
-          </div>
         </div>
 
       </div>
@@ -236,7 +196,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
                 <h3 className="text-xs font-black text-white tracking-wide">分成收入趋势</h3>
-                <span className="text-[11px] text-slate-400 ml-1">（月度变化趋势）</span>
               </div>
               {/* 图例 */}
               <div className="flex items-center gap-2 text-xs">
@@ -244,9 +203,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
                 <span className="text-slate-300 text-[11px]">● 分成收入 (蓝色折线)</span>
               </div>
             </div>
-            <p className="text-[11px] text-slate-400 mb-2">
-              展示分成收入的月度变化趋势，持续稳步攀升
-            </p>
           </div>
 
           {/* 折线图 SVG 区域 */}
@@ -357,10 +313,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
             )}
           </div>
 
-          <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800/80">
-            <span>X轴：近12个月（2025年11月 — 2026年10月） ｜ Y轴：分成收入（元）</span>
-            <span className="font-mono text-emerald-400 font-semibold">9月分成达 ¥10,660，10月预估超 ¥12,580</span>
-          </div>
         </div>
 
         {/* 右侧：按业务线分成贡献（饼图/环形图） */}
@@ -370,7 +322,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               <div className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
               <h3 className="text-xs font-black text-white tracking-wide">按业务线分成贡献</h3>
             </div>
-            <span className="text-[11px] text-slate-400 font-mono">饼图 / 占比结构</span>
           </div>
 
           {/* 饼图与列表区域 */}
@@ -426,11 +377,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               ))}
             </div>
           </div>
-
-          <div className="p-2 rounded-xl bg-slate-950/40 border border-slate-800 flex items-center justify-between text-xs text-slate-400">
-            <span>赛事贡献最高 (38%)，实验场与实训构成稳健三角</span>
-            <span className="font-mono text-white font-semibold">¥12,580 (100%)</span>
-          </div>
         </div>
 
       </div>
@@ -450,7 +396,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
               <h3 className="text-xs font-black text-white tracking-wide">结算明细滚动列表</h3>
-              <span className="text-[11px] text-slate-400 ml-1">（每5秒自动向上滚动一行）</span>
             </div>
 
             <button
@@ -501,11 +446,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               );
             })}
           </div>
-
-          <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800/80">
-            <span>资方资金拨付记录：全量核销完成，资金已如期划拨至各云节点专用联营账户</span>
-            <span className="font-mono text-emerald-400 font-semibold">100% 结算履约</span>
-          </div>
         </div>
 
         {/* 右侧：对账闭环状态（列表） */}
@@ -515,7 +455,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
               <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
               <h3 className="text-xs font-black text-white tracking-wide">对账闭环状态</h3>
             </div>
-            <span className="text-[11px] text-slate-400 font-mono">对账与结算状态追踪</span>
           </div>
 
           {/* 列表形式 */}
@@ -549,14 +488,6 @@ export const ComputeOpsRevenueTab: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="p-2 rounded-xl bg-slate-950/40 border border-slate-800 flex items-center justify-between text-xs text-slate-400">
-            <span className="flex items-center gap-1.5 text-slate-300">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span>闭环校验：对账确认率 100%，拨付逾期 0%</span>
-            </span>
-            <span className="text-cyan-400 font-mono font-bold">全流程可追溯</span>
           </div>
         </div>
 

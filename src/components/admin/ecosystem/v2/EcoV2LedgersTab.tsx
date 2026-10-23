@@ -105,17 +105,9 @@ export const EcoV2LedgersTab: React.FC = () => {
       {/* 1. 顶部标题栏 */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 pt-2 pb-1 border-b border-slate-800/80">
         <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-black text-white tracking-tight">
-              数据台账汇总
-            </h1>
-            <span className="px-2.5 py-1 rounded-full text-xs font-black bg-emerald-600/20 text-emerald-400 border border-emerald-500/30">
-              验收口径
-            </span>
-          </div>
-          <p className="text-sm text-slate-400 mt-1 font-medium">
-            验收口径 · 支持导出 · 可下钻核对到单条记录
-          </p>
+          <h1 className="text-3xl font-black text-white tracking-tight">
+            数据台账汇总
+          </h1>
         </div>
 
         <button
@@ -562,12 +554,8 @@ export const EcoV2LedgersTab: React.FC = () => {
           )}
         </div>
 
-        {/* 底部硬纪律与说明 */}
-        <div className="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2 text-amber-400 font-bold">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-            <span>硬纪律：落地企业以真实经营、产值、就业为统计口径，不注册空壳公司。</span>
-          </div>
+        {/* 底部说明 */}
+        <div className="pt-3 border-t border-slate-800/80 flex items-center justify-end text-xs">
           <div className="text-slate-500 text-[11px]">
             数据台账汇总全部支持溯源至合同盖章扫描件与电子发票对账单
           </div>

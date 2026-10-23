@@ -281,8 +281,10 @@ export interface ModelItem {
   maxOutputTokens?: number; // 最大输出Tokens 如 131072
   
   // 接入配置
+  deploymentProvider?: string; // 部署服务商，如 '官方原生直连', '阿里云百炼', '火山引擎', '百度智能云千帆', '腾讯云 TI-ONE', '华为云 ModelArts', '天翼云智算', '私有化部署 (vLLM/Ollama)'
+  providerCredentials?: Record<string, any>; // 各部署服务商专属接入凭证
   apiUrl?: string; // 模型的调用接口URL
-  authType?: '无认证' | 'API Key' | 'Bearer Token'; // 认证方式
+  authType?: '无认证' | 'API Key' | 'Bearer Token' | string; // 认证方式
   authCredential?: string; // 认证凭证
   timeoutSeconds?: number; // 超时时间（秒，默认30）
 
@@ -1221,7 +1223,6 @@ export interface LoginDeviceItem {
 
 // 后台管理菜单
 export type AdminMenuKey = 
-  | 'operations'          // 运营中心
   | 'eco_dashboard'       // AI生态看板
   | 'compute_ops_center'  // 算力运营中心
   | 'marketplace_admin'   // AI集市管理

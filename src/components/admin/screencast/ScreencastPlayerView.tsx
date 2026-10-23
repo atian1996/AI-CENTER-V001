@@ -24,15 +24,7 @@ import {
 } from './screencastConfig';
 import { ScreencastSettingsModal } from './ScreencastSettingsModal';
 
-// Ecosystem tab components
-import { EcoOverviewTab } from '../ecosystem/EcoOverviewTab';
-import { EcoIndustryTab } from '../ecosystem/EcoIndustryTab';
-import { EcoActivitiesTab } from '../ecosystem/EcoActivitiesTab';
-import { EcoLedgerReportTab } from '../ecosystem/EcoLedgerReportTab';
-import { EcoFourLedgerDrilldownModal, DrilldownType } from '../ecosystem/EcoFourLedgerDrilldownModal';
-import { EcoCaseDetailModal } from '../ecosystem/EcoCaseDetailModal';
-import { EcoActivityDetailModal } from '../ecosystem/EcoActivityDetailModal';
-import { EcoReportPreviewModal } from '../ecosystem/EcoReportPreviewModal';
+// Ecosystem tab components (v0.2 only)
 import { EcoV2OverviewTab } from '../ecosystem/v2/EcoV2OverviewTab';
 import { EcoV2IndustryTab } from '../ecosystem/v2/EcoV2IndustryTab';
 import { EcoV2ActivitiesTab } from '../ecosystem/v2/EcoV2ActivitiesTab';
@@ -111,19 +103,11 @@ export const ScreencastPlayerView: React.FC<ScreencastPlayerViewProps> = ({ type
   // Initial welcome toast
   const [showWelcome, setShowWelcome] = useState(true);
 
-  // Modal states for Ecosystem drilldowns
-  const [drilldownType, setDrilldownType] = useState<DrilldownType>(null);
-  const [selectedCase, setSelectedCase] = useState<any | null>(null);
-  const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
-  const [previewReport, setPreviewReport] = useState<any | null>(null);
-
   // Modal states for Compute Ops drilldowns
   const [selectedInstance, setSelectedInstance] = useState<any | null>(null);
 
   // Any modal open? If modal is open, rotation should pause
-  const isAnyModalOpen = Boolean(
-    drilldownType || selectedCase || selectedActivity || previewReport || selectedInstance || isSettingsOpen
-  );
+  const isAnyModalOpen = Boolean(selectedInstance || isSettingsOpen);
 
   // Safe current index clamp
   const safeIndex = activePages.length > 0 ? (currentIndex % activePages.length + activePages.length) % activePages.length : 0;
@@ -479,45 +463,15 @@ export const ScreencastPlayerView: React.FC<ScreencastPlayerViewProps> = ({ type
                 }
           }
         >
-          {/* AI 生态看板的 4 个 TAB 页面 */}
-          {type === 'ecosystem' && currentPage && (() => {
-            const version = (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('version') : null) || '0.2';
-            if (version === '0.2') {
-              return (
-                <div key={`eco-v2-${currentPage.id}`} className="w-full h-full animate-fadeIn flex flex-col justify-between overflow-hidden">
-                  {currentPage.id === 'overview' && <EcoV2OverviewTab />}
-                  {currentPage.id === 'industry' && <EcoV2IndustryTab />}
-                  {currentPage.id === 'activities' && <EcoV2ActivitiesTab />}
-                  {currentPage.id === 'reports' && <EcoV2LedgersTab />}
-                </div>
-              );
-            }
-            return (
-              <div key={`eco-${currentPage.id}`} className="w-full h-full animate-fadeIn flex flex-col justify-between">
-                {currentPage.id === 'overview' && (
-                  <EcoOverviewTab
-                    onOpenDrilldown={t => setDrilldownType(t)}
-                    onSelectCase={c => setSelectedCase(c)}
-                  />
-                )}
-                {currentPage.id === 'industry' && (
-                  <EcoIndustryTab
-                    onSelectCase={c => setSelectedCase(c)}
-                  />
-                )}
-                {currentPage.id === 'activities' && (
-                  <EcoActivitiesTab
-                    onSelectActivity={act => setSelectedActivity(act)}
-                  />
-                )}
-                {currentPage.id === 'reports' && (
-                  <EcoLedgerReportTab
-                    onPreviewReport={rep => setPreviewReport(rep)}
-                  />
-                )}
-              </div>
-            );
-          })()}
+          {/* AI 生态看板的 4 个 TAB 页面 (固定 0.2 考核大屏版) */}
+          {type === 'ecosystem' && currentPage && (
+            <div key={`eco-v2-${currentPage.id}`} className="w-full h-full animate-fadeIn flex flex-col justify-between overflow-hidden">
+              {currentPage.id === 'overview' && <EcoV2OverviewTab />}
+              {currentPage.id === 'industry' && <EcoV2IndustryTab />}
+              {currentPage.id === 'activities' && <EcoV2ActivitiesTab />}
+              {currentPage.id === 'reports' && <EcoV2LedgersTab />}
+            </div>
+          )}
 
           {/* 算力运营中心的 5 个 TAB 页面 */}
           {type === 'compute-ops' && currentPage && (
@@ -553,33 +507,6 @@ export const ScreencastPlayerView: React.FC<ScreencastPlayerViewProps> = ({ type
           )}
         </div>
       </main>
-
-      {/* 挂载生态看板相关的穿透弹窗 (投屏下点击图表可下钻，不会报错) */}
-      {type === 'ecosystem' && (
-        <>
-          <EcoFourLedgerDrilldownModal
-            type={drilldownType}
-            isOpen={!!drilldownType}
-            onClose={() => setDrilldownType(null)}
-            onSelectCase={c => setSelectedCase(c)}
-          />
-          <EcoCaseDetailModal
-            caseItem={selectedCase}
-            isOpen={!!selectedCase}
-            onClose={() => setSelectedCase(null)}
-          />
-          <EcoActivityDetailModal
-            activity={selectedActivity}
-            isOpen={!!selectedActivity}
-            onClose={() => setSelectedActivity(null)}
-          />
-          <EcoReportPreviewModal
-            report={previewReport}
-            isOpen={!!previewReport}
-            onClose={() => setPreviewReport(null)}
-          />
-        </>
-      )}
 
       {/* 挂载算力中心穿透弹窗 */}
       {type === 'compute-ops' && (

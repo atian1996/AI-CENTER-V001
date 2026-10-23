@@ -105,19 +105,10 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
           <h2 className="text-base font-black text-white tracking-wide flex items-center gap-2">
             算力运营中心 · 算力对账明细
           </h2>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-            结算凭证与分成核算
-          </span>
         </div>
 
         {/* 右侧：当前日期 + 【导出对账单】按钮 */}
         <div className="flex items-center gap-3 relative">
-          <div className="text-xs font-mono font-bold text-slate-300 bg-slate-950 px-3.5 py-1.5 rounded-xl border border-slate-800 shadow-sm flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5 text-cyan-400" />
-            <span>2026年10月12日</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" />
-            <span className="text-[10px] text-emerald-400 font-sans font-bold">对账周期在线</span>
-          </div>
 
           {/* 导出对账单下拉按钮 */}
           <div className="relative">
@@ -233,11 +224,6 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
           </div>
         </div>
 
-        {/* 提示文案 */}
-        <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
-          <Info className="w-3.5 h-3.5 text-slate-500" />
-          <span>大屏默认展示“本月”+“全部”数据，如需切换可在后台管理界面操作，大屏端仅做展示。</span>
-        </div>
       </div>
 
       {/* ========================================================
@@ -274,9 +260,6 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
             </div>
           </div>
 
-          <div className="pt-1.5 border-t border-slate-800/80 text-[11px] text-slate-400 truncate">
-            该周期内资方提供的算力消耗总量
-          </div>
         </div>
 
         {/* 卡片 2: 本期应付金额 */}
@@ -303,9 +286,6 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
             </div>
           </div>
 
-          <div className="pt-1.5 border-t border-slate-800/80 text-[11px] text-slate-400 truncate">
-            平台应付给资方的费用
-          </div>
         </div>
 
         {/* 卡片 3: 结算周期 */}
@@ -331,9 +311,6 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
             </div>
           </div>
 
-          <div className="pt-1.5 border-t border-slate-800/80 text-[11px] text-slate-400 truncate">
-            当前对账月份 ｜ 周期完整闭环
-          </div>
         </div>
 
         {/* 卡片 4: 结算状态 */}
@@ -369,9 +346,6 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
             </div>
           </div>
 
-          <div className="pt-1.5 border-t border-slate-800/80 text-[11px] text-slate-400 truncate">
-            已支付 / 待支付 (银行转账凭证已存证)
-          </div>
         </div>
 
       </div>
@@ -391,7 +365,6 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
               <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500" />
               <h3 className="text-sm font-black text-white">按资源池对账明细</h3>
             </div>
-            <span className="text-[11px] text-slate-400 font-mono">核算公式：总卡时 × 协议单价</span>
           </div>
 
           {/* 表格 */}
@@ -445,11 +418,7 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
             </table>
           </div>
 
-          {/* 底部备注提示 */}
-          <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/90 flex items-center justify-between text-[11px] text-slate-400">
-            <span>协议约定：每月5日前生成账单，15日前完成资方确权与拨付</span>
-            <span className="font-mono text-blue-400 font-semibold">电信云华东1占比最高 (46%)</span>
-          </div>
+
         </div>
 
         {/* 右侧：按业务线对账明细 */}
@@ -460,7 +429,6 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500" />
               <h3 className="text-sm font-black text-white">按业务线对账明细</h3>
             </div>
-            <span className="text-[11px] text-slate-400 font-mono">体现算力产业赋能价值与落地成效</span>
           </div>
 
           {/* 表格 */}
@@ -506,11 +474,7 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
             </table>
           </div>
 
-          {/* 底部目的说明 */}
-          <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/90 flex items-center justify-between text-[11px] text-slate-400">
-            <span>让资方看到自己的算力被用在哪些业务上，体现算力的产业价值</span>
-            <span className="font-mono text-emerald-400 font-semibold">实训与实验场共占 65%</span>
-          </div>
+
         </div>
 
       </div>
@@ -534,15 +498,9 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
             <h3 className="text-sm font-black text-white">
               消耗明细滚动列表
             </h3>
-            <span className="text-[11px] text-slate-400">
-              每5秒自动向上滚动一行 · 对账原始凭据审计追溯
-            </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-slate-400">
-              当前展示池: <strong className="text-slate-200">{selectedPool}</strong> ｜ 业务线: <strong className="text-slate-200">{selectedBusiness}</strong>
-            </span>
             <button
               onClick={() => setIsTickerPlaying(prev => !prev)}
               className="px-2.5 py-1 rounded-xl bg-slate-950 border border-slate-800 text-[10px] text-slate-300 hover:text-white flex items-center gap-1 cursor-pointer transition"
@@ -617,8 +575,7 @@ export const ComputeOpsReconciliationTab: React.FC<ComputeOpsReconciliationTabPr
         </div>
 
         {/* 底部说明 */}
-        <div className="text-[11px] text-slate-400 pt-1.5 flex justify-between border-t border-slate-800/80 mt-1">
-          <span>说明：每笔消耗可点击下钻到实例详情和起止时间，满足审计追溯需求。大屏端点击弹窗展示，后台管理界面支持完整查看。</span>
+        <div className="text-[11px] text-slate-400 pt-1.5 flex justify-end border-t border-slate-800/80 mt-1">
           <span className="text-slate-300 font-mono">共收录 {mockConsumptionDetails.length} 条原始上报记录</span>
         </div>
       </div>

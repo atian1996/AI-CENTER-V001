@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { HomeView01 } from './HomeView01';
 import { HomeView02 } from './HomeView02';
 import { HomeView03 } from './HomeView03';
+import { HomeView04 } from './HomeView04';
+import { HomeView05 } from './HomeView05';
 import { Sparkles } from 'lucide-react';
 
 export const HomeView: React.FC = () => {
-  // 首页版本管理：默认使用 0.3 SaaS 旗舰版，支持在 0.3、0.2 与 0.1 之间无缝切换
-  const [version, setVersion] = useState<'0.1' | '0.2' | '0.3'>(() => {
+  // 首页版本管理：支持在 0.5 Bento极简版、0.4 紧凑轮播版、0.3 SaaS版、0.2 版与 0.1 之间无缝切换，默认 0.5
+  const [version, setVersion] = useState<'0.1' | '0.2' | '0.3' | '0.4' | '0.5'>(() => {
     try {
       const urlParam = new URLSearchParams(window.location.search).get('homeVer');
-      if (urlParam === '0.1' || urlParam === '0.2' || urlParam === '0.3') return urlParam;
+      if (urlParam === '0.1' || urlParam === '0.2' || urlParam === '0.3' || urlParam === '0.4' || urlParam === '0.5') return urlParam;
       const saved = localStorage.getItem('qianji_home_version');
-      if (saved === '0.1' || saved === '0.2' || saved === '0.3') return saved;
+      if (saved === '0.1' || saved === '0.2' || saved === '0.3' || saved === '0.4' || saved === '0.5') return saved;
     } catch {
       // ignore
     }
-    return '0.3';
+    return '0.5';
   });
 
-  const handleSwitchVersion = (newVer: '0.1' | '0.2' | '0.3') => {
+  const handleSwitchVersion = (newVer: '0.1' | '0.2' | '0.3' | '0.4' | '0.5') => {
     setVersion(newVer);
     try {
       localStorage.setItem('qianji_home_version', newVer);
@@ -30,7 +32,18 @@ export const HomeView: React.FC = () => {
   return (
     <div className="relative">
       {/* 渲染对应版本的首页 */}
-      {version === '0.3' ? (
+      {version === '0.5' ? (
+        <HomeView05
+          onSwitchToVersion01={() => handleSwitchVersion('0.1')}
+          onSwitchToVersion02={() => handleSwitchVersion('0.2')}
+          onSwitchToVersion04={() => handleSwitchVersion('0.4')}
+        />
+      ) : version === '0.4' ? (
+        <HomeView04
+          onSwitchToVersion01={() => handleSwitchVersion('0.1')}
+          onSwitchToVersion02={() => handleSwitchVersion('0.2')}
+        />
+      ) : version === '0.3' ? (
         <HomeView03
           onSwitchToVersion01={() => handleSwitchVersion('0.1')}
           onSwitchToVersion02={() => handleSwitchVersion('0.2')}
@@ -77,7 +90,27 @@ export const HomeView: React.FC = () => {
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              0.3 SaaS旗舰版
+              0.3 SaaS版
+            </button>
+            <button
+              onClick={() => handleSwitchVersion('0.4')}
+              className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition cursor-pointer ${
+                version === '0.4'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-xs'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              0.4 轮播版
+            </button>
+            <button
+              onClick={() => handleSwitchVersion('0.5')}
+              className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition cursor-pointer ${
+                version === '0.5'
+                  ? 'bg-[#6D4AFF] text-white shadow-xs'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              0.5 精修版
             </button>
           </div>
         </div>

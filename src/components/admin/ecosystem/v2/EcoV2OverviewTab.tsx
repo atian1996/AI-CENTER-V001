@@ -52,23 +52,12 @@ export const EcoV2OverviewTab: React.FC<EcoV2OverviewTabProps> = ({
   return (
     <div className="w-full h-full text-slate-100 flex flex-col justify-between gap-3 select-none font-sans overflow-hidden">
       
-      {/* 1. 顶部标题栏（与0.1版一致的“平台运营总览”） */}
-      <div className="flex items-center justify-between px-1 shrink-0 h-9 border-b border-slate-800/80 pb-1">
-        <div className="flex items-center gap-2.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-sm shadow-cyan-400" />
-          <h2 className="text-base font-black text-white tracking-wide flex items-center gap-2">
-            AI生态看板 · 平台运营总览
-          </h2>
-          <span className="text-xs text-slate-400 hidden md:inline font-normal">
-            2026年1月签约 · 3月平台上线 · 当前第1个运营年度
-          </span>
-        </div>
-        <div className="text-xs font-mono font-bold text-slate-300 bg-slate-900/90 px-3 py-1 rounded-xl border border-slate-800 shadow-sm flex items-center gap-2">
-          <span>截至 2026.10.16</span>
-          <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            演示原型评审
-          </span>
+      {/* 1. 顶部标题栏 */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 pt-2 pb-1 border-b border-slate-800/80">
+        <div>
+          <h1 className="text-3xl font-black text-white tracking-tight">
+            平台运营总览
+          </h1>
         </div>
       </div>
 
@@ -366,8 +355,7 @@ export const EcoV2OverviewTab: React.FC<EcoV2OverviewTabProps> = ({
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-1.5 border-t border-slate-800/80 text-[10px] text-slate-500">
-              <span>辅导单位：市工信局规上培育专项工作组</span>
+            <div className="flex items-center justify-end pt-1.5 border-t border-slate-800/80 text-[10px] text-slate-500">
               <span>数据出处：企业台账</span>
             </div>
           </div>
@@ -406,8 +394,7 @@ export const EcoV2OverviewTab: React.FC<EcoV2OverviewTabProps> = ({
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-1.5 border-t border-slate-800/80 text-[10px] text-slate-500">
-              <span>招商目标：Q4达成65%入驻率</span>
+            <div className="flex items-center justify-end pt-1.5 border-t border-slate-800/80 text-[10px] text-slate-500">
               <span>数据出处：辖区运营台账</span>
             </div>
           </div>

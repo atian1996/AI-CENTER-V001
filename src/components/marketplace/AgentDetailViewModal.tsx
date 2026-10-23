@@ -98,7 +98,9 @@ export const AgentDetailViewModal: React.FC<AgentDetailViewModalProps> = ({
       ? agent.industryTags 
       : (agent.industry ? [agent.industry] : ['通用']);
 
-  const freeQuota = agent.freeTokenQuota || 50000;
+  const freeQuotaAmount = agent.freeQuotaAmount !== undefined 
+    ? agent.freeQuotaAmount 
+    : (agent.freeTokenQuota ? agent.freeTokenQuota * 0.5 : 5.0);
 
   // 体验启动逻辑 (统一支持企业客服 agent001 独立链接与外部链接)
   const handleLaunchTrial = () => {
@@ -236,7 +238,7 @@ while (true) {
                   </h2>
                   <span className="bg-indigo-50 text-indigo-700 border border-indigo-200/80 text-[10px] font-extrabold px-2 py-0.5 rounded-md shrink-0 flex items-center gap-1 shadow-2xs">
                     <Sparkles className="w-3 h-3 text-indigo-600" />
-                    <span>{freeQuota.toLocaleString()} Token 体验额度</span>
+                    <span>{freeQuotaAmount > 0 ? `¥${freeQuotaAmount.toFixed(freeQuotaAmount % 1 === 0 ? 0 : 2)} 免费额度` : '按量计费'}</span>
                   </span>
                   {hasUsed && (
                     <span className="bg-emerald-50 text-emerald-700 border border-emerald-200/80 text-[10px] font-bold px-2 py-0.5 rounded-md shrink-0 flex items-center gap-0.5">
@@ -246,8 +248,6 @@ while (true) {
                   )}
                 </div>
                 <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-xs text-slate-500 font-medium mt-1">
-                  <span>开发者: <strong className="text-slate-700">{agent.developer || agent.author || '官方团队'}</strong></span>
-                  <span>·</span>
                   <div className="flex items-center gap-1 text-amber-500 font-bold">
                     <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                     <span>{(agent.rating ?? 5.0).toFixed(1)}</span>
@@ -410,7 +410,7 @@ while (true) {
                   </p>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="text-xs text-indigo-700 font-bold">赠送额度: {freeQuota.toLocaleString()} Tokens</span>
+                  <span className="text-xs text-indigo-700 font-bold font-mono">赠送额度: {freeQuotaAmount > 0 ? `${freeQuotaAmount.toFixed(freeQuotaAmount % 1 === 0 ? 0 : 2)} 元` : '0 元'}</span>
                 </div>
               </div>
             </div>
@@ -605,7 +605,7 @@ while (true) {
             ) : (
               <span className="text-slate-600 font-medium flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-                <span>赠送 {freeQuota.toLocaleString()} Token 免费体验额度 · 极速启动</span>
+                <span>赠送 {freeQuotaAmount > 0 ? `¥${freeQuotaAmount.toFixed(freeQuotaAmount % 1 === 0 ? 0 : 2)} 元` : '0 元'} 免费体验额度 · 极速启动</span>
               </span>
             )}
           </div>

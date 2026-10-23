@@ -13,7 +13,6 @@ import { AgentAdminViews } from './agent/AgentAdminViews';
 import { DatasetAdminViews } from './dataset/DatasetAdminViews';
 import { SkillAdminView } from './skill/SkillAdminView';
 import { CommunityAdminViews } from './community/CommunityAdminViews';
-import { OperationsDashboard } from './operations/OperationsDashboard';
 import { EcoDashboardView } from './ecosystem/EcoDashboardView';
 import { ComputeOpsDashboardView } from './compute-ops/ComputeOpsDashboardView';
 import {
@@ -121,11 +120,6 @@ export const AdminLayout: React.FC = () => {
       id: 'compute_ops_center' as AdminMenuKey,
       label: '算力运营中心',
       icon: <Cpu className="w-4 h-4 text-blue-400" />
-    },
-    {
-      id: 'operations' as AdminMenuKey,
-      label: '运营中心',
-      icon: <LayoutDashboard className="w-4 h-4" />
     },
     {
       id: 'agent_admin_group',
@@ -331,13 +325,6 @@ export const AdminLayout: React.FC = () => {
           subtitle: '面向算力中心资方，用核心指标和负载曲线回答“我的算力被谁用了、负载结构好不好”',
           category: '算力运营',
           crumb: ['后台运营中心', '算力运营中心']
-        };
-      case 'operations':
-        return {
-          title: '运营中心大屏',
-          subtitle: '平台核心运营数据全景指挥看板与全局健康度监控',
-          category: '全局概览',
-          crumb: ['后台管理', '运营中心']
         };
       case 'agent_list':
         return {
@@ -776,7 +763,6 @@ export const AdminLayout: React.FC = () => {
             {/* 页面具体内容区（按当前选中的菜单渲染） */}
             {activeAdminMenu === 'eco_dashboard' && <EcoDashboardView />}
             {activeAdminMenu === 'compute_ops_center' && <ComputeOpsDashboardView />}
-            {activeAdminMenu === 'operations' && <OperationsDashboard />}
             {activeAdminMenu === 'publish_audit' && <PublishAuditAdminView />}
             {activeAdminMenu === 'task_monitor' && <TaskMonitorAdminView />}
             

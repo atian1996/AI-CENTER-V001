@@ -83,19 +83,11 @@ export const EcoIndustryTab: React.FC<EcoIndustryTabProps> = ({
     <div className="w-full text-slate-100 flex flex-col gap-2.5 select-none h-full">
       
       {/* 1. 顶部标题栏 */}
-      <div className="flex items-center justify-between px-1 shrink-0 h-9">
-        <div className="flex items-center gap-2.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-sm shadow-cyan-400" />
-          <h2 className="text-base font-black text-white tracking-wide flex items-center gap-2">
-            AI生态看板 · 产业生态成果
-          </h2>
-        </div>
-        <div className="text-xs font-mono font-bold text-slate-300 bg-slate-900/90 px-3.5 py-1 rounded-xl border border-slate-800 shadow-sm flex items-center gap-2">
-          <span>2026年10月12日</span>
-          <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            南京矢量地理大屏
-          </span>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 pt-2 pb-1 border-b border-slate-800/80">
+        <div>
+          <h1 className="text-3xl font-black text-white tracking-tight">
+            产业生态成果
+          </h1>
         </div>
       </div>
 

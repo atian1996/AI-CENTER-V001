@@ -93,7 +93,19 @@ interface AppContextType {
   searchQuery: string;
   setSearchQuery: (q: string) => void;
 
-  // Active User State
+  // Active User & Auth State
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  login: () => void;
+  logout: () => void;
+  isAuthModalOpen: boolean;
+  setIsAuthModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  authModalMode: 'login' | 'register';
+  setAuthModalMode: React.Dispatch<React.SetStateAction<'login' | 'register'>>;
+  openAuthModal: (mode?: 'login' | 'register') => void;
+  isInviteModalOpen: boolean;
+  setIsInviteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  openInviteModal: () => void;
   user: UserProfile;
   setUser: React.Dispatch<React.SetStateAction<UserProfile>>;
   checkInToday: () => void;
@@ -351,6 +363,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // 游客/登录态管理：默认为未登录游客状态，以便用户直接体验右上角“立即注册/送¥20”
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem('qianji_is_logged_in');
+      if (saved !== null) return saved === 'true';
+    } catch {
+      // ignore
+    }
+    return false;
+  });
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const [authModalMode, setAuthModalMode] = useState<'login' | 'register'>('register');
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState<boolean>(false);
 
   const [user, setUser] = useState<UserProfile>(initialUserProfile);
   const [hasCheckedInToday, setHasCheckedInToday] = useState<boolean>(false);
@@ -2187,9 +2213,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Backend Admin System State
   const [isAdminMode, setIsAdminMode] = useState<boolean>(false);
-  const [activeAdminMenu, setActiveAdminMenu] = useState<AdminMenuKey>('operations');
+  const [activeAdminMenu, setActiveAdminMenu] = useState<AdminMenuKey>('eco_dashboard');
 
-  const enterAdminMode = (defaultMenu: AdminMenuKey = 'operations') => {
+  const enterAdminMode = (defaultMenu: AdminMenuKey = 'eco_dashboard') => {
     setIsAdminMode(true);
     setActiveAdminMenu(defaultMenu);
     try {
@@ -2325,6 +2351,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTimeout(() => {
       setToast(null);
     }, 3000);
+  };
+
+  const login = () => {
+    setIsLoggedIn(true);
+    try {
+      localStorage.setItem('qianji_is_logged_in', 'true');
+    } catch {
+      // ignore
+    }
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    try {
+      localStorage.setItem('qianji_is_logged_in', 'false');
+    } catch {
+      // ignore
+    }
+    showToast('已安全退出登录，欢迎再次回来');
+  };
+
+  const openAuthModal = (mode: 'login' | 'register' = 'register') => {
+    setAuthModalMode(mode);
+    setIsAuthModalOpen(true);
+  };
+
+  const openInviteModal = () => {
+    setIsInviteModalOpen(true);
   };
 
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -3337,6 +3391,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setSearchOpen,
       searchQuery,
       setSearchQuery,
+      isLoggedIn,
+      setIsLoggedIn,
+      login,
+      logout,
+      isAuthModalOpen,
+      setIsAuthModalOpen,
+      authModalMode,
+      setAuthModalMode,
+      openAuthModal,
+      isInviteModalOpen,
+      setIsInviteModalOpen,
+      openInviteModal,
       user,
       setUser,
       checkInToday,
