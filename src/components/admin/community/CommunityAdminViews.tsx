@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Markdown from 'react-markdown';
 import { useApp } from '../../../context/AppContext';
@@ -41,7 +41,9 @@ import {
   Compass,
   Users,
   Coffee,
-  Check
+  Check,
+  Upload,
+  Image as ImageIcon
 } from 'lucide-react';
 
 interface CommunityAdminViewsProps {
@@ -583,6 +585,31 @@ export const CommunityPostAdminView: React.FC = () => {
   const [boardNameInput, setBoardNameInput] = useState('');
   const [boardDescInput, setBoardDescInput] = useState('');
   const [boardSortInput, setBoardSortInput] = useState<number>(1);
+  const [boardLogoInput, setBoardLogoInput] = useState<string>('');
+  const logoFileInputRef = useRef<HTMLInputElement>(null);
+
+  // Handle Board LOGO Upload
+  const handleLogoFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      showToast('请上传图片格式文件（PNG、JPG、SVG、WebP等）');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      showToast('图片大小请勿超过 2MB');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      if (result) {
+        setBoardLogoInput(result);
+        showToast('板块 LOGO 上传成功！');
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   // Normalize posts with default values
   const allPosts = useMemo(() => {
@@ -730,14 +757,16 @@ export const CommunityPostAdminView: React.FC = () => {
       updateCommunityBoard(editingBoard.id, {
         name: boardNameInput.trim(),
         description: boardDescInput.trim(),
-        sortWeight: boardSortInput
+        sortWeight: boardSortInput,
+        logo: boardLogoInput.trim() || undefined
       });
     } else {
       addCommunityBoard({
         name: boardNameInput.trim(),
         description: boardDescInput.trim(),
         sortWeight: boardSortInput,
-        status: '已启用'
+        status: '已启用',
+        logo: boardLogoInput.trim() || undefined
       });
     }
 
@@ -745,6 +774,8 @@ export const CommunityPostAdminView: React.FC = () => {
     setBoardNameInput('');
     setBoardDescInput('');
     setBoardSortInput(1);
+    setBoardLogoInput('');
+    if (logoFileInputRef.current) logoFileInputRef.current.value = '';
   };
 
   // Toggle Board Status (启用 / 停用)
@@ -1123,7 +1154,7 @@ export const CommunityPostAdminView: React.FC = () => {
             </div>
 
             {/* Board Create / Edit Form */}
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-4">
               <div className="text-xs font-bold text-indigo-400 flex items-center justify-between">
                 <span>{editingBoard ? `编辑板块：${editingBoard.name}` : '添加新板块'}</span>
                 {editingBoard && (
@@ -1133,6 +1164,8 @@ export const CommunityPostAdminView: React.FC = () => {
                       setBoardNameInput('');
                       setBoardDescInput('');
                       setBoardSortInput(1);
+                      setBoardLogoInput('');
+                      if (logoFileInputRef.current) logoFileInputRef.current.value = '';
                     }}
                     className="text-[10px] text-slate-400 hover:text-slate-200 underline cursor-pointer"
                   >
@@ -1173,6 +1206,78 @@ export const CommunityPostAdminView: React.FC = () => {
                 </div>
               </div>
 
+              {/* 板块 LOGO 上传字段 */}
+              <div className="space-y-1.5 pt-1 border-t border-slate-900">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] text-slate-400 flex items-center gap-1.5 font-bold">
+                    <ImageIcon className="w-3.5 h-3.5 text-indigo-400" />
+                    <span>板块 LOGO 上传</span>
+                    <span className="text-[10px] text-slate-500 font-normal">（支持本地上传 PNG、JPG、SVG、WebP，单张 ≤ 2MB）</span>
+                  </label>
+                  {boardLogoInput && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setBoardLogoInput('');
+                        if (logoFileInputRef.current) logoFileInputRef.current.value = '';
+                      }}
+                      className="text-[10px] text-rose-400 hover:text-rose-300 transition cursor-pointer"
+                    >
+                      清除 LOGO
+                    </button>
+                  )}
+                </div>
+
+                <input
+                  type="file"
+                  ref={logoFileInputRef}
+                  onChange={handleLogoFileUpload}
+                  accept="image/*"
+                  className="hidden"
+                />
+
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                  {/* LOGO 预览与上传触发框 */}
+                  <div className="flex items-center gap-3 p-2 rounded-xl bg-slate-900 border border-slate-800/90 shrink-0">
+                    {boardLogoInput ? (
+                      <div className="relative group">
+                        <img
+                          src={boardLogoInput}
+                          alt="板块LOGO预览"
+                          className="w-11 h-11 rounded-lg object-cover border border-slate-700 bg-slate-950 shadow-xs"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-11 h-11 rounded-lg bg-slate-950 border border-dashed border-slate-700 flex flex-col items-center justify-center text-slate-500">
+                        <ImageIcon className="w-5 h-5" />
+                      </div>
+                    )}
+
+                    <div className="space-y-1">
+                      <button
+                        type="button"
+                        onClick={() => logoFileInputRef.current?.click()}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition cursor-pointer shadow-xs"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>{boardLogoInput ? '更换 LOGO' : '选择图片上传'}</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 网络图片 URL 备选输入 */}
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      value={boardLogoInput}
+                      onChange={(e) => setBoardLogoInput(e.target.value)}
+                      placeholder="或输入/粘贴 LOGO 图片在线 URL 地址..."
+                      className="w-full p-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-200 placeholder:text-slate-600 outline-none focus:border-indigo-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-[11px] text-slate-400 mb-1">板块简介描述</label>
                 <input
@@ -1190,6 +1295,7 @@ export const CommunityPostAdminView: React.FC = () => {
               <table className="w-full text-left text-xs text-slate-300">
                 <thead className="bg-slate-950 text-slate-400 font-mono border-b border-slate-800">
                   <tr>
+                    <th className="py-3 px-3 text-center">LOGO</th>
                     <th className="py-3 px-4">板块名称</th>
                     <th className="py-3 px-4">描述</th>
                     <th className="py-3 px-3 text-center">发帖量</th>
@@ -1201,6 +1307,19 @@ export const CommunityPostAdminView: React.FC = () => {
                 <tbody className="divide-y divide-slate-800/80">
                   {boards.map(b => (
                     <tr key={b.id} className="hover:bg-slate-800/30">
+                      <td className="py-3 px-3 text-center">
+                        {b.logo ? (
+                          <img
+                            src={b.logo}
+                            alt={b.name}
+                            className="w-8 h-8 rounded-lg object-cover mx-auto border border-slate-700 bg-slate-900 shadow-2xs"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 mx-auto text-[10px] font-mono">
+                            默认
+                          </div>
+                        )}
+                      </td>
                       <td className="py-3 px-4 font-bold text-white">{b.name}</td>
                       <td className="py-3 px-4 text-slate-400 max-w-xs truncate">{b.description}</td>
                       <td className="py-3 px-3 text-center font-mono font-bold text-indigo-400">{b.postCount}</td>
@@ -1219,6 +1338,7 @@ export const CommunityPostAdminView: React.FC = () => {
                             setBoardNameInput(b.name);
                             setBoardDescInput(b.description);
                             setBoardSortInput(b.sortWeight);
+                            setBoardLogoInput(b.logo || '');
                           }}
                           className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold cursor-pointer"
                         >

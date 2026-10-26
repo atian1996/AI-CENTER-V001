@@ -227,7 +227,9 @@ export const CommunityView: React.FC = () => {
         id: b.name as CommunityBoard,
         label: b.name,
         desc: b.description || '社区开发者讨论与分享',
-        icon: getBoardIcon(b.name)
+        icon: b.logo ? (
+          <img src={b.logo} alt={b.name} className="w-4 h-4 rounded object-cover" />
+        ) : getBoardIcon(b.name)
       }))
     ];
   }, [enabledBoards]);

@@ -1035,6 +1035,7 @@ export interface CommunityBoardItem {
   postCount: number;
   sortWeight: number; // 数值越小越靠前
   status: '已启用' | '已停用';
+  logo?: string; // 板块LOGO (图片URL或base64)
 }
 
 // 社区评论管理项

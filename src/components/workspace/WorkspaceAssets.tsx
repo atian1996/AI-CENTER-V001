@@ -523,7 +523,9 @@ export const WorkspaceAssets: React.FC = () => {
     skills, 
     favorites, 
     datasetDownloads,
+    setDatasetDownloads,
     skillDownloads,
+    setSkillDownloads,
     downloadDataset,
     downloadSkill,
     toggleDatasetStatus,
@@ -1175,6 +1177,17 @@ export const WorkspaceAssets: React.FC = () => {
                             >
                               再次下载
                             </button>
+                            <button
+                              onClick={() => {
+                                if (confirm(`确定要从已下载列表中移除数据集【${rec.datasetName}】吗？`)) {
+                                  setDatasetDownloads(prev => prev.filter(r => r.id !== rec.id));
+                                  showToast(`已删除数据集【${rec.datasetName}】下载记录`);
+                                }
+                              }}
+                              className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                            >
+                              删除
+                            </button>
                           </td>
                         </tr>
                       );
@@ -1247,14 +1260,27 @@ export const WorkspaceAssets: React.FC = () => {
                         </td>
 
                         <td className="p-4 text-right space-x-2">
-                          {/* 1. 待审核: 支持【详情】 */}
+                          {/* 1. 待审核: 支持【详情】和【删除】 */}
                           {isPending && (
-                            <button
-                              onClick={() => setReadOnlyDatasetModal(ds)}
-                              className="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold transition cursor-pointer"
-                            >
-                              详情
-                            </button>
+                            <>
+                              <button
+                                onClick={() => setReadOnlyDatasetModal(ds)}
+                                className="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold transition cursor-pointer"
+                              >
+                                详情
+                              </button>
+                              <button
+                                onClick={() => {
+                                  if (confirm(`确定要删除待审核的数据集【${ds.name}】吗？`)) {
+                                    deleteDataset(ds.id);
+                                    showToast(`待审核数据集【${ds.name}】已成功删除`);
+                                  }
+                                }}
+                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                              >
+                                删除
+                              </button>
+                            </>
                           )}
 
                           {/* 2. 已驳回: 支持【修改】和【删除】 */}
@@ -1280,7 +1306,7 @@ export const WorkspaceAssets: React.FC = () => {
                             </>
                           )}
 
-                          {/* 3. 未上架 / 已上架: 支持【详情】和 【上架/下架】 */}
+                          {/* 3. 未上架 / 已上架: 支持【详情】、【上架/下架】和【删除】 */}
                           {!isPending && !isRejected && (
                             <>
                               <button
@@ -1311,6 +1337,18 @@ export const WorkspaceAssets: React.FC = () => {
                                   上架
                                 </button>
                               )}
+
+                              <button
+                                onClick={() => {
+                                  if (confirm(`确定要删除数据集【${ds.name}】吗？`)) {
+                                    deleteDataset(ds.id);
+                                    showToast(`数据集【${ds.name}】已成功删除`);
+                                  }
+                                }}
+                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                              >
+                                删除
+                              </button>
                             </>
                           )}
                         </td>
@@ -1429,6 +1467,17 @@ export const WorkspaceAssets: React.FC = () => {
                             >
                               再次下载
                             </button>
+                            <button
+                              onClick={() => {
+                                if (confirm(`确定要从已下载列表中移除 Skill【${rec.skillName}】吗？`)) {
+                                  setSkillDownloads(prev => prev.filter(r => r.id !== rec.id));
+                                  showToast(`已删除 Skill【${rec.skillName}】下载记录`);
+                                }
+                              }}
+                              className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                            >
+                              删除
+                            </button>
                           </td>
                         </tr>
                       );
@@ -1500,14 +1549,27 @@ export const WorkspaceAssets: React.FC = () => {
                         </td>
 
                         <td className="p-4 text-right space-x-2">
-                          {/* 1. 待审核: 支持【详情】 */}
+                          {/* 1. 待审核: 支持【详情】和【删除】 */}
                           {isPending && (
-                            <button
-                              onClick={() => setReadOnlySkillModal(sk)}
-                              className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition cursor-pointer"
-                            >
-                              详情
-                            </button>
+                            <>
+                              <button
+                                onClick={() => setReadOnlySkillModal(sk)}
+                                className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition cursor-pointer"
+                              >
+                                详情
+                              </button>
+                              <button
+                                onClick={() => {
+                                  if (confirm(`确定要删除待审核的 Skill 插件【${sk.name}】吗？`)) {
+                                    deleteSkill(sk.id);
+                                    showToast(`待审核 Skill 插件【${sk.name}】已成功删除`);
+                                  }
+                                }}
+                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                              >
+                                删除
+                              </button>
+                            </>
                           )}
 
                           {/* 2. 已驳回: 支持【修改】和【删除】，修改后再次提交 */}
@@ -1533,7 +1595,7 @@ export const WorkspaceAssets: React.FC = () => {
                             </>
                           )}
 
-                          {/* 3. 未上架 / 已上架: 支持【详情】和 【上架/下架】 */}
+                          {/* 3. 未上架 / 已上架: 支持【详情】、【上架/下架】和【删除】 */}
                           {!isPending && !isRejected && (
                             <>
                               <button
@@ -1564,6 +1626,18 @@ export const WorkspaceAssets: React.FC = () => {
                                   上架
                                 </button>
                               )}
+
+                              <button
+                                onClick={() => {
+                                  if (confirm(`确定要删除 Skill 插件【${sk.name}】吗？`)) {
+                                    deleteSkill(sk.id);
+                                    showToast(`Skill 插件【${sk.name}】已成功删除`);
+                                  }
+                                }}
+                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                              >
+                                删除
+                              </button>
                             </>
                           )}
                         </td>
