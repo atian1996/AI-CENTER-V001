@@ -1,7 +1,10 @@
 import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
+import { initTheme } from './utils/themeManager';
 import { Header } from './components/common/Header';
 import { HomeView } from './components/home/HomeView';
+import { TrainingCertificationView } from './components/training/TrainingCertificationView';
+import { PremiumTrialView } from './components/trial/PremiumTrialView';
 import { MarketplaceView } from './components/marketplace/MarketplaceView';
 import { TasksView } from './components/tasks/TasksView';
 import { ComputeView } from './components/compute/ComputeView';
@@ -62,6 +65,11 @@ const AppContent: React.FC = () => {
     showToast
   } = useApp();
 
+  // Ensure persisted data-theme attribute is synced on mount
+  React.useEffect(() => {
+    initTheme();
+  }, []);
+
   // Scroll to top whenever activeTab changes or menu is clicked
   React.useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -110,7 +118,7 @@ const AppContent: React.FC = () => {
   // 如果处于后台管理模式，渲染后台左侧导航专属界面
   if (isAdminMode) {
     return (
-      <div className="min-h-screen w-full bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white">
+      <div className="admin-dark-shell min-h-screen w-full bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white">
         <AdminLayout />
 
         {/* Global Modals & Toast */}
@@ -163,16 +171,18 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen w-full bg-slate-50/90 text-slate-800 font-sans selection:bg-indigo-500 selection:text-white flex flex-col bg-tech-grid relative">
+    <div className="min-h-screen w-full bg-[var(--bg-page)] text-[var(--text-primary)] font-sans selection:bg-indigo-500 selection:text-white flex flex-col bg-tech-grid relative transition-colors duration-200">
       {/* Subtle Top Ambient Glow Background */}
-      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1920px] h-[500px] bg-gradient-to-b from-indigo-100/40 via-cyan-50/30 to-transparent blur-3xl -z-10" />
+      <div className="theme-ambient-decor pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1920px] h-[500px] bg-gradient-to-b from-indigo-100/40 via-cyan-50/30 to-transparent blur-3xl -z-10 transition-opacity duration-200" />
 
       {/* Top Header */}
       <Header />
 
-      {/* Main Container tailored for 1920x1080 resolution */}
-      <main className="flex-1 w-full max-w-[1920px] mx-auto px-8 py-6 overflow-x-hidden">
+      {/* Main Container tailored for 1920x1080 resolution (use overflow-x-clip to preserve descendant position:sticky) */}
+      <main className="flex-1 w-full max-w-[1920px] mx-auto px-8 py-6 overflow-x-clip">
         {activeTab === 'home' && <HomeView key={`home-${tabResetKey.home}`} />}
+        {activeTab === 'training' && <TrainingCertificationView key={`training-${tabResetKey.training}`} />}
+        {activeTab === 'trial' && <PremiumTrialView key={`trial-${tabResetKey.trial}`} />}
         {activeTab === 'marketplace' && <MarketplaceView key={`marketplace-${tabResetKey.marketplace}`} />}
         {activeTab === 'tasks' && <TasksView key={`tasks-${tabResetKey.tasks}`} />}
         {activeTab === 'compute' && <ComputeView key={`compute-${tabResetKey.compute}`} />}
@@ -182,12 +192,12 @@ const AppContent: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t border-slate-200/80 bg-white/80 backdrop-blur-md py-6 text-center text-xs text-slate-500">
+      <footer className="w-full border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] backdrop-blur-md py-6 text-center text-xs text-[var(--text-secondary)] transition-colors duration-200">
         <div className="max-w-[1920px] mx-auto px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="font-medium text-slate-600">
-            © 2026 <span className="font-bold text-indigo-600">AI运营中心</span> (AI Operations Center) - 全场景一站式 AI 应用 + 社区 + 算力 综合平台
+          <div className="font-medium text-[var(--text-secondary)]">
+            © 2026 <span className="font-bold text-[var(--brand-primary)]">AI运营中心</span> (AI Operations Center) - 全场景一站式 AI 应用 + 社区 + 算力 综合平台
           </div>
-          <div className="flex items-center gap-4 text-[11px] text-slate-500">
+          <div className="flex items-center gap-4 text-[11px] text-[var(--text-muted)]">
             <span>· 开发者 API</span>
             <span>· 隐私政策</span>
             <span>· 社区规范</span>

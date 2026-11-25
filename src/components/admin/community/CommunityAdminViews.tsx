@@ -1181,7 +1181,7 @@ export const CommunityPostAdminView: React.FC = () => {
                     type="text"
                     value={boardNameInput}
                     onChange={(e) => setBoardNameInput(e.target.value)}
-                    placeholder="如：干货分享"
+                    placeholder="如：厂商动态"
                     className="w-full p-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-200 outline-none focus:border-indigo-500"
                   />
                 </div>
@@ -1480,12 +1480,11 @@ export const CommunityCommentAdminView: React.FC = () => {
             className="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-200 outline-none focus:border-indigo-500 font-medium"
           >
             <option value="全部板块">全部板块</option>
-            <option value="干货分享">干货分享</option>
-            <option value="求助答疑">求助答疑</option>
-            <option value="前沿观察">前沿观察</option>
-            <option value="赚钱交流">赚钱交流</option>
-            <option value="同行交流">同行交流</option>
-            <option value="娱乐灌水">娱乐灌水</option>
+            <option value="厂商动态">厂商动态</option>
+            <option value="技术前沿">技术前沿</option>
+            <option value="活动速递">活动速递</option>
+            <option value="行业快讯">行业快讯</option>
+            <option value="极客圆桌">极客圆桌</option>
           </select>
 
           <select
@@ -1808,12 +1807,11 @@ export const CommunityStatsAdminView: React.FC = () => {
 
   // Board Activity Ranking Data
   const boardRankings = [
-    { board: '干货分享', count: 580, percentage: 85 },
-    { board: '求助答疑', count: 340, percentage: 62 },
-    { board: '前沿观察', count: 220, percentage: 48 },
-    { board: '赚钱交流', count: 150, percentage: 35 },
-    { board: '同行交流', count: 88, percentage: 22 },
-    { board: '娱乐灌水', count: 50, percentage: 14 },
+    { board: '极客圆桌', count: 580, percentage: 85 },
+    { board: '技术前沿', count: 340, percentage: 68 },
+    { board: '厂商动态', count: 260, percentage: 56 },
+    { board: '行业快讯', count: 195, percentage: 44 },
+    { board: '活动速递', count: 148, percentage: 34 },
   ];
 
   // Top 10 Active Users

@@ -40,17 +40,17 @@ export const MarketplaceView: React.FC = () => {
         </div>
 
         {/* Sub Tab Switcher */}
-        <div className="flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/80 shrink-0">
+        <div className="theme-nav-group flex items-center gap-1.5 p-1.5 shrink-0">
           {tabs.map(t => {
             const isActive = marketplaceTab === t.id;
             return (
               <button
                 key={t.id}
                 onClick={() => setMarketplaceTab(t.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                className={`theme-nav-item px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer whitespace-nowrap shrink-0 ${
                   isActive
-                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white'
+                    ? 'theme-nav-active'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
                 }`}
               >
                 {t.icon}

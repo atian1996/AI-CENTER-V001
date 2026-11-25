@@ -16,7 +16,7 @@ const basePosts: FeedPost[] = [
 ];
 
 // 扩展生成真实的社区帖子池（共扩展至 240+ 条），支撑 10 页 200 条的瀑布流分页与性能保护验证
-const boards: CommunityBoard[] = ['干货分享', '求助答疑', '前沿观察', '赚钱交流', '同行交流', '娱乐灌水'];
+const boards: CommunityBoard[] = ['厂商动态', '技术前沿', '活动速递', '行业快讯', '极客圆桌'];
 
 const sampleAuthors = [
   { name: '王AI-深度架构师', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80', tag: 'VIP 核心贡献者' },
@@ -33,74 +33,74 @@ const sampleAuthors = [
 
 const topicTemplates = [
   {
-    title: '【实战】使用 WebGPU 在浏览器端零延迟运行 DeepSeek 量化小模型的探索与坑点总结',
-    board: '干货分享' as CommunityBoard,
-    tags: ['WebGPU', 'DeepSeek', 'Wasm', '前端AI'],
-    content: '最近我们团队尝试将 DeepSeek-R1-Distill 系列的 1.5B 权重量化为 4-bit 并通过 ONNX Runtime Web 与 WebGPU 移植到浏览器前端执行纯本地离线推理。在 M3 Max 上吞吐达到了 32 tok/s，在普通 Chrome 浏览器上也有 15 tok/s 的优异表现。本文整理了内存映射、着色器编译耗时优化以及 KV Cache 绑定的关键代码。',
+    title: '【厂商动态】昇腾云与国产大模型生态联合发布千卡智算集群推理加速套件',
+    board: '厂商动态' as CommunityBoard,
+    tags: ['算力生态', '昇腾', '模型厂商', '推理加速'],
+    content: '面向万亿参数 MoE 模型的规模化推理需求，主流国产算力厂商联合推出新一代通信融合与算子编排引擎，在 32K 长上下文并发场景下将端到端首包延迟降低 38%，并全面兼容开源推理框架。',
     image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80'
   },
   {
-    title: '【避坑】生产环境 Milvus 2.4.x 向量数据库集群在千万级 HNSW 索引下的内存预警与参数调优',
-    board: '求助答疑' as CommunityBoard,
-    tags: ['Milvus', '向量检索', '运维架构', 'HNSW'],
-    content: '我们在阿里云 ACK 上搭建了 12 节点的 Milvus 集群，在向量量级突破 2,000 万后，QueryNode 频繁发生 OOM 重启。排查发现是 M=16、efConstruction=200 的 HNSW 索引占用了全部 RAM。本文分享了我们将部分旧分区迁移至 DiskANN 混合存储并调整 segment 大小的生产落地配置。',
-    image: null
-  },
-  {
-    title: '【前沿速递】最新多模态架构 MoE 路由分发机制解析：为什么动态 Top-k 优于固定 Gate？',
-    board: '前沿观察' as CommunityBoard,
+    title: '【技术前沿】最新多模态架构 MoE 路由分发机制解析：为什么动态 Top-k 优于固定 Gate？',
+    board: '技术前沿' as CommunityBoard,
     tags: ['多模态', 'MoE', '架构前沿', '深度学习'],
     content: '深入剖析 DeepSeek-V3 与 Qwen-VL 最新的专家路由机制。传统的固定 top-2 门控经常发生部分专家“过载”而其他专家“饥饿”的负载失衡问题，动态辅助损失函数与路由无偏估计让 MoE 在训练收敛速度上提升了近 18%。',
     image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&auto=format&fit=crop&q=80'
   },
   {
-    title: '【商业化】独立开发者利用垂直领域 Agent SaaS 做到月入 8 万的真实复盘',
-    board: '赚钱交流' as CommunityBoard,
-    tags: ['SaaS', '商业化', '独立开发', '赚钱经验'],
-    content: '去年辞职后，我一个人花了 2 个月开发了一款针对跨境电商亚马逊商家的自动化客服与评论归因 Agent。目前订阅客户超过 350 家，MRR 稳定在 1.2 万美元左右。关键不要去卷通用大模型套壳，一定要找准细分垂直场景的刚需痛点！',
-    image: null
-  },
-  {
-    title: '【同行唠嗑】国内大模型 Infra 团队的日常究竟在忙些什么？从算子优化到显卡故障率排查',
-    board: '同行交流' as CommunityBoard,
-    tags: ['职场', '大模型Infra', '工程师生活', '同行交流'],
-    content: '聊聊在大厂做训练集群基础设施的真实一天：上午排查 IB 网络丢包导致训练中断的机器，下午写 Triton 算子融合减少显存拷贝，晚上做 checkpoint 异步持久化到 Ceph 的压测。欢迎同行交流下各自公司算力利用率 MFU 的指标！',
+    title: '【活动速递】2026 全国人工智能大模型攻防演练赛暨高校科研沙龙正式开启报名',
+    board: '活动速递' as CommunityBoard,
+    tags: ['AI赛事', '学术会议', '科研沙龙', '官方通告'],
+    content: '本届大赛设立大模型安全红蓝对抗、多智能体自主编排与算力效率优化三大赛道，面向高校实验室与企业研发团队开放申请，入围决赛队伍将获得专属算力额度与顶级期刊特邀报告机会。',
     image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80'
   },
   {
-    title: '【茶水间】写提示词写到走火入魔：跟家里的扫地机器人说话都带上了 Few-Shot 和 CoT',
-    board: '娱乐灌水' as CommunityBoard,
-    tags: ['极客日常', '幽默', '摸鱼', '茶水间'],
-    content: '今天扫地机器人卡在桌腿下了，我脱口而出：“你是一个高级扫地智能体，请思考避障步骤，Think step by step，然后再倒车脱困。”旁边的猫都用看智障的眼神看我……大家调大模型有没有什么好笑的职业病？',
+    title: '【行业快讯】全球企业级 Agent 商业化增速超预期：金融、制造与医疗成三大核心落地场景',
+    board: '行业快讯' as CommunityBoard,
+    tags: ['行业快讯', 'Agent', '企业落地', '趋势速览'],
+    content: '最新季度全球 AI 产业报告显示，超过 62% 的中大型企业已将自主智能体工作流引入客服、代码审计与供应链调度环节，推理侧算力消耗首次超过训练侧成为云服务增长主引擎。',
+    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=80'
+  },
+  {
+    title: '【极客圆桌】使用 WebGPU 在浏览器端零延迟运行 DeepSeek 量化小模型的探索与坑点总结',
+    board: '极客圆桌' as CommunityBoard,
+    tags: ['WebGPU', 'DeepSeek', 'Wasm', '实战经验'],
+    content: '最近我们团队尝试将 DeepSeek-R1-Distill 系列的 1.5B 权重量化为 4-bit 并通过 ONNX Runtime Web 与 WebGPU 移植到浏览器前端执行纯本地离线推理。本文整理了内存映射、着色器编译耗时优化以及 KV Cache 绑定的关键代码。',
     image: null
   },
   {
-    title: '【评测】2026 年主流开源 RAG 框架横向评测：LlamaIndex vs LangChain vs 自研轻量 Pipeline',
-    board: '干货分享' as CommunityBoard,
-    tags: ['RAG', 'LlamaIndex', 'LangChain', '评测对比'],
-    content: '我们对 10 万篇医疗与金融合规文档进行了端到端问答准确率评测。结果表明，重度的 LangChain 抽象层带来了平均 200ms 的无谓调度开销，而基于 FastAPI + 自研 Chunk 重排算法的轻量架构在召回率与首包响应时间上取得了最佳平衡。',
+    title: '【厂商动态】主流云算力平台 H200 / B200 裸金属集群正式上线按秒计费与弹性扩缩容',
+    board: '厂商动态' as CommunityBoard,
+    tags: ['云厂商', 'GPU集群', '算力调度', '基础设施'],
+    content: '多家头部智算云厂商同步升级底层 RDMA 高速互联与弹性调度策略，支持开发者在 45 秒内拉起多机多卡训练任务，并结合空闲算力竞价机制将中小团队的微调成本压低近一半。',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80'
   },
   {
-    title: '【求助】关于 vLLM 的 Prefix Caching 在多轮多分支对话树中的复用命中率疑问',
-    board: '求助答疑' as CommunityBoard,
-    tags: ['vLLM', 'KVCache', 'PrefixCaching', '求助'],
-    content: '请教各位算力架构专家：在同一个任务有多位 Agent 协作探索时，树状结构的分支 Prompt 前缀理论上可以共享父节点的 KV Cache。但在高并发下，我们观察到 cache_hit_rate 只有 35% 左右，远低于单分支的 78%。有遇到同类问题的同行指点一下吗？',
-    image: null
-  },
-  {
-    title: '【硬核干货】手把手教你写一个高吞吐的 CUDA 内存池分配器（Memory Pool）',
-    board: '干货分享' as CommunityBoard,
-    tags: ['CUDA', 'C++', '高性能计算', 'GPU架构'],
-    content: 'cudaMalloc 和 cudaFree 在频繁调用时会有微秒级的 Host 同步开销，对于高 QPS 推理服务极其致命。本文实现了一个分段式的 Slab 内存池，并支持动态多 Stream 流隔离与显存碎片整理，代码已开源在 GitHub。',
+    title: '【技术前沿】手把手解析高吞吐 CUDA 内存池分配器与 FP8 量化内核的前沿演进',
+    board: '技术前沿' as CommunityBoard,
+    tags: ['CUDA', 'FP8量化', '高性能计算', 'GPU架构'],
+    content: 'cudaMalloc 和 cudaFree 在频繁调用时会有微秒级的 Host 同步开销，对于高 QPS 推理服务极其致命。本文深入剖析分段式 Slab 内存池与多 Stream 流隔离架构在最新推理框架中的应用。',
     image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80'
   },
   {
-    title: '【变现分享】将开源 HuggingFace 模型打包为独立 API 服务的按调用次数计费实操',
-    board: '赚钱交流' as CommunityBoard,
-    tags: ['API经济', 'SaaS', '变现', '微调模型'],
-    content: '把微调好的中文情感分析和信息抽取模型打包为标准化 REST 接口，挂载在开发者集市与国外 RapidAPI 平台上。目前每月被调用约 400 万次，带来几千块零花钱，服务器成本不到 800 元，非常适合个人开发者起步副业。',
-    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&auto=format&fit=crop&q=80'
+    title: '【活动速递】ACL / NeurIPS 论文预读会：长上下文推理与强化学习对齐专场日程公布',
+    board: '活动速递' as CommunityBoard,
+    tags: ['论文精读', '学术会议', 'RLHF', '线上直播'],
+    content: '本期学术沙龙特邀多位一线论文一作在线拆解长序列注意力稀疏化、GRPO 推理对齐以及多模态世界模型等热点工作，全程开放 QA 问答与开源代码仓库复现演示。',
+    image: null
+  },
+  {
+    title: '【行业快讯】开源大模型 API 价格战进入深水区，长文本缓存命中计费成为行业新标准',
+    board: '行业快讯' as CommunityBoard,
+    tags: ['API定价', '开源生态', '行业热点', 'ContextCache'],
+    content: '随着 Prefix Caching 与磁盘分层 KV 存储成熟，国内外主流模型服务商相继下调上下文缓存命中单价最高达 75%，为超长代码库分析与企业知识库问答打开了大规模应用空间。',
+    image: null
+  },
+  {
+    title: '【极客圆桌】生产环境 Milvus 2.4.x 向量集群千万级 HNSW 索引内存预警与调优复盘',
+    board: '极客圆桌' as CommunityBoard,
+    tags: ['Milvus', '向量检索', '运维架构', '踩坑复盘'],
+    content: '我们在生产环境搭建了 12 节点的 Milvus 集群，在向量量级突破 2,000 万后，QueryNode 频繁发生 OOM 重启。本文分享了我们将旧分区迁移至 DiskANN 混合存储并调整 segment 大小的完整落地方案。',
+    image: null
   }
 ];
 
@@ -108,7 +108,7 @@ const topicTemplates = [
 const generatedPosts: FeedPost[] = Array.from({ length: 180 }, (_, i) => {
   const tpl = topicTemplates[i % topicTemplates.length];
   const author = sampleAuthors[i % sampleAuthors.length];
-  const board = boards[i % boards.length];
+  const board = tpl.board || boards[i % boards.length];
   const id = `pst_ext_${String(i + 1).padStart(3, '0')}`;
   const hoursAgo = Math.floor(i * 1.5) + 3;
   

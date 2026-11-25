@@ -678,7 +678,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
     summary: '分享我在微调 LLM 时遇到的坑，包括数据清洗、学习率设置、显存优化等。涵盖从 LLaMA 到 DeepSeek 系列的全流程调优经验与实测避坑总结。',
     author: '张三',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-    section: '干货分享',
+    section: '极客圆桌',
     sectionBadge: 'bg-blue-50 text-blue-700 border-blue-200',
     comments: 12,
     likes: 45,
@@ -690,7 +690,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'post-llm-finetune',
       rank: 1,
       title: 'LLM 微调踩坑记录',
-      section: '干货分享',
+      section: '极客圆桌',
       author: '张三',
       comments: 12,
       likes: 45
@@ -699,7 +699,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'post-rag-framework',
       rank: 2,
       title: '有没有好用的 RAG 框架推荐？',
-      section: '求助答疑',
+      section: '极客圆桌',
       author: '李四',
       comments: 8,
       likes: 32
@@ -708,7 +708,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'post-ai-paint-workflow',
       rank: 3,
       title: 'AI 绘画工作流分享',
-      section: '前沿观察',
+      section: '技术前沿',
       author: '王五',
       comments: 15,
       likes: 28
@@ -717,7 +717,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'post-nlp-team',
       rank: 4,
       title: 'NLP 任务组队',
-      section: '同行交流',
+      section: '活动速递',
       author: '赵六',
       comments: 6,
       likes: 18
@@ -726,7 +726,7 @@ export const HomeView02: React.FC<HomeView02Props> = ({ onSwitchToVersion01 }) =
       id: 'post-data-annotation',
       rank: 5,
       title: '分享一个数据标注工具',
-      section: '干货分享',
+      section: '厂商动态',
       author: '孙七',
       comments: 9,
       likes: 15

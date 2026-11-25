@@ -69,7 +69,7 @@ python3 -m vllm.entrypoints.openai.api_server \\
       'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=80',
       'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80'
     ],
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 342,
     commentsCount: 28,
     sharesCount: 45,
@@ -203,7 +203,7 @@ class HybridRerankRetriever:
 2. **异步非阻塞**：初筛阶段必须使用 \`asyncio.gather\` 并行查询 BM25 与 Chroma 向量引擎，避免串行导致首 Token 阻塞；
 3. **缓存热点 Query**：对高频前 20% 的通用提问加入 Redis 语义缓存层，整体后端推理费用与 GPU 负载直接压降 40%！`,
     images: ['https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80'],
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 95,
     commentsCount: 18,
     sharesCount: 8,
@@ -284,7 +284,7 @@ export async function executeAgentToolWithGuard<T>(
 - **解析成功率从 83.5% 跃升至 99.8%**；
 - 绝大多数初次偶发格式畸形问题在第 2 轮带 Prompt 反馈的重试中均被模型自主修正；
 - 线上排错耗时大幅降低，不再有脏数据污染内部关系型数据库；建议所有接入智能体市场的插件开发者统一采用此模式！`,
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 210,
     commentsCount: 42,
     sharesCount: 31,
@@ -343,7 +343,7 @@ export async function executeAgentToolWithGuard<T>(
 - 超过 **62% 的常见基础咨询** 由 RAG 节点直接自动化闭环解决，无需人工介入；
 - 团队成功缩减了 4 名初审人工编制，每月直接节省外包运营成本约 3.2 万元！欢迎各位开发者交流参考。`,
     images: ['https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=600&auto=format&fit=crop&q=80'],
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 164,
     commentsCount: 23,
     sharesCount: 19,
@@ -403,7 +403,7 @@ SYSTEM """你是一个资深的云原生全栈架构专家。在编写代码时�
 
 1. **日常代码补全与常规任务**：选择 **Q4_K_M** 量化。相比 FP16 其语义困惑度漂移仅约 1.2%，但显存占用直接锐减 **70%**，解码吞吐量反而提升超过 20%！
 2. **多轮严谨逻辑推导**：若硬件具备 24GB 显存，果断上 32B 的 Q4_K_M，其推理深度与逻辑自洽度全方位碾压 8B 的 FP16 全精度版本！`,
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 88,
     commentsCount: 14,
     sharesCount: 6,
@@ -481,7 +481,7 @@ def find_semantic_cache(query_vector: bytes, similarity_threshold=0.93):
 - API Token 月均支出直接从 15.4 万元下降到 **9.8 万元**，每月净节省 **5.6 万元**；
 - 缓存命中的平均接口响应时延由原来的 2.8s 暴降至 **32ms**，用户体验呈现质的飞跃！`,
     images: ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80'],
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 312,
     commentsCount: 56,
     sharesCount: 45,
@@ -547,7 +547,7 @@ if step % 200 == 0:
 - 显存碎片率从原本的 **42% 陡降至不足 3%**；
 - 训练全程不再出现突发 OOM 崩溃现象；
 - 允许我们在单张 24GB 显存显卡上多塞入 25% 的样本批次，训练总时长提速 18%！`,
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 145,
     commentsCount: 22,
     sharesCount: 18,
@@ -602,7 +602,7 @@ if step % 200 == 0:
 
 完整的 ComfyUI JSON 导出工作流配置文件已上传至社区资源区，欢迎各位画师自取使用！`,
     images: ['https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80'],
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 278,
     commentsCount: 41,
     sharesCount: 38,
@@ -681,7 +681,7 @@ class SafeSqlGuardrail:
 - **渗透拦截率达到 100%**；
 - 成功抵御了包括多语句堆叠、嵌套子查询篡改数据、注释欺骗在内的全部攻击；
 - 建议所有开发 Text-to-SQL 的团队务必遵循“**只读数据库账号 + AST 语法树拦截 + 强制 LIMIT 截断**”的三重防线！`,
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 189,
     commentsCount: 29,
     sharesCount: 24,
@@ -729,7 +729,7 @@ $$\\text{总成本} = \\text{单价 (元/小时)} \\times \\text{实际运行总
 2. **算力工坊按量付费租用 A100**：直接加载预装了 PyTorch 2.3 + FlashAttention-2 的官方基础镜像；
 3. **训练自动化挂起脚本**：配置 \`nohup python train.py && sudo poweroff &\`，在训练结束后自动关机，杜绝闲置扣费；
 4. **一键权重融合与量化出包**：利用自带的脚本将 LoRA 权重与 Base 模型 Merge，并直接导出 GGUF Q4_K_M 格式，直接发布上架！`,
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 230,
     commentsCount: 35,
     sharesCount: 20,

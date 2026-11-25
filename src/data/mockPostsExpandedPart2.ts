@@ -45,7 +45,7 @@ torch.cuda.OutOfMemoryError: CUDA out of memory.
 3. **设置显存分配参数**：配置了 \`export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128\`，仍无法缓解。
 
 请问论坛里有哪位大佬成功在 2x A100 上跑通 32k 长度的 70B 吗？是不是必须开启 DeepSpeed ZeRO-3 卸载或者对 sequence 做 Chunk 并行拆分？急求各位给点配置建议，非常感谢！`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 15,
     commentsCount: 24,
     sharesCount: 2,
@@ -97,7 +97,7 @@ Do not include any markdown format, explanations, or leading/trailing text.
 想向大家请教：
 - 业内目前更推荐使用 **Outlines / Guided Decoding** 语法约束，还是使用 **Instructor + Zod/Pydantic 重试机制**？
 - 在 vLLM 服务端是否可以通过设置 \`--guided-decoding-backend outlines\` 彻底根治该问题？求踩过坑的架构师指点迷津！`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 22,
     commentsCount: 19,
     sharesCount: 5,
@@ -136,7 +136,7 @@ Do not include any markdown format, explanations, or leading/trailing text.
 1. 针对中文技术说明书与 FAQ 问答混杂的语料库，大家生产线上验证出的**黄金分块尺寸**一般是多少？
 2. 是否有必要引入 **Parent-Child Document 机制（即用小 Chunk 做索引召回，召回后向大模型提交对应的大 Parent Chunk）**？
 3. Overlap 比例通常设置在多少既能防止上下文边界断裂，又不会过多浪费向量存储与计算开销？欢迎大家分享自己的调优经验和测试数据！`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 38,
     commentsCount: 31,
     sharesCount: 7,
@@ -192,7 +192,7 @@ services:
 - 是否因为 \`--gpu-memory-utilization 0.95\` 设得过高，导致 KV Cache 占满后触发了系统级交换或死锁？
 - \`--max-num-seqs\` 设为 256 是否超出了 A10 显卡在 GPTQ 下的批处理并发上限？
 - 在面对突发流量洪峰时，应该如何在 vLLM 前方配置 Nginx 或 Envoy 的限流排队缓冲区以保护推理引擎？急盼各位资深高并发架构师指点！`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 19,
     commentsCount: 22,
     sharesCount: 4,
@@ -232,7 +232,7 @@ services:
 - 你们在生产环境最终收敛的 $r$ 与 $\\alpha$ 分别是多少？
 - 是否建议只微调注意力层（\`q_proj, v_proj\`），还是将 MLP 门控层（\`gate_proj, up_proj, down_proj\`）全量开启？
 非常期待听到各位的宝贵意见与评测实验心得！`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 29,
     commentsCount: 18,
     sharesCount: 3,
@@ -273,7 +273,7 @@ psycopg2.errors.UndefinedTable: relation "checkpoints" does not exist
 2. **非基础数据类型的序列化**：当 State 中包含了不可序列化的对象时，LangGraph 默认的序列化器该如何优雅注册自定义 Encoder 插件？
 
 恳请对 LangGraph 底层原理有深入研究的架构师指点一下避坑指南，非常感谢！`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 17,
     commentsCount: 15,
     sharesCount: 1,
@@ -316,7 +316,7 @@ response = client.chat.completions.create(
 
 1. \`max_tokens\` 是指**输出的总长度（包含思考过程 + 最终结论）**，当思考过程占满 8192 时，模型根本没有剩余空间输出正文。请问大家是如何合理配置或通过上下文断点接续（Continuation / Stream resume）让模型接着写出答案的？
 2. 是否有提示词工程可以引导模型“在 3000 tokens 内精简思维链，迅速输出结论”，同时又不损伤其深度推理的正确率？求大佬赐教！`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 34,
     commentsCount: 26,
     sharesCount: 6,
@@ -369,7 +369,7 @@ with ThreadPoolExecutor(max_workers=8) as executor:
 - 官方文档说 \`device_map="auto"\` 是基于 Accelerate 的 Hooks 实现的，是不是在多线程环境下底层的 CUDA Stream 锁发生了竞态冲突？
 - 批量离线吞吐任务，大家是推荐改用单卡多进程（每个进程绑定一个单独的 CUDA 独立卡），还是改用 vLLM 离线推理引擎（\`LLM.generate()\`）？
 有遇到过类似多卡死锁问题的大佬请指点一下正确姿势，谢谢！`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 16,
     commentsCount: 13,
     sharesCount: 2,
@@ -409,7 +409,7 @@ Connection errored out. The WebSocket connection was closed unexpectedly.
 3. 发现云网关前置负载均衡器（Load Balancer）在 30 秒内如果未收到心跳帧包，会自动主动切断空闲 TCP 连接。
 
 请问各位在容器云上部署 Gradio 时，是如何保持 WebSocket 持续保活心跳的？或者有哪些替代方案（如 FastAPI + Server-Sent Events）更加稳定可靠？`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 12,
     commentsCount: 11,
     sharesCount: 1,
@@ -449,7 +449,7 @@ NCCL failure: network failure / system error
 
 - 在没有物理 NVLink 的双卡 4090 上，是否**完全不应该使用 Tensor Parallelism（张量并行）**？
 - 应该如何配置 **Pipeline Parallelism（流水线并行）** 或者分层卸载架构，才能让两张 4090 达到最佳的吞吐利用率？求硬件老鸟不吝赐教！`,
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 25,
     commentsCount: 20,
     sharesCount: 4,

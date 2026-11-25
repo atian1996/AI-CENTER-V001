@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { MainTabType, AppNotification } from '../../types';
+import {
+  AppTheme,
+  getCurrentTheme,
+  toggleTheme,
+  subscribeThemeChange
+} from '../../utils/themeManager';
 import { 
   Search, 
   Bell, 
@@ -22,7 +28,11 @@ import {
   ShieldCheck,
   Gift,
   ArrowRight,
-  Share2
+  Share2,
+  Sun,
+  Moon,
+  GraduationCap,
+  Layers
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
@@ -48,6 +58,20 @@ export const Header: React.FC = () => {
   const [notifOpen, setNotifOpen] = useState(false);
   const [popupNotifications, setPopupNotifications] = useState<AppNotification[]>([]);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<AppTheme>(() => getCurrentTheme());
+
+  useEffect(() => {
+    setTheme(getCurrentTheme());
+    return subscribeThemeChange((nextTheme) => {
+      setTheme(nextTheme);
+    });
+  }, []);
+
+  const handleToggleTheme = () => {
+    const nextTheme = toggleTheme();
+    setTheme(nextTheme);
+    showToast(nextTheme === 'minimal' ? '已切换至「极简科技风」主题' : '已切换回「当前默认风格」主题');
+  };
 
   const handleToggleNotif = () => {
     if (!notifOpen) {
@@ -66,6 +90,8 @@ export const Header: React.FC = () => {
 
   const navItems: { id: MainTabType; label: string; icon: React.ReactNode }[] = [
     { id: 'home', label: '首页', icon: <Sparkles className="w-4 h-4" /> },
+    { id: 'training', label: '培训认证', icon: <GraduationCap className="w-4 h-4" /> },
+    { id: 'trial', label: '高端试用', icon: <Layers className="w-4 h-4" /> },
     { id: 'marketplace', label: 'AI集市', icon: <Store className="w-4 h-4" /> },
     { id: 'tasks', label: '任务大厅', icon: <Briefcase className="w-4 h-4" /> },
     { id: 'compute', label: '算力工坊', icon: <Cpu className="w-4 h-4" /> },
@@ -74,41 +100,33 @@ export const Header: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/80 border-b border-slate-200/80 backdrop-blur-md shadow-sm select-none">
-      <div className="w-full max-w-[1920px] mx-auto px-8 h-16 flex items-center justify-between gap-6">
+    <header className="theme-header sticky top-0 z-50 w-full backdrop-blur-md shadow-sm select-none">
+      <div className="w-full max-w-[1920px] mx-auto px-6 xl:px-8 h-16 flex items-center justify-between gap-4">
         
         {/* Left: Brand Logo */}
         <div 
           onClick={() => setActiveTab('home')}
-          className="flex items-center gap-3 cursor-pointer group shrink-0"
+          className="flex items-center cursor-pointer group shrink-0"
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-500 p-0.5 shadow-md shadow-indigo-100 group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
-              <Bot className="w-5 h-5 text-indigo-600 group-hover:rotate-12 transition-transform" />
-            </div>
-          </div>
-          <div>
-            <div className="text-lg font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-800 font-sans">
-              AI运营中心
-            </div>
-            <div className="text-[10px] text-indigo-600/90 font-mono tracking-widest uppercase font-bold">
-              AI OPERATIONS CENTER
-            </div>
-          </div>
+          <img
+            src="/assets/aistudio/ea682d94c6d331b5596968167ea7f0f1_7d972a6f.png"
+            alt="XCTF AI"
+            className="h-8 sm:h-9 w-auto object-contain select-none transition-opacity group-hover:opacity-85"
+          />
         </div>
 
         {/* Center Navigation Tabs */}
-        <nav className="flex items-center gap-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/80">
+        <nav className="theme-nav-group flex items-center gap-1 p-1.5">
           {navItems.map(item => {
             const isActive = activeTab === item.id;
             return (
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`relative px-4 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 ${
+                className={`theme-nav-item relative px-2.5 xl:px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer ${
                   isActive
-                    ? 'text-white bg-indigo-600 shadow-md shadow-indigo-200'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
+                    ? 'theme-nav-active'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
                 }`}
               >
                 {item.icon}
@@ -119,7 +137,7 @@ export const Header: React.FC = () => {
         </nav>
 
         {/* Right Controls Area */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2.5 shrink-0">
           {!isLoggedIn ? (
             /* ========================================================
                游客未登录态：立即注册放在右上角 + 送20体验金视觉呈现
@@ -129,7 +147,7 @@ export const Header: React.FC = () => {
               {/* 登录按钮 */}
               <button
                 onClick={() => openAuthModal('login')}
-                className="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 hover:text-indigo-600 hover:bg-slate-100/90 transition cursor-pointer select-none"
+                className="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 hover:text-indigo-600 hover:bg-slate-100/90 transition cursor-pointer select-none whitespace-nowrap shrink-0"
               >
                 登录
               </button>
@@ -137,14 +155,14 @@ export const Header: React.FC = () => {
               {/* 立即注册高亮按钮（带专属送¥20角标徽章与微光晕） */}
               <div className="relative group cursor-pointer select-none" onClick={() => openAuthModal('register')}>
                 {/* 环绕外溢柔和光晕 */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-rose-500 to-indigo-600 rounded-xl blur-[3px] opacity-70 group-hover:opacity-100 transition duration-300 animate-pulse" />
+                <div className="theme-register-glow absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-rose-500 to-indigo-600 rounded-xl blur-[3px] opacity-70 group-hover:opacity-100 transition duration-300 animate-pulse" />
                 
                 {/* 顶置小气泡徽标 (送¥20体验金) */}
                 <div className="absolute -top-2.5 -right-1 z-10 px-1.5 py-0.2 rounded-full bg-gradient-to-r from-rose-500 to-amber-500 text-white font-mono font-black text-[9px] shadow-sm border border-white flex items-center gap-0.5 animate-bounce">
                   <span>送¥20</span>
                 </div>
 
-                <button className="relative flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600 text-white font-black text-xs shadow-md transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98]">
+                <button className="theme-register-btn relative flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600 text-white font-black text-xs shadow-md transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap shrink-0">
                   <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                   <span>立即注册</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -248,9 +266,9 @@ export const Header: React.FC = () => {
               {/* 显眼的工作台按钮 */}
               <button
                 onClick={() => setActiveTab('workspace')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer shadow-sm ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer shadow-sm whitespace-nowrap shrink-0 ${
                   activeTab === 'workspace'
-                    ? 'bg-gradient-to-r from-indigo-600 via-indigo-600 to-indigo-700 text-white ring-2 ring-indigo-400/60 shadow-indigo-200/80 scale-[1.02]'
+                    ? 'theme-workspace-btn-active bg-gradient-to-r from-indigo-600 via-indigo-600 to-indigo-700 text-white ring-2 ring-indigo-400/60 shadow-indigo-200/80 scale-[1.02]'
                     : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/90 hover:border-indigo-300 hover:shadow-indigo-100/50'
                 }`}
                 title="进入个人与团队工作台"
@@ -258,7 +276,7 @@ export const Header: React.FC = () => {
                 <LayoutDashboard className={`w-4 h-4 ${activeTab === 'workspace' ? 'text-white' : 'text-indigo-600'}`} />
                 <span>工作台</span>
                 {activeTab !== 'workspace' && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+                  <span className="theme-ambient-decor w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
                 )}
               </button>
 
@@ -382,6 +400,29 @@ export const Header: React.FC = () => {
               </div>
             </>
           )}
+
+          {/* 主题风格切换按钮（默认风格 <-> 极简科技风 Minimal） */}
+          <button
+            id="header-theme-toggle-btn"
+            type="button"
+            onClick={handleToggleTheme}
+            aria-label={theme === 'minimal' ? '切换至当前默认风格' : '切换至极简科技风'}
+            aria-pressed={theme === 'minimal'}
+            title={theme === 'minimal' ? '当前：极简科技风（点击切回默认风格）' : '当前：默认风格（点击切换至极简科技风）'}
+            className="theme-toggle-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1a1a1a]"
+          >
+            {theme === 'minimal' ? (
+              <>
+                <Sun className="w-3.5 h-3.5 shrink-0" />
+                <span>默认风格</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-3.5 h-3.5 shrink-0" />
+                <span>极简风格</span>
+              </>
+            )}
+          </button>
         </div>
 
       </div>

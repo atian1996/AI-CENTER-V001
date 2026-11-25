@@ -150,30 +150,8 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           </button>
         </div>
 
-        {/* Right: Quick Template & Status */}
+        {/* Right: Status */}
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleApplyTemplate}
-            className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer flex items-center gap-1 border ${
-              isDark
-                ? 'bg-indigo-950/50 hover:bg-indigo-900/60 text-indigo-300 border-indigo-800/80'
-                : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
-            }`}
-            title="填充标准概述内容模板（包含知识产权、使用许可、依赖与模块说明）"
-          >
-            {copiedTemplate ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
-                <span className="text-emerald-500">已应用模板</span>
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
-                <span>{templatePrompt}</span>
-              </>
-            )}
-          </button>
           <span className={`text-[10px] font-mono hidden sm:inline ${
             isDark ? 'text-slate-500' : 'text-slate-400'
           }`}>

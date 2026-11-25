@@ -9,7 +9,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '高级开发者',
     postId: 'pst_gh_01',
     postTitle: '【干货】DeepSeek-R1 8B/32B vLLM 高并发部署优化全指南（含 TensorRT-LLM 对比实测）',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 28,
     time: '10分钟前'
   },
@@ -21,7 +21,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '算法工程师',
     postId: 'pst_gh_02',
     postTitle: '【踩坑总结】LangChain + RAG 向量数据库混合检索精度翻倍实战',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 15,
     time: '25分钟前'
   },
@@ -33,7 +33,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '官方架构师',
     postId: 'pst_gh_03',
     postTitle: '【代码片段】Agent 智能体 Tool-Use 异常重试与结构化输出范式',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 34,
     time: '45分钟前'
   },
@@ -45,7 +45,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '自动化专家',
     postId: 'pst_gh_04',
     postTitle: '【工作流分享】Dify + Agent 零代码搭建自动化客服工单路由',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 19,
     time: '1小时前'
   },
@@ -57,7 +57,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '硬件发烧友',
     postId: 'pst_gh_05',
     postTitle: '【工具推荐】Ollama 本地大模型轻量化工具量化对比与显存测算',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 22,
     time: '2小时前'
   },
@@ -69,7 +69,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '后端架构师',
     postId: 'pst_gh_06',
     postTitle: '【技术方案】基于 Redis Vector 的大模型上下文缓存与 Token 降本方案',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 12,
     time: '3小时前'
   },
@@ -81,7 +81,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '算法工程师',
     postId: 'pst_gh_07',
     postTitle: '【踩坑总结】PyTorch 2.3 CUDA 显存碎片整理与碎片清理技巧',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 17,
     time: '4小时前'
   },
@@ -93,7 +93,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: 'AIGC 设计师',
     postId: 'pst_gh_08',
     postTitle: '【工作流分享】ComfyUI + Flux.1 高清插画生成控制流与 8K 放大',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 31,
     time: '5小时前'
   },
@@ -105,7 +105,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '安全专家',
     postId: 'pst_gh_09',
     postTitle: '【代码片段】防止 Agent SQL 注入与恶意数据库操作的受控 Guardrails',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 26,
     time: '6小时前'
   },
@@ -117,7 +117,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '云基础设施官',
     postId: 'pst_gh_10',
     postTitle: '【实践经验】算力工坊 A100/T4 节点模型训练成本对比与出包路径',
-    board: '干货分享',
+    board: '极客圆桌',
     likesCount: 18,
     time: '7小时前'
   },
@@ -129,7 +129,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '全栈极客',
     postId: 'pst_qz_01',
     postTitle: '【求助】Llama-3 70B 加载 FlashAttention-2 出现 CUDA OOM 报错求排查',
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 14,
     time: '8小时前'
   },
@@ -141,7 +141,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: 'VIP 核心贡献者',
     postId: 'pst_qz_02',
     postTitle: '【请教】Qwen2.5-Coder 32B 在做 JSON 函数调用时幻觉输出字符串怎么解？',
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 20,
     time: '9小时前'
   },
@@ -153,7 +153,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '全栈工程师',
     postId: 'pst_qz_02',
     postTitle: '【请教】Qwen2.5-Coder 32B 在做 JSON 函数调用时幻觉输出字符串怎么解？',
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 11,
     time: '10小时前'
   },
@@ -165,7 +165,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '行业分析师',
     postId: 'pst_qy_01',
     postTitle: '【深度研报】推测思考链（Reasoning Chain）会终结传统 Prompt Engineering 吗？',
-    board: '前沿观察',
+    board: '技术前沿',
     likesCount: 42,
     time: '11小时前'
   },
@@ -177,7 +177,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '极客开发者',
     postId: 'pst_qy_02',
     postTitle: '【行业观察】开源推理模型生态爆发：盘点近期 10 款最具潜力的端侧模型',
-    board: '前沿观察',
+    board: '技术前沿',
     likesCount: 38,
     time: '12小时前'
   },
@@ -189,7 +189,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '独立开发者',
     postId: 'pst_zq_01',
     postTitle: '【实战拆解】独立开发者如何利用 AI Agent 接单，实现月入 3W+ 经验复盘',
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 56,
     time: '14小时前'
   },
@@ -201,7 +201,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: 'CTO 顾问',
     postId: 'pst_zq_02',
     postTitle: '【商业模式】本地私有化大模型交付全流程报价单与利润率核算表',
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 47,
     time: '16小时前'
   },
@@ -213,7 +213,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '资深全栈',
     postId: 'pst_tx_01',
     postTitle: '【同行交流】从传统后端转型 AI Agent 工程师，这半年我踩过的 6 个认知陷阱',
-    board: '同行交流',
+    board: '活动速递',
     likesCount: 39,
     time: '18小时前'
   },
@@ -225,7 +225,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '首席技术专家',
     postId: 'pst_tx_01',
     postTitle: '【同行交流】从传统后端转型 AI Agent 工程师，这半年我踩过的 6 个认知陷阱',
-    board: '同行交流',
+    board: '活动速递',
     likesCount: 29,
     time: '20小时前'
   },
@@ -237,7 +237,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '社区段子手',
     postId: 'pst_yl_01',
     postTitle: '【爆笑】让 DeepSeek 帮我写一首诗赞美丢失的半角分号，居然被 AI 嘲讽了',
-    board: '娱乐灌水',
+    board: '厂商动态',
     likesCount: 65,
     time: '22小时前'
   },
@@ -249,7 +249,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '吃瓜群众',
     postId: 'pst_yl_02',
     postTitle: '【梗图】当你的 Agent 决定在凌晨 3 点陷入死循环并消耗了 $50 额度时',
-    board: '娱乐灌水',
+    board: '厂商动态',
     likesCount: 52,
     time: '1天前'
   },
@@ -261,7 +261,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '熬夜冠军',
     postId: 'pst_yl_09',
     postTitle: '【伪科学】关于程序员体内咖啡因浓度与代码 Bug 发生率的非线性回归分析',
-    board: '娱乐灌水',
+    board: '厂商动态',
     likesCount: 44,
     time: '1天前'
   },
@@ -273,7 +273,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '全栈老兵',
     postId: 'pst_yl_10',
     postTitle: '【怀旧】大家第一次用 AI 辅助写代码是哪一年？当时是什么体验？',
-    board: '娱乐灌水',
+    board: '厂商动态',
     likesCount: 37,
     time: '2天前'
   },
@@ -285,7 +285,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '初级开发者',
     postId: 'pst_qz_01',
     postTitle: '【求助】Llama-3 70B 加载 FlashAttention-2 出现 CUDA OOM 报错求排查',
-    board: '求助答疑',
+    board: '极客圆桌',
     likesCount: 16,
     time: '2天前'
   },
@@ -297,7 +297,7 @@ export const mockAdminComments25: CommunityCommentItem[] = [
     authorTag: '硬件节点商',
     postId: 'pst_zq_01',
     postTitle: '【实战拆解】独立开发者如何利用 AI Agent 接单，实现月入 3W+ 经验复盘',
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 51,
     time: '3天前'
   }

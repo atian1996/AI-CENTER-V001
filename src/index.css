@@ -1,11 +1,364 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   全局主题 CSS 变量系统 (CSS Custom Properties)
+   - 默认主题: :root / html[data-theme="default"]
+   - 极简科技风: html[data-theme="minimal"]
+   ========================================================================== */
+
+:root,
+html[data-theme="default"] {
+  /* 页面与容器背景 */
+  --bg-page: #f8fafc;
+  --home-bg-page: #f7f7fc;
+  --bg-surface: #ffffff;
+  --bg-surface-muted: #f7f7fc;
+  --bg-surface-hover: #f1f5f9;
+  --header-bg: rgba(255, 255, 255, 0.82);
+
+  /* 文字颜色层级 */
+  --text-primary: #242139;
+  --text-secondary: #716d83;
+  --text-muted: #9692a6;
+
+  /* 边框色 */
+  --border-color: #e8e7f0;
+  --border-subtle: rgba(226, 232, 240, 0.8);
+
+  /* 卡片表面、阴影与圆角 */
+  --card-bg: #ffffff;
+  --card-shadow: 0 2px 12px rgba(36, 33, 57, 0.03);
+  --card-shadow-hover: 0 4px 16px rgba(109, 74, 255, 0.08);
+  --card-radius: 16px;
+
+  /* 品牌色与主按钮 */
+  --brand-primary: #6d4aff;
+  --brand-soft-bg: #f0edff;
+  --brand-soft-border: #e0d9ff;
+  --btn-primary-bg: #6d4aff;
+  --btn-primary-hover: #5735d8;
+  --btn-primary-text: #ffffff;
+
+  /* 导航激活态 */
+  --nav-active-bg: #4f46e5;
+  --nav-active-text: #ffffff;
+  --nav-active-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+  --nav-active-border-left: 0px solid transparent;
+
+  /* 背景纹理与装饰光晕 */
+  --tech-grid-color: rgba(99, 102, 241, 0.05);
+  --ambient-glow-opacity: 1;
+
+  /* 滚动条 */
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+}
+
+/* 主题 B：极简科技风 (Minimal) */
+html[data-theme="minimal"] {
+  /* 页面与容器背景：纯白 #ffffff */
+  --bg-page: #ffffff;
+  --home-bg-page: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-surface-muted: #f7f7f7;
+  --bg-surface-hover: #f7f7f7;
+  --header-bg: rgba(255, 255, 255, 0.96);
+
+  /* 文字颜色：深黑 #1a1a1a / 浅灰 #666666 & #999999 */
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+
+  /* 边框色：极浅灰 #eaeaea */
+  --border-color: #eaeaea;
+  --border-subtle: #eaeaea;
+
+  /* 卡片：纯白 #ffffff、极弱阴影、统一 12px 圆角 */
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  --card-shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --card-radius: 12px;
+
+  /* 主按钮：纯黑背景 #1a1a1a，纯白文字，Hover 变为 #333333 */
+  --brand-primary: #1a1a1a;
+  --brand-soft-bg: #f7f7f7;
+  --brand-soft-border: #eaeaea;
+  --btn-primary-bg: #1a1a1a;
+  --btn-primary-hover: #333333;
+  --btn-primary-text: #ffffff;
+
+  /* 激活状态导航：极浅灰背景 #f7f7f7 + 左侧 2px 黑色竖线 */
+  --nav-active-bg: #f7f7f7;
+  --nav-active-text: #1a1a1a;
+  --nav-active-shadow: none;
+  --nav-active-border-left: 2px solid #1a1a1a;
+
+  /* 去除网格噪点与彩色环境光斑 */
+  --tech-grid-color: transparent;
+  --ambient-glow-opacity: 0;
+
+  /* 滚动条 */
+  --scrollbar-track: #ffffff;
+  --scrollbar-thumb: #dddddd;
+  --scrollbar-thumb-hover: #bbbbbb;
+
+  /* Tailwind v4 设计令牌重映射（全站视图自动平滑切换，保持完整对比度） */
+  --color-slate-50: #ffffff;
+  --color-slate-100: #f7f7f7;
+  --color-slate-200: #eaeaea;
+  --color-slate-300: #d8d8d8;
+  --color-slate-400: #999999;
+  --color-slate-500: #666666;
+  --color-slate-600: #666666;
+  --color-slate-700: #333333;
+  --color-slate-800: #1a1a1a;
+  --color-slate-900: #1a1a1a;
+  --color-slate-950: #111111;
+
+  --color-indigo-50: #f7f7f7;
+  --color-indigo-100: #efefef;
+  --color-indigo-200: #eaeaea;
+  --color-indigo-300: #cccccc;
+  --color-indigo-400: #666666;
+  --color-indigo-500: #333333;
+  --color-indigo-600: #1a1a1a;
+  --color-indigo-700: #333333;
+  --color-indigo-800: #1a1a1a;
+  --color-indigo-900: #1a1a1a;
+  --color-indigo-950: #111111;
+
+  --color-violet-50: #f7f7f7;
+  --color-violet-100: #efefef;
+  --color-violet-200: #eaeaea;
+  --color-violet-500: #333333;
+  --color-violet-600: #1a1a1a;
+  --color-violet-700: #333333;
+
+  --color-purple-50: #f7f7f7;
+  --color-purple-100: #efefef;
+  --color-purple-200: #eaeaea;
+  --color-purple-500: #333333;
+  --color-purple-600: #1a1a1a;
+  --color-purple-700: #333333;
+
+  --color-blue-50: #f7f7f7;
+  --color-blue-100: #efefef;
+  --color-blue-200: #eaeaea;
+  --color-blue-500: #333333;
+  --color-blue-600: #1a1a1a;
+  --color-blue-700: #333333;
+
+  /* 卡片圆角统一 12px，阴影极度弱化 */
+  --radius-xl: 12px;
+  --radius-2xl: 12px;
+  --radius-3xl: 12px;
+  --shadow-2xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-xs: 0 2px 10px rgba(0, 0, 0, 0.025);
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* 后台深色管理大屏隔离：保证切到极简风时深色管理后台对比度与层次不受影响 */
+html[data-theme="minimal"] .admin-dark-shell {
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-700: #4338ca;
+  --color-indigo-950: #1e1b4b;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ==========================================================================
+   语义化主题组件样式（统一消费上述 CSS 变量）
+   ========================================================================== */
+
+.theme-header {
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+html[data-theme="minimal"] .theme-header {
+  box-shadow: none;
+}
+
+/* 极简模式下品牌图标收敛为纯黑几何标志，去彩色渐变 */
+html[data-theme="minimal"] .theme-brand-badge {
+  background: #1a1a1a;
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+html[data-theme="minimal"] .theme-brand-badge-inner {
+  background: #1a1a1a;
+  border-radius: 8px;
+}
+
+html[data-theme="minimal"] .theme-brand-icon {
+  color: #ffffff;
+}
+
+html[data-theme="minimal"] .theme-brand-title {
+  background: none;
+  color: #1a1a1a;
+  -webkit-text-fill-color: #1a1a1a;
+}
+
+html[data-theme="minimal"] .theme-brand-sub {
+  color: #999999;
+}
+
+/* 顶部主导航栏容器与激活态 */
+.theme-nav-group {
+  background-color: var(--bg-surface-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+}
+
+html[data-theme="minimal"] .theme-nav-group {
+  background-color: transparent;
+  border-color: transparent;
+  padding: 0;
+  gap: 4px;
+}
+
+.theme-nav-item {
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.theme-nav-active {
+  background-color: var(--nav-active-bg);
+  color: var(--nav-active-text);
+  box-shadow: var(--nav-active-shadow);
+  border-left: var(--nav-active-border-left);
+}
+
+html[data-theme="minimal"] .theme-nav-active {
+  background-color: #f7f7f7;
+  color: #1a1a1a;
+  box-shadow: none;
+  border-left: 2px solid #1a1a1a;
+  border-radius: 0 8px 8px 0;
+}
+
+/* 侧边栏 / 纵向导航激活态（极简风：#f7f7f7 + 左侧 2px 黑色竖线） */
+.theme-sidebar-active {
+  background-color: var(--nav-active-bg);
+  color: var(--nav-active-text);
+  box-shadow: var(--nav-active-shadow);
+  border-left: var(--nav-active-border-left);
+}
+
+html[data-theme="minimal"] .theme-sidebar-active {
+  background-color: #f7f7f7;
+  color: #1a1a1a;
+  box-shadow: none;
+  border-left: 2px solid #1a1a1a;
+  border-radius: 0 8px 8px 0;
+}
+
+html[data-theme="minimal"] .theme-sidebar-active .theme-sidebar-icon {
+  color: #1a1a1a;
+}
+
+/* 通用主按钮 */
+.theme-btn-primary {
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.15s ease;
+}
+
+.theme-btn-primary:hover {
+  background-color: var(--btn-primary-hover);
+}
+
+/* 极简模式下工作台按钮与注册按钮去除高饱和彩色渐变光晕 */
+html[data-theme="minimal"] .theme-register-glow {
+  display: none;
+}
+
+html[data-theme="minimal"] .theme-register-btn {
+  background: #1a1a1a;
+  color: #ffffff;
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+html[data-theme="minimal"] .theme-register-btn:hover {
+  background: #333333;
+}
+
+html[data-theme="minimal"] .theme-workspace-btn-active {
+  background: #1a1a1a;
+  color: #ffffff;
+  box-shadow: none;
+  --tw-ring-color: transparent;
+}
+
+/* 顶部主题切换按钮 */
+.theme-toggle-btn {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--bg-surface-hover);
+  border-color: var(--text-muted);
+}
+
+html[data-theme="minimal"] .theme-toggle-btn {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border-color: #eaeaea;
+}
+
+html[data-theme="minimal"] .theme-toggle-btn:hover {
+  background-color: #f7f7f7;
+  border-color: #d0d0d0;
+}
+
+/* 通用极简卡片样式辅助 */
+.theme-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--card-radius);
+}
+
+/* 极简模式下弱化点阵底纹与背景装饰 */
+html[data-theme="minimal"] .theme-ambient-decor {
+  opacity: 0;
+  pointer-events: none;
+}
+
 @layer utilities {
   .bg-tech-grid {
     background-size: 30px 30px;
     background-image: 
-      linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+      linear-gradient(to right, var(--tech-grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--tech-grid-color) 1px, transparent 1px);
   }
 
   .animate-fade-in {
@@ -136,21 +489,21 @@
   }
 }
 
-/* Custom smooth scrollbar for light theme */
+/* Custom smooth scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--scrollbar-thumb);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--scrollbar-thumb-hover);
 }

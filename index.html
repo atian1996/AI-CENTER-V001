@@ -7,6 +7,17 @@
     <meta name="description" content="全场景一站式 AI应用 + 社区 + 算力 综合平台" />
     <meta property="og:title" content="AI运营中心" />
     <meta property="og:description" content="全场景一站式 AI应用 + 社区 + 算力 综合平台" />
+    <script>
+      (function () {
+        try {
+          var savedTheme = window.localStorage.getItem('ai_ops_theme');
+          var theme = savedTheme === 'minimal' ? 'minimal' : 'default';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'default');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

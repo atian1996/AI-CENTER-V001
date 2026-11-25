@@ -85,7 +85,7 @@ export const WorkspaceCommunity: React.FC = () => {
   // Modals
   const [viewPostModal, setViewPostModal] = useState<UserPostItem | null>(null);
   const [editPostModal, setEditPostModal] = useState<UserPostItem | null>(null);
-  const [editForm, setEditForm] = useState({ title: '', content: '', board: '干货分享' });
+  const [editForm, setEditForm] = useState({ title: '', content: '', board: '极客圆桌' });
   const [deleteConfirm, setDeleteConfirm] = useState<{ type: 'post' | 'comment'; id: string } | null>(null);
 
   // Filtered Posts

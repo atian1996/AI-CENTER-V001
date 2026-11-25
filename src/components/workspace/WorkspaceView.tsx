@@ -64,14 +64,14 @@ export const WorkspaceView: React.FC = () => {
                 <button
                   key={item.id}
                   onClick={() => setWorkspaceSubTab(item.id)}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-extrabold transition cursor-pointer ${
+                  className={`theme-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-extrabold cursor-pointer ${
                     isActive
-                      ? 'bg-indigo-600 text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      ? 'theme-sidebar-active'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className={isActive ? 'text-white' : 'text-slate-400'}>
+                    <span className={isActive ? 'theme-sidebar-icon text-white' : 'text-[var(--text-muted)]'}>
                       {item.icon}
                     </span>
                     <span>{item.label}</span>
@@ -79,7 +79,7 @@ export const WorkspaceView: React.FC = () => {
 
                   {item.badge !== undefined && item.badge > 0 && (
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
-                      isActive ? 'bg-white text-indigo-700' : 'bg-red-500 text-white'
+                      isActive ? 'bg-white text-[var(--text-primary)] border border-[var(--border-color)]' : 'bg-red-500 text-white'
                     }`}>
                       {item.badge}
                     </span>

@@ -10,6 +10,9 @@ import {
   Share2, 
   Send, 
   Sparkles, 
+  Cpu,
+  Calendar,
+  Newspaper,
   BookOpen,
   HelpCircle,
   Compass,
@@ -188,24 +191,37 @@ export const CommunityView: React.FC = () => {
   const commentsSectionRef = useRef<HTMLDivElement>(null);
 
   // Publishing State
-  const [newPostBoard, setNewPostBoard] = useState<CommunityBoard>('干货分享');
+  const [newPostBoard, setNewPostBoard] = useState<CommunityBoard>('厂商动态');
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostTags, setNewPostTags] = useState<string[]>(['DeepSeek', 'Agent']);
   const [tagInput, setTagInput] = useState('');
   const [editorTab, setEditorTab] = useState<'write' | 'preview'>('write');
 
-  // Helper for dynamic board icons
+  // Helper for dynamic board icons (16px 极细线性图标，颜色跟随父级文字)
   const getBoardIcon = (name: string) => {
     switch (name) {
-      case '干货分享': return <BookOpen className="w-4 h-4 text-emerald-600" />;
-      case '求助答疑': return <HelpCircle className="w-4 h-4 text-amber-600" />;
-      case '前沿观察': return <Compass className="w-4 h-4 text-indigo-600" />;
-      case '赚钱交流': return <TrendingUp className="w-4 h-4 text-rose-600" />;
-      case '同行交流': return <Users className="w-4 h-4 text-cyan-600" />;
-      case '娱乐灌水': return <Coffee className="w-4 h-4 text-purple-600" />;
-      default: return <Layers className="w-4 h-4 text-slate-600" />;
+      case '厂商动态': return <Cpu className="w-4 h-4 shrink-0" strokeWidth={1.6} />;
+      case '技术前沿': return <Compass className="w-4 h-4 shrink-0" strokeWidth={1.6} />;
+      case '活动速递': return <Calendar className="w-4 h-4 shrink-0" strokeWidth={1.6} />;
+      case '行业快讯': return <Newspaper className="w-4 h-4 shrink-0" strokeWidth={1.6} />;
+      case '极客圆桌': return <Users className="w-4 h-4 shrink-0" strokeWidth={1.6} />;
+      default: return <Layers className="w-4 h-4 shrink-0" strokeWidth={1.6} />;
     }
+  };
+
+  // 过滤摘要中的 ##、*、`、>、图片与链接等 Markdown 符号，保持纯文本干净
+  const stripMarkdownSymbols = (md: string): string => {
+    if (!md) return '';
+    return md
+      .replace(/!\[.*?\]\(.*?\)/g, '')
+      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+      .replace(/```[\s\S]*?```/g, ' ')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/^#{1,6}\s+/gm, '')
+      .replace(/[#*_~>`>-]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
   };
 
   // 板块停用后前台社区中应该隐藏此板块，并按后台排序权重展示
@@ -220,16 +236,14 @@ export const CommunityView: React.FC = () => {
       {
         id: 'all',
         label: '全部板块',
-        desc: '浏览全站 AI 开发者最新实践、经验与问答',
-        icon: <Sparkles className="w-4 h-4 text-indigo-600" />
+        desc: '汇聚产业动态、前沿技术、赛事活动与开发者实战沉淀。',
+        icon: <Layers className="w-4 h-4 shrink-0" strokeWidth={1.6} />
       },
       ...enabledBoards.map(b => ({
         id: b.name as CommunityBoard,
         label: b.name,
         desc: b.description || '社区开发者讨论与分享',
-        icon: b.logo ? (
-          <img src={b.logo} alt={b.name} className="w-4 h-4 rounded object-cover" />
-        ) : getBoardIcon(b.name)
+        icon: getBoardIcon(b.name)
       }))
     ];
   }, [enabledBoards]);
@@ -651,18 +665,16 @@ export const CommunityView: React.FC = () => {
   // Helper for Board Badge Styling
   const getBoardStyle = (board: CommunityBoard) => {
     switch (board) {
-      case '干货分享':
+      case '厂商动态':
         return 'bg-emerald-50 text-emerald-700 border-emerald-200/80';
-      case '求助答疑':
-        return 'bg-amber-50 text-amber-700 border-amber-200/80';
-      case '前沿观察':
+      case '技术前沿':
         return 'bg-indigo-50 text-indigo-700 border-indigo-200/80';
-      case '赚钱交流':
+      case '活动速递':
+        return 'bg-amber-50 text-amber-700 border-amber-200/80';
+      case '行业快讯':
         return 'bg-rose-50 text-rose-700 border-rose-200/80';
-      case '同行交流':
+      case '极客圆桌':
         return 'bg-cyan-50 text-cyan-700 border-cyan-200/80';
-      case '娱乐灌水':
-        return 'bg-purple-50 text-purple-700 border-purple-200/80';
       default:
         return 'bg-slate-100 text-slate-700 border-slate-200';
     }
@@ -2335,524 +2347,352 @@ export const CommunityView: React.FC = () => {
     );
   }
 
-  // ================= 默认渲染：社区主视图 (Feed View) =================
+  // ================= 默认渲染：社区主视图 (Feed View · 极简去卡片化灰度层级设计) =================
+  const visibleFeedPosts = filteredPosts.slice(0, currentPage * WATERFALL_PAGE_SIZE);
+
   return (
-    <div className="w-full space-y-6 animate-fade-in pb-12 select-none relative">
-      
-      {/* Standard Unified Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-2xs shrink-0">
-            <Users className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
+    <div
+      className="-mx-8 -my-6 px-6 sm:px-8 py-8 min-h-[calc(100vh-64px)] bg-[#F7F8FA] text-[#111827] select-none relative antialiased"
+      style={{
+        fontFamily:
+          'Inter, -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif'
+      }}
+    >
+      {/* 1. 顶部导航栏 (Top Bar) — 与培训认证页面头部排版保持一致，纯白背景 + 1px solid #F3F4F6 分割线 */}
+      <header className="w-full max-w-[1280px] mx-auto bg-[#FFFFFF] px-6 sm:px-8 py-6 border-b border-[#F3F4F6]">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+          {/* 左侧：标题与副标题（与培训认证头部一致） */}
+          <div className="space-y-1.5">
+            <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[#111827] leading-tight">
               开发者技术社区
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                生态圈
-              </span>
             </h1>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              汇聚全球 AI 开发者、算法工程师与独立创作者，分享实践经验、解答技术难题与人脉连接
+            <p className="text-sm text-[#4B5563]">
+              汇聚全球 AI 开发者、算法工程师与独立创作者，分享实践经验、解答技术难题与人脉连接。
             </p>
           </div>
-        </div>
 
-        {/* Action: 我要发帖 button */}
-        <div className="shrink-0">
-          <button
-            onClick={() => setViewMode('publish')}
-            className="px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-200 flex items-center gap-2 cursor-pointer transition-all hover:scale-[1.02]"
-          >
-            <Plus className="w-4 h-4" />
-            <span>我要发帖</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Main Grid: Left Sidebar (Category Navigation) + Right Stream (Waterfall Feed) */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
-        
-        {/* Left Sidebar: 保持固定 */}
-        <div className="lg:col-span-1 space-y-3 sticky top-20 z-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto pr-1">
-          <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-3">
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-2">
-              社区板块分类
-            </div>
-
-            <div className="space-y-1.5">
-              {boardConfigs.map(b => {
-                const isActive = activeBoard === b.id;
-
-                return (
-                  <button
-                    key={b.id}
-                    onClick={() => setActiveBoard(b.id)}
-                    className={`w-full text-left p-3 rounded-xl transition flex items-start gap-3 cursor-pointer group ${
-                      isActive 
-                        ? 'bg-indigo-50/80 border border-indigo-200/80 shadow-xs' 
-                        : 'bg-white hover:bg-slate-50 border border-transparent hover:border-slate-200/60'
-                    }`}
-                  >
-                    <div className={`p-2 rounded-lg shrink-0 transition ${
-                      isActive ? 'bg-indigo-600 text-white shadow-xs' : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200'
-                    }`}>
-                      {b.icon}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <span className={`text-xs font-bold block ${isActive ? 'text-indigo-900' : 'text-slate-800'}`}>
-                        {b.label}
-                      </span>
-                      <p className="text-[10px] text-slate-500 line-clamp-1 mt-0.5 leading-tight font-normal">
-                        {b.desc}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Right Area: Top Filter Bar & Waterfall Feed */}
-        <div className="lg:col-span-3 space-y-4">
-          
-          {/* Top Filter Bar: 推荐 / 最新 & Search - 保持固定 */}
-          <div className="sticky top-20 z-30 p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            
-            {/* Filter Tabs: Only 推荐 & 最新 */}
-            <div className="flex items-center gap-1.5 bg-slate-100/80 p-1 rounded-xl">
-              {[
-                { id: 'recommend', label: '推荐' },
-                { id: 'latest', label: '最新' }
-              ].map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveFilter(tab.id as any)}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
-                    activeFilter === tab.id
-                      ? 'bg-white text-indigo-600 shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Search Input Bar */}
-            <div className="relative flex-1 max-w-sm">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          {/* 中间/右侧：极简浅灰搜索框 (#F3F4F6, 圆角 8px, 无粗边框) + 右上角纯黑 [+ 发帖] 按钮 (#000, 圆角 6px, 无阴影) */}
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4 shrink-0">
+            <div className="relative w-full sm:w-[280px] md:w-[320px]">
+              <Search
+                className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                strokeWidth={1.6}
+              />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="搜索动态标题、技术标签或关键词..."
-                className="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 outline-none focus:bg-white focus:border-indigo-500 transition font-medium"
+                placeholder="搜索帖子标题、技术标签或作者..."
+                className="w-full pl-9 pr-8 py-2 bg-[#F3F4F6] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] outline-none border-0 transition-colors focus:bg-[#ECEEF2]"
               />
               {searchQuery && (
                 <button
+                  type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+                  aria-label="清除搜索"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#111827] cursor-pointer"
                 >
-                  <X className="w-3.5 h-3.5" />
+                  <X className="w-3.5 h-3.5" strokeWidth={1.6} />
                 </button>
               )}
             </div>
+
+            <button
+              type="button"
+              onClick={() => setViewMode('publish')}
+              className="px-4 py-2 bg-[#000000] hover:bg-[#1F2937] text-[#FFFFFF] rounded-[6px] text-[13.5px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
+            >
+              <Plus className="w-4 h-4" strokeWidth={1.8} />
+              <span>发帖</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* 三、页面布局框架：左窄 (200px) 右宽 (自适应，最大宽度 900px)，靠留白隔开，无沉重边框 */}
+      <div className="w-full max-w-[1280px] mx-auto pt-8 sm:pt-10 pb-16 flex flex-col md:flex-row items-start gap-8 lg:gap-12">
+        {/* 2. 极简左侧导航栏 (Sidebar) — 宽度 200px，去背景、去边框，靠留白隔开 */}
+        <aside className="w-full md:w-[200px] shrink-0 md:sticky md:top-24 md:self-start">
+          <nav
+            aria-label="社区板块导航"
+            className="flex flex-row md:flex-col gap-5 md:gap-0 md:space-y-[20px] overflow-x-auto md:overflow-visible pb-2 md:pb-0"
+          >
+            {boardConfigs.map((b) => {
+              const isActive = activeBoard === b.id;
+
+              return (
+                <button
+                  key={b.id}
+                  type="button"
+                  onClick={() => setActiveBoard(b.id)}
+                  className={`group relative flex items-center gap-2.5 text-left text-[14px] leading-none transition-colors cursor-pointer whitespace-nowrap shrink-0 py-0.5 ${
+                    isActive
+                      ? 'text-[#111827] font-semibold'
+                      : 'text-[#4B5563] font-normal hover:text-[#111827]'
+                  }`}
+                >
+                  {/* 选中态左侧 2px 宽、16px 高纯黑小竖线 */}
+                  <span
+                    aria-hidden="true"
+                    className={`w-[2px] h-[16px] shrink-0 transition-opacity ${
+                      isActive ? 'bg-[#000000] opacity-100' : 'bg-transparent opacity-0'
+                    }`}
+                  />
+
+                  {/* 16px 极细线性图标（颜色同文字） */}
+                  <span className="shrink-0 text-current">{b.icon}</span>
+
+                  <span>{b.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </aside>
+
+        {/* 3. 右侧内容区 (纯白背景 #FFFFFF，极简列表，最大宽度 900px) */}
+        <div className="flex-1 w-full max-w-[900px] bg-[#FFFFFF]">
+          {/* 列表顶部轻量筛选与板块说明栏（极细底部分割线 #F3F4F6） */}
+          <div className="px-6 py-4 border-b border-[#F3F4F6] flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
+            <div className="flex items-center gap-6 shrink-0">
+              {[
+                { id: 'recommend', label: '推荐' },
+                { id: 'latest', label: '最新' }
+              ].map((tab) => {
+                const isSelected = activeFilter === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveFilter(tab.id as 'recommend' | 'latest')}
+                    className={`relative py-1 text-[14px] transition-colors cursor-pointer ${
+                      isSelected
+                        ? 'text-[#111827] font-semibold'
+                        : 'text-[#9CA3AF] font-normal hover:text-[#4B5563]'
+                    }`}
+                  >
+                    <span>{tab.label}</span>
+                    {isSelected && (
+                      <span
+                        aria-hidden="true"
+                        className="absolute left-0 right-0 -bottom-[17px] h-[2px] bg-[#000000]"
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="text-[12.5px] text-[#9CA3AF] text-right leading-snug">
+              {boardConfigs.find((b) => b.id === activeBoard)?.desc}
+            </div>
           </div>
 
-          {/* Feed Post Status Indicator */}
-          <div className="flex items-center justify-between text-xs text-slate-500 px-1 font-medium">
-            <span>
-              已加载 <strong className="text-slate-900 font-bold">{leftColumnPosts.length + rightColumnPosts.length}</strong> / 共 {filteredPosts.length} 篇帖子
-            </span>
-            {activeBoard !== 'all' && (
-              <span className="text-indigo-600 font-bold">当前板块：{activeBoard}</span>
-            )}
-          </div>
-
-          {/* Waterfall Feed Grid */}
+          {/* 核心内容流列表 (List View) */}
           {filteredPosts.length === 0 ? (
-            <div className="p-12 text-center rounded-2xl bg-white border border-slate-200/80 space-y-3">
-              <Sparkles className="w-8 h-8 text-slate-300 mx-auto" />
-              <div className="text-sm font-bold text-slate-800">暂无帖子，快来发布第一篇吧</div>
-              <p className="text-xs text-slate-400">尝试更换搜索词或选择其他板块，也可以发布第一条动态！</p>
-              <button
-                onClick={() => setViewMode('publish')}
-                className="mt-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer transition"
-              >
-                我要发帖
-              </button>
+            <div className="px-6 py-20 text-center space-y-3">
+              <div className="text-[15px] font-semibold text-[#111827]">
+                暂无相关社区帖子
+              </div>
+              <p className="text-[13px] text-[#9CA3AF]">
+                尝试更换搜索关键词或切换左侧板块，也可以发布第一条技术讨论。
+              </p>
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => setViewMode('publish')}
+                  className="px-4 py-2 bg-[#000000] hover:bg-[#1F2937] text-[#FFFFFF] text-[13px] font-medium rounded-[6px] cursor-pointer transition-colors"
+                >
+                  + 发帖
+                </button>
+              </div>
             </div>
           ) : (
-            <div className="space-y-4">
-              {/* 左右两列瀑布流容器 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                {/* 左列 */}
-                <div ref={leftColRef} className="space-y-4 flex flex-col">
-                  {leftColumnPosts.map(post => {
-                    const isCollected = !!collectedPosts[post.id];
-                    const likesInfo = getPostLikes(post);
-                    const boardStyle = getBoardStyle(post.board);
-                    const firstImg = getPostFirstImage(post);
+            <div>
+              <div className="divide-y divide-[#F3F4F6]">
+                {visibleFeedPosts.map((post) => {
+                  const likesInfo = getPostLikes(post);
+                  const cleanSummary = stripMarkdownSymbols(post.content);
+                  const displayTitle =
+                    post.title || cleanSummary.slice(0, 48) || '开发者技术探讨';
 
-                    return (
-                      <div
-                        key={post.id}
-                        onClick={() => openPostDetail(post.id)}
-                        className="p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-indigo-300 transition-all shadow-xs hover:shadow-md space-y-3.5 group cursor-pointer"
-                      >
-                        {/* Card Header: Author Info & Board Badge */}
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-center gap-2.5">
-                            <img 
-                              src={post.authorAvatar} 
-                              alt={post.author} 
-                              loading="lazy"
-                              decoding="async"
-                              className="w-9 h-9 rounded-full object-cover ring-2 ring-slate-100" 
-                            />
-                            <div>
-                              <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                                <span>{post.author}</span>
-                              </div>
-                              <div className="text-[10px] text-slate-400 font-medium flex items-center gap-1.5 mt-0.5">
-                                <span className="text-indigo-600 font-bold">{post.authorTag}</span>
-                                <span>·</span>
-                                <span>{post.time}</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Tags: 置顶, 精华 & 板块标签 */}
-                          <div className="flex items-center gap-1.5 flex-wrap shrink-0">
-                            {(post.isPinned || post.isTop) && (
-                              <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-rose-50 text-rose-600 border border-rose-200/90 flex items-center gap-1 shadow-2xs">
-                                <Pin className="w-3 h-3 text-rose-600 fill-rose-100" />
-                                置顶
-                              </span>
-                            )}
-                            {post.isEssential && (
-                              <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-amber-50 text-amber-700 border border-amber-200/90 flex items-center gap-1 shadow-2xs">
-                                <Sparkles className="w-3 h-3 text-amber-600 fill-amber-100" />
-                                精华
-                              </span>
-                            )}
-                            <span className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold border shrink-0 ${boardStyle}`}>
-                              {post.board}
-                            </span>
-                          </div>
+                  return (
+                    <article
+                      key={post.id}
+                      onClick={() => openPostDetail(post.id)}
+                      className="px-6 py-[24px] bg-[#FFFFFF] hover:bg-[#FAFAFA] transition-colors cursor-pointer"
+                    >
+                      {/* 第一层：元信息 (Meta Info) — 下方留白 8px */}
+                      <div className="mb-[8px] flex items-center justify-between gap-3 text-[12px] text-[#9CA3AF]">
+                        {/* 左侧：[20x20 圆形头像] + [作者名] */}
+                        <div className="flex items-center gap-2 min-w-0">
+                          <img
+                            src={post.authorAvatar}
+                            alt={post.author}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-[20px] h-[20px] rounded-full object-cover shrink-0"
+                          />
+                          <span className="text-[#4B5563] font-normal truncate">
+                            {post.author}
+                          </span>
                         </div>
 
-                        {/* Post Title */}
-                        {post.title && (
-                          <h3 className="text-sm font-black text-slate-900 group-hover:text-indigo-600 transition leading-snug">
-                            {post.title}
-                          </h3>
-                        )}
-
-                        {/* Post Content Snippet */}
-                        <p className="text-xs text-slate-600 leading-relaxed font-normal line-clamp-4">
-                          {post.content}
-                        </p>
-
-                        {/* 帖子卡片封面：图片懒加载，加载完成后动态更新列高度 */}
-                        {firstImg && (
-                          <div className="rounded-xl overflow-hidden border border-slate-100 pt-1">
-                            <img 
-                              src={firstImg} 
-                              alt={post.title || "post cover"} 
-                              loading="lazy"
-                              decoding="async"
-                              onLoad={handleImageLoad}
-                              className="w-full h-40 object-cover hover:scale-105 transition duration-300" 
-                            />
-                          </div>
-                        )}
-
-                        {/* Tags Pills */}
-                        {post.tags && post.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 pt-1">
-                            {post.tags.map((t, idx) => (
-                              <span key={idx} className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium hover:bg-indigo-50 hover:text-indigo-600 transition">
-                                #{t}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-
-                        {/* Footer Actions */}
-                        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
-                          <div className="flex items-center gap-4">
-                            {/* Like Button */}
-                            <button
-                              onClick={(e) => handleLikePost(post.id, e)}
-                              className={`flex items-center gap-1 hover:text-indigo-600 transition cursor-pointer ${
-                                likesInfo.isLiked ? 'text-indigo-600 font-bold' : ''
-                              }`}
-                            >
-                              <ThumbsUp className={`w-3.5 h-3.5 ${likesInfo.isLiked ? 'fill-indigo-600' : ''}`} />
-                              <span>{likesInfo.count}</span>
-                            </button>
-
-                            {/* Comment Button */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openPostDetail(post.id);
-                              }}
-                              className="flex items-center gap-1 hover:text-cyan-600 transition cursor-pointer"
-                            >
-                              <MessageSquare className="w-3.5 h-3.5" />
-                              <span>{post.commentsCount || 12}</span>
-                            </button>
-
-                            {/* Bookmark Button */}
-                            <button
-                              onClick={(e) => toggleBookmark(post.id, e)}
-                              className={`flex items-center gap-1 hover:text-amber-600 transition cursor-pointer ${
-                                isCollected ? 'text-amber-600 font-bold' : ''
-                              }`}
-                            >
-                              <Bookmark className={`w-3.5 h-3.5 ${isCollected ? 'fill-amber-500' : ''}`} />
-                            </button>
-
-                            {/* Share Button */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                showToast('动态链接已复制到剪贴板');
-                              }}
-                              className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer"
-                            >
-                              <Share2 className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-
-                          {/* Views Count */}
-                          <div className="flex items-center gap-1 text-[10px] text-slate-400 font-mono">
-                            <Eye className="w-3 h-3" />
-                            <span>{post.viewsCount || 120}</span>
-                          </div>
+                        {/* 右侧：[特殊标签：置顶/精华 (1px solid #E5E7EB 描边，深灰文字)] + [时间] */}
+                        <div className="flex items-center gap-2 shrink-0">
+                          {(post.isPinned || post.isTop) && (
+                            <span className="px-1.5 py-0.5 rounded-[4px] border border-[#E5E7EB] text-[#4B5563] text-[12px] leading-none">
+                              置顶
+                            </span>
+                          )}
+                          {post.isEssential && (
+                            <span className="px-1.5 py-0.5 rounded-[4px] border border-[#E5E7EB] text-[#4B5563] text-[12px] leading-none">
+                              精华
+                            </span>
+                          )}
+                          <span className="text-[12px] text-[#9CA3AF] tabular-nums">
+                            {post.time}
+                          </span>
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
 
-                {/* 右列 */}
-                <div ref={rightColRef} className="space-y-4 flex flex-col">
-                  {rightColumnPosts.map(post => {
-                    const isCollected = !!collectedPosts[post.id];
-                    const likesInfo = getPostLikes(post);
-                    const boardStyle = getBoardStyle(post.board);
-                    const firstImg = getPostFirstImage(post);
+                      {/* 第二层：标题 (Title) — 18px, 字重 600, #111827, 行高 1.4, 单行截断, 下方留白 8px */}
+                      <h2 className="mb-[8px] text-[18px] font-semibold text-[#111827] leading-[1.4] truncate">
+                        {displayTitle}
+                      </h2>
 
-                    return (
-                      <div
-                        key={post.id}
-                        onClick={() => openPostDetail(post.id)}
-                        className="p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-indigo-300 transition-all shadow-xs hover:shadow-md space-y-3.5 group cursor-pointer"
-                      >
-                        {/* Card Header: Author Info & Board Badge */}
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-center gap-2.5">
-                            <img 
-                              src={post.authorAvatar} 
-                              alt={post.author} 
-                              loading="lazy"
-                              decoding="async"
-                              className="w-9 h-9 rounded-full object-cover ring-2 ring-slate-100" 
-                            />
-                            <div>
-                              <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                                <span>{post.author}</span>
-                              </div>
-                              <div className="text-[10px] text-slate-400 font-medium flex items-center gap-1.5 mt-0.5">
-                                <span className="text-indigo-600 font-bold">{post.authorTag}</span>
-                                <span>·</span>
-                                <span>{post.time}</span>
-                              </div>
-                            </div>
-                          </div>
+                      {/* 第三层：摘要 (Summary) — 14px, 字重 400, #4B5563, 行高 1.6, 固定两行截断, 过滤 Markdown 符号, 下方留白 12px */}
+                      <p className="mb-[12px] text-[14px] font-normal text-[#4B5563] leading-[1.6] line-clamp-2">
+                        {cleanSummary}
+                      </p>
 
-                          {/* Tags: 置顶, 精华 & 板块标签 */}
-                          <div className="flex items-center gap-1.5 flex-wrap shrink-0">
-                            {(post.isPinned || post.isTop) && (
-                              <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-rose-50 text-rose-600 border border-rose-200/90 flex items-center gap-1 shadow-2xs">
-                                <Pin className="w-3 h-3 text-rose-600 fill-rose-100" />
-                                置顶
-                              </span>
-                            )}
-                            {post.isEssential && (
-                              <span className="px-2 py-0.5 rounded-lg text-[10px] font-black bg-amber-50 text-amber-700 border border-amber-200/90 flex items-center gap-1 shadow-2xs">
-                                <Sparkles className="w-3 h-3 text-amber-600 fill-amber-100" />
-                                精华
-                              </span>
-                            )}
-                            <span className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold border shrink-0 ${boardStyle}`}>
-                              {post.board}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Post Title */}
-                        {post.title && (
-                          <h3 className="text-sm font-black text-slate-900 group-hover:text-indigo-600 transition leading-snug">
-                            {post.title}
-                          </h3>
-                        )}
-
-                        {/* Post Content Snippet */}
-                        <p className="text-xs text-slate-600 leading-relaxed font-normal line-clamp-4">
-                          {post.content}
-                        </p>
-
-                        {/* 帖子卡片封面：图片懒加载，加载完成后动态更新列高度 */}
-                        {firstImg && (
-                          <div className="rounded-xl overflow-hidden border border-slate-100 pt-1">
-                            <img 
-                              src={firstImg} 
-                              alt={post.title || "post cover"} 
-                              loading="lazy"
-                              decoding="async"
-                              onLoad={handleImageLoad}
-                              className="w-full h-40 object-cover hover:scale-105 transition duration-300" 
-                            />
-                          </div>
-                        )}
-
-                        {/* Tags Pills */}
-                        {post.tags && post.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 pt-1">
-                            {post.tags.map((t, idx) => (
-                              <span key={idx} className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium hover:bg-indigo-50 hover:text-indigo-600 transition">
-                                #{t}
+                      {/* 第四层：底部信息 (Footer) — 左右两端对齐 */}
+                      <div className="flex flex-wrap items-center justify-between gap-4">
+                        {/* 左侧（分类/话题标签）：统一浅灰背景 #F3F4F6, 文字 #6B7280, 字号 12px, 圆角 4px, 内边距 4px 8px */}
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="px-[8px] py-[4px] rounded-[4px] bg-[#F3F4F6] text-[#6B7280] text-[12px] leading-none">
+                            {post.board}
+                          </span>
+                          {post.tags &&
+                            post.tags.slice(0, 4).map((tag, idx) => (
+                              <span
+                                key={`${post.id}-tag-${idx}`}
+                                className="px-[8px] py-[4px] rounded-[4px] bg-[#F3F4F6] text-[#6B7280] text-[12px] leading-none"
+                              >
+                                {tag}
                               </span>
                             ))}
-                          </div>
-                        )}
+                        </div>
 
-                        {/* Footer Actions */}
-                        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
-                          <div className="flex items-center gap-4">
-                            {/* Like Button */}
-                            <button
-                              onClick={(e) => handleLikePost(post.id, e)}
-                              className={`flex items-center gap-1 hover:text-indigo-600 transition cursor-pointer ${
-                                likesInfo.isLiked ? 'text-indigo-600 font-bold' : ''
-                              }`}
-                            >
-                              <ThumbsUp className={`w-3.5 h-3.5 ${likesInfo.isLiked ? 'fill-indigo-600' : ''}`} />
-                              <span>{likesInfo.count}</span>
-                            </button>
+                        {/* 右侧（操作/数据）：点赞、评论、浏览、分享 (16px 线性图标 #9CA3AF + 13px 数字) */}
+                        <div className="flex items-center gap-5 text-[13px] text-[#9CA3AF] tabular-nums">
+                          {/* 点赞 */}
+                          <button
+                            type="button"
+                            onClick={(e) => handleLikePost(post.id, e)}
+                            aria-label="点赞"
+                            className={`inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
+                              likesInfo.isLiked
+                                ? 'text-[#111827] font-medium'
+                                : 'text-[#9CA3AF] hover:text-[#4B5563]'
+                            }`}
+                          >
+                            <ThumbsUp className="w-4 h-4" strokeWidth={1.6} />
+                            <span>{likesInfo.count}</span>
+                          </button>
 
-                            {/* Comment Button */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openPostDetail(post.id);
-                              }}
-                              className="flex items-center gap-1 hover:text-cyan-600 transition cursor-pointer"
-                            >
-                              <MessageSquare className="w-3.5 h-3.5" />
-                              <span>{post.commentsCount || 12}</span>
-                            </button>
+                          {/* 评论 */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openPostDetail(post.id);
+                            }}
+                            aria-label="评论"
+                            className="inline-flex items-center gap-1.5 text-[#9CA3AF] hover:text-[#4B5563] transition-colors cursor-pointer"
+                          >
+                            <MessageSquare className="w-4 h-4" strokeWidth={1.6} />
+                            <span>{post.commentsCount || 12}</span>
+                          </button>
 
-                            {/* Bookmark Button */}
-                            <button
-                              onClick={(e) => toggleBookmark(post.id, e)}
-                              className={`flex items-center gap-1 hover:text-amber-600 transition cursor-pointer ${
-                                isCollected ? 'text-amber-600 font-bold' : ''
-                              }`}
-                            >
-                              <Bookmark className={`w-3.5 h-3.5 ${isCollected ? 'fill-amber-500' : ''}`} />
-                            </button>
-
-                            {/* Share Button */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                showToast('动态链接已复制到剪贴板');
-                              }}
-                              className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer"
-                            >
-                              <Share2 className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-
-                          {/* Views Count */}
-                          <div className="flex items-center gap-1 text-[10px] text-slate-400 font-mono">
-                            <Eye className="w-3 h-3" />
+                          {/* 浏览 */}
+                          <span className="inline-flex items-center gap-1.5 text-[#9CA3AF]">
+                            <Eye className="w-4 h-4" strokeWidth={1.6} />
                             <span>{post.viewsCount || 120}</span>
-                          </div>
+                          </span>
+
+                          {/* 分享 */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              showToast('动态链接已复制到剪贴板');
+                            }}
+                            aria-label="分享"
+                            className="inline-flex items-center gap-1 text-[#9CA3AF] hover:text-[#4B5563] transition-colors cursor-pointer"
+                          >
+                            <Share2 className="w-4 h-4" strokeWidth={1.6} />
+                          </button>
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
+                    </article>
+                  );
+                })}
               </div>
 
               {/* 底部加载状态指示条 */}
               {isLoadingMore && (
-                <div className="py-6 flex items-center justify-center gap-2 text-xs font-bold text-slate-500">
-                  <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
-                  <span>加载中...</span>
+                <div className="py-6 flex items-center justify-center gap-2 text-xs text-[#9CA3AF] border-t border-[#F3F4F6]">
+                  <div className="w-3.5 h-3.5 border border-[#111827] border-t-transparent rounded-full animate-spin" />
+                  <span>正在加载更多讨论...</span>
                 </div>
               )}
 
               {isLoadError && (
-                <div className="py-6 flex flex-col items-center justify-center gap-2 text-xs">
-                  <span className="text-rose-500 font-bold">加载失败，点击重试</span>
+                <div className="py-6 flex flex-col items-center justify-center gap-2 text-xs border-t border-[#F3F4F6]">
+                  <span className="text-[#4B5563]">加载失败，请重试</span>
                   <button
+                    type="button"
                     onClick={handleRetry}
-                    className="px-4 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition cursor-pointer flex items-center gap-1.5"
+                    className="px-3.5 py-1.5 rounded-[6px] bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111827] transition-colors cursor-pointer flex items-center gap-1.5"
                   >
-                    <RotateCcw className="w-3.5 h-3.5" />
+                    <RotateCcw className="w-3.5 h-3.5" strokeWidth={1.6} />
                     <span>点击重试</span>
                   </button>
                 </div>
               )}
 
               {isMaxLimitReached && (
-                <div className="py-6 text-center text-xs text-slate-400 font-medium border-t border-slate-100/80">
-                  请使用筛选或搜索查看更多
+                <div className="py-6 text-center text-xs text-[#9CA3AF] border-t border-[#F3F4F6]">
+                  已达到展示上限，请使用搜索或板块筛选查看更多
                 </div>
               )}
 
-              {!hasMore && !isMaxLimitReached && !isLoadingMore && (leftColumnPosts.length + rightColumnPosts.length > 0) && (
-                <div className="py-6 flex items-center justify-center gap-3 text-xs text-slate-400 font-medium">
-                  <span className="w-12 h-px bg-slate-200" />
-                  <span>没有更多了</span>
-                  <span className="w-12 h-px bg-slate-200" />
-                </div>
-              )}
+              {!hasMore &&
+                !isMaxLimitReached &&
+                !isLoadingMore &&
+                visibleFeedPosts.length > 0 && (
+                  <div className="py-6 text-center text-xs text-[#9CA3AF] border-t border-[#F3F4F6]">
+                    已显示全部 {visibleFeedPosts.length} 篇讨论
+                  </div>
+                )}
             </div>
           )}
-
         </div>
-
       </div>
 
-      {/* 五、回到顶部悬浮按钮 */}
+      {/* 回到顶部悬浮按钮 */}
       {showBackToTop && filteredPosts.length > 0 && viewMode === 'feed' && (
         <button
+          type="button"
           onClick={handleScrollToTop}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              handleScrollToTop();
-            }
-          }}
           aria-label="回到顶部"
           title="回到顶部"
-          tabIndex={0}
-          className="fixed right-6 bottom-[calc(80px+env(safe-area-inset-bottom))] sm:bottom-6 sm:right-6 z-40 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-white/95 backdrop-blur-md text-slate-700 hover:text-indigo-600 hover:bg-white border border-slate-200/90 shadow-lg shadow-slate-300/30 flex items-center justify-center cursor-pointer transition-all duration-200 active:scale-90 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+          className="fixed right-6 bottom-6 z-40 w-10 h-10 rounded-[8px] bg-[#FFFFFF] text-[#111827] hover:bg-[#000000] hover:text-[#FFFFFF] border border-[#E5E7EB] flex items-center justify-center cursor-pointer transition-colors"
         >
-          <ArrowUp className="w-5 h-5 stroke-[2.5]" />
+          <ArrowUp className="w-4 h-4" strokeWidth={1.8} />
         </button>
       )}
-
     </div>
   );
 };
+

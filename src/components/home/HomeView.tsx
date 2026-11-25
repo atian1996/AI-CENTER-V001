@@ -4,26 +4,47 @@ import { HomeView02 } from './HomeView02';
 import { HomeView03 } from './HomeView03';
 import { HomeView04 } from './HomeView04';
 import { HomeView05 } from './HomeView05';
+import { HomeView06 } from './HomeView06';
 import { Sparkles } from 'lucide-react';
 
+type HomeVersionType = '0.1' | '0.2' | '0.3' | '0.4' | '0.5' | '0.6';
+
 export const HomeView: React.FC = () => {
-  // 首页版本管理：支持在 0.5 Bento极简版、0.4 紧凑轮播版、0.3 SaaS版、0.2 版与 0.1 之间无缝切换，默认 0.5
-  const [version, setVersion] = useState<'0.1' | '0.2' | '0.3' | '0.4' | '0.5'>(() => {
+  // 首页版本管理：支持在 0.6 XCTF·AI极简叙事版、0.5 Bento极简版、0.4 紧凑轮播版、0.3 SaaS版、0.2 版与 0.1 之间无缝切换，默认 0.6
+  const [version, setVersion] = useState<HomeVersionType>(() => {
     try {
       const urlParam = new URLSearchParams(window.location.search).get('homeVer');
-      if (urlParam === '0.1' || urlParam === '0.2' || urlParam === '0.3' || urlParam === '0.4' || urlParam === '0.5') return urlParam;
-      const saved = localStorage.getItem('qianji_home_version');
-      if (saved === '0.1' || saved === '0.2' || saved === '0.3' || saved === '0.4' || saved === '0.5') return saved;
+      if (
+        urlParam === '0.1' ||
+        urlParam === '0.2' ||
+        urlParam === '0.3' ||
+        urlParam === '0.4' ||
+        urlParam === '0.5' ||
+        urlParam === '0.6'
+      ) {
+        return urlParam;
+      }
+      const saved = localStorage.getItem('qianji_home_version_v6');
+      if (
+        saved === '0.1' ||
+        saved === '0.2' ||
+        saved === '0.3' ||
+        saved === '0.4' ||
+        saved === '0.5' ||
+        saved === '0.6'
+      ) {
+        return saved;
+      }
     } catch {
       // ignore
     }
-    return '0.5';
+    return '0.6';
   });
 
-  const handleSwitchVersion = (newVer: '0.1' | '0.2' | '0.3' | '0.4' | '0.5') => {
+  const handleSwitchVersion = (newVer: HomeVersionType) => {
     setVersion(newVer);
     try {
-      localStorage.setItem('qianji_home_version', newVer);
+      localStorage.setItem('qianji_home_version_v6', newVer);
     } catch {
       // ignore
     }
@@ -32,7 +53,9 @@ export const HomeView: React.FC = () => {
   return (
     <div className="relative">
       {/* 渲染对应版本的首页 */}
-      {version === '0.5' ? (
+      {version === '0.6' ? (
+        <HomeView06 />
+      ) : version === '0.5' ? (
         <HomeView05
           onSwitchToVersion01={() => handleSwitchVersion('0.1')}
           onSwitchToVersion02={() => handleSwitchVersion('0.2')}
@@ -111,6 +134,16 @@ export const HomeView: React.FC = () => {
               }`}
             >
               0.5 精修版
+            </button>
+            <button
+              onClick={() => handleSwitchVersion('0.6')}
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold transition cursor-pointer ${
+                version === '0.6'
+                  ? 'bg-[#1a1a1a] text-white border border-white/30 shadow-xs'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              0.6 极简版
             </button>
           </div>
         </div>

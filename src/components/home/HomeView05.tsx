@@ -135,7 +135,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
     if (onlineSpecs.length > 0) {
       return onlineSpecs.map((s, idx) => {
         const borderColors = [
-          'border-t-[#6D4AFF]',
+          'border-t-[var(--brand-primary)]',
           'border-t-[#16A36A]',
           'border-t-[#3B82F6]',
           'border-t-[#F59E0B]',
@@ -199,7 +199,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       id: 1,
       isBrandHero: true,
       badge: '平台主视界 · 核心动力',
-      badgeClass: 'bg-[#F0EDFF] text-[#6D4AFF] border-[#E0D9FF]',
+      badgeClass: 'bg-[var(--brand-soft-bg)] text-[var(--brand-primary)] border-[var(--brand-soft-border)]',
       title: '汇聚 AI 之力，成就万千可能',
       subtitle: '一站式全场景 AI 算力调度、大模型 API 服务、Agent 智能体及开发者协同，秒级拉起，即刻落地',
       buttonText: '探索智能体',
@@ -252,7 +252,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       id: 4,
       isBrandHero: false,
       badge: '新用户礼遇 · 注册即送',
-      badgeClass: 'bg-[#F0EDFF] text-[#6D4AFF] border-[#E0D9FF]',
+      badgeClass: 'bg-[var(--brand-soft-bg)] text-[var(--brand-primary)] border-[var(--brand-soft-border)]',
       title: '注册即送 20 元体验金，无门槛畅享百款模型',
       subtitle: '可全额抵扣大模型 API 调用、Agent 智能体订阅与 GPU 算力租赁计费',
       buttonText: '查看体验金说明',
@@ -662,7 +662,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
     summary: '分享在微调 LLM 时遇到的真实经验，包括数据清洗、学习率设置、显存优化。涵盖从 LLaMA 到 DeepSeek 系列的全流程调优避坑实测。',
     author: '张三',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
-    section: '干货分享',
+    section: '极客圆桌',
     comments: 12,
     likes: 45,
     cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80'
@@ -673,7 +673,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       id: 'post-llm-finetune',
       rank: 1,
       title: 'LLM 微调踩坑记录与显存优化',
-      section: '干货分享',
+      section: '极客圆桌',
       author: '张三',
       comments: 12,
       likes: 45
@@ -682,7 +682,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       id: 'post-rag-framework',
       rank: 2,
       title: '企业级 RAG 检索知识库选型指南',
-      section: '求助答疑',
+      section: '极客圆桌',
       author: '李四',
       comments: 8,
       likes: 32
@@ -691,7 +691,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       id: 'post-ai-paint-workflow',
       rank: 3,
       title: 'Flux + ComfyUI 商业设计工作流精讲',
-      section: '前沿观察',
+      section: '技术前沿',
       author: '王五',
       comments: 15,
       likes: 28
@@ -700,7 +700,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       id: 'post-nlp-team',
       rank: 4,
       title: '金融 NLP 评测任务组队招募',
-      section: '同行交流',
+      section: '活动速递',
       author: '赵六',
       comments: 6,
       likes: 18
@@ -709,7 +709,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       id: 'post-data-annotation',
       rank: 5,
       title: '高吞吐数据流转与自动化标注工具',
-      section: '干货分享',
+      section: '厂商动态',
       author: '孙七',
       comments: 9,
       likes: 15
@@ -737,26 +737,26 @@ export const HomeView05: React.FC<HomeView05Props> = ({
   };
 
   return (
-    <div className="w-full space-y-6 antialiased text-[#242139] pb-20 select-none relative font-sans">
+    <div className="w-full space-y-6 antialiased text-[var(--text-primary)] pb-20 select-none relative font-sans">
       
-      {/* 科技感浅色背景纹理与柔和紫蓝微光（对比度极低，清透干净） */}
-      <div className="fixed inset-0 pointer-events-none -z-10 bg-[#F7F7FC]" />
-      <div className="fixed inset-0 pointer-events-none -z-10 bg-[radial-gradient(#E2E1EC_1px,transparent_1px)] [background-size:24px_24px] opacity-60" />
-      <div className="absolute top-0 right-1/4 w-[500px] h-[400px] bg-[#F0EDFF]/70 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute top-48 left-1/5 w-[450px] h-[400px] bg-[#E0E7FF]/40 rounded-full blur-3xl pointer-events-none -z-10" />
+      {/* 科技感浅色背景纹理与柔和紫蓝微光（对比度极低，清透干净；极简模式自动隐藏为纯白底） */}
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-[var(--home-bg-page)] transition-colors duration-200" />
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-[radial-gradient(#E2E1EC_1px,transparent_1px)] [background-size:24px_24px] opacity-60 theme-ambient-decor transition-opacity duration-200" />
+      <div className="absolute top-0 right-1/4 w-[500px] h-[400px] bg-[var(--brand-soft-bg)]/70 rounded-full blur-3xl pointer-events-none -z-10 theme-ambient-decor transition-opacity duration-200" />
+      <div className="absolute top-48 left-1/5 w-[450px] h-[400px] bg-[#E0E7FF]/40 rounded-full blur-3xl pointer-events-none -z-10 theme-ambient-decor transition-opacity duration-200" />
 
       {/* ========================================================
           1. 顶部通知与活动小条 (新用户福利与邀请返利)
          ======================================================== */}
       <div className="space-y-2.5">
         {!isNewUserBannerDismissed && (
-          <div className="rounded-xl bg-white border border-[#E8E7F0] p-3 sm:px-4 flex items-center justify-between gap-3 shadow-[0_2px_8px_rgba(36,33,57,0.03)] relative overflow-hidden">
-            <div className="flex items-center gap-3 text-xs sm:text-[13px] font-medium text-[#242139] truncate">
-              <span className="w-6 h-6 rounded-md bg-[#F0EDFF] text-[#6D4AFF] flex items-center justify-center text-xs font-bold shrink-0">
+          <div className="rounded-xl bg-white border border-[var(--border-color)] p-3 sm:px-4 flex items-center justify-between gap-3 shadow-[var(--card-shadow)] relative overflow-hidden">
+            <div className="flex items-center gap-3 text-xs sm:text-[13px] font-medium text-[var(--text-primary)] truncate">
+              <span className="w-6 h-6 rounded-md bg-[var(--brand-soft-bg)] text-[var(--brand-primary)] flex items-center justify-center text-xs font-bold shrink-0">
                 🎁
               </span>
               <span className="truncate">
-                新用户注册即享 <strong className="text-[#6D4AFF] font-bold font-mono">¥20</strong> 体验金，全平台模型 API 与 GPU 算力无门槛抵扣
+                新用户注册即享 <strong className="text-[var(--brand-primary)] font-bold font-mono">¥20</strong> 体验金，全平台模型 API 与 GPU 算力无门槛抵扣
               </span>
             </div>
 
@@ -766,14 +766,14 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                   showToast('20元体验金已激活！您可在调用模型或创建算力实例时直接抵扣。');
                   setIsNewUserBannerDismissed(true);
                 }}
-                className="px-3 py-1 rounded-lg bg-[#6D4AFF] hover:bg-[#5735D8] text-white font-medium text-xs transition cursor-pointer flex items-center gap-1 shadow-xs"
+                className="px-3 py-1 rounded-lg bg-[var(--btn-primary-bg)] hover:bg-[var(--btn-primary-hover)] text-white font-medium text-xs transition cursor-pointer flex items-center gap-1 shadow-xs"
               >
                 <span>立即领取</span>
                 <ArrowRight className="w-3 h-3" />
               </button>
               <button
                 onClick={() => setIsNewUserBannerDismissed(true)}
-                className="p-1 text-[#9692A6] hover:text-[#242139] transition cursor-pointer"
+                className="p-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition cursor-pointer"
                 title="关闭提示"
               >
                 <X className="w-3.5 h-3.5" />
@@ -783,18 +783,18 @@ export const HomeView05: React.FC<HomeView05Props> = ({
         )}
 
         {/* 邀请返利条 */}
-        <div className="rounded-xl bg-white border border-[#E8E7F0] p-3 sm:px-4 flex items-center justify-between gap-3 shadow-[0_2px_8px_rgba(36,33,57,0.03)]">
-          <div className="flex items-center gap-2.5 text-xs sm:text-[13px] font-medium text-[#242139]">
-            <span className="w-6 h-6 rounded-md bg-[#F0EDFF] text-[#6D4AFF] flex items-center justify-center text-xs shrink-0">
+        <div className="rounded-xl bg-white border border-[var(--border-color)] p-3 sm:px-4 flex items-center justify-between gap-3 shadow-[var(--card-shadow)]">
+          <div className="flex items-center gap-2.5 text-xs sm:text-[13px] font-medium text-[var(--text-primary)]">
+            <span className="w-6 h-6 rounded-md bg-[var(--brand-soft-bg)] text-[var(--brand-primary)] flex items-center justify-center text-xs shrink-0">
               🤝
             </span>
             <span>
-              邀请开发者好友注册平台，双方账户各立得 <strong className="text-[#6D4AFF] font-bold font-mono">¥20</strong> 账户余额与积分奖励
+              邀请开发者好友注册平台，双方账户各立得 <strong className="text-[var(--brand-primary)] font-bold font-mono">¥20</strong> 账户余额与积分奖励
             </span>
           </div>
           <button
             onClick={() => setIsInviteModalOpen(true)}
-            className="px-3 py-1 rounded-lg bg-white border border-[#6D4AFF] text-[#6D4AFF] hover:bg-[#F0EDFF] font-medium text-xs transition cursor-pointer shrink-0 flex items-center gap-1"
+            className="px-3 py-1 rounded-lg bg-white border border-[var(--brand-primary)] text-[var(--brand-primary)] hover:bg-[var(--brand-soft-bg)] font-medium text-xs transition cursor-pointer shrink-0 flex items-center gap-1"
           >
             <span>立即邀请</span>
             <Share2 className="w-3 h-3" />
@@ -810,17 +810,17 @@ export const HomeView05: React.FC<HomeView05Props> = ({
           <button
             key={idx}
             onClick={item.action}
-            className="bg-white border border-[#E8E7F0] hover:border-[#6D4AFF] rounded-xl p-3.5 flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(109,74,255,0.08)] cursor-pointer group select-none h-[112px]"
+            className="bg-white border border-[var(--border-color)] hover:border-[var(--brand-primary)] rounded-xl p-3.5 flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--card-shadow-hover)] cursor-pointer group select-none h-[112px]"
           >
-            <div className="w-9 h-9 rounded-lg bg-[#F0EDFF] flex items-center justify-center shrink-0 transition-colors group-hover:bg-[#6D4AFF] text-[#6D4AFF] group-hover:text-white">
+            <div className="w-9 h-9 rounded-lg bg-[var(--brand-soft-bg)] flex items-center justify-center shrink-0 transition-colors group-hover:bg-[var(--btn-primary-bg)] text-[var(--brand-primary)] group-hover:text-white">
               <item.IconComponent size={20} weight="duotone" className="transition-colors" />
             </div>
 
             <div className="min-w-0">
-              <div className="font-semibold text-sm text-[#242139] group-hover:text-[#6D4AFF] transition-colors truncate">
+              <div className="font-semibold text-sm text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition-colors truncate">
                 {item.name}
               </div>
-              <div className="text-xs text-[#716D83] truncate mt-0.5">
+              <div className="text-xs text-[var(--text-secondary)] truncate mt-0.5">
                 {item.desc}
               </div>
             </div>
@@ -834,7 +834,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       <div
         onMouseEnter={() => setIsBannerPaused(true)}
         onMouseLeave={() => setIsBannerPaused(false)}
-        className="relative rounded-2xl overflow-hidden min-h-[175px] sm:min-h-[195px] border border-[#E8E7F0] shadow-[0_2px_12px_rgba(36,33,57,0.04)] select-none bg-white group"
+        className="relative rounded-2xl overflow-hidden min-h-[175px] sm:min-h-[195px] border border-[var(--border-color)] shadow-[var(--card-shadow)] select-none bg-white group"
       >
         {banners.map((item, idx) => {
           const isActive = idx === bannerIndex;
@@ -864,10 +864,10 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                     <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-semibold border ${item.badgeClass} mb-1.5`}>
                       {item.badge}
                     </span>
-                    <h2 className="text-xl sm:text-2xl font-bold text-[#242139] tracking-tight leading-snug">
+                    <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] tracking-tight leading-snug">
                       {item.title}
                     </h2>
-                    <p className="text-xs sm:text-[13px] text-[#716D83] leading-relaxed line-clamp-2 mt-1">
+                    <p className="text-xs sm:text-[13px] text-[var(--text-secondary)] leading-relaxed line-clamp-2 mt-1">
                       {item.subtitle}
                     </p>
                   </div>
@@ -875,7 +875,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                   <div className="flex items-center gap-2.5 pt-1">
                     <button
                       onClick={item.action}
-                      className="px-4 py-2 rounded-lg bg-[#6D4AFF] hover:bg-[#5735D8] text-white font-medium text-xs shadow-xs transition cursor-pointer flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-lg bg-[var(--btn-primary-bg)] hover:bg-[var(--btn-primary-hover)] text-white font-medium text-xs shadow-xs transition cursor-pointer flex items-center gap-1.5"
                     >
                       <span>{item.buttonText}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -884,9 +884,9 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                     {item.isBrandHero && item.secondaryBtnText && (
                       <button
                         onClick={item.secondaryAction}
-                        className="px-4 py-2 rounded-lg bg-white border border-[#E8E7F0] hover:border-[#6D4AFF] text-[#242139] hover:text-[#6D4AFF] font-medium text-xs transition cursor-pointer flex items-center gap-1.5"
+                        className="px-4 py-2 rounded-lg bg-white border border-[var(--border-color)] hover:border-[var(--brand-primary)] text-[var(--text-primary)] hover:text-[var(--brand-primary)] font-medium text-xs transition cursor-pointer flex items-center gap-1.5"
                       >
-                        <HardDrives weight="duotone" className="w-3.5 h-3.5 text-[#6D4AFF]" />
+                        <HardDrives weight="duotone" className="w-3.5 h-3.5 text-[var(--brand-primary)]" />
                         <span>{item.secondaryBtnText}</span>
                       </button>
                     )}
@@ -896,28 +896,28 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                 {/* 右侧：若为品牌介绍第一页，展示四项核心数据卡片；其他页展示视觉指标 */}
                 {item.isBrandHero ? (
                   <div className="grid grid-cols-2 gap-2.5 w-full md:w-auto shrink-0 pr-2 lg:pr-6">
-                    <div className="bg-white/90 backdrop-blur-md border border-[#E8E7F0] p-2.5 rounded-xl min-w-[120px]">
-                      <div className="text-[11px] text-[#716D83]">全模态模型</div>
-                      <div className="text-lg font-bold text-[#242139] font-mono mt-0.5">{heroStats.modelCount} 款</div>
+                    <div className="bg-white/90 backdrop-blur-md border border-[var(--border-color)] p-2.5 rounded-xl min-w-[120px]">
+                      <div className="text-[11px] text-[var(--text-secondary)]">全模态模型</div>
+                      <div className="text-lg font-bold text-[var(--text-primary)] font-mono mt-0.5">{heroStats.modelCount} 款</div>
                     </div>
-                    <div className="bg-white/90 backdrop-blur-md border border-[#E8E7F0] p-2.5 rounded-xl min-w-[120px]">
-                      <div className="text-[11px] text-[#716D83]">即用智能体</div>
-                      <div className="text-lg font-bold text-[#6D4AFF] font-mono mt-0.5">{heroStats.agentCount} 款</div>
+                    <div className="bg-white/90 backdrop-blur-md border border-[var(--border-color)] p-2.5 rounded-xl min-w-[120px]">
+                      <div className="text-[11px] text-[var(--text-secondary)]">即用智能体</div>
+                      <div className="text-lg font-bold text-[var(--brand-primary)] font-mono mt-0.5">{heroStats.agentCount} 款</div>
                     </div>
-                    <div className="bg-white/90 backdrop-blur-md border border-[#E8E7F0] p-2.5 rounded-xl min-w-[120px]">
-                      <div className="text-[11px] text-[#716D83]">纳管算力池</div>
-                      <div className="text-lg font-bold text-[#242139] font-mono mt-0.5">{heroStats.gpuCards} 卡</div>
+                    <div className="bg-white/90 backdrop-blur-md border border-[var(--border-color)] p-2.5 rounded-xl min-w-[120px]">
+                      <div className="text-[11px] text-[var(--text-secondary)]">纳管算力池</div>
+                      <div className="text-lg font-bold text-[var(--text-primary)] font-mono mt-0.5">{heroStats.gpuCards} 卡</div>
                     </div>
-                    <div className="bg-white/90 backdrop-blur-md border border-[#E8E7F0] p-2.5 rounded-xl min-w-[120px]">
-                      <div className="text-[11px] text-[#716D83]">在招赏金任务</div>
+                    <div className="bg-white/90 backdrop-blur-md border border-[var(--border-color)] p-2.5 rounded-xl min-w-[120px]">
+                      <div className="text-[11px] text-[var(--text-secondary)]">在招赏金任务</div>
                       <div className="text-lg font-bold text-[#16A36A] font-mono mt-0.5">{heroStats.activeTasks} 个</div>
                     </div>
                   </div>
                 ) : (
                   <div className="hidden md:flex items-center gap-2 pr-4 text-right">
-                    <div className="bg-white/90 backdrop-blur-md border border-[#E8E7F0] p-3 rounded-xl shadow-2xs">
-                      <div className="text-xs text-[#716D83]">平台特惠保障</div>
-                      <div className="text-sm font-bold text-[#6D4AFF] mt-0.5">高速专线 · 实时结算</div>
+                    <div className="bg-white/90 backdrop-blur-md border border-[var(--border-color)] p-3 rounded-xl shadow-2xs">
+                      <div className="text-xs text-[var(--text-secondary)]">平台特惠保障</div>
+                      <div className="text-sm font-bold text-[var(--brand-primary)] mt-0.5">高速专线 · 实时结算</div>
                     </div>
                   </div>
                 )}
@@ -928,16 +928,16 @@ export const HomeView05: React.FC<HomeView05Props> = ({
         })}
 
         {/* 顶部微型细线播放进度条 */}
-        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#F0EDFF] z-20 overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[var(--brand-soft-bg)] z-20 overflow-hidden">
           <div
-            className="h-full bg-[#6D4AFF] transition-all duration-75"
+            className="h-full bg-[var(--btn-primary-bg)] transition-all duration-75"
             style={{ width: `${bannerProgress}%` }}
           />
         </div>
 
         {/* 底部指示器 */}
-        <div className="absolute bottom-3 right-5 z-20 flex items-center gap-2 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-[#E8E7F0] shadow-xs text-xs">
-          <span className="font-mono text-[10px] text-[#9692A6]">
+        <div className="absolute bottom-3 right-5 z-20 flex items-center gap-2 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-[var(--border-color)] shadow-xs text-xs">
+          <span className="font-mono text-[10px] text-[var(--text-muted)]">
             0{bannerIndex + 1} / 0{banners.length}
           </span>
           <div className="flex items-center gap-1">
@@ -946,7 +946,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                 key={i}
                 onClick={() => handleSelectBanner(i)}
                 className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                  i === bannerIndex ? 'w-4 bg-[#6D4AFF]' : 'w-1.5 bg-[#E8E7F0] hover:bg-[#9692A6]'
+                  i === bannerIndex ? 'w-4 bg-[var(--btn-primary-bg)]' : 'w-1.5 bg-[var(--border-color)] hover:bg-[var(--text-muted)]'
                 }`}
                 title={`切换至第 ${i + 1} 张`}
               />
@@ -957,14 +957,14 @@ export const HomeView05: React.FC<HomeView05Props> = ({
         {/* 左右箭头控制 */}
         <button
           onClick={() => handleSelectBanner((bannerIndex - 1 + banners.length) % banners.length)}
-          className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/90 hover:bg-white text-[#242139] flex items-center justify-center shadow-xs transition cursor-pointer border border-[#E8E7F0] opacity-0 group-hover:opacity-100"
+          className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/90 hover:bg-white text-[var(--text-primary)] flex items-center justify-center shadow-xs transition cursor-pointer border border-[var(--border-color)] opacity-0 group-hover:opacity-100"
           title="上一张"
         >
           <ChevronLeft className="w-3.5 h-3.5" />
         </button>
         <button
           onClick={() => handleSelectBanner((bannerIndex + 1) % banners.length)}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/90 hover:bg-white text-[#242139] flex items-center justify-center shadow-xs transition cursor-pointer border border-[#E8E7F0] opacity-0 group-hover:opacity-100"
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/90 hover:bg-white text-[var(--text-primary)] flex items-center justify-center shadow-xs transition cursor-pointer border border-[var(--border-color)] opacity-0 group-hover:opacity-100"
           title="下一张"
         >
           <ChevronRight className="w-3.5 h-3.5" />
@@ -974,15 +974,15 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       {/* ========================================================
           4. 特价模型专区 (白底卡片 · 细边框 · 品牌紫高亮)
          ======================================================== */}
-      <div className="bg-white rounded-2xl border border-[#E8E7F0] p-5 shadow-[0_2px_12px_rgba(36,33,57,0.03)]">
-        <div className="flex items-center justify-between pb-3 border-b border-[#E8E7F0]">
+      <div className="bg-white rounded-2xl border border-[var(--border-color)] p-5 shadow-[var(--card-shadow)]">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-[#F0EDFF] text-[#6D4AFF]">
+            <span className="p-1.5 rounded-lg bg-[var(--brand-soft-bg)] text-[var(--brand-primary)]">
               <Brain className="w-4 h-4" />
             </span>
             <div>
-              <h2 className="text-base font-bold text-[#242139]">特价模型 · 限时优惠</h2>
-              <span className="text-xs text-[#716D83]">官方直签授权 · 算力专线高速直连 · 实时生效</span>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">特价模型 · 限时优惠</h2>
+              <span className="text-xs text-[var(--text-secondary)]">官方直签授权 · 算力专线高速直连 · 实时生效</span>
             </div>
           </div>
           <button
@@ -990,7 +990,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
               setMarketplaceTab('model');
               setActiveTab('marketplace');
             }}
-            className="text-xs font-semibold text-[#6D4AFF] hover:underline flex items-center gap-0.5 cursor-pointer"
+            className="text-xs font-semibold text-[var(--brand-primary)] hover:underline flex items-center gap-0.5 cursor-pointer"
           >
             <span>查看全部模型</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -1001,11 +1001,11 @@ export const HomeView05: React.FC<HomeView05Props> = ({
           {specialModels.map(model => (
             <div
               key={model.name}
-              className="p-4 rounded-xl border border-[#E8E7F0] hover:border-[#6D4AFF] bg-white flex flex-col justify-between transition-all duration-200 group hover:shadow-[0_4px_16px_rgba(109,74,255,0.06)]"
+              className="p-4 rounded-xl border border-[var(--border-color)] hover:border-[var(--brand-primary)] bg-white flex flex-col justify-between transition-all duration-200 group hover:shadow-[var(--card-shadow-hover)]"
             >
               <div>
                 <div className="flex items-center justify-between mb-1 gap-1">
-                  <span className="font-bold text-sm text-[#242139] group-hover:text-[#6D4AFF] transition truncate">
+                  <span className="font-bold text-sm text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition truncate">
                     {model.name}
                   </span>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A] shrink-0">
@@ -1013,35 +1013,35 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                   </span>
                 </div>
                 
-                <div className="text-xs text-[#716D83] mb-2 font-medium">
+                <div className="text-xs text-[var(--text-secondary)] mb-2 font-medium">
                   {model.provider}
                 </div>
 
-                <p className="text-xs text-[#716D83] line-clamp-2 leading-relaxed min-h-[32px]">
+                <p className="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed min-h-[32px]">
                   {model.desc}
                 </p>
 
                 {/* 特性标签（去胶囊化，精简纯净展示） */}
                 <div className="flex flex-wrap gap-1.5 mt-2.5">
                   {model.tags.map(tag => (
-                    <span key={tag} className="text-[10px] px-2 py-0.5 rounded bg-[#F7F7FC] border border-[#E8E7F0] text-[#716D83]">
+                    <span key={tag} className="text-[10px] px-2 py-0.5 rounded bg-[var(--bg-surface-muted)] border border-[var(--border-color)] text-[var(--text-secondary)]">
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-2.5 border-t border-[#E8E7F0] mt-3 space-y-1">
-                <div className="flex items-center justify-between text-[11px] text-[#9692A6]">
+              <div className="pt-2.5 border-t border-[var(--border-color)] mt-3 space-y-1">
+                <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)]">
                   <span>原价</span>
                   <span className="line-through">{model.originalPrice} /M</span>
                 </div>
 
                 <div className="flex items-baseline justify-between pt-0.5">
-                  <span className="text-xs font-semibold text-[#6D4AFF]">现价</span>
+                  <span className="text-xs font-semibold text-[var(--brand-primary)]">现价</span>
                   <div className="text-right">
-                    <span className="text-xs font-bold font-mono text-[#6D4AFF]">{model.currentPrice}</span>
-                    <span className="text-[10px] text-[#9692A6] font-mono ml-0.5">/1M</span>
+                    <span className="text-xs font-bold font-mono text-[var(--brand-primary)]">{model.currentPrice}</span>
+                    <span className="text-[10px] text-[var(--text-muted)] font-mono ml-0.5">/1M</span>
                   </div>
                 </div>
 
@@ -1054,7 +1054,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                       setActiveTab('marketplace');
                     }
                   }}
-                  className="w-full mt-2 py-1.5 rounded-lg border border-[#6D4AFF] text-[#6D4AFF] hover:bg-[#6D4AFF] hover:text-white font-medium text-xs transition cursor-pointer flex items-center justify-center gap-1"
+                  className="w-full mt-2 py-1.5 rounded-lg border border-[var(--brand-primary)] text-[var(--brand-primary)] hover:bg-[var(--btn-primary-bg)] hover:text-white font-medium text-xs transition cursor-pointer flex items-center justify-center gap-1"
                 >
                   <span>立即使用</span>
                   <ArrowUpRight className="w-3 h-3" />
@@ -1068,18 +1068,18 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       {/* ========================================================
           5. 我猜你想（场景化解决方案 · 生动封面与视频教程）
          ======================================================== */}
-      <div className="bg-white rounded-2xl border border-[#E8E7F0] p-5 shadow-[0_2px_12px_rgba(36,33,57,0.03)]">
-        <div className="flex items-center justify-between pb-3 border-b border-[#E8E7F0]">
+      <div className="bg-white rounded-2xl border border-[var(--border-color)] p-5 shadow-[var(--card-shadow)]">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-[#F0EDFF] text-[#6D4AFF]">
+            <span className="p-1.5 rounded-lg bg-[var(--brand-soft-bg)] text-[var(--brand-primary)]">
               <Sparkles className="w-4 h-4" />
             </span>
             <div>
-              <h2 className="text-base font-bold text-[#242139]">我猜你想...</h2>
-              <span className="text-xs text-[#716D83]">场景化开箱即用 · 4款核心业务直通车与实战视频</span>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">我猜你想...</h2>
+              <span className="text-xs text-[var(--text-secondary)]">场景化开箱即用 · 4款核心业务直通车与实战视频</span>
             </div>
           </div>
-          <span className="text-xs text-[#6D4AFF] font-medium">场景驱动推荐</span>
+          <span className="text-xs text-[var(--brand-primary)] font-medium">场景驱动推荐</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mt-3.5">
@@ -1088,7 +1088,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
             return (
               <div
                 key={s.id}
-                className="rounded-xl border border-[#E8E7F0] hover:border-[#6D4AFF] bg-white overflow-hidden flex flex-col justify-between transition-all duration-200 shadow-2xs hover:shadow-md group"
+                className="rounded-xl border border-[var(--border-color)] hover:border-[var(--brand-primary)] bg-white overflow-hidden flex flex-col justify-between transition-all duration-200 shadow-2xs hover:shadow-md group"
               >
                 {/* 封面图 */}
                 <div
@@ -1110,10 +1110,10 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
 
                   <div className="relative z-10 flex items-center justify-between">
-                    <div className="w-7 h-7 rounded-lg bg-white/95 text-[#242139] shadow-xs flex items-center justify-center">
-                      <IconComp className="w-3.5 h-3.5 text-[#6D4AFF]" />
+                    <div className="w-7 h-7 rounded-lg bg-white/95 text-[var(--text-primary)] shadow-xs flex items-center justify-center">
+                      <IconComp className="w-3.5 h-3.5 text-[var(--brand-primary)]" />
                     </div>
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-white/95 text-[#6D4AFF] font-medium shadow-2xs">
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-white/95 text-[var(--brand-primary)] font-medium shadow-2xs">
                       {s.badge}
                     </span>
                   </div>
@@ -1131,16 +1131,16 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                 {/* 描述与操作 */}
                 <div className="p-3.5 flex flex-col justify-between flex-1 bg-white">
                   <div>
-                    <p className="text-xs text-[#716D83] leading-relaxed line-clamp-2">
+                    <p className="text-xs text-[var(--text-secondary)] leading-relaxed line-clamp-2">
                       {s.desc}
                     </p>
-                    <div className="mt-2 text-xs text-[#242139]">
-                      <span className="text-[#9692A6]">推荐方案:</span>{' '}
-                      <strong className="text-[#6D4AFF] font-medium">{s.recommendAgent}</strong>
+                    <div className="mt-2 text-xs text-[var(--text-primary)]">
+                      <span className="text-[var(--text-muted)]">推荐方案:</span>{' '}
+                      <strong className="text-[var(--brand-primary)] font-medium">{s.recommendAgent}</strong>
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-[#E8E7F0] mt-3 flex items-center justify-between gap-2">
+                  <div className="pt-3 border-t border-[var(--border-color)] mt-3 flex items-center justify-between gap-2">
                     <button
                       onClick={() => {
                         const matched = agents.find(a => a.name.includes(s.recommendAgent.replace('Agent', ''))) || agents[0];
@@ -1150,7 +1150,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                           setActiveTab('marketplace');
                         }
                       }}
-                      className="flex-1 py-1.5 rounded-lg bg-[#F7F7FC] hover:bg-[#6D4AFF] text-[#242139] hover:text-white border border-[#E8E7F0] hover:border-transparent font-medium text-xs transition cursor-pointer text-center"
+                      className="flex-1 py-1.5 rounded-lg bg-[var(--bg-surface-muted)] hover:bg-[var(--btn-primary-bg)] text-[var(--text-primary)] hover:text-white border border-[var(--border-color)] hover:border-transparent font-medium text-xs transition cursor-pointer text-center"
                     >
                       立即体验
                     </button>
@@ -1167,10 +1167,10 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                         setIsVideoPlaying(true);
                         setVideoProgress(15);
                       }}
-                      className="px-2.5 py-1.5 rounded-lg bg-[#F0EDFF] hover:bg-[#E0D9FF] text-[#6D4AFF] text-xs font-medium flex items-center gap-1 transition cursor-pointer"
+                      className="px-2.5 py-1.5 rounded-lg bg-[var(--brand-soft-bg)] hover:bg-[var(--brand-soft-border)] text-[var(--brand-primary)] text-xs font-medium flex items-center gap-1 transition cursor-pointer"
                       title="观看视频教程"
                     >
-                      <Play className="w-3 h-3 fill-[#6D4AFF]" />
+                      <Play className="w-3 h-3 fill-[var(--brand-primary)]" />
                       <span className="text-[11px] font-mono">{s.videoDuration}</span>
                     </button>
                   </div>
@@ -1184,18 +1184,18 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       {/* ========================================================
           6. AI 资源榜单 (5个子榜单横向排列：模型、Agent、Skill、数据集、GPU实例)
          ======================================================== */}
-      <div className="bg-white rounded-2xl border border-[#E8E7F0] p-5 shadow-[0_2px_12px_rgba(36,33,57,0.03)]">
-        <div className="flex items-center justify-between pb-3 border-b border-[#E8E7F0]">
+      <div className="bg-white rounded-2xl border border-[var(--border-color)] p-5 shadow-[var(--card-shadow)]">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-[#F0EDFF] text-[#6D4AFF]">
+            <span className="p-1.5 rounded-lg bg-[var(--brand-soft-bg)] text-[var(--brand-primary)]">
               <Trophy className="w-4 h-4" />
             </span>
             <div>
-              <h2 className="text-base font-bold text-[#242139]">AI 资源榜单</h2>
-              <span className="text-xs text-[#716D83]">全要素资源排行 · 发现全网最受欢迎生产力资产</span>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">AI 资源榜单</h2>
+              <span className="text-xs text-[var(--text-secondary)]">全要素资源排行 · 发现全网最受欢迎生产力资产</span>
             </div>
           </div>
-          <span className="text-xs text-[#6D4AFF] font-medium">全网热度趋势</span>
+          <span className="text-xs text-[var(--brand-primary)] font-medium">全网热度趋势</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3.5 mt-3.5">
@@ -1204,17 +1204,17 @@ export const HomeView05: React.FC<HomeView05Props> = ({
             return (
               <div
                 key={board.id}
-                className="p-3.5 rounded-xl border border-[#E8E7F0] bg-[#F7F7FC]/50 hover:bg-white hover:border-[#6D4AFF] flex flex-col justify-between transition-all duration-200"
+                className="p-3.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-surface-muted)]/50 hover:bg-white hover:border-[var(--brand-primary)] flex flex-col justify-between transition-all duration-200"
               >
                 <div>
-                  <div className="flex items-center justify-between pb-2 border-b border-[#E8E7F0] mb-2">
+                  <div className="flex items-center justify-between pb-2 border-b border-[var(--border-color)] mb-2">
                     <div className="flex items-center gap-1.5">
-                      <div className="w-5 h-5 rounded-md bg-[#F0EDFF] text-[#6D4AFF] flex items-center justify-center">
+                      <div className="w-5 h-5 rounded-md bg-[var(--brand-soft-bg)] text-[var(--brand-primary)] flex items-center justify-center">
                         <BoardIcon className="w-3 h-3" />
                       </div>
-                      <h3 className="font-bold text-xs text-[#242139]">{board.title}</h3>
+                      <h3 className="font-bold text-xs text-[var(--text-primary)]">{board.title}</h3>
                     </div>
-                    <span className="text-[10px] text-[#9692A6]">{board.metricLabel}</span>
+                    <span className="text-[10px] text-[var(--text-muted)]">{board.metricLabel}</span>
                   </div>
 
                   <div className="space-y-1.5">
@@ -1222,11 +1222,11 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                       <div
                         key={item.rank}
                         onClick={() => board.onItemClick(item)}
-                        className="relative p-1.5 rounded-lg hover:bg-[#F0EDFF]/50 transition cursor-pointer flex items-center justify-between gap-1.5 group overflow-hidden"
+                        className="relative p-1.5 rounded-lg hover:bg-[var(--brand-soft-bg)]/50 transition cursor-pointer flex items-center justify-between gap-1.5 group overflow-hidden"
                       >
                         {/* 刻度背景指示条 */}
                         <div
-                          className="absolute left-0 top-0 bottom-0 bg-[#F0EDFF]/40 group-hover:bg-[#F0EDFF]/80 transition-all pointer-events-none"
+                          className="absolute left-0 top-0 bottom-0 bg-[var(--brand-soft-bg)]/40 group-hover:bg-[var(--brand-soft-bg)]/80 transition-all pointer-events-none"
                           style={{ width: `${item.progress}%` }}
                         />
 
@@ -1234,22 +1234,22 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                           <span
                             className={`w-4 h-4 rounded text-[10px] font-mono font-bold flex items-center justify-center shrink-0 ${
                               item.rank === 1
-                                ? 'bg-[#6D4AFF] text-white'
+                                ? 'bg-[var(--btn-primary-bg)] text-white'
                                 : item.rank === 2
-                                ? 'bg-[#F0EDFF] text-[#6D4AFF]'
+                                ? 'bg-[var(--brand-soft-bg)] text-[var(--brand-primary)]'
                                 : item.rank === 3
-                                ? 'bg-[#E8E7F0] text-[#242139]'
-                                : 'text-[#9692A6]'
+                                ? 'bg-[var(--border-color)] text-[var(--text-primary)]'
+                                : 'text-[var(--text-muted)]'
                             }`}
                           >
                             {item.rank}
                           </span>
-                          <span className="font-medium text-xs text-[#242139] group-hover:text-[#6D4AFF] truncate">
+                          <span className="font-medium text-xs text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] truncate">
                             {item.name}
                           </span>
                         </div>
 
-                        <span className="relative z-10 text-[11px] font-mono font-semibold text-[#6D4AFF] shrink-0">
+                        <span className="relative z-10 text-[11px] font-mono font-semibold text-[var(--brand-primary)] shrink-0">
                           {item.metric}
                         </span>
                       </div>
@@ -1257,10 +1257,10 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-[#E8E7F0] mt-2 text-center">
+                <div className="pt-2 border-t border-[var(--border-color)] mt-2 text-center">
                   <button
                     onClick={board.onMoreClick}
-                    className="text-[11px] text-[#716D83] hover:text-[#6D4AFF] transition cursor-pointer flex items-center justify-center gap-0.5 mx-auto"
+                    className="text-[11px] text-[var(--text-secondary)] hover:text-[var(--brand-primary)] transition cursor-pointer flex items-center justify-center gap-0.5 mx-auto"
                   >
                     <span>查看完整榜单</span>
                     <ChevronRight className="w-3 h-3" />
@@ -1275,20 +1275,20 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       {/* ========================================================
           7. 热门任务 (独立横向4卡片 · 展示高额悬赏)
          ======================================================== */}
-      <div className="bg-white rounded-2xl border border-[#E8E7F0] p-5 shadow-[0_2px_12px_rgba(36,33,57,0.03)]">
-        <div className="flex items-center justify-between pb-3 border-b border-[#E8E7F0]">
+      <div className="bg-white rounded-2xl border border-[var(--border-color)] p-5 shadow-[var(--card-shadow)]">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-[#ECFDF5] text-[#16A36A]">
               <ClipboardList className="w-4 h-4" />
             </span>
             <div>
-              <h2 className="text-base font-bold text-[#242139]">热门任务</h2>
-              <span className="text-xs text-[#716D83]">高额赏金揭榜需求 · 企业协同攻关与技术交付</span>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">热门任务</h2>
+              <span className="text-xs text-[var(--text-secondary)]">高额赏金揭榜需求 · 企业协同攻关与技术交付</span>
             </div>
           </div>
           <button
             onClick={() => setActiveTab('tasks')}
-            className="text-xs font-semibold text-[#6D4AFF] hover:underline flex items-center gap-0.5 cursor-pointer"
+            className="text-xs font-semibold text-[var(--brand-primary)] hover:underline flex items-center gap-0.5 cursor-pointer"
           >
             <span>任务大厅</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -1303,31 +1303,31 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                 if (setSelectedTaskIdForDetail) setSelectedTaskIdForDetail(task.id);
                 setActiveTab('tasks');
               }}
-              className="p-4 rounded-xl border border-[#E8E7F0] hover:border-[#16A36A] bg-white hover:bg-[#ECFDF5]/10 flex flex-col justify-between transition-all duration-200 cursor-pointer shadow-2xs group hover:-translate-y-0.5"
+              className="p-4 rounded-xl border border-[var(--border-color)] hover:border-[#16A36A] bg-white hover:bg-[#ECFDF5]/10 flex flex-col justify-between transition-all duration-200 cursor-pointer shadow-2xs group hover:-translate-y-0.5"
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#ECFDF5] text-[#16A36A]">
                     {task.category}
                   </span>
-                  <span className="text-[11px] text-[#9692A6] flex items-center gap-1 font-mono">
-                    <Clock className="w-3 h-3 text-[#9692A6]" />
+                  <span className="text-[11px] text-[var(--text-muted)] flex items-center gap-1 font-mono">
+                    <Clock className="w-3 h-3 text-[var(--text-muted)]" />
                     剩余 {task.remainingDays}
                   </span>
                 </div>
 
-                <h3 className="font-bold text-sm text-[#242139] group-hover:text-[#16A36A] transition line-clamp-1">
+                <h3 className="font-bold text-sm text-[var(--text-primary)] group-hover:text-[#16A36A] transition line-clamp-1">
                   {task.title}
                 </h3>
 
-                <p className="text-xs text-[#716D83] mt-1 truncate">
+                <p className="text-xs text-[var(--text-secondary)] mt-1 truncate">
                   发布方: {task.publisher}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-[#E8E7F0] mt-3 flex items-center justify-between">
+              <div className="pt-3 border-t border-[var(--border-color)] mt-3 flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] text-[#9692A6] block">赏金总额</span>
+                  <span className="text-[10px] text-[var(--text-muted)] block">赏金总额</span>
                   <span className="text-base font-bold font-mono text-[#16A36A] leading-none">
                     {task.reward}
                   </span>
@@ -1345,20 +1345,20 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       {/* ========================================================
           8. 热门赛事 (与赛事中心字段严格一致)
          ======================================================== */}
-      <div className="bg-white rounded-2xl border border-[#E8E7F0] p-5 shadow-[0_2px_12px_rgba(36,33,57,0.03)]">
-        <div className="flex items-center justify-between pb-3 border-b border-[#E8E7F0]">
+      <div className="bg-white rounded-2xl border border-[var(--border-color)] p-5 shadow-[var(--card-shadow)]">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-[#FEF2F2] text-[#E5484D]">
               <Trophy className="w-4 h-4" />
             </span>
             <div>
-              <h2 className="text-base font-bold text-[#242139]">热门赛事</h2>
-              <span className="text-xs text-[#716D83]">挑战顶尖算法 · 争夺官方荣誉勋章与高额现金激励</span>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">热门赛事</h2>
+              <span className="text-xs text-[var(--text-secondary)]">挑战顶尖算法 · 争夺官方荣誉勋章与高额现金激励</span>
             </div>
           </div>
           <button
             onClick={() => setActiveTab('creative')}
-            className="text-xs font-semibold text-[#6D4AFF] hover:underline flex items-center gap-0.5 cursor-pointer"
+            className="text-xs font-semibold text-[var(--brand-primary)] hover:underline flex items-center gap-0.5 cursor-pointer"
           >
             <span>赛事中心</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -1373,7 +1373,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                 if (openCompetitionDetail) openCompetitionDetail(comp.id);
                 setActiveTab('creative');
               }}
-              className="rounded-xl border border-[#E8E7F0] hover:border-[#6D4AFF] bg-white overflow-hidden transition-all duration-200 group cursor-pointer shadow-2xs hover:shadow-md flex flex-col justify-between hover:-translate-y-0.5"
+              className="rounded-xl border border-[var(--border-color)] hover:border-[var(--brand-primary)] bg-white overflow-hidden transition-all duration-200 group cursor-pointer shadow-2xs hover:shadow-md flex flex-col justify-between hover:-translate-y-0.5"
             >
               <div className="h-32 w-full relative overflow-hidden bg-slate-100">
                 <img
@@ -1391,12 +1391,12 @@ export const HomeView05: React.FC<HomeView05Props> = ({
 
               <div className="p-3.5 bg-white">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-[11px] text-[#716D83]">{comp.type}</span>
-                  <span className="font-mono font-bold text-[#6D4AFF] text-sm">{comp.prize}</span>
+                  <span className="text-[11px] text-[var(--text-secondary)]">{comp.type}</span>
+                  <span className="font-mono font-bold text-[var(--brand-primary)] text-sm">{comp.prize}</span>
                 </div>
-                <div className="mt-2.5 pt-2 border-t border-[#E8E7F0] flex items-center justify-between">
-                  <span className="text-[11px] text-[#9692A6]">{comp.participants}</span>
-                  <span className="text-xs font-medium text-[#6D4AFF] group-hover:underline flex items-center gap-0.5">
+                <div className="mt-2.5 pt-2 border-t border-[var(--border-color)] flex items-center justify-between">
+                  <span className="text-[11px] text-[var(--text-muted)]">{comp.participants}</span>
+                  <span className="text-xs font-medium text-[var(--brand-primary)] group-hover:underline flex items-center gap-0.5">
                     赛事详情 <ChevronRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
@@ -1409,20 +1409,20 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       {/* ========================================================
           9. 社区热帖 (左侧精选大卡 60% + 右侧热帖榜 40%)
          ======================================================== */}
-      <div className="bg-white rounded-2xl border border-[#E8E7F0] p-5 shadow-[0_2px_12px_rgba(36,33,57,0.03)]">
-        <div className="flex items-center justify-between pb-3 border-b border-[#E8E7F0]">
+      <div className="bg-white rounded-2xl border border-[var(--border-color)] p-5 shadow-[var(--card-shadow)]">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-[#F0EDFF] text-[#6D4AFF]">
+            <span className="p-1.5 rounded-lg bg-[var(--brand-soft-bg)] text-[var(--brand-primary)]">
               <MessageSquare className="w-4 h-4" />
             </span>
             <div>
-              <h2 className="text-base font-bold text-[#242139]">社区热帖</h2>
-              <span className="text-xs text-[#716D83]">开发者避坑经验、技术干货与组队前沿讨论</span>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">社区热帖</h2>
+              <span className="text-xs text-[var(--text-secondary)]">开发者避坑经验、技术干货与组队前沿讨论</span>
             </div>
           </div>
           <button
             onClick={() => setActiveTab('community')}
-            className="text-xs font-semibold text-[#6D4AFF] hover:underline flex items-center gap-1 cursor-pointer"
+            className="text-xs font-semibold text-[var(--brand-primary)] hover:underline flex items-center gap-1 cursor-pointer"
           >
             <span>进入社区</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -1438,7 +1438,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
               }
               setActiveTab('community');
             }}
-            className="lg:col-span-7 bg-white rounded-xl border border-[#E8E7F0] hover:border-[#6D4AFF] p-4 transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md group flex flex-col sm:flex-row gap-4 items-stretch justify-between"
+            className="lg:col-span-7 bg-white rounded-xl border border-[var(--border-color)] hover:border-[var(--brand-primary)] p-4 transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md group flex flex-col sm:flex-row gap-4 items-stretch justify-between"
           >
             <div className="w-full sm:w-52 shrink-0 aspect-[16/10] sm:aspect-auto sm:h-auto min-h-[140px] rounded-lg overflow-hidden bg-slate-100 relative">
               <img
@@ -1446,35 +1446,35 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                 alt={featuredCommunityPost.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
               />
-              <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[10px] font-semibold bg-white/95 text-[#6D4AFF] shadow-2xs">
+              <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[10px] font-semibold bg-white/95 text-[var(--brand-primary)] shadow-2xs">
                 {featuredCommunityPost.section}
               </span>
             </div>
 
             <div className="flex-1 flex flex-col justify-between min-w-0 py-0.5">
               <div>
-                <div className="flex items-center gap-1.5 text-xs text-[#6D4AFF] font-semibold mb-1">
+                <div className="flex items-center gap-1.5 text-xs text-[var(--brand-primary)] font-semibold mb-1">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>精选推荐</span>
                 </div>
-                <h3 className="font-bold text-base text-[#242139] group-hover:text-[#6D4AFF] transition leading-snug line-clamp-2">
+                <h3 className="font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition leading-snug line-clamp-2">
                   {featuredCommunityPost.title}
                 </h3>
-                <p className="text-xs text-[#716D83] line-clamp-2 mt-1.5 leading-relaxed">
+                <p className="text-xs text-[var(--text-secondary)] line-clamp-2 mt-1.5 leading-relaxed">
                   {featuredCommunityPost.summary}
                 </p>
               </div>
 
-              <div className="pt-2.5 mt-2 border-t border-[#E8E7F0] flex items-center justify-between text-xs text-[#716D83]">
+              <div className="pt-2.5 mt-2 border-t border-[var(--border-color)] flex items-center justify-between text-xs text-[var(--text-secondary)]">
                 <div className="flex items-center gap-1.5">
                   <img
                     src={featuredCommunityPost.avatar}
                     alt={featuredCommunityPost.author}
-                    className="w-5 h-5 rounded-full object-cover border border-[#E8E7F0]"
+                    className="w-5 h-5 rounded-full object-cover border border-[var(--border-color)]"
                   />
-                  <span className="font-medium text-[#242139] text-xs">{featuredCommunityPost.author}</span>
+                  <span className="font-medium text-[var(--text-primary)] text-xs">{featuredCommunityPost.author}</span>
                 </div>
-                <div className="flex items-center gap-2.5 font-mono text-xs text-[#9692A6]">
+                <div className="flex items-center gap-2.5 font-mono text-xs text-[var(--text-muted)]">
                   <span>💬 {featuredCommunityPost.comments}</span>
                   <span>⭐ {featuredCommunityPost.likes}</span>
                 </div>
@@ -1483,16 +1483,16 @@ export const HomeView05: React.FC<HomeView05Props> = ({
           </div>
 
           {/* 右侧 40%：热帖榜 */}
-          <div className="lg:col-span-5 bg-white rounded-xl border border-[#E8E7F0] p-4 flex flex-col justify-between shadow-2xs">
-            <div className="flex items-center justify-between pb-2 mb-1 border-b border-[#E8E7F0]">
+          <div className="lg:col-span-5 bg-white rounded-xl border border-[var(--border-color)] p-4 flex flex-col justify-between shadow-2xs">
+            <div className="flex items-center justify-between pb-2 mb-1 border-b border-[var(--border-color)]">
               <div className="flex items-center gap-1.5">
                 <Flame className="w-4 h-4 text-[#F59E0B]" />
-                <h3 className="text-sm font-bold text-[#242139]">热帖榜</h3>
+                <h3 className="text-sm font-bold text-[var(--text-primary)]">热帖榜</h3>
               </div>
-              <span className="text-[10px] text-[#6D4AFF] font-mono">TOP 5 · 实时热度</span>
+              <span className="text-[10px] text-[var(--brand-primary)] font-mono">TOP 5 · 实时热度</span>
             </div>
 
-            <div className="divide-y divide-[#E8E7F0] flex-1 flex flex-col justify-around">
+            <div className="divide-y divide-[var(--border-color)] flex-1 flex flex-col justify-around">
               {hotPostRanking.map(item => (
                 <div
                   key={item.id}
@@ -1502,36 +1502,36 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                     }
                     setActiveTab('community');
                   }}
-                  className="py-1.5 px-2 rounded-lg flex items-center justify-between gap-2.5 group cursor-pointer hover:bg-[#F7F7FC] transition"
+                  className="py-1.5 px-2 rounded-lg flex items-center justify-between gap-2.5 group cursor-pointer hover:bg-[var(--bg-surface-muted)] transition"
                 >
                   <div className="flex items-center gap-2 min-w-0">
                     <span
                       className={`w-4 h-4 rounded text-[10px] font-bold flex items-center justify-center shrink-0 ${
                         item.rank === 1
-                          ? 'bg-[#6D4AFF] text-white'
+                          ? 'bg-[var(--btn-primary-bg)] text-white'
                           : item.rank === 2
-                          ? 'bg-[#F0EDFF] text-[#6D4AFF]'
+                          ? 'bg-[var(--brand-soft-bg)] text-[var(--brand-primary)]'
                           : item.rank === 3
-                          ? 'bg-[#E8E7F0] text-[#242139]'
-                          : 'text-[#9692A6]'
+                          ? 'bg-[var(--border-color)] text-[var(--text-primary)]'
+                          : 'text-[var(--text-muted)]'
                       }`}
                     >
                       {item.rank}
                     </span>
 
                     <div className="min-w-0">
-                      <h4 className="text-xs font-medium text-[#242139] group-hover:text-[#6D4AFF] transition truncate max-w-[170px] sm:max-w-[210px]">
+                      <h4 className="text-xs font-medium text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition truncate max-w-[170px] sm:max-w-[210px]">
                         {item.title}
                       </h4>
-                      <div className="flex items-center gap-1 text-[10px] text-[#9692A6] mt-0.5">
-                        <span className="text-[#6D4AFF]">{item.section}</span>
+                      <div className="flex items-center gap-1 text-[10px] text-[var(--text-muted)] mt-0.5">
+                        <span className="text-[var(--brand-primary)]">{item.section}</span>
                         <span>·</span>
                         <span className="truncate">{item.author}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0 font-mono text-[10px] text-[#9692A6]">
+                  <div className="flex items-center gap-2 shrink-0 font-mono text-[10px] text-[var(--text-muted)]">
                     <span>💬 {item.comments}</span>
                     <span>⭐ {item.likes}</span>
                   </div>
@@ -1545,39 +1545,39 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       {/* ========================================================
           10. 平台数据与实力背书
          ======================================================== */}
-      <div className="bg-white rounded-2xl border border-[#E8E7F0] p-6 shadow-[0_2px_12px_rgba(36,33,57,0.03)] text-center space-y-5">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 divide-y md:divide-y-0 md:divide-x divide-[#E8E7F0]">
+      <div className="bg-white rounded-2xl border border-[var(--border-color)] p-6 shadow-[var(--card-shadow)] text-center space-y-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 divide-y md:divide-y-0 md:divide-x divide-[var(--border-color)]">
           <div className="pt-2 md:pt-0">
-            <div className="text-xs text-[#716D83]">注册开发者</div>
-            <div className="text-2xl lg:text-3xl font-bold text-[#242139] font-mono mt-1">12,580+</div>
+            <div className="text-xs text-[var(--text-secondary)]">注册开发者</div>
+            <div className="text-2xl lg:text-3xl font-bold text-[var(--text-primary)] font-mono mt-1">12,580+</div>
           </div>
           <div className="pt-2 md:pt-0">
-            <div className="text-xs text-[#716D83]">上架 Agent 智能体</div>
-            <div className="text-2xl lg:text-3xl font-bold text-[#6D4AFF] font-mono mt-1">{heroStats.agentCount} 款</div>
+            <div className="text-xs text-[var(--text-secondary)]">上架 Agent 智能体</div>
+            <div className="text-2xl lg:text-3xl font-bold text-[var(--brand-primary)] font-mono mt-1">{heroStats.agentCount} 款</div>
           </div>
           <div className="pt-2 md:pt-0">
-            <div className="text-xs text-[#716D83]">累计完成任务</div>
+            <div className="text-xs text-[var(--text-secondary)]">累计完成任务</div>
             <div className="text-2xl lg:text-3xl font-bold text-[#16A36A] font-mono mt-1">1,234 件</div>
           </div>
           <div className="pt-2 md:pt-0">
-            <div className="text-xs text-[#716D83]">GPU 纳管平均利用率</div>
-            <div className="text-2xl lg:text-3xl font-bold text-[#242139] font-mono mt-1">78.5%</div>
+            <div className="text-xs text-[var(--text-secondary)]">GPU 纳管平均利用率</div>
+            <div className="text-2xl lg:text-3xl font-bold text-[var(--text-primary)] font-mono mt-1">78.5%</div>
           </div>
         </div>
 
         {/* 合作伙伴 Logo 墙 */}
-        <div className="pt-4 border-t border-[#E8E7F0]">
-          <div className="text-xs text-[#9692A6] mb-3">平台生态合作伙伴</div>
+        <div className="pt-4 border-t border-[var(--border-color)]">
+          <div className="text-xs text-[var(--text-muted)] mb-3">平台生态合作伙伴</div>
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             {partnerLogos.map(p => (
               <div
                 key={p.name}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F7F7FC] border border-[#E8E7F0] text-[#716D83] text-xs font-medium hover:border-[#6D4AFF] hover:text-[#6D4AFF] transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-surface-muted)] border border-[var(--border-color)] text-[var(--text-secondary)] text-xs font-medium hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition"
                 title={p.tag}
               >
-                <Building2 className="w-3.5 h-3.5 text-[#9692A6]" />
+                <Building2 className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                 <span>{p.name}</span>
-                <span className="text-[10px] text-[#9692A6] font-mono hidden sm:inline">[{p.tag}]</span>
+                <span className="text-[10px] text-[var(--text-muted)] font-mono hidden sm:inline">[{p.tag}]</span>
               </div>
             ))}
           </div>
@@ -1587,19 +1587,19 @@ export const HomeView05: React.FC<HomeView05Props> = ({
       {/* ========================================================
           11. 底部导航链接与版权
          ======================================================== */}
-      <div className="pt-4 border-t border-[#E8E7F0] text-center text-xs text-[#9692A6] space-y-2">
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[#716D83] font-medium">
-          <button onClick={() => showToast('关于我们：赛宁·千机 AI 场景驱动与普惠算力平台')} className="hover:text-[#6D4AFF] transition cursor-pointer">关于我们</button>
-          <span className="text-[#E8E7F0]">|</span>
-          <button onClick={() => showToast('用户服务协议已生效，保障开发者与企业数据资产权益')} className="hover:text-[#6D4AFF] transition cursor-pointer">用户协议</button>
-          <span className="text-[#E8E7F0]">|</span>
-          <button onClick={() => showToast('全流程遵循数据安全与脱敏审计规范')} className="hover:text-[#6D4AFF] transition cursor-pointer">隐私政策</button>
-          <span className="text-[#E8E7F0]">|</span>
-          <button onClick={() => showToast('在线工单系统全天候技术专员响应')} className="hover:text-[#6D4AFF] transition cursor-pointer">帮助中心</button>
-          <span className="text-[#E8E7F0]">|</span>
-          <button onClick={() => showToast('商务合作邮箱：service@qianji-ai.com')} className="hover:text-[#6D4AFF] transition cursor-pointer">联系我们</button>
+      <div className="pt-4 border-t border-[var(--border-color)] text-center text-xs text-[var(--text-muted)] space-y-2">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[var(--text-secondary)] font-medium">
+          <button onClick={() => showToast('关于我们：赛宁·千机 AI 场景驱动与普惠算力平台')} className="hover:text-[var(--brand-primary)] transition cursor-pointer">关于我们</button>
+          <span className="text-[var(--border-color)]">|</span>
+          <button onClick={() => showToast('用户服务协议已生效，保障开发者与企业数据资产权益')} className="hover:text-[var(--brand-primary)] transition cursor-pointer">用户协议</button>
+          <span className="text-[var(--border-color)]">|</span>
+          <button onClick={() => showToast('全流程遵循数据安全与脱敏审计规范')} className="hover:text-[var(--brand-primary)] transition cursor-pointer">隐私政策</button>
+          <span className="text-[var(--border-color)]">|</span>
+          <button onClick={() => showToast('在线工单系统全天候技术专员响应')} className="hover:text-[var(--brand-primary)] transition cursor-pointer">帮助中心</button>
+          <span className="text-[var(--border-color)]">|</span>
+          <button onClick={() => showToast('商务合作邮箱：service@qianji-ai.com')} className="hover:text-[var(--brand-primary)] transition cursor-pointer">联系我们</button>
         </div>
-        <p className="text-[11px] text-[#9692A6]">
+        <p className="text-[11px] text-[var(--text-muted)]">
           © 2026 赛宁·千机 AI 综合应用门户 · 苏ICP备20260812号-1 · 南京市人工智能生态示范工程
         </p>
       </div>
@@ -1609,24 +1609,24 @@ export const HomeView05: React.FC<HomeView05Props> = ({
          ======================================================== */}
       {isCheckInModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl border border-[#E8E7F0]">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl border border-[var(--border-color)]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <CalendarIcon weight="duotone" className="w-5 h-5 text-[#6D4AFF]" />
-                <h3 className="font-bold text-base text-[#242139]">每日签到领积分</h3>
+                <CalendarIcon weight="duotone" className="w-5 h-5 text-[var(--brand-primary)]" />
+                <h3 className="font-bold text-base text-[var(--text-primary)]">每日签到领积分</h3>
               </div>
               <button
                 onClick={() => setIsCheckInModalOpen(false)}
-                className="text-[#9692A6] hover:text-[#242139] cursor-pointer"
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="bg-[#F7F7FC] rounded-xl p-4 text-center space-y-1">
-              <div className="text-xs text-[#716D83]">已连续签到</div>
-              <div className="text-3xl font-bold text-[#6D4AFF] font-mono">{continuousDays} 天</div>
-              <div className="text-[11px] text-[#9692A6]">每日签到可获得 5 积分，可无门槛抵扣 API 额度</div>
+            <div className="bg-[var(--bg-surface-muted)] rounded-xl p-4 text-center space-y-1">
+              <div className="text-xs text-[var(--text-secondary)]">已连续签到</div>
+              <div className="text-3xl font-bold text-[var(--brand-primary)] font-mono">{continuousDays} 天</div>
+              <div className="text-[11px] text-[var(--text-muted)]">每日签到可获得 5 积分，可无门槛抵扣 API 额度</div>
             </div>
 
             <button
@@ -1634,8 +1634,8 @@ export const HomeView05: React.FC<HomeView05Props> = ({
               disabled={hasCheckedInToday}
               className={`w-full py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
                 hasCheckedInToday
-                  ? 'bg-[#F7F7FC] text-[#9692A6] cursor-not-allowed border border-[#E8E7F0]'
-                  : 'bg-[#6D4AFF] hover:bg-[#5735D8] text-white shadow-xs'
+                  ? 'bg-[var(--bg-surface-muted)] text-[var(--text-muted)] cursor-not-allowed border border-[var(--border-color)]'
+                  : 'bg-[var(--btn-primary-bg)] hover:bg-[var(--btn-primary-hover)] text-white shadow-xs'
               }`}
             >
               {hasCheckedInToday ? '今日已签到' : '立即签到领 +5 积分'}
@@ -1649,34 +1649,34 @@ export const HomeView05: React.FC<HomeView05Props> = ({
          ======================================================== */}
       {isInviteModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full space-y-4 shadow-xl border border-[#E8E7F0]">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full space-y-4 shadow-xl border border-[var(--border-color)]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Share2 className="w-5 h-5 text-[#6D4AFF]" />
-                <h3 className="font-bold text-base text-[#242139]">邀请开发者好友</h3>
+                <Share2 className="w-5 h-5 text-[var(--brand-primary)]" />
+                <h3 className="font-bold text-base text-[var(--text-primary)]">邀请开发者好友</h3>
               </div>
               <button
                 onClick={() => setIsInviteModalOpen(false)}
-                className="text-[#9692A6] hover:text-[#242139] cursor-pointer"
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="bg-[#F0EDFF] rounded-xl p-4 space-y-1 text-center">
-              <div className="text-xs text-[#716D83]">每成功邀请 1 位好友注册</div>
-              <div className="text-xl font-bold text-[#6D4AFF]">双方各得 ¥20 抵扣金 + 100 积分</div>
+            <div className="bg-[var(--brand-soft-bg)] rounded-xl p-4 space-y-1 text-center">
+              <div className="text-xs text-[var(--text-secondary)]">每成功邀请 1 位好友注册</div>
+              <div className="text-xl font-bold text-[var(--brand-primary)]">双方各得 ¥20 抵扣金 + 100 积分</div>
             </div>
 
             <div className="space-y-3">
               <div>
-                <label className="text-xs text-[#716D83] block mb-1">您的专属邀请码</label>
+                <label className="text-xs text-[var(--text-secondary)] block mb-1">您的专属邀请码</label>
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
                     readOnly
                     value="QIANJI-VIP-888"
-                    className="flex-1 bg-[#F7F7FC] border border-[#E8E7F0] rounded-lg px-3 py-2 text-xs font-mono font-bold text-[#242139]"
+                    className="flex-1 bg-[var(--bg-surface-muted)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-xs font-mono font-bold text-[var(--text-primary)]"
                   />
                   <button
                     onClick={() => {
@@ -1685,7 +1685,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
                       showToast('邀请码已复制到剪贴板！');
                       setTimeout(() => setInviteCopied(false), 2000);
                     }}
-                    className="px-3 py-2 rounded-lg bg-[#6D4AFF] text-white text-xs font-medium cursor-pointer"
+                    className="px-3 py-2 rounded-lg bg-[var(--btn-primary-bg)] text-white text-xs font-medium cursor-pointer"
                   >
                     {inviteCopied ? '已复制' : '复制'}
                   </button>
@@ -1693,20 +1693,20 @@ export const HomeView05: React.FC<HomeView05Props> = ({
               </div>
 
               <div>
-                <label className="text-xs text-[#716D83] block mb-1">专属邀请推广链接</label>
+                <label className="text-xs text-[var(--text-secondary)] block mb-1">专属邀请推广链接</label>
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
                     readOnly
                     value="https://qianji.ai/register?invite=QIANJI-VIP-888"
-                    className="flex-1 bg-[#F7F7FC] border border-[#E8E7F0] rounded-lg px-3 py-2 text-xs text-[#716D83] truncate"
+                    className="flex-1 bg-[var(--bg-surface-muted)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-xs text-[var(--text-secondary)] truncate"
                   />
                   <button
                     onClick={() => {
                       navigator.clipboard?.writeText('https://qianji.ai/register?invite=QIANJI-VIP-888');
                       showToast('邀请链接已复制到剪贴板！');
                     }}
-                    className="px-3 py-2 rounded-lg bg-white border border-[#E8E7F0] text-[#242139] hover:text-[#6D4AFF] text-xs font-medium cursor-pointer"
+                    className="px-3 py-2 rounded-lg bg-white border border-[var(--border-color)] text-[var(--text-primary)] hover:text-[var(--brand-primary)] text-xs font-medium cursor-pointer"
                   >
                     复制链接
                   </button>
@@ -1714,7 +1714,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
               </div>
             </div>
 
-            <div className="text-[11px] text-[#9692A6] leading-relaxed pt-2">
+            <div className="text-[11px] text-[var(--text-muted)] leading-relaxed pt-2">
               提示：被邀请人完成手机号验证并注册成功后，奖励额度将秒级自动充入您的千机平台个人账户。
             </div>
           </div>
@@ -1726,15 +1726,15 @@ export const HomeView05: React.FC<HomeView05Props> = ({
          ======================================================== */}
       {activeVideoModal && activeVideoModal.isOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-xl w-full overflow-hidden shadow-2xl border border-[#E8E7F0] space-y-4 p-5">
+          <div className="bg-white rounded-2xl max-w-xl w-full overflow-hidden shadow-2xl border border-[var(--border-color)] space-y-4 p-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <VideoCamera weight="duotone" className="w-5 h-5 text-[#6D4AFF]" />
-                <h3 className="font-bold text-base text-[#242139]">{activeVideoModal.title}</h3>
+                <VideoCamera weight="duotone" className="w-5 h-5 text-[var(--brand-primary)]" />
+                <h3 className="font-bold text-base text-[var(--text-primary)]">{activeVideoModal.title}</h3>
               </div>
               <button
                 onClick={() => setActiveVideoModal(null)}
-                className="text-[#9692A6] hover:text-[#242139] cursor-pointer"
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1781,7 +1781,7 @@ export const HomeView05: React.FC<HomeView05Props> = ({
               </div>
             </div>
 
-            <div className="text-xs text-[#716D83] leading-relaxed">
+            <div className="text-xs text-[var(--text-secondary)] leading-relaxed">
               {activeVideoModal.description}
             </div>
           </div>

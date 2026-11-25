@@ -39,7 +39,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 
 1. **千万不要按工时计费，要按业务商业结果定价**：跟客户聊不要大谈模型架构多前沿，直接告诉老板：“这套系统能帮你省去 2 个晚班人工客服，且夜间咨询成单率提升 25%”；
 2. **首付 50% 定金开工，验收完毕付清 50% 尾款方才交付源码**，合同中明确约定免费售后维护期为 1 个月，之后每年收取 2,000 ~ 3,000 元的维保运维费（这就是宝贵的持续睡后现金流！）。`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 395,
     commentsCount: 52,
     sharesCount: 68,
@@ -83,7 +83,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 
 - **必须做到精准来源溯源（Citation Source）**：律师对真实性要求容错率为零！回答中引用的每一个法条编号，前端必须能够点击直接悬浮展示原始官方公布文献；
 - **明确免责声明协议**：在软件首页与合同中醒目标注“本系统输出内容仅供执业律师起草参考，不代表最终法定法律意见”，规避后续潜在执业合规纠纷。`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 310,
     commentsCount: 44,
     sharesCount: 55,
@@ -124,7 +124,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 
 1. **算力成本动态平衡控制**：底层推理算力混合调度了算力工坊按量付费 GPU 与自建集群，把单分钟视频的综合渲染成本压缩在 **$0.04 美金**，毛利率保持在 **78% 以上**；
 2. **支付通道防欺诈（Chargeback）**：海外信用卡盗刷和恶意拒付是出海团队的头号杀手，接入 Stripe 时务必开启严格的 3D Secure 动态短信验证与风控防火墙！`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 420,
     commentsCount: 61,
     sharesCount: 78,
@@ -173,7 +173,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 
 - **切勿做泛泛而谈的通用产品**：市场里绝不缺“全能写作大师”或者“通用代码助手”；越是细分到令人发指的领域（比如专门生成亚马逊德国站 A+ 页面描述、专门核对增值税发票），转化率越高！
 - **编写极具说服力的演示示例（Output Example）**：绝大多数用户在购买前都会先看试用输出，务必把最惊艳的结构化结果直接放进应用主页！`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 268,
     commentsCount: 38,
     sharesCount: 45,
@@ -218,7 +218,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 
 - **深耕本地商会与企业家高管校友会**：自告奋勇去为商会会员免费做一次 1 小时的沙龙主题分享，每次分享结束后几乎都会有 2 ~ 3 家企业的负责人主动添加微信咨询内训落地；
 - **交付物必须落地成文档与视频资产**：培训结束后交付装订成册的《企业定制 AI 员工使用操作规范红宝书》，专业度瞬间拉满！`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 224,
     commentsCount: 31,
     sharesCount: 37,
@@ -262,7 +262,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 
 ### 开发者避坑警示：
 - 在插件中**严禁直接暴露明文 API Key**！必须通过自己的轻量级后端代理服务器（如 Cloudflare Workers）中转校验用户身份后，再向大模型接口转发请求。`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 345,
     commentsCount: 46,
     sharesCount: 58,
@@ -304,7 +304,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 - **单套 Listing 制作综合成本从 260 元暴跌至不足 1.5 元（主要是 API Token 开销）**，整体降本达 **99.4%**！
 - 团队文案策划人员从原本的 6 人精简至 2 名资深主编，每年直接节省工资与社保开支 **40 万元以上**；
 - 新品页面上线速度由 4 天缩减到 **15 分钟**，测品爆款率整体提升了 35%！`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 198,
     commentsCount: 26,
     sharesCount: 33,
@@ -357,7 +357,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 - **客户收费标准**：打包价 8 元 / 分钟（远低于传统人工的 25 元，客户趋之若鹜）；
 - **实际算力与 API 支出**：约 0.6 元 / 分钟；
 - **每月团队净利润稳定在 4.5 万元 ~ 5.5 万元之间**，两个人兼职维护脚本即可轻松运转，是一条极其稳健的现金流管道！`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 275,
     commentsCount: 37,
     sharesCount: 46,
@@ -397,7 +397,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 
 ### 4. 严苛的需求变更控制条款
 超出《需求规格说明书》约定的任何新增功能或对话场景，双方必须另行签署《补充开发协议》并加收费用，工期相应顺延。`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 480,
     commentsCount: 72,
     sharesCount: 95,
@@ -454,7 +454,7 @@ export const mockFeedPosts60ExpandedPart4: FeedPost[] = [
 
 - **必须校验 Webhook 签名（Stripe-Signature）**：防止伪造请求骗取系统自动给黑客账号充值算力点数；
 - **幂等性保障（Idempotency）**：Stripe 在网络波动时会对同一个支付成功事件重复推送多达 3 ~ 5 次重试，后端处理账单时必须基于 \`event.id\` 做唯一分布式锁防重复入账！`,
-    board: '赚钱交流',
+    board: '行业快讯',
     likesCount: 215,
     commentsCount: 28,
     sharesCount: 34,

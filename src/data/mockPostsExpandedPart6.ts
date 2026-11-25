@@ -45,7 +45,7 @@ SyntaxError: Unexpected token '；' (Line 382, Column 45)
 特别是最后那句“**君非塞外征战客，合当配副近视圈**”，简直把损人艺术发挥到了极致！旁边工位的前端小哥凑过来看到屏幕上的输出，直接笑得从人体工学椅上滑了下去。
 
 现在的 AI 不仅逻辑严密，阴阳怪气的本事更是甩开人类好几条街了！大家平时在写代码时都被大模型怼过哪些离谱的搞笑神回复？欢迎在评论区分享你的社死瞬间！`,
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 680,
     commentsCount: 120,
     sharesCount: 110,
@@ -99,7 +99,7 @@ if iteration_count > 10:
 \`\`\`
 不说了，我要去联系平台客服哭诉看看能不能申请人道主义账单减免了，呜呜呜！`,
     images: ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80'],
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 890,
     commentsCount: 145,
     sharesCount: 160,
@@ -138,7 +138,7 @@ if iteration_count > 10:
    - Realforce 或 HHKB，虽然价格高昂，但那种如按在丝滑奶油上的回弹触感，据说是许多传奇黑客的最后信仰。
 
 大家目前桌上正在服役的是哪一把键盘？是 68 配列极简桌面，还是带数字小键盘的全尺寸主力？来晒出你的工位生产力神器吧！`,
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 420,
     commentsCount: 96,
     sharesCount: 35,
@@ -180,7 +180,7 @@ if iteration_count > 10:
 有时候技术本身的复杂度并不可怕，真正可怕的是非技术管理者把科幻电影当成了即插即用的现成软件，以为任何奇迹只需要程序员敲两行代码就能无中生有。
 
 大家在公司里还遇到过哪些来自非技术老板或产品经理的奇葩离谱需求？欢迎在评论区开麦吐槽排毒！`,
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 760,
     commentsCount: 138,
     sharesCount: 125,
@@ -228,7 +228,7 @@ if iteration_count > 10:
 从当年被无数网友痛骂的“人工智障”，到如今能够理解多模态微妙语境的智能助手，人工智能技术走过的这短短五年，比过去半个世纪都要漫长。
 
 虽然当年的系统漏洞百出，但也确实给我们枯燥的搬砖日常增添了无数纯粹的快乐。大家当年还被哪些早期的智能设备搞得啼笑皆非过？快来留言唤醒共同记忆！`,
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 510,
     commentsCount: 82,
     sharesCount: 64,
@@ -273,7 +273,7 @@ if iteration_count > 10:
 大模型从来不是凭空掉下来的魔法，它是无数工程师用最枯燥、最琐碎的数据清洗、显存优化和漫长等待堆砌出来的工业结晶。
 
 向所有在深夜默默洗数据、等 GPU 跑完的炼丹兄弟们致敬！今天大家的 Loss 曲线都正常下降了吗？`,
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 630,
     commentsCount: 95,
     sharesCount: 78,
@@ -319,7 +319,7 @@ if iteration_count > 10:
 
 大家在日常跨环境部署时，被“本地明明正常”坑得最惨的一次经历是什么？来评论区抱团取暖吧！`,
     images: ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80'],
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 540,
     commentsCount: 88,
     sharesCount: 65,
@@ -367,7 +367,7 @@ if iteration_count > 10:
 - 只有持续均匀的涡轮机轰鸣，才是治愈现代 AI 工程师失眠的终极解药！
 
 大家平时晚上睡觉都听什么助眠？有没有人和我一样对这种机械工业白噪音情有独钟的？`,
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 460,
     commentsCount: 79,
     sharesCount: 48,
@@ -412,7 +412,7 @@ if iteration_count > 10:
 ## 三、健康小贴士
 
 段子归段子，咖啡虽好，大家平时还是要适量饮用，多喝温开水，注意心脏健康与作息平衡！你们每天上班平均要续命几杯咖啡？评论区打出你的数字！`,
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 820,
     commentsCount: 108,
     sharesCount: 92,
@@ -455,7 +455,7 @@ if iteration_count > 10:
 短短几年时间，从最初的惊艳玩具，到如今的 GitHub Copilot、Cursor、DeepSeek 和自主软件工程 Agent，AI 已经像自来水和电力一样渗透进了每一位开发者的指尖。
 
 大家还记得你们人生中第一次使用 AI 辅助敲代码是在哪一年哪一月吗？当时让你产生“被时代推背感击中”的那个瞬间又是哪段代码？欢迎老兵和新朋友们一起在评论区重温那段改变世界的集体记忆！`,
-    board: '娱乐灌水',
+    board: '极客圆桌',
     likesCount: 610,
     commentsCount: 88,
     sharesCount: 42,

@@ -273,7 +273,6 @@ export const EcoV2OverviewTab: React.FC<EcoV2OverviewTabProps> = ({
           <div className="flex-1 flex flex-col justify-end">
             <div className="flex items-center justify-between text-xs text-slate-400 mb-1 px-1">
               <span>月度消纳趋势（3月上线 — 10月）</span>
-              <span className="text-[#D4A843] font-bold">赛事造峰值贡献最大 · 出处：用量台账</span>
             </div>
             <div className="h-[140px] w-full">
               <ResponsiveContainer width="100%" height="100%">

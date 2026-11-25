@@ -38,7 +38,7 @@ $$A_i = \\frac{r_i - \\text{mean}(\\{r\\})}{\\text{std}(\\{r\\})}$$
 
 1. **Prompt Engineering 走向黄昏**：用户不再需要处心积虑设计复杂的 Few-Shot 引导词，模型自带的思考链会自发展开多路径探索；
 2. **算力重心向推理时扩展（Inference-time Compute）迁移**：未来衡量 AI 应用价值的标准，不再只是训练阶段投入了多少万卡集群，而是推理阶段赋予了智能体多少预算思考时长！`,
-    board: '前沿观察',
+    board: '技术前沿',
     likesCount: 512,
     commentsCount: 68,
     sharesCount: 89,
@@ -86,7 +86,7 @@ $$A_i = \\frac{r_i - \\text{mean}(\\{r\\})}{\\text{std}(\\{r\\})}$$
 - **私有行业数据的保密清洗管道**；
 - **与企业内部复杂旧系统（Legacy ERP/CRM）的原子工具接口封装深度**；
 - **人机交互中关键决策节点的信赖回环机制**。`,
-    board: '前沿观察',
+    board: '行业快讯',
     likesCount: 284,
     commentsCount: 39,
     sharesCount: 46,
@@ -129,7 +129,7 @@ $$A_i = \\frac{r_i - \\text{mean}(\\{r\\})}{\\text{std}(\\{r\\})}$$
 虽然长文本能力带来了前所未有的全景洞察，但真正进入三甲医院日常查房仍面临两座大山：
 - **单次请求推理时延依然偏高（平均约 25 ~ 40 秒）**，无法满足急诊急救的秒级反应需求；
 - **商业 API 涉密合规与数据出境风险**，迫切需要推动类似长上下文架构的私有化单机集群蒸馏方案。`,
-    board: '前沿观察',
+    board: '厂商动态',
     likesCount: 198,
     commentsCount: 27,
     sharesCount: 31,
@@ -172,7 +172,7 @@ Anthropic 发布的 **Computer Use (Claude 3.5 Sonnet)** 功能标志着大模�
 - **只在严格隔离的一次性轻量虚拟机（MicroVM / Firecracker）中运行**，网络出口实施白名单限制；
 - **金融、删除、支付等高危操作必须设置人机交互强制确认弹窗（Air-Gapped Confirmation）**；
 - **图像 OCR 前置过滤器**：过滤掉包含危险 Shell 命令或伪造系统报错诱导的图像区域。`,
-    board: '前沿观察',
+    board: '厂商动态',
     likesCount: 165,
     commentsCount: 24,
     sharesCount: 22,
@@ -215,7 +215,7 @@ Anthropic 发布的 **Computer Use (Claude 3.5 Sonnet)** 功能标志着大模�
 根据我们的实操总结，目前最成熟的企业 IT 架构并非“二选一”，而是**动静分离的混合分流架构**：
 - **基线稳态流量（70% 基础任务）**：由自建开源中等参数模型（如 Qwen2.5-14B/32B）在私有算力池全天候平稳消化，把边际成本压到极致；
 - **突发脉冲洪峰与极限疑难问题（30% 复杂长尾）**：自动溢出路由（Overflow Routing）至公有云旗舰顶级模型，兼顾极致弹性与顶级智商！`,
-    board: '前沿观察',
+    board: '厂商动态',
     likesCount: 310,
     commentsCount: 45,
     sharesCount: 52,
@@ -255,7 +255,7 @@ Anthropic 发布的 **Computer Use (Claude 3.5 Sonnet)** 功能标志着大模�
 
 - **物理仿真到真实世界（Sim-to-Real）的数据鸿沟**：在 Isaac Sim 虚拟环境中训练的上亿次动作，由于真实环境摩擦力变化和光照阴影反射，迁移成功率仍有待提高；
 - **算力能耗比与端侧散热**：机器人躯干电池有限，如何在 50W 功耗受限下塞入具备实时视觉流推理能力的高算力芯片，成为硬件工程师最大的挑战！`,
-    board: '前沿观察',
+    board: '技术前沿',
     likesCount: 178,
     commentsCount: 22,
     sharesCount: 28,
@@ -295,7 +295,7 @@ Anthropic 发布的 **Computer Use (Claude 3.5 Sonnet)** 功能标志着大模�
 ## 三、结论与前瞻
 
 包括 DeepSeek-R1、OpenAI o1 以及众多开源代码大模型，其核心突破的秘密武器绝非依赖人工外包标注，而是构建了**可自动验证真伪的高质量合成数据飞轮**。未来掌握自动化数据生成与过滤验证算法的团队，将在模型竞赛中占据核心统治地位！`,
-    board: '前沿观察',
+    board: '技术前沿',
     likesCount: 236,
     commentsCount: 34,
     sharesCount: 39,
@@ -340,7 +340,7 @@ Anthropic 发布的 **Computer Use (Claude 3.5 Sonnet)** 功能标志着大模�
 
 - **全双工打断检测（Barge-in / Voice Activity Detection）**：客户端本地必须集成轻量级 VAD 模块，在用户开口的第一时间发送 Cancel 帧中断服务端正在播放的音频流；
 - **音频流协议选型**：抛弃传统 HTTP 轮询，必须采用 **WebSocket 二进制流或 WebRTC** 进行低开销传输。`,
-    board: '前沿观察',
+    board: '厂商动态',
     likesCount: 205,
     commentsCount: 29,
     sharesCount: 35,
@@ -383,7 +383,7 @@ Anthropic 发布的 **Computer Use (Claude 3.5 Sonnet)** 功能标志着大模�
 1. **解决的问题类型**：当前通过率高的多集中在“明确的边界条件空指针修正”、“缺失的异常类型抛出”、“参数默认值兼容”等标准化 Bug；
 2. **依然无法胜任的领域**：跨越多个微服务的分布式事务重构、颠覆性业务逻辑推倒重来、底层网络并发竞争死锁；
 3. **行业新角色**：未来的工程师不再是枯燥代码的敲击工，而是转变为“**为 Agent 编写严苛自动化测试规约与技术设计审查的主架构师**”！`,
-    board: '前沿观察',
+    board: '技术前沿',
     likesCount: 275,
     commentsCount: 48,
     sharesCount: 42,
@@ -420,7 +420,7 @@ Anthropic 发布的 **Computer Use (Claude 3.5 Sonnet)** 功能标志着大模�
 ## 三、开发者面临的真实机遇
 
 未来 3 年内，每一款智能音箱、吸尘器、智能车机、工业巡检无人机都将标配本地轻量大模型。对于独立开发者和极客而言，**掌握 ONNX / ExecuTorch / llama.cpp 的移动端量化裁剪与工程适配能力**，将成为市场上最炽手可热的硬核技术资产！`,
-    board: '前沿观察',
+    board: '技术前沿',
     likesCount: 188,
     commentsCount: 25,
     sharesCount: 30,

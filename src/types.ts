@@ -4,6 +4,8 @@
 
 export type MainTabType = 
   | 'home' 
+  | 'training'
+  | 'trial'
   | 'marketplace' 
   | 'tasks' 
   | 'compute' 
@@ -972,12 +974,11 @@ export interface ComputeImageItem {
 
 // 社区
 export type CommunityBoard = 
-  | '干货分享' 
-  | '求助答疑' 
-  | '前沿观察' 
-  | '赚钱交流' 
-  | '同行交流' 
-  | '娱乐灌水'
+  | '厂商动态' 
+  | '技术前沿' 
+  | '活动速递' 
+  | '行业快讯' 
+  | '极客圆桌'
   | (string & {});
 
 export interface FeedPost {
@@ -1735,4 +1736,81 @@ export interface UserFavoriteItem {
   likesCount: number;
   commentsCount: number;
 }
+
+// 培训认证中心类型定义
+export type CertificationLevel = '初级' | '中级' | '高级';
+
+export type CertificationSystemId = 'zhipu' | 'tencent' | '360' | 'aigc';
+
+export interface CertificationSystem {
+  id: CertificationSystemId;
+  name: string;
+  shortName: string;
+  description: string;
+}
+
+export interface CertificationSyllabusModule {
+  title: string;
+  duration: string;
+  topics: string[];
+}
+
+export interface CertificationPathStep {
+  id: string;
+  title: string;
+  /** 标题右侧浅色提示，如 "29 课时"、"开通后解锁" */
+  hint?: string;
+  /** 支持 Markdown 渲染的正文内容 */
+  contentMarkdown: string;
+}
+
+export interface CertificationAdvisorField {
+  label: string;
+  value: string;
+  copyable?: boolean;
+}
+
+export interface CertificationItem {
+  id: string;
+  systemId: CertificationSystemId;
+  systemName: string;
+  /** 证书名称 */
+  name: string;
+  /** 颁发机构（支持配置多个） */
+  issuingBodies: string[];
+  /** 认证等级 */
+  level: CertificationLevel;
+  /** 等级展示前缀，如 L1 / L2 / L3（可选） */
+  levelCode?: string;
+  /** 自定义标签（支持多个，前台直接展示标签值，不显示字段名称） */
+  customTags: string[];
+  /** 一句话简介（100字以内） */
+  briefIntro: string;
+  /** 适用人群（20字以内） */
+  targetAudience: string;
+  /** 核心能力（可自定义多项通过本认证掌握的能力） */
+  coreCapabilities: string[];
+  /** 详情页价格与费用说明（费用说明50字以内） */
+  priceDisplay: string;
+  feeDescription: string;
+  /** 详情页扩展信息 */
+  examFormat: string;
+  examDuration: string;
+  passingScore: string;
+  validityPeriod: string;
+  courseHours: string;
+  feeText: string;
+  enrolledCount: number;
+  syllabus: CertificationSyllabusModule[];
+  recognitionPoints: string[];
+  /** 二级页面「认证介绍」富文本 Markdown */
+  introMarkdown: string;
+  /** 二级页面「认证路径」动态子栏目 */
+  learningPath: CertificationPathStep[];
+  /** 「联系认证顾问」留资弹窗配置信息 */
+  advisorContacts: CertificationAdvisorField[];
+  advisorQrHint?: string;
+}
+
+
 

@@ -1224,17 +1224,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // 社区板块初始默认数据
   const defaultInitialBoards: CommunityBoardItem[] = [
-    { id: 'b1', name: '干货分享', description: '技术方案、踩坑总结、工具推荐、代码片段', postCount: 24, sortWeight: 1, status: '已启用', logo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&auto=format&fit=crop&q=80' },
-    { id: 'b2', name: '求助答疑', description: '环境报错、模型调优、算法理解', postCount: 18, sortWeight: 2, status: '已启用', logo: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=100&auto=format&fit=crop&q=80' },
-    { id: 'b3', name: '前沿观察', description: '新产品发布、论文解读、技术趋势', postCount: 15, sortWeight: 3, status: '已启用', logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80' },
-    { id: 'b4', name: '赚钱交流', description: '接单经验、AI变现路径、副业思路', postCount: 12, sortWeight: 4, status: '已启用', logo: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=100&auto=format&fit=crop&q=80' },
-    { id: 'b5', name: '同行交流', description: '找合作、找学习搭子、线下meetup', postCount: 9, sortWeight: 5, status: '已启用', logo: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=100&auto=format&fit=crop&q=80' },
-    { id: 'b6', name: '娱乐灌水', description: 'AI趣事、梗图、日常、非技术闲聊', postCount: 6, sortWeight: 6, status: '已启用', logo: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=100&auto=format&fit=crop&q=80' },
+    { id: 'b1', name: '厂商动态', description: '汇聚算力与模型厂商最新动向，洞察 AI 产业生态脉络。', postCount: 42, sortWeight: 1, status: '已启用', logo: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=100&auto=format&fit=crop&q=80' },
+    { id: 'b2', name: '技术前沿', description: '聚焦大模型与 AI 新技术，探索前沿领域的硬核边界。', postCount: 45, sortWeight: 2, status: '已启用', logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80' },
+    { id: 'b3', name: '活动速递', description: '实时聚合学术会议、科研沙龙与 AI 赛事等官方通告。', postCount: 46, sortWeight: 3, status: '已启用', logo: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=100&auto=format&fit=crop&q=80' },
+    { id: 'b4', name: '行业快讯', description: '捕捉全球 AI 行业热点新闻，提供高价值的资讯速览。', postCount: 46, sortWeight: 4, status: '已启用', logo: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=100&auto=format&fit=crop&q=80' },
+    { id: 'b5', name: '极客圆桌', description: '开发者实战经验交流与沉淀，碰撞技术思想的火花。', postCount: 62, sortWeight: 5, status: '已启用', logo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&auto=format&fit=crop&q=80' },
   ];
 
   const [communityBoards, setCommunityBoards] = useState<CommunityBoardItem[]>(() => {
     try {
-      const saved = localStorage.getItem('app_community_boards');
+      const saved = localStorage.getItem('app_community_boards_v2');
       if (saved) {
         return JSON.parse(saved);
       }
@@ -1244,7 +1243,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     try {
-      localStorage.setItem('app_community_boards', JSON.stringify(communityBoards));
+      localStorage.setItem('app_community_boards_v2', JSON.stringify(communityBoards));
     } catch (e) {}
   }, [communityBoards]);
 
@@ -2203,6 +2202,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Tab reset keys to force fresh initial view on menu switches
   const [tabResetKey, setTabResetKey] = useState<Record<MainTabType, number>>({
     home: 0,
+    training: 0,
+    trial: 0,
     marketplace: 0,
     tasks: 0,
     compute: 0,
