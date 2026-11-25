@@ -95,8 +95,8 @@ export const AdvisorContactModal: React.FC<AdvisorContactModalProps> = ({
   certification,
   isOpen,
   onClose,
-  subtitlePrefix = '咨询认证：',
-  title = '联系认证顾问'
+  subtitlePrefix = '咨询课程：',
+  title = '联系课程顾问'
 }) => {
   const [copiedValue, setCopiedValue] = useState<string | null>(null);
 

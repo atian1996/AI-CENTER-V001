@@ -6,51 +6,69 @@ import {
 
 export const CERTIFICATION_SYSTEMS: CertificationSystem[] = [
   {
-    id: 'zhipu',
-    name: '智谱 GLM 体系',
-    shortName: '智谱 GLM',
-    description: '围绕 GLM 基座模型生态打造的分级开发、智能体编排与模型微调能力认证。'
+    id: 'fde',
+    name: 'FDE 体系',
+    shortName: 'FDE',
+    description: '围绕前沿部署工程（Forward Deployed Engineering）打造的企业级大模型应用与项目落地实战课程。'
   },
   {
-    id: 'tencent',
-    name: '腾讯云 AI 体系',
-    shortName: '腾讯云 AI',
-    description: '面向企业级 AI 工程部署、混元大模型应用与云原生智能体交付的官方认证体系。'
-  },
-  {
-    id: '360',
-    name: '360 ADE / FDE 体系',
-    shortName: '360 安全与交付',
-    description: '聚焦大模型安全护栏、安全智能体应用开发与政企前沿交付落地的专业认证。'
+    id: 'ade',
+    name: 'ADE 体系',
+    shortName: 'ADE',
+    description: '面向 AI 应用与模型工程开发者的全栈研发、多模态集成与大模型分布式微调高阶课程。'
   },
   {
     id: 'aigc',
-    name: 'AIGC 部委与学会认证',
-    shortName: '部委与学会',
-    description: '联合权威行业学会与人才评测机构推出的通用生成式 AI 与产业工程人才认证。'
+    name: 'AIGC 体系',
+    shortName: 'AIGC',
+    description: '聚焦生成式 AI 办公提效、商业视觉工作流与低代码智能体搭建的通用实战课程。'
+  },
+  {
+    id: 'ai-security',
+    name: '人工智能安全体系',
+    shortName: 'AI安全',
+    description: '紧贴大模型攻防一线，覆盖内容安全护栏、提示词注入防御与政企 AI 合规治理的专项实战课程。'
   }
 ];
 
 const DEFAULT_ADVISOR_CONTACTS: CertificationAdvisorField[] = [
-  { label: '联系人', value: '林顾问（认证服务中心）' },
+  { label: '联系人', value: '林顾问（课程培训中心）' },
   { label: '联系电话', value: '400-886-2026 转 802', copyable: true },
-  { label: '电子邮箱', value: 'certification@qianji-ai.cn', copyable: true },
+  { label: '电子邮箱', value: 'course@qianji-ai.cn', copyable: true },
   { label: '服务时段', value: '工作日 09:00 - 19:00' }
 ];
 
+const SECURITY_ADVISOR_CONTACTS: CertificationAdvisorField[] = [
+  { label: '联系人', value: '周顾问（AI 安全教研组）' },
+  { label: '联系电话', value: '400-886-2026 转 809', copyable: true },
+  { label: '电子邮箱', value: 'sec-course@qianji-ai.cn', copyable: true },
+  { label: '服务时段', value: '工作日 09:00 - 18:30' }
+];
+
+const AIGC_ADVISOR_CONTACTS: CertificationAdvisorField[] = [
+  { label: '联系人', value: '孙老师（AIGC 教研中心）' },
+  { label: '联系电话', value: '400-886-2026 转 812', copyable: true },
+  { label: '电子邮箱', value: 'aigc-course@qianji-ai.cn', copyable: true },
+  { label: '服务时段', value: '周一至周六 09:00 - 18:00' }
+];
+
 export const MOCK_CERTIFICATIONS: CertificationItem[] = [
+  // =========================================================================
+  // 1. FDE 体系（初级 / 中级 / 高级）
+  // =========================================================================
   {
-    id: 'cert-zhipu-l1',
-    systemId: 'zhipu',
-    systemName: '智谱 GLM 体系',
-    name: '大模型应用工程师（初级）',
-    issuingBodies: ['智谱 AI', '中国计算机行业协会'],
+    id: 'course-fde-l1',
+    systemId: 'fde',
+    systemName: 'FDE 体系',
+    name: 'FDE 体系（初级）：大模型应用工程师实战',
+    detailTitle: '大模型应用工程师（初级）实战课',
+    shortLevelName: 'FDE 初级',
+    issuingBodies: ['FDE 教研中心'],
     level: '初级',
-    levelCode: 'L1',
-    customTags: ['语言模型', '入门必考'],
+    customTags: ['实战', '推荐零基础', '含项目实操'],
     briefIntro:
-      '大模型应用工程师认证（初级）旨在评估学员对大模型理论知识的掌握程度以及实际应用能力，帮助开发者快速接入大模型生态。',
-    targetAudience: '培养AI入门级业务人才',
+      '本课程旨在帮开发者快速掌握大模型理论基础与工程实战能力，通过真实业务案例完成 Python SDK 接入、结构化 Prompt 编写与轻量级 RAG 问答助手开发。',
+    targetAudience: '培养AI入门级业务人才 / 零基础开发者',
     coreCapabilities: [
       'Python基础',
       'API调用',
@@ -60,22 +78,22 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
       '接口封装'
     ],
     priceDisplay: '¥399.00',
-    feeDescription: '费用含全套官方视频课程、在线实验环境及 1 次免费补考机会，开通即生效。',
-    examFormat: '线上理论机考 + 实操编程评测',
-    examDuration: '90 分钟',
-    passingScore: '70 / 100 分',
+    feeDescription: '费用含 24 课时全套高清视频课程、云端在线实验沙盒、完整项目源码与专属导师答疑。',
+    examFormat: '阶段项目实操验收',
+    examDuration: '随学随练',
+    passingScore: '完成项目交付',
     validityPeriod: '长期有效',
     courseHours: '24 课时',
-    feeText: '¥399 / 次',
+    feeText: '¥399 / 门',
     enrolledCount: 4820,
     syllabus: [
       {
-        title: '模块一：大语言模型核心原理与 GLM 生态概览',
+        title: '模块一：大语言模型核心原理与工程基础',
         duration: '6 课时',
         topics: [
           'Transformer 基础架构与上下文窗口机制',
-          'GLM 系列模型选型与 Token 成本核算',
-          '结构化提示词编写与输出格式控制'
+          '主流大模型选型策略与 Token 成本核算',
+          '结构化提示词编写与 JSON 输出格式控制'
         ]
       },
       {
@@ -98,75 +116,78 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
       }
     ],
     recognitionPoints: [
-      '智谱 AI 与中国计算机行业协会双章联合认证，支持官方编号在线核验',
-      '纳入智谱生态合作企业初级 AI 研发岗位能力评估参考标准',
-      '通过考试可获得平台开发者主页专属认证标识与算力抵扣券'
+      '零基础友好，配套开箱即用的云端 Python 实训环境与测试额度',
+      '手把手交付 1 个可直接写入简历的企业知识库问答 Web 项目',
+      '赠送高频业务 Prompt 模板库与完整前后端参考源码'
     ],
-    introMarkdown: `**大模型应用工程师（初级）**由智谱 AI 与中国计算机行业协会联合推出，面向希望系统迈入大模型应用开发领域的开发者与高校学员，全面评估基础理论认知、模型接口集成及轻量级业务应用落地能力。
+    introMarkdown: `**大模型应用工程师（初级）实战课**隶属 FDE 体系入门核心课，面向希望系统迈入大模型应用开发领域的零基础开发者、高校学生及业务技术同学，用“原理精讲 + 代码实操 + 项目交付”的方式带你快速打通大模型工程落地第一公里。
 
-### 这个认证能证明什么？
-- **体系化工程基础**：证明你掌握大语言模型核心工作原理、Token 成本控制与结构化提示词设计方法。
-- **独立接口集成能力**：具备使用 Python SDK 调用 GLM 系列模型、处理流式输出（SSE）及封装业务后端 API 的实操能力。
-- **轻量级 RAG 实战能力**：能够独立完成文档解析、向量化索引及检索增强问答系统的搭建与效果调试。
+### 学完这门课你将收获什么？
+- **体系化工程基础**：透彻理解大语言模型推理机制、上下文窗口边界、Token 成本核算与结构化提示词设计方法。
+- **独立接口集成能力**：熟练使用 Python SDK 调用主流大模型接口，掌握流式输出（SSE）、异常重试及 RESTful 后端服务封装。
+- **轻量级 RAG 项目落地**：从零搭建企业文档知识库问答助手，完成文档切片、向量化检索、上下文注入及效果调试全流程。
 
-### 学完后你能够应用于
+### 典型实战应用场景
 - **企业内部问答助手**：快速构建面向制度文档、产品手册的检索增强型知识库问答系统。
-- **业务流程提效插件**：为现有 Web 应用或办公系统接入摘要生成、文本分类与结构化抽取能力。
-- **求职与转岗能力背书**：为简历、项目答辩及 AI 应用研发初级岗位面试提供官方可核验的能力证明。`,
+- **业务流程提效插件**：为现有 Web 应用或办公系统接入智能摘要、文本分类与结构化抽取能力。
+- **项目作品与求职加分**：产出结构规范、可线上演示的完整 AI 应用工程，助力转岗与技术面试。`,
     learningPath: [
       {
-        id: 'step-course',
-        title: '课程学习',
-        hint: '24 课时',
-        contentMarkdown: `系统学习官方配套录播与代码实验课程，覆盖从模型选型到完整 RAG 应用落地的核心知识点：
+        id: 'mod-1',
+        title: '模块一：大语言模型核心原理与工程基础',
+        hint: '6 课时',
+        contentMarkdown: `夯实大模型底层认知与工程开发前置知识，告别“只会聊天不会开发”：
 
-- **模块 01 · 大模型基础与 GLM 生态（6 课时）**：Transformer 推理机制、上下文窗口管理、模型选型与结构化 Prompt 工程。
-- **模块 02 · Python SDK 与接口封装（8 课时）**：API 鉴权规范、流式响应（SSE）处理、异常重试策略及前后端接口联调。
-- **模块 03 · 轻量级 RAG 实战项目（10 课时）**：文本切片策略、Embedding 向量检索、上下文注入及问答效果基础评测。`
+- **课时 1-2 · LLM 工作机制**：Transformer 核心原理、Token 计费模型与上下文窗口管理策略。
+- **课时 3-4 · 模型选型与参数调优**：Temperature / Top-P / Max Tokens 参数对业务输出稳定性的影响。
+- **课时 5-6 · 结构化 Prompt 工程**：角色设定、Few-Shot 示例编写与强制 JSON Schema 输出控制。`
       },
       {
-        id: 'step-prep',
-        title: '备考与体验',
-        hint: '开通后解锁',
-        contentMarkdown: `开通认证后自动解锁官方考前模拟题库与云端免配置 Python 实操沙盒：
+        id: 'mod-2',
+        title: '模块二：Python SDK 接入与接口工程封装',
+        hint: '6 课时',
+        contentMarkdown: `手把手完成从单脚本调用到工程化后端服务的完整演进：
 
-- **全真模拟评测**：提供 3 套覆盖全部考纲的高仿真理论模拟卷，支持即时错题解析与薄弱点定位。
-- **在线实验沙盒**：内置预配置 GLM API 测试额度与示例知识库语料，无需本地折腾环境即可完成全部实验任务。`
+- **课时 7-8 · SDK 规范接入**：API Key 环境变量安全托管、多模型客户端封装与会话历史管理。
+- **课时 9-10 · 流式响应（SSE）实战**：实现打字机式实时流式输出，显著优化首字响应体验（TTFT）。
+- **课时 11-12 · 稳定性与前后端联调**：超时熔断、指数退避重试机制及 FastAPI + 前端对话页联调。`
       },
       {
-        id: 'step-exam',
-        title: '参加考试',
-        hint: '线上机考 · 90 分钟',
-        contentMarkdown: `完成规定课时学习后，可在认证有效期内随时预约线上正式考试：
+        id: 'mod-3',
+        title: '模块三：轻量级知识库（RAG）应用实战',
+        hint: '8 课时',
+        contentMarkdown: `围绕真实企业文档问答需求，亲手构建端到端检索增强生成系统：
 
-- **考核形式**：线上理论机考（单选/多选/判断，占 60%）+ 代码实操任务评测（占 40%）。
-- **通过标准**：总分达到 **70 / 100 分** 即为通过；首次未通过可免费使用 1 次补考资格。`
+- **课时 13-15 · 文档解析与切片策略**：PDF / Markdown / Word 文档清洗、语义分块与重叠窗口设计。
+- **课时 16-18 · 向量检索与上下文注入**：Embedding 模型调用、本地向量库索引构建与 Top-K 召回调优。
+- **课时 19-20 · 回答溯源与基础调试**：防幻觉提示词约束、引用来源标注及常见检索失败案例排查。`
       },
       {
-        id: 'step-cert',
-        title: '领取证书',
-        hint: '官方双章核验',
-        contentMarkdown: `考试通过后 3 个工作日内，系统自动签发由 **智谱 AI · 中国计算机行业协会** 联合认证的电子证书：
+        id: 'mod-4',
+        title: '模块四：综合项目交付与上线演练',
+        hint: '4 课时',
+        contentMarkdown: `将前序模块整合为可独立运行的生产级原型项目并完成云端部署：
 
-- 支持一键下载高清 PDF 电子证书与官方唯一编号核验链接。
-- 平台个人主页自动点亮 **L1 初级认证** 标识，并同步发放平台算力与模型体验激励额度。`
+- **课时 21-22 · 项目整合实战**：完成“企业智能制度问答助手”完整前后端功能开发与日志埋点。
+- **课时 23-24 · 容器化打包与演示**：编写 Dockerfile 完成一键部署，输出标准项目说明文档与复盘总结。`
       }
     ],
     advisorContacts: DEFAULT_ADVISOR_CONTACTS,
-    advisorQrHint: '扫码添加专属顾问获取报名通道'
+    advisorQrHint: '扫码添加专属课程顾问获取试听与报名通道'
   },
   {
-    id: 'cert-zhipu-l2',
-    systemId: 'zhipu',
-    systemName: '智谱 GLM 体系',
-    name: 'GLM 智能体开发工程师（中级）',
-    issuingBodies: ['智谱 AI', '中国人工智能学会'],
+    id: 'course-fde-l2',
+    systemId: 'fde',
+    systemName: 'FDE 体系',
+    name: 'FDE 体系（中级）：企业级智能体与工作流部署实战',
+    detailTitle: '企业级智能体与工作流部署（中级）实战课',
+    shortLevelName: 'FDE 中级',
+    issuingBodies: ['FDE 教研中心'],
     level: '中级',
-    levelCode: 'L2',
-    customTags: ['Agent开发', '实战评测', '有效期2年'],
+    customTags: ['实战', '含项目实操', '源码交付'],
     briefIntro:
-      '面向具备工程开发经验的研发人员，系统考核基于 GLM 模型构建多轮工具调用、企业知识库检索增强与多智能体工作流编排能力。',
-    targetAudience: '应用开发工程师 / 算法助理',
+      '本课程面向具备一定开发经验的工程师，深入讲授 Function Calling、MCP 协议集成、企业级混合检索 RAG 精排优化及多 Agent 协同工作流生产部署。',
+    targetAudience: '应用开发工程师 / 全栈研发工程师',
     coreCapabilities: [
       'Function Calling',
       '企业级RAG架构',
@@ -176,13 +197,13 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
       '高并发服务部署'
     ],
     priceDisplay: '¥699.00',
-    feeDescription: '费用含 36 课时实战课程、企业级沙盒环境、官方机考评测与 1 次补考机会。',
-    examFormat: '场景架构设计 + 沙盒项目实战答辩',
-    examDuration: '120 分钟',
-    passingScore: '75 / 100 分',
-    validityPeriod: '2 年',
+    feeDescription: '费用含 36 课时实战精讲、企业级沙盒环境、全套工程源码与多 Agent 架构模板。',
+    examFormat: '沙盒项目实战交付',
+    examDuration: '随学随练',
+    passingScore: '完成沙盒交付',
+    validityPeriod: '长期有效',
     courseHours: '36 课时',
-    feeText: '¥699 / 次',
+    feeText: '¥699 / 门',
     enrolledCount: 2390,
     syllabus: [
       {
@@ -196,7 +217,7 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
       },
       {
         title: '模块二：企业级 RAG 混合检索与精排优化',
-        duration: '14 课时',
+        duration: '12 课时',
         topics: [
           'BM25 + 向量双路召回与 Rerank 重排模型应用',
           '多模态表格/PDF 复杂版面解析管线',
@@ -205,7 +226,7 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
       },
       {
         title: '模块三：多智能体协同编排与生产部署',
-        duration: '12 课时',
+        duration: '14 课时',
         topics: [
           '状态机工作流与多角色 Agent 分工协作',
           '可观测性链路追踪与并发吞吐压测',
@@ -214,176 +235,72 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
       }
     ],
     recognitionPoints: [
-      '认证成绩可作为承接平台高额悬赏智能体开发任务的优先资质证明',
-      '配备完整企业级真实业务沙盒实验环境与考前冲刺模拟题库',
-      '证书支持中英文双语电子版下载与 LinkedIn / 简历核验链接'
+      '完整拆解金融研报分析与智能工单路由 2 个企业级生产案例',
+      '提供自动化 RAG / Agent 评测脚本与全链路追踪模板',
+      '直接覆盖企业中高级 AI 应用开发核心技能栈'
     ],
-    introMarkdown: `**GLM 智能体开发工程师（中级）**聚焦生产级智能体工程实践，重点评估研发人员在复杂业务场景下设计混合检索架构、多工具链路调用及多 Agent 协同工作流的综合能力。
+    introMarkdown: `**企业级智能体与工作流部署（中级）实战课**聚焦真实生产环境的工程痛点，系统解决“Demo 惊艳但线上不可用”的落地难题，带你全面掌握复杂工具调用、高精度混合检索与多 Agent 协同编排技术。
 
-### 核心考察维度
-- **工具调用与外部系统集成**：熟练使用 Function Calling 与 MCP 协议，安全对接企业数据库、业务 API 及代码沙盒。
-- **高精度企业级 RAG 优化**：掌握 BM25 + 向量多路召回、Rerank 精排、复杂表格解析与回答溯源防幻觉方案。
-- **生产级可观测与高并发部署**：具备构建自动化评测集、链路追踪监控及 Token 成本治理的工程落地经验。`,
+### 核心实战能力提升
+- **工具调用与 MCP 协议落地**：熟练设计复杂函数 Schema，安全对接企业数据库、业务 API 与外部工具生态。
+- **高精度企业级 RAG 架构**：掌握 BM25 + 向量双路召回、Rerank 重排、复杂 PDF 表格解析及自动化评测基准构建。
+- **生产级可观测与高并发部署**：具备全链路 Tracing 追踪、并发压测调优、灰度回滚与 Token 成本治理的完整工程经验。`,
     learningPath: [
       {
-        id: 'step-course',
-        title: '课程学习',
-        hint: '36 课时',
-        contentMarkdown: `深入拆解企业级智能体研发全流程，配套完整源码工程：
+        id: 'mod-1',
+        title: '模块一：工具调用与 MCP 协议集成',
+        hint: '10 课时',
+        contentMarkdown: `打通大模型与外部业务系统的双向连接，实现可控、可审计的工具执行链路：
 
-- **模块 01 · 工具调用与 MCP 协议（10 课时）**：复杂函数 Schema 设计、多步工具编排与长对话上下文压缩。
-- **模块 02 · 企业级 RAG 精排优化（14 课时）**：双路召回、重排模型接入、PDF 复杂版面解析与幻觉评测。
-- **模块 03 · 多 Agent 协同与生产部署（12 课时）**：状态机工作流编排、链路追踪与高并发压测调优。`
+- **函数 Schema 工程设计**：多参数嵌套校验、容错纠偏与多步工具串并联调用。
+- **MCP 协议服务端开发**：编写标准 MCP Server 接入企业数据库查询与内部工单 API。
+- **长会话记忆管理**：滑动窗口、摘要压缩与用户画像长期记忆持久化方案。`
       },
       {
-        id: 'step-prep',
-        title: '备考与体验',
-        hint: '开通后解锁',
-        contentMarkdown: `提供企业级智能体沙盒演练平台与专项评测数据集：
+        id: 'mod-2',
+        title: '模块二：企业级 RAG 混合检索与精排优化',
+        hint: '12 课时',
+        contentMarkdown: `攻克复杂企业文档召回率低、答案幻觉多等核心瓶颈：
 
-- 包含金融研报分析、智能工单路由 2 个完整企业级实操案例演练。
-- 开放自动化评测脚本，帮助考前检验 Agent 召回准确率与响应延迟指标。`
+- **复杂文档解析管线**：PDF 跨页表格、扫描件 OCR 与父子文档层级索引设计。
+- **混合检索与重排**：BM25 关键词检索 + 向量语义检索融合（RRF）与 Rerank 模型精排。
+- **自动化评测体系**：构建黄金评测集，量化追踪 Recall@K、忠实度与答案相关性指标。`
       },
       {
-        id: 'step-exam',
-        title: '参加考试',
-        hint: '实战考核 · 120 分钟',
-        contentMarkdown: `采用架构设计题与在线沙盒工程交付相结合的考核方式：
+        id: 'mod-3',
+        title: '模块三：多智能体状态机编排实战',
+        hint: '8 课时',
+        contentMarkdown: `从单 Agent 迈向分工明确、状态可控的多智能体协同工作流：
 
-- 在规定 **120 分钟** 内完成架构方案作答与核心智能体代码调试提交。
-- 综合得分达到 **75 / 100 分** 通过认证考核。`
+- **图状态机工作流**：路由分发、条件分支、人工介入审批（Human-in-the-Loop）与断点续跑。
+- **多角色协同案例**：实战搭建“金融研报自动解析与多维洞察”多 Agent 协同系统。`
       },
       {
-        id: 'step-cert',
-        title: '领取证书',
-        hint: '有效期 2 年',
-        contentMarkdown: `考核通过后签发中英文双语官方电子证书，有效期 2 年：
+        id: 'mod-4',
+        title: '模块四：生产级可观测与高并发部署',
+        hint: '6 课时',
+        contentMarkdown: `面向线上高并发真实流量，补齐 AI 应用的运维与治理能力：
 
-- 可用于平台高额悬赏智能体任务的承接资质优先推荐。
-- 支持证书到期前通过轻量级续证课程完成在线续期。`
+- **全链路追踪与排障**：Prompt 版本管理、每步延迟拆解与异常调用回放分析。
+- **并发压测与成本治理**：语义缓存、大小模型分级路由与高并发限流降级实战。`
       }
     ],
     advisorContacts: DEFAULT_ADVISOR_CONTACTS,
-    advisorQrHint: '扫码添加专属顾问获取报名通道'
+    advisorQrHint: '扫码添加专属课程顾问获取试听与报名通道'
   },
   {
-    id: 'cert-zhipu-l3',
-    systemId: 'zhipu',
-    systemName: '智谱 GLM 体系',
-    name: 'GLM 大模型架构与微调专家（高级）',
-    issuingBodies: ['智谱 AI', '中国计算机行业协会'],
+    id: 'course-fde-l3',
+    systemId: 'fde',
+    systemName: 'FDE 体系',
+    name: 'FDE 体系（高级）：人工智能前沿部署专家实战',
+    detailTitle: '人工智能前沿部署专家（高级）实战课',
+    shortLevelName: 'FDE 高级',
+    issuingBodies: ['FDE 教研中心'],
     level: '高级',
-    levelCode: 'L3',
-    customTags: ['模型微调', '专家级认证'],
+    customTags: ['实战', '企业级项目', '含架构评审'],
     briefIntro:
-      '针对企业私有化大模型定制与分布式训练场景，深入考核 LoRA 与全参数微调、偏好对齐、推理量化加速及行业大模型端到端架构设计能力。',
-    targetAudience: '资深算法工程师 / 技术架构师',
-    coreCapabilities: [
-      'LoRA高效微调',
-      '数据治理清洗',
-      'RLHF对齐训练',
-      'vLLM推理加速',
-      '私有化集群部署',
-      '模型安全合规'
-    ],
-    priceDisplay: '¥1,299.00',
-    feeDescription: '含 48 课时专家级课程、A100 实训算力代金券、实战评审与官方专家证书。',
-    examFormat: '深度笔试 + 分布式微调实操 + 专家评审',
-    examDuration: '150 分钟',
-    passingScore: '80 / 100 分',
-    validityPeriod: '3 年',
-    courseHours: '48 课时',
-    feeText: '¥1,299 / 次',
-    enrolledCount: 910,
-    syllabus: [
-      {
-        title: '模块一：高质量指令数据集构建与数据飞轮',
-        duration: '14 课时',
-        topics: [
-          '垂直领域语料去重、清洗、合成与质量评分体系',
-          'SFT 指令样本配比设计与灾难性遗忘规避',
-          '偏好对（DPO/RLHF）数据标注规范'
-        ]
-      },
-      {
-        title: '模块二：分布式高效微调与对齐实践',
-        duration: '18 课时',
-        topics: [
-          'LoRA / QLoRA / DeepSpeed ZeRO 显存优化实战',
-          '多机多卡并行训练监控与超参调优',
-          '自动化评测集搭建与领域基准横向对比'
-        ]
-      },
-      {
-        title: '模块三：高性能推理部署与企业级安全治理',
-        duration: '16 课时',
-        topics: [
-          'INT4/FP8 量化压缩与 vLLM / TensorRT-LLM 吞吐优化',
-          '多租户算力隔离、弹性扩缩容与容灾设计',
-          '内容合规审计、红队攻防与私有化交付规范'
-        ]
-      }
-    ],
-    recognitionPoints: [
-      '智谱 GLM 体系最高阶工程专家认证，直通智谱生态技术专家库',
-      '赠送平台 A100/H800 算力工坊专项微调实训体验额度',
-      '支持企业团队批量定制考评与内训人才能力画像报告'
-    ],
-    introMarkdown: `**GLM 大模型架构与微调专家（高级）**是智谱 GLM 体系最高阶工程专家认证，专为负责行业大模型定制训练、高性能推理部署及私有化基础设施建设的资深算法与架构专家设立。
-
-### 这个认证能证明什么？
-- **数据飞轮与微调对齐能力**：具备从行业语料清洗、配比设计到 LoRA / DPO / RLHF 分布式微调的全链路实战经验。
-- **极致推理性能优化能力**：精通模型量化压缩、KV Cache 调度及 vLLM / TensorRT-LLM 高吞吐服务架构。
-- **私有化集群治理能力**：能够主导多租户 GPU 集群规划、容灾高可用及模型安全合规验收。`,
-    learningPath: [
-      {
-        id: 'step-course',
-        title: '课程学习',
-        hint: '48 课时',
-        contentMarkdown: `深度工程课程覆盖大模型定制训练与私有化推理全栈技术：
-
-- **模块 01 · 指令数据工程与数据飞轮（14 课时）**：行业语料清洗合成、样本配比与偏好标注标准。
-- **模块 02 · 分布式微调与对齐训练（18 课时）**：LoRA/QLoRA、DeepSpeed ZeRO 显存优化与评测基准构建。
-- **模块 03 · 量化加速与私有化交付（16 课时）**：FP8/INT4 量化、vLLM 吞吐调优与红队安全合规审计。`
-      },
-      {
-        id: 'step-prep',
-        title: '算力实训与备考',
-        hint: '赠 A100 实训额度',
-        contentMarkdown: `开通认证后自动发放平台算力工坊专项微调实训额度：
-
-- 直接在云端多卡 GPU 容器内复现行业模型 LoRA 微调与 vLLM 压测全过程。
-- 配套专家级架构案例剖析文档与评审答辩指引。`
-      },
-      {
-        id: 'step-exam',
-        title: '参加考试与评审',
-        hint: '实操 + 专家评审',
-        contentMarkdown: `考核由深度理论笔试、模型微调实操结果评测与专家方案评审三部分构成：
-
-- 考核总时长 **150 分钟**，综合评定达到 **80 / 100 分** 通过认证。`
-      },
-      {
-        id: 'step-cert',
-        title: '领取专家证书',
-        hint: '有效期 3 年',
-        contentMarkdown: `通过后颁发 L3 高级专家认证电子与纸质双版证书，有效期 3 年，并优先受邀加入智谱生态技术专家顾问网络。`
-      }
-    ],
-    advisorContacts: DEFAULT_ADVISOR_CONTACTS,
-    advisorQrHint: '扫码添加专属顾问获取报名通道'
-  },
-  {
-    id: 'cert-tencent-fde',
-    systemId: 'tencent',
-    systemName: '腾讯云 AI 体系',
-    name: '腾讯云人工智能前沿部署工程师（FDE）',
-    issuingBodies: ['腾讯云'],
-    level: '高级',
-    customTags: ['职业认证', '有效期2年'],
-    briefIntro:
-      '企业 AI 项目端到端交付能力的厂商官方认证，聚焦需求挖掘、企业智能体搭建与安全治理，要求具备企业项目交付经验。',
-    targetAudience: '交付工程师 / 架构师',
+      '本课程聚焦企业 AI 项目端到端规模化交付，系统讲授 FDE 与 PEV 交付闭环、多源知识大脑融合、跨系统接口协同与私有化高可用安全治理实战。',
+    targetAudience: '交付工程师 / 解决方案架构师',
     coreCapabilities: [
       '需求挖掘',
       'Agent 搭建',
@@ -392,14 +309,14 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
       '企业级安全治理',
       'FDE方法论'
     ],
-    priceDisplay: '¥1,200.00',
-    feeDescription: '费用含官方认证课程、企业级实操案例库、正式认证考试与电子/纸质证书。',
-    examFormat: '官方机考 + 企业级场景方案评审',
-    examDuration: '120 分钟',
-    passingScore: '75 / 100 分',
-    validityPeriod: '2 年',
-    courseHours: '40 课时',
-    feeText: '¥1,200 / 次',
+    priceDisplay: '¥1,299.00',
+    feeDescription: '费用含 44 课时专家级课程、四大行业标杆交付案例库、交付模板包与架构评审辅导。',
+    examFormat: '架构方案评审演练',
+    examDuration: '随学随练',
+    passingScore: '完成架构评审',
+    validityPeriod: '长期有效',
+    courseHours: '44 课时',
+    feeText: '¥1,299 / 门',
     enrolledCount: 3150,
     syllabus: [
       {
@@ -412,411 +329,421 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
         ]
       },
       {
-        title: '模块二：企业智能体搭建与 Prompt 工程体系',
-        duration: '16 课时',
+        title: '模块二：企业级智能体搭建与跨系统协同集成',
+        duration: '14 课时',
         topics: [
-          '腾讯云大模型知识引擎（LKE）深度编排与插件扩展',
-          '复杂业务规则下的系统提示词工程与回归评测集设计',
-          '多系统 ERP/CRM/OA 接口协同与人机协同审批流'
+          '多源异构知识大脑融合与权限感知检索设计',
+          '复杂业务规则下的系统提示词工程与回归评测体系',
+          'ERP / CRM / OA 核心业务系统接口协同与审批流集成'
         ]
       },
       {
-        title: '模块三：企业级安全治理与规模化运维交付',
-        duration: '14 课时',
+        title: '模块三：企业级安全治理与规模化验收移交',
+        duration: '20 课时',
         topics: [
-          '敏感数据分级保护、权限隔离与审计日志规范',
-          '大模型输入输出内容安全风控策略配置',
-          'SLA 监控告警、成本核算与客户验收移交标准'
+          '敏感数据分级保护、私有云高可用集群与容灾设计',
+          '大模型输入输出内容风控与全链路审计日志规范',
+          'SLA 监控告警、成本核算与大型客户验收移交标准'
         ]
       }
     ],
     recognitionPoints: [
-      '腾讯云官方颁发并纳入腾讯云生态合作伙伴核心技术资质体系',
-      '覆盖金融、政务、制造、零售四大行业真实企业交付案例剖析',
-      '认证持证人可优先加入腾讯云 AI 前沿交付专家生态网络'
+      '深度复盘金融、政务、制造、零售四大行业真实交付项目',
+      '赠送全套企业需求调研清单、回归测试表与验收移交模板',
+      '涵盖从 POC 验证到生产级规模化运营的完整 FDE 方法论'
     ],
-    introMarkdown: `**腾讯云人工智能前沿部署工程师（FDE）**是腾讯云面向企业级 AI 项目交付推出的权威官方职业认证，围绕真实企业客户现场落地挑战，全面检验从业务价值识别到规模化安全交付的端到端实战能力。
+    introMarkdown: `**人工智能前沿部署专家（高级）实战课**专为一线企业级 AI 交付工程师、解决方案架构师与技术负责人打造，围绕真实客户现场的复杂交付挑战，系统传授从业务价值诊断到大规模安全落地的端到端方法论与工程实践。
 
-### 这个认证能证明什么？
-- **体系化交付方法论**：掌握 FDE 与 PEV（Plan-Execute-Verify）交付闭环，能将模糊的客户诉求转化为可量化的 AI 交付指标。
-- **企业级智能体工程落地**：熟练基于腾讯云知识引擎（LKE）构建复杂业务工作流，打通 ERP/CRM/OA 等核心系统接口。
-- **合规安全与 SLA 保障**：具备制定敏感数据分级防护、内容安全风控及客户验收移交标准的专业能力。
-
-### 适用价值场景
-- **云生态伙伴交付资质**：作为腾讯云合作伙伴招投标与重点 AI 项目的官方核心人员资质背书。
-- **企业内部 AI 落地负责人**：指导企业完成从 POC 试点到生产级规模化运营的规范化推进。`,
+### 课程核心亮点
+- **体系化 FDE 与 PEV 交付方法论**：掌握将模糊业务诉求拆解为可量化 AI 验收指标的系统框架，大幅提升项目交付成功率。
+- **跨系统复杂业务集成**：实战演练多源异构数据融合、权限感知 RAG 检索及 ERP / CRM / OA 核心系统的深度协同。
+- **私有化安全治理与 SLA 移交**：建立完善的敏感数据分级防护、内容安全风控、高可用容灾及客户验收交付标准体系。`,
     learningPath: [
       {
-        id: 'step-course',
-        title: '课程学习',
-        hint: '40 课时',
-        contentMarkdown: `涵盖金融、政务、制造、零售四大行业真实交付项目拆解：
+        id: 'mod-1',
+        title: '模块一：FDE 前沿部署方法论与需求挖掘',
+        hint: '10 课时',
+        contentMarkdown: `建立面向业务结果的 AI 项目顶层规划思维，避开“技术自嗨”陷阱：
 
-- **模块 01 · FDE 方法论与需求挖掘（10 课时）**：高价值场景筛选、ROI 评估与 PEV 交付闭环设计。
-- **模块 02 · 企业 Agent 搭建与 Prompt 工程（16 课时）**：LKE 知识引擎深度编排、回归评测与业务系统集成。
-- **模块 03 · 企业级安全治理与运维移交（14 课时）**：权限隔离、内容风控策略与 SLA 验收标准。`
+- **高价值场景筛选**：通过可行性与 ROI 矩阵快速锁定企业优先落地场景。
+- **PEV 交付闭环实战**：Plan-Execute-Verify 迭代推进机制与 POC 到生产环境的里程碑拆解。`
       },
       {
-        id: 'step-prep',
-        title: '备考与体验',
-        hint: '开通后解锁',
-        contentMarkdown: `解锁腾讯云官方实验环境与高仿真场景交付模板：
+        id: 'mod-2',
+        title: '模块二：多源知识融合与复杂智能体架构',
+        hint: '14 课时',
+        contentMarkdown: `攻克大型企业跨部门、多系统、多权限的复杂业务集成挑战：
 
-- 提供全套企业项目需求文档模板、提示词回归测试表与验收移交清单。
-- 开放官方考纲模拟测评，提前熟悉真实案例评审打分维度。`
+- **权限感知知识大脑**：对接企业 RBAC 权限体系，确保文档检索与回答严格按角色隔离。
+- **核心业务系统集成**：打通 ERP / CRM / OA 业务接口，构建带人机协同审批的闭环 Agent。`
       },
       {
-        id: 'step-exam',
-        title: '参加考试',
-        hint: '机考 + 方案评审',
-        contentMarkdown: `考核包含线上理论与实务机考及企业级方案评审：
+        id: 'mod-3',
+        title: '模块三：私有化高可用与企业级安全治理',
+        hint: '12 课时',
+        contentMarkdown: `满足大型央国企与金融客户严苛的安全、合规与稳定性指标要求：
 
-- 考试时长 **120 分钟**，综合成绩达到 **75 / 100 分** 即可获得认证资格。`
+- **私有云集群与信创适配**：国产化算力适配、多租户隔离与故障容灾切换预案。
+- **全链路风控与审计**：敏感数据脱敏、输入输出内容安全策略与可追溯审计日志规范。`
       },
       {
-        id: 'step-cert',
-        title: '领取证书',
-        hint: '有效期 2 年',
-        contentMarkdown: `成绩合格后由 **腾讯云官方** 签发认证证书（有效期 2 年），支持腾讯云官网认证查询系统公开核验。`
+        id: 'mod-4',
+        title: '模块四：四大行业标杆复盘与验收移交',
+        hint: '8 课时',
+        contentMarkdown: `真实还原金融、政务、制造、零售四大标杆项目的完整交付细节：
+
+- **量化验收与 SLA 运维**：制定上线验收指标清单、成本监控看板及客户运维移交手册。
+- **架构评审实战演练**：针对典型政企招标需求完成端到端架构方案输出与点评优化。`
       }
     ],
-    advisorContacts: [
-      { label: '联系人', value: '陈顾问（腾讯云生态认证组）' },
-      { label: '联系电话', value: '400-886-2026 转 805', copyable: true },
-      { label: '电子邮箱', value: 'tencent-cert@qianji-ai.cn', copyable: true },
-      { label: '服务时段', value: '工作日 09:00 - 19:00' }
+    advisorContacts: DEFAULT_ADVISOR_CONTACTS,
+    advisorQrHint: '扫码添加专属课程顾问获取试听与报名通道'
+  },
+
+  // =========================================================================
+  // 2. ADE 体系（初级 / 中级 / 高级）
+  // =========================================================================
+  {
+    id: 'course-ade-l1',
+    systemId: 'ade',
+    systemName: 'ADE 体系',
+    name: 'ADE 体系（初级）：AI 原生应用与全栈开发入门',
+    detailTitle: 'AI 原生应用与全栈开发（初级）实战课',
+    shortLevelName: 'ADE 初级',
+    issuingBodies: ['ADE 教研中心'],
+    level: '初级',
+    customTags: ['实战', '推荐零基础', '含项目实操'],
+    briefIntro:
+      '本课程带领开发者从零搭建全栈 AI 原生 Web 应用，覆盖主流大模型网关接入、流式对话界面交互、会话状态持久化与云端一键上线部署。',
+    targetAudience: '前端/后端开发者 / 高校计算机学生',
+    coreCapabilities: [
+      '大模型API网关',
+      '流式UI交互',
+      '会话上下文管理',
+      '结构化JSON输出',
+      '错误降级处理',
+      '云原生部署'
     ],
-    advisorQrHint: '扫码添加专属顾问获取报名通道'
+    priceDisplay: '¥429.00',
+    feeDescription: '费用含 26 课时全栈实战录播、云端开发沙盒、前后端完整项目脚手架与答疑支持。',
+    examFormat: '全栈项目实操交付',
+    examDuration: '随学随练',
+    passingScore: '完成项目上线',
+    validityPeriod: '长期有效',
+    courseHours: '26 课时',
+    feeText: '¥429 / 门',
+    enrolledCount: 3260,
+    syllabus: [
+      {
+        title: '模块一：AI 原生应用架构与多模型网关接入',
+        duration: '8 课时',
+        topics: [
+          'AI Native 应用与传统 Web 应用架构差异',
+          'OpenAI 兼容协议与多厂商模型统一网关封装',
+          'Token 计费监控、限流与熔断降级机制'
+        ]
+      },
+      {
+        title: '模块二：流式对话交互与生成式 UI 开发',
+        duration: '10 课时',
+        topics: [
+          'SSE 流式渲染、Markdown 与代码块高亮组件实战',
+          '结构化输出驱动动态卡片（Generative UI）交互',
+          '会话历史持久化、中断生成与多轮上下文裁剪'
+        ]
+      },
+      {
+        title: '模块三：云原生部署与线上性能优化',
+        duration: '8 课时',
+        topics: [
+          '环境变量安全治理与前端防滥用鉴权策略',
+          '首字延迟（TTFT）优化与响应缓存实践',
+          '全栈项目打包发布与线上日志监控'
+        ]
+      }
+    ],
+    recognitionPoints: [
+      '手把手打通前端交互、后端网关与云端部署全栈闭环',
+      '提供可复用的 React + TypeScript + Node/Python AI 全栈脚手架',
+      '适合传统前后端工程师快速转型 AI 应用开发'
+    ],
+    introMarkdown: `**AI 原生应用与全栈开发（初级）实战课**专为希望快速切入 AI 应用赛道的前后端工程师与高校学生设计，聚焦产品化交付体验，带你从零打造交互流畅、架构规范的全栈 AI 原生 Web 应用。
+
+### 课程核心收获
+- **多模型统一网关能力**：一套代码无缝切换多家主流大模型，内置超时重试、限流保护与 Token 账单统计。
+- **丝滑流式交互体验**：掌握 SSE 实时流式渲染、Markdown/图表动态展示及结构化数据驱动的生成式 UI 开发。
+- **独立上线运营能力**：完成用户鉴权、上下文存储、性能监控与云端部署，交付可真实对外服务的完整产品。`,
+    learningPath: [
+      {
+        id: 'mod-1',
+        title: '模块一：AI 原生架构与统一模型网关',
+        hint: '8 课时',
+        contentMarkdown: `建立清晰的 AI 全栈工程分层，屏蔽底层不同模型厂商接口差异：
+
+- **协议适配与路由**：基于标准 OpenAI 兼容协议封装多模型适配层与自动故障切换。
+- **成本与限流管控**：实现接口级频率限制、Token 消耗统计与异常降级兜底策略。`
+      },
+      {
+        id: 'mod-2',
+        title: '模块二：流式对话交互与生成式 UI 实战',
+        hint: '10 课时',
+        contentMarkdown: `打造媲美一线 AI 产品的细腻前端交互体验：
+
+- **高流畅流式渲染**：处理 SSE 分片拼接、打断生成、自动滚动与代码/公式高亮渲染。
+- **结构化生成式 UI**：让模型稳定输出结构化 JSON，动态渲染对比表格、操作卡片与图表组件。`
+      },
+      {
+        id: 'mod-3',
+        title: '模块三：上下文持久化与全栈项目实战',
+        hint: '8 课时',
+        contentMarkdown: `完整实现“AI 智能写作与研报助手”全栈产品并发布上线：
+
+- **多轮会话管理**：数据库表结构设计、历史对话分页加载与长上下文智能裁剪。
+- **安全部署上线**：密钥服务端隔离、基础防刷校验与云端容器一键发布。`
+      }
+    ],
+    advisorContacts: DEFAULT_ADVISOR_CONTACTS,
+    advisorQrHint: '扫码添加专属课程顾问获取试听与报名通道'
   },
   {
-    id: 'cert-tencent-hunyuan',
-    systemId: 'tencent',
-    systemName: '腾讯云 AI 体系',
-    name: '腾讯云混元大模型应用开发工程师（中级）',
-    issuingBodies: ['腾讯云', '腾讯教育'],
+    id: 'course-ade-l2',
+    systemId: 'ade',
+    systemName: 'ADE 体系',
+    name: 'ADE 体系（中级）：多模态应用与云原生智能体开发',
+    detailTitle: '多模态应用与云原生智能体开发（中级）实战课',
+    shortLevelName: 'ADE 中级',
+    issuingBodies: ['ADE 教研中心'],
     level: '中级',
-    customTags: ['混元生态', '上机实操'],
+    customTags: ['实战', '含项目实操', '多模态开发'],
     briefIntro:
-      '依托腾讯云混元大模型与 TI 平台工具链，考核开发者在多模态内容生成、智能客服编排与云原生 AI 应用集成中的综合工程实践能力。',
+      '本课程围绕文本、视觉、语音多模态大模型与云原生工具链，系统演练图文解析管线、多轮智能客服编排、自动化效果评测与云端成本治理实战。',
     targetAudience: '全栈工程师 / 云开发工程师',
     coreCapabilities: [
-      '混元API集成',
-      '多模态工作流',
-      'TI平台运维',
+      '多模态API集成',
+      '图文解析工作流',
+      '云端服务运维',
       '知识库召回优化',
       '云端成本控制',
       '业务场景评测'
     ],
     priceDisplay: '¥680.00',
-    feeDescription: '含 30 课时混元官方课程、云端实操沙盒时长与 1 次认证考试机会。',
-    examFormat: '理论考试 + 云端实验实操',
-    examDuration: '100 分钟',
-    passingScore: '70 / 100 分',
-    validityPeriod: '2 年',
-    courseHours: '30 课时',
-    feeText: '¥680 / 次',
+    feeDescription: '费用含 32 课时多模态与云原生实战课程、云端实验沙盒时长与完整项目代码仓库。',
+    examFormat: '多模态项目实战交付',
+    examDuration: '随学随练',
+    passingScore: '完成项目交付',
+    validityPeriod: '长期有效',
+    courseHours: '32 课时',
+    feeText: '¥680 / 门',
     enrolledCount: 2740,
     syllabus: [
       {
-        title: '模块一：腾讯混元大模型能力矩阵与 SDK 集成',
+        title: '模块一：多模态模型能力矩阵与低延迟网关集成',
         duration: '8 课时',
         topics: [
-          '混元文本、代码与多模态视觉模型能力边界',
-          '云函数 SCF 与混元 API 低延迟网关对接',
-          '流式对话状态维护与上下文缓存机制'
+          '文本、视觉理解（VLM）与语音（ASR/TTS）模型能力边界',
+          '云函数 Serverless 与多模态低延迟网关对接',
+          '大文件音视频切片处理与异步任务队列设计'
         ]
       },
       {
-        title: '模块二：TI 平台模型精调与知识检索应用',
-        duration: '12 课时',
-        topics: [
-          'TI-ONE 平台数据准备、精调任务配置与模型托管',
-          '企业级智能客服与营销助手多轮对话编排',
-          '多模态图文理解与内容安全审核链路集成'
-        ]
-      },
-      {
-        title: '模块三：云原生观测、评测与成本优化',
-        duration: '10 课时',
-        topics: [
-          '调用指标监控、延迟诊断与弹性配额策略',
-          '业务准确率/满意度自动化评测流水线搭建',
-          '大促高并发场景下的降级与容错设计'
-        ]
-      }
-    ],
-    recognitionPoints: [
-      '腾讯云与腾讯教育联合认证，直通云端真实实验沙盒环境',
-      '覆盖全栈开发者日常高频落地场景，即学即用',
-      '证书在腾讯生态企业招聘与项目投标中具备官方权威背书'
-    ],
-    introMarkdown: `**腾讯云混元大模型应用开发工程师（中级）**由腾讯云与腾讯教育联合打造，重点面向全栈开发与云原生研发工程师，考核基于混元大模型与 TI 平台工具链快速构建生产级多模态 AI 应用的能力。
-
-### 核心考核能力
-- **混元多模态 API 与云函数集成**：熟练对接文本、代码与视觉理解模型，优化网关延迟与流式对话体验。
-- **TI 平台精调与运维托管**：掌握数据集上传、精调任务配置、弹性扩缩容及调用配额管控。
-- **高并发容错与成本优化**：能够设计缓存策略、降级容错方案及自动化业务评测流水线。`,
-    learningPath: [
-      {
-        id: 'step-course',
-        title: '课程学习',
-        hint: '30 课时',
-        contentMarkdown: `通过云原生全栈项目实战，系统掌握混元生态工具链：
-
-- **模块 01 · 混元能力矩阵与 SDK 集成（8 课时）**：云函数 SCF 接入、流式会话与上下文缓存。
-- **模块 02 · TI 平台精调与多模态编排（12 课时）**：TI-ONE 托管实践、智能客服与图文安全审核。
-- **模块 03 · 观测评测与成本治理（10 课时）**：延迟诊断、准确率评测与高并发降级设计。`
-      },
-      {
-        id: 'step-prep',
-        title: '云端实验备考',
-        hint: '开通后解锁',
-        contentMarkdown: `配套腾讯云端实验资源与官方模拟真题，支持浏览器一键启动完整云开发实验环境。`
-      },
-      {
-        id: 'step-exam',
-        title: '参加考试',
-        hint: '理论 + 上机实操',
-        contentMarkdown: `线上考试总时长 **100 分钟**，含客观理论考核与云端上机实操题，总分达 **70 / 100 分** 即为通过。`
-      },
-      {
-        id: 'step-cert',
-        title: '领取证书',
-        hint: '有效期 2 年',
-        contentMarkdown: `通过考核后签发腾讯云与腾讯教育双联合认证电子证书，有效期 2 年，支持官方编号核验。`
-      }
-    ],
-    advisorContacts: [
-      { label: '联系人', value: '陈顾问（腾讯云生态认证组）' },
-      { label: '联系电话', value: '400-886-2026 转 805', copyable: true },
-      { label: '电子邮箱', value: 'tencent-cert@qianji-ai.cn', copyable: true },
-      { label: '服务时段', value: '工作日 09:00 - 19:00' }
-    ],
-    advisorQrHint: '扫码添加专属顾问获取报名通道'
-  },
-  {
-    id: 'cert-360-ade',
-    systemId: '360',
-    systemName: '360 ADE / FDE 体系',
-    name: '360 安全大模型应用开发工程师（ADE）',
-    issuingBodies: ['360 数字安全集团', 'ISC 认证中心'],
-    level: '中级',
-    customTags: ['安全大模型', '实战认证', '企业认可'],
-    briefIntro:
-      '聚焦 AI 原生安全与大模型攻防实战，考核安全语料构建、内容安全护栏配置及基于安全大模型的威胁研判与自动化响应开发能力。',
-    targetAudience: '安全开发工程师 / AI工程师',
-    coreCapabilities: [
-      '大模型安全护栏',
-      '提示词注入防御',
-      '威胁情报研判',
-      'SOAR联动编排',
-      '数据脱敏治理',
-      '安全评估报告'
-    ],
-    priceDisplay: '¥799.00',
-    feeDescription: '含 32 课时安全攻防实战课程、靶场实训环境与 ISC 官方认证考试资格。',
-    examFormat: '安全理论考核 + 靶场攻防实操',
-    examDuration: '120 分钟',
-    passingScore: '75 / 100 分',
-    validityPeriod: '2 年',
-    courseHours: '32 课时',
-    feeText: '¥799 / 次',
-    enrolledCount: 1680,
-    syllabus: [
-      {
-        title: '模块一：大模型安全风险全景与护栏机制',
-        duration: '10 课时',
-        topics: [
-          'OWASP LLM Top 10 漏洞原理与攻击面分析',
-          '提示词注入（Prompt Injection）与越狱检测拦截',
-          '敏感信息防泄漏（DLP）与动态脱敏网关设计'
-        ]
-      },
-      {
-        title: '模块二：安全大模型应用开发（ADE）实战',
-        duration: '12 课时',
-        topics: [
-          '告警日志降噪与自动化威胁研判智能体构建',
-          '安全知识图谱与私有漏洞库 RAG 增强检索',
-          '与 SIEM / SOAR 平台联动实现分钟级应急响应'
-        ]
-      },
-      {
-        title: '模块三：AI 系统合规评测与红队演练',
-        duration: '10 课时',
-        topics: [
-          '生成式人工智能服务安全基本要求落地自查',
-          '自动化红队对抗测试集构建与风险量化评分',
-          '企业级 AI 安全评估报告输出与整改闭环'
-        ]
-      }
-    ],
-    recognitionPoints: [
-      '360 数字安全集团与 ISC 认证中心联合签发，紧贴政企安全合规刚需',
-      '基于真实安全攻防靶场环境考核，强化工程实战含金量',
-      '适用于金融、能源、政企等高安全等级行业 AI 项目准入'
-    ],
-    introMarkdown: `**360 安全大模型应用开发工程师（ADE）**由 360 数字安全集团与 ISC 认证中心联合推出，深度结合大模型内生安全防护与安全运营智能体开发两大实战方向。
-
-### 这个认证能证明什么？
-- **大模型安全护栏工程能力**：能针对提示词注入、越狱攻击、数据泄漏等典型风险构建输入输出安全防护网关。
-- **AI 赋能安全运营（SecOps）**：能够开发告警降噪、威胁研判智能体并与 SIEM/SOAR 联动实现自动化响应。
-- **合规自查与红队评测能力**：熟悉国内生成式 AI 安全合规要求，能独立完成红队演练与安全评估报告交付。`,
-    learningPath: [
-      {
-        id: 'step-course',
-        title: '课程学习',
-        hint: '32 课时',
-        contentMarkdown: `结合 360 一线攻防实战沉淀，构建完整的 AI 安全开发知识体系：
-
-- **模块 01 · 大模型安全风险与护栏设计（10 课时）**：OWASP LLM Top 10 拆解、注入防御与动态脱敏网关。
-- **模块 02 · 安全运营智能体开发实战（12 课时）**：威胁情报 RAG、日志降噪与 SOAR 应急编排联动。
-- **模块 03 · 红队对抗与安全合规评测（10 课时）**：自动化红队测试集与企业 AI 安全评估报告撰写。`
-      },
-      {
-        id: 'step-prep',
-        title: '攻防靶场体验',
-        hint: '开通后解锁',
-        contentMarkdown: `开放 360 在线安全大模型靶场，包含 12 个典型提示词攻防与安全研判场景演练任务。`
-      },
-      {
-        id: 'step-exam',
-        title: '参加考试',
-        hint: '理论 + 靶场实操',
-        contentMarkdown: `采用线上安全理论考核与靶场实操攻防验证，时长 **120 分钟**，**75 分** 及格通过。`
-      },
-      {
-        id: 'step-cert',
-        title: '领取证书',
-        hint: 'ISC 官方认证',
-        contentMarkdown: `通过考核后由 360 数字安全集团与 ISC 认证中心联合签发认证证书（有效期 2 年）。`
-      }
-    ],
-    advisorContacts: [
-      { label: '联系人', value: '周顾问（360 安全认证中心）' },
-      { label: '联系电话', value: '400-886-2026 转 809', copyable: true },
-      { label: '电子邮箱', value: 'sec-cert@qianji-ai.cn', copyable: true },
-      { label: '服务时段', value: '工作日 09:00 - 18:30' }
-    ],
-    advisorQrHint: '扫码添加专属顾问获取报名通道'
-  },
-  {
-    id: 'cert-360-fde',
-    systemId: '360',
-    systemName: '360 ADE / FDE 体系',
-    name: '360 企业级 AI 前沿交付专家（FDE）',
-    issuingBodies: ['360 智脑', '360 数字安全集团'],
-    level: '高级',
-    customTags: ['前沿交付', '高含金量', '有效期2年'],
-    briefIntro:
-      '面向政企复杂业务系统的 AI 规模化落地专家认证，覆盖私有化知识大脑部署、跨系统智能体协同及全链路安全合规审计交付标准。',
-    targetAudience: '政企解决方案专家 / 交付总监',
-    coreCapabilities: [
-      '政企架构设计',
-      '多源知识融合',
-      '智能体协同治理',
-      '私有云高可用',
-      '合规审计落地',
-      '全周期项目管控'
-    ],
-    priceDisplay: '¥1,399.00',
-    feeDescription: '含 42 课时政企标杆案例课程、架构评审辅导及双体系高级专家认证。',
-    examFormat: '架构答辩 + 综合方案评审',
-    examDuration: '150 分钟',
-    passingScore: '80 / 100 分',
-    validityPeriod: '2 年',
-    courseHours: '42 课时',
-    feeText: '¥1,399 / 次',
-    enrolledCount: 840,
-    syllabus: [
-      {
-        title: '模块一：政企级 AI 基础设施与私有化架构蓝图',
+        title: '模块二：多模态图文解析与多轮业务智能体编排',
         duration: '14 课时',
         topics: [
-          '国产化信创算力适配与私有云高可用集群设计',
-          '跨部门异构数据源接入与多模态知识大脑融合',
-          '业务流程重构与组织级 AI 转型顶层规划'
+          '复杂单据、图表与商品图的视觉信息结构化抽取',
+          '多轮智能客服与营销导购对话状态机编排',
+          '多模态图文审核与业务规则引擎协同集成'
         ]
       },
       {
-        title: '模块二：复杂多智能体协同与全链路安全审计',
-        duration: '16 课时',
+        title: '模块三：云原生观测、自动化评测与成本优化',
+        duration: '10 课时',
         topics: [
-          '分级分权访问控制与跨智能体任务调度治理',
-          '端到端内容安全审计与可追溯水印体系',
-          '核心业务系统稳定性压测与容灾切换预案'
-        ]
-      },
-      {
-        title: '模块三：FDE 项目全生命周期交付与价值验收',
-        duration: '12 课时',
-        topics: [
-          '里程碑风险识别、变更控制与跨团队协同管理',
-          '量化业务指标验收与持续运营迭代机制',
-          '大型政企标杆案例复盘与方案答辩演练'
+          '调用指标监控、延迟诊断与弹性扩缩容配置',
+          '业务准确率/满意度自动化评测流水线搭建',
+          '大促高并发场景下的模型分级路由与容错设计'
         ]
       }
     ],
     recognitionPoints: [
-      '360 智脑与数字安全双体系联合背书的高级交付架构师认证',
-      '聚焦大型政企私有化、信创化与高安全合规交付核心场景',
-      '持证专家优先获得平台重点企业悬赏需求定向推荐资格'
+      '一站式掌握文本 + 视觉 + 语音多模态工程落地核心技巧',
+      '覆盖电商导购、单据识别、智能客服等高频真实业务场景',
+      '提供云端一键启动的完整多模态实训实验环境'
     ],
-    introMarkdown: `**360 企业级 AI 前沿交付专家（FDE）**面向主导政企与大型央国企 AI 私有化落地项目的解决方案专家与交付总监，系统考核信创基础设施规划、多源知识融合与全链路安全审计交付能力。
+    introMarkdown: `**多模态应用与云原生智能体开发（中级）实战课**面向全栈及云原生研发工程师，突破纯文本交互局限，深入讲解视觉理解、语音交互与 Serverless 云原生架构的融合实践，助你构建高并发、低成本的生产级多模态 AI 应用。
 
-### 核心证明价值
-- **信创与私有化顶层架构能力**：精通国产化算力适配、高可用私有云部署及跨部门异构数据治理架构。
-- **复杂多智能体安全治理**：具备分级分权控制、全链路内容审计与可追溯水印方案的设计交付能力。
-- **政企项目全周期管控**：能够制定量化验收标准并把控大型 AI 项目从立项到持续运营的全生命周期风险。`,
+### 核心工程模块
+- **多模态融合接入**：熟练编排视觉大模型（VLM）、语音识别与语音合成链路，攻克图片/音视频异步处理难题。
+- **高准确率业务智能体**：结合视觉结构化抽取与多轮意图路由，落地智能单据审单、视觉质检与全渠道智能客服。
+- **云原生观测与成本优化**：构建自动化评测流水线、弹性扩缩容及高低配模型动态分流方案，显著降低线上推理成本。`,
     learningPath: [
       {
-        id: 'step-course',
-        title: '课程学习',
-        hint: '42 课时',
-        contentMarkdown: `深度复盘大型政企私有化 AI 落地标杆案例：
+        id: 'mod-1',
+        title: '模块一：多模态能力矩阵与云原生网关',
+        hint: '8 课时',
+        contentMarkdown: `全面掌握文本、图像与语音多模态 API 的工程化调用范式：
 
-- **模块 01 · 政企私有化架构蓝图（14 课时）**：信创算力适配、多模态知识大脑与组织转型规划。
-- **模块 02 · 多智能体协同与安全审计（16 课时）**：分级分权治理、安全水印与容灾切换预案。
-- **模块 03 · 全生命周期交付管控（12 课时）**：变更风险管理、指标验收与标杆案例复盘。`
+- **视觉与语音协同**：图片压缩编码优化、ASR 实时转写与 TTS 流式语音播报链路集成。
+- **云函数与异步编排**：基于对象存储与消息队列构建高吞吐多模态文件处理管线。`
       },
       {
-        id: 'step-prep',
-        title: '方案演练与辅导',
-        hint: '开通后解锁',
-        contentMarkdown: `提供政企级 AI 架构设计评审清单与标杆交付文档模板，并包含考前专家在线答疑辅导。`
+        id: 'mod-2',
+        title: '模块二：复杂单据图文解析实战',
+        hint: '10 课时',
+        contentMarkdown: `攻克企业高频的票据、合同扫描件与复杂图表自动解析任务：
+
+- **VLM 结构化抽取**：版面区域定位、表格还原与字段置信度交叉校验。
+- **多模态 RAG 检索**：实现图文混排知识库构建与带配图依据的精准问答。`
       },
       {
-        id: 'step-exam',
-        title: '综合答辩与评审',
-        hint: '150 分钟',
-        contentMarkdown: `提交完整政企 AI 交付架构方案并完成线上专家答辩，综合评分达到 **80 / 100 分** 即通过认证。`
+        id: 'mod-3',
+        title: '模块三：多轮业务智能体协同编排',
+        hint: '8 课时',
+        contentMarkdown: `实战打造支持文字与图片输入的企业级多轮智能客服助手：
+
+- **意图识别与槽位填充**：复杂售后流程引导、订单工具查询与人工坐席平滑转接。
+- **安全与合规过滤**：多模态图文内容合规校验与敏感话术拦截机制。`
       },
       {
-        id: 'step-cert',
-        title: '领取专家证书',
-        hint: '有效期 2 年',
-        contentMarkdown: `签发 360 智脑与 360 数字安全集团双体系高级专家认证证书，并优先对接平台重点企业交付需求。`
+        id: 'mod-4',
+        title: '模块四：线上可观测、评测与成本治理',
+        hint: '6 课时',
+        contentMarkdown: `保障多模态应用在高并发业务下的稳定运行与可控成本：
+
+- **自动化评测流水线**：批量回放真实业务日志，持续衡量抽取准确率与响应耗时。
+- **高并发弹性治理**：热点缓存、大小模型动态路由及限流降级压测实战。`
       }
     ],
-    advisorContacts: [
-      { label: '联系人', value: '周顾问（360 安全认证中心）' },
-      { label: '联系电话', value: '400-886-2026 转 809', copyable: true },
-      { label: '电子邮箱', value: 'sec-cert@qianji-ai.cn', copyable: true },
-      { label: '服务时段', value: '工作日 09:00 - 18:30' }
-    ],
-    advisorQrHint: '扫码添加专属顾问获取报名通道'
+    advisorContacts: DEFAULT_ADVISOR_CONTACTS,
+    advisorQrHint: '扫码添加专属课程顾问获取试听与报名通道'
   },
   {
-    id: 'cert-aigc-l1',
-    systemId: 'aigc',
-    systemName: 'AIGC 部委与学会认证',
-    name: 'AIGC 生成式人工智能应用师（初级）',
-    issuingBodies: ['工信部教育与考试中心', '中国计算机学会'],
-    level: '初级',
-    customTags: ['部委发证', '全国通用', '零基础友好'],
+    id: 'course-ade-l3',
+    systemId: 'ade',
+    systemName: 'ADE 体系',
+    name: 'ADE 体系（高级）：大模型架构设计与分布式微调实战',
+    detailTitle: '大模型架构设计与分布式微调（高级）实战课',
+    shortLevelName: 'ADE 高级',
+    issuingBodies: ['ADE 教研中心'],
+    level: '高级',
+    customTags: ['实战', '含算力实操', '深度工程'],
     briefIntro:
-      '权威部委与学会联合推出的通用 AI 素养认证，考核生成式文本、图像与办公自动化提效工具的规范化使用及人工智能伦理合规常识。',
-    targetAudience: '职场办公人员 / 高校在校生',
+      '本课程面向企业私有化行业模型定制场景，深度剖析高质量指令数据飞轮、LoRA/QLoRA 分布式微调、DPO 偏好对齐与 vLLM 量化加速推理部署。',
+    targetAudience: '资深算法工程师 / AI技术架构师',
+    coreCapabilities: [
+      'LoRA高效微调',
+      '数据治理清洗',
+      'RLHF对齐训练',
+      'vLLM推理加速',
+      '私有化集群部署',
+      '模型性能调优'
+    ],
+    priceDisplay: '¥1,399.00',
+    feeDescription: '费用含 48 课时高阶工程课程、A100 实训算力体验券、完整微调脚本库与专家答疑。',
+    examFormat: '分布式微调与压测实操',
+    examDuration: '随学随练',
+    passingScore: '完成模型微调部署',
+    validityPeriod: '长期有效',
+    courseHours: '48 课时',
+    feeText: '¥1,399 / 门',
+    enrolledCount: 910,
+    syllabus: [
+      {
+        title: '模块一：高质量指令数据集构建与数据飞轮',
+        duration: '12 课时',
+        topics: [
+          '垂直领域语料去重、清洗、合成与质量评分体系',
+          'SFT 指令样本配比设计与灾难性遗忘规避',
+          '偏好对（DPO / RLHF）数据标注与筛选规范'
+        ]
+      },
+      {
+        title: '模块二：分布式高效微调与偏好对齐实战',
+        duration: '18 课时',
+        topics: [
+          'LoRA / QLoRA / DeepSpeed ZeRO 显存优化实战',
+          '多机多卡并行训练监控、Loss 诊断与超参调优',
+          '领域自动化评测基准搭建与横向效果对比'
+        ]
+      },
+      {
+        title: '模块三：高性能推理加速与私有化集群部署',
+        duration: '18 课时',
+        topics: [
+          'INT4 / FP8 量化压缩与 vLLM / TensorRT-LLM 吞吐优化',
+          'KV Cache 调度、Continuous Batching 与长文本推理加速',
+          '多租户 GPU 集群隔离、弹性扩缩容与容灾设计'
+        ]
+      }
+    ],
+    recognitionPoints: [
+      '赠送平台 A100 / H800 算力工坊专项微调实训体验额度',
+      '完整复现垂直行业大模型从数据清洗到 vLLM 压测上线的全流程',
+      '直击大模型定制化训练与私有化推理成本优化的核心技术难点'
+    ],
+    introMarkdown: `**大模型架构设计与分布式微调（高级）实战课**是 ADE 体系最高阶模型工程课程，面向负责行业大模型定制训练、高性能推理优化及私有化算力基础设施建设的资深算法工程师与 AI 技术架构师。
+
+### 课程深度覆盖
+- **数据飞轮与样本工程**：系统掌握行业语料清洗、合成数据增强、SFT 样本配比及避免灾难性遗忘的实战策略。
+- **高效微调与对齐训练**：在真实 GPU 集群上实战 LoRA / QLoRA、DeepSpeed ZeRO 分布式训练及 DPO 人类偏好对齐。
+- **极致推理性能优化**：深入 KV Cache 管理、FP8 / INT4 量化与 vLLM 高吞吐部署，大幅压降企业私有化算力成本。`,
+    learningPath: [
+      {
+        id: 'mod-1',
+        title: '模块一：指令数据工程与数据飞轮构建',
+        hint: '12 课时',
+        contentMarkdown: `高质量数据决定行业微调上限，全面掌握工业级数据治理流水线：
+
+- **语料清洗与去重**：MinHash 语义去重、脏数据过滤与垂直领域指令合成策略。
+- **样本配比与偏好数据**：通用能力保持配比实验，以及高质量 DPO Chosen/Rejected 样本构建。`
+      },
+      {
+        id: 'mod-2',
+        title: '模块二：LoRA / QLoRA 分布式微调实战',
+        hint: '14 课时',
+        contentMarkdown: `基于真实多卡 GPU 环境，完成从显存估算到分布式训练收敛的全链路实操：
+
+- **显存与并行优化**：FlashAttention、Gradient Checkpointing 与 DeepSpeed ZeRO-2/3 实战配置。
+- **训练监控与调优**：学习率调度、过拟合诊断及领域垂直评测集自动化对比分析。`
+      },
+      {
+        id: 'mod-3',
+        title: '模块三：DPO 偏好对齐与多任务强化',
+        hint: '10 课时',
+        contentMarkdown: `让微调模型不仅“懂知识”，更能稳定遵循复杂业务风格与输出规范：
+
+- **DPO / ORPO 对齐实战**：偏好对齐损失函数解析、超参调节与对齐税权衡实验。
+- **拒绝采样与迭代飞轮**：基于线上真实 Bad Case 构建自动化数据回流迭代闭环。`
+      },
+      {
+        id: 'mod-4',
+        title: '模块四：模型量化加速与私有化高吞吐部署',
+        hint: '12 课时',
+        contentMarkdown: `将微调后的行业模型以最优性价比推向高并发生产环境：
+
+- **量化压缩与精度检验**：AWQ / GPTQ / FP8 量化实操与量化后领域基准精度回归评估。
+- **vLLM 生产集群部署**：Continuous Batching、多卡张量并行（TP）压测与多租户算力隔离治理。`
+      }
+    ],
+    advisorContacts: DEFAULT_ADVISOR_CONTACTS,
+    advisorQrHint: '扫码添加专属课程顾问获取试听与算力实训名额'
+  },
+
+  // =========================================================================
+  // 3. AIGC 体系（初级 / 中级）
+  // =========================================================================
+  {
+    id: 'course-aigc-l1',
+    systemId: 'aigc',
+    systemName: 'AIGC 体系',
+    name: 'AIGC 体系（初级）：生成式人工智能办公与创作实战',
+    detailTitle: '生成式人工智能办公与创作（初级）实战课',
+    shortLevelName: 'AIGC 初级',
+    issuingBodies: ['AIGC 教研中心'],
+    level: '初级',
+    customTags: ['实战', '推荐零基础', '含项目实操'],
+    briefIntro:
+      '本课程面向职场人与非技术背景学习者，零代码门槛系统教学结构化提示词写作、文档表格自动化、多模态图文视频创作及 AI 合规使用规范。',
+    targetAudience: '职场办公人员 / 高校在校生 / 零基础学员',
     coreCapabilities: [
       '提示词写作',
       'AI办公提效',
@@ -826,13 +753,13 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
       '场景化工作流'
     ],
     priceDisplay: '¥360.00',
-    feeDescription: '费用含 20 课时通识实操课程、全国统考报名费及官方纸质/电子双版证书。',
-    examFormat: '全国统考线上机考（客观题 + 实操任务）',
-    examDuration: '90 分钟',
-    passingScore: '60 / 100 分',
+    feeDescription: '费用含 20 课时零基础实操课程、20+ 职场高频提示词模板包与案例素材库。',
+    examFormat: '场景化作品实操',
+    examDuration: '随学随练',
+    passingScore: '完成作品提交',
     validityPeriod: '长期有效',
     courseHours: '20 课时',
-    feeText: '¥360 / 次',
+    feeText: '¥360 / 门',
     enrolledCount: 6420,
     syllabus: [
       {
@@ -864,158 +791,392 @@ export const MOCK_CERTIFICATIONS: CertificationItem[] = [
       }
     ],
     recognitionPoints: [
-      '证书全国通用、官方平台可查，纳入专项技术技能人才测评档案',
-      '零编程基础友好，系统化提升个人数字化职场核心竞争力',
-      '支持高校学分认定参考及企事业单位员工 AI 通识培训考核'
+      '零编程基础友好，即学即用，显著提升日常办公与内容创作效率',
+      '附赠 20+ 可直接复制使用的职场 Prompt 与零代码工作流模板',
+      '兼顾提效实战与企业数据脱敏、版权合规安全红线'
     ],
-    introMarkdown: `**AIGC 生成式人工智能应用师（初级）**面向非技术与通用职场人群及高校学生，零编程门槛，帮助学习者系统建立高效提示词写作、办公自动化与 AI 合规使用素养。
+    introMarkdown: `**生成式人工智能办公与创作（初级）实战课**专为非技术背景职场人士、内容创作者及高校在校生量身打造，全程零编程门槛，通过高频办公与创作真实案例，带你系统建立高效人机协同工作方式。
 
 ### 核心学习收获
-- **结构化提示词方法论**：告别零散提问，掌握可复用的角色设定、约束边界与交叉核验技巧。
-- **全场景办公提效**：覆盖公文撰写、表格数据清洗、PPT 生成及多模态配图视频辅助创作。
-- **版权与信息安全意识**：明晰企业敏感数据脱敏红线与 AIGC 内容合规标识要求。`,
+- **结构化提示词方法论**：告别零散盲目提问，掌握可复用的角色设定、上下文约束与事实交叉核验框架。
+- **全场景办公提效**：覆盖公文报告撰写、表格公式与数据可视化、PPT 结构生成及多模态图文短视频创作。
+- **零代码个人助手搭建**：亲手搭建专属周报助手、行业资讯汇总助手，并掌握企业数据脱敏与版权合规红线。`,
     learningPath: [
       {
-        id: 'step-course',
-        title: '课程学习',
-        hint: '20 课时',
-        contentMarkdown: `零基础循序渐进掌握职场高频 AIGC 工具与工作流：
+        id: 'mod-1',
+        title: '模块一：生成式 AI 认知与结构化提示词框架',
+        hint: '6 课时',
+        contentMarkdown: `建立对主流 AIGC 工具的清晰认知，掌握写出高质量提示词的底层心法：
 
-- **模块 01 · 生成式 AI 认知与提示词框架（6 课时）**：主流工具选型、结构化提示词与幻觉核验。
-- **模块 02 · 全场景办公与多模态创作（8 课时）**：文档、表格、PPT 与视觉内容高效协同。
-- **模块 03 · 数据安全与伦理合规（6 课时）**：信息脱敏边界、版权归属与合规标识规范。`
+- **工具选型地图**：文本、长文档、图像与音视频主流工具的优势边界与组合策略。
+- **四步提示词框架**：角色 + 背景 + 约束 + 示例，结合链式追问快速打磨专业产出。`
       },
       {
-        id: 'step-prep',
-        title: '题库练习与体验',
-        hint: '开通后解锁',
-        contentMarkdown: `解锁全国统考官方真题题库与 20+ 职场实战提示词模板包，考前轻松演练。`
+        id: 'mod-2',
+        title: '模块二：文档、表格与 PPT 智能办公实战',
+        hint: '6 课时',
+        contentMarkdown: `针对职场每日高频耗时任务，建立自动化办公提效流水线：
+
+- **长文档与会议处理**：一键提炼万字材料核心结论、行动项拆解与规范公文润色。
+- **表格数据与演示文稿**：自然语言生成复杂表格公式、图表解读及高质量 PPT 大纲与排版。`
       },
       {
-        id: 'step-exam',
-        title: '参加统考',
-        hint: '线上机考 · 90 分钟',
-        contentMarkdown: `每月开放多场全国线上统考批次，时长 **90 分钟**，**60 / 100 分** 及格通过。`
+        id: 'mod-3',
+        title: '模块三：多模态视觉与短视频辅助创作',
+        hint: '4 课时',
+        contentMarkdown: `快速产出具有专业质感的营销配图、活动海报与短视频脚本：
+
+- **AI 视觉出图控制**：构图风格词、主体一致性控制与商用配图二次精修技巧。
+- **短视频与播客脚本**：从热点选题、分镜脚本到配音字幕的一站式协同制作。`
       },
       {
-        id: 'step-cert',
-        title: '领取全国通用证书',
-        hint: '长期有效',
-        contentMarkdown: `成绩合格后纳入专项人才测评档案，颁布长期有效的全国通用电子与纸质证书。`
+        id: 'mod-4',
+        title: '模块四：零代码效率智能体与合规安全',
+        hint: '4 课时',
+        contentMarkdown: `将个人工作经验沉淀为可复用的零代码智能体，同时守好安全边界：
+
+- **个人智能体搭建**：零代码配置知识库与工作流，实现日常重复任务的自动化批处理。
+- **安全与版权合规**：企业敏感数据脱敏规范、AIGC 版权风险识别与合规标识要点。`
       }
     ],
-    advisorContacts: [
-      { label: '联系人', value: '孙老师（部委认证教务处）' },
-      { label: '联系电话', value: '400-886-2026 转 812', copyable: true },
-      { label: '电子邮箱', value: 'aigc-exam@qianji-ai.cn', copyable: true },
-      { label: '服务时段', value: '周一至周六 09:00 - 18:00' }
-    ],
-    advisorQrHint: '扫码添加专属顾问获取报名通道'
+    advisorContacts: AIGC_ADVISOR_CONTACTS,
+    advisorQrHint: '扫码添加 AIGC 课程顾问获取试听与模板包'
   },
   {
-    id: 'cert-aigc-l2',
+    id: 'course-aigc-l2',
     systemId: 'aigc',
-    systemName: 'AIGC 部委与学会认证',
-    name: '工业与信息化领域 AI 工程技术人才（中级）',
-    issuingBodies: ['工信部人才交流中心', '中国人工智能学会'],
+    systemName: 'AIGC 体系',
+    name: 'AIGC 体系（中级）：商业级视觉工作流与智能体搭建',
+    detailTitle: '商业级视觉工作流与智能体搭建（中级）实战课',
+    shortLevelName: 'AIGC 中级',
+    issuingBodies: ['AIGC 教研中心'],
     level: '中级',
-    customTags: ['国家级背书', '人才入库'],
+    customTags: ['实战', '含项目实操', '商业案例'],
     briefIntro:
-      '纳入国家重点领域产业人才能力评价体系，重点考察行业模型评测、数据工程管线搭建、自动化智能体集成及企业数字化转型落地能力。',
-    targetAudience: '行业数字化骨干 / AI产品经理',
+      '本课程深入商业内容生产与产业数字化一线，结合 ComfyUI 节点式视觉流与低代码智能体平台，打造可复用的品牌视觉、营销素材与行业提效管线。',
+    targetAudience: '行业数字化骨干 / AI产品经理 / 设计师',
     coreCapabilities: [
       '行业需求建模',
-      '数据管线构建',
+      '多模态管线构建',
       '模型效果评测',
       '智能体方案设计',
       '业务ROI核算',
       '跨部门协作交付'
     ],
     priceDisplay: '¥780.00',
-    feeDescription: '含 34 课时产业实战课程、案例评审指导及国家级人才评价入库证书。',
-    examFormat: '综合理论评测 + 行业案例方案设计',
-    examDuration: '120 分钟',
-    passingScore: '70 / 100 分',
+    feeDescription: '费用含 34 课时商业实战课程、ComfyUI 工作流 JSON 模板库与行业项目案例指导。',
+    examFormat: '商业工作流项目实战',
+    examDuration: '随学随练',
+    passingScore: '完成工作流交付',
     validityPeriod: '长期有效',
     courseHours: '34 课时',
-    feeText: '¥780 / 次',
+    feeText: '¥780 / 门',
     enrolledCount: 2180,
     syllabus: [
       {
-        title: '模块一：产业数字化场景分析与 AI 产品建模',
-        duration: '10 课时',
+        title: '模块一：商业需求建模与 AIGC 管线架构设计',
+        duration: '8 课时',
         topics: [
-          '工业、金融、医疗等垂直场景 AI 落地路径拆解',
-          '业务痛点抽象、评测指标定义与 ROI 测算模型',
-          'AI 产品原型设计与人机协同交互规范'
+          '电商、品牌营销与内容团队的 AIGC 降本增效路径拆解',
+          '可控性、一致性与产出质量评测标准制定',
+          '业务 ROI 核算模型与跨部门协作流程设计'
         ]
       },
       {
-        title: '模块二：行业数据工程管线与模型评测体系',
-        duration: '12 课时',
+        title: '模块二：ComfyUI 商业级可控视觉工作流实战',
+        duration: '14 课时',
         topics: [
-          '企业非结构化文档治理与知识资产沉淀标准',
-          '多维度模型评测基准与成本/精度平衡策略',
-          '持续反馈数据回流与迭代闭环管理'
+          'ControlNet、IP-Adapter 与 LoRA 风格锁定的节点组合',
+          '电商商品换背景、模特换装与高清重绘自动化流水线',
+          '批量出图 API 封装与团队共享工作台搭建'
         ]
       },
       {
-        title: '模块三：智能化方案集成与跨部门项目推进',
+        title: '模块三：低代码行业智能体与跨平台自动化交付',
         duration: '12 课时',
         topics: [
-          '智能体工作流与现有信息化系统集成方案',
-          '跨算法、研发、合规与业务团队的高效协同',
-          '项目上线验收、运营指标看板与持续推广'
+          '低代码工作流编排（知识库 + 插件 + 条件分支）实战',
+          '多渠道内容矩阵自动生成、审核与排期发布闭环',
+          '真实商业项目复盘与团队推广落地方法'
         ]
       }
     ],
     recognitionPoints: [
-      '考核通过后纳入工业和信息化领域专业技术人才评价数据库',
-      '兼顾技术工程理解与业务产品落地，适配 AI 转型核心骨干岗位',
-      '提供官方纸质与电子双版证书，助力职称评审与职业晋升'
+      '附赠 15+ 开箱即用的 ComfyUI 商业级节点工作流与 LoRA 调参手册',
+      '完整覆盖电商视觉、品牌创意与营销自动化三大高回报商业场景',
+      '帮助 AI 产品经理、设计师与业务骨干掌握团队级 AIGC 落地能力'
     ],
-    introMarkdown: `**工业与信息化领域 AI 工程技术人才（中级）**由工信部人才交流中心与中国人工智能学会联合背书，考核兼具业务洞察与工程落地能力的复合型产业 AI 骨干人才。
+    introMarkdown: `**商业级视觉工作流与智能体搭建（中级）实战课**聚焦从“个人玩转工具”到“团队级商业生产流水线”的跃迁，结合节点式可控视觉生成与低代码智能体平台，带你打造高一致性、可批量复用的商业内容与业务提效方案。
 
-### 这个认证能证明什么？
-- **产业场景建模与 ROI 评估**：能够精准识别垂直行业高价值 AI 落地切入点并建立量化投入产出评估模型。
-- **数据资产与评测闭环能力**：掌握企业非结构化知识治理标准、多维模型评测体系与反馈数据回流机制。
-- **跨部门 AI 项目推进能力**：具备统筹算法、工程、合规与业务团队完成智能化方案上线验收的综合实力。`,
+### 课程核心收获
+- **商业级可控视觉管线**：精通 ComfyUI 节点编排、ControlNet 结构控制与品牌风格一致性锁定，解决商业出图“抽卡不可控”痛点。
+- **低代码智能体系统设计**：串联私有知识库、外部 API 插件与多步工作流，搭建营销文案、竞品监测与客户洞察智能体。
+- **业务 ROI 评估与落地推进**：具备从需求建模、效果验收标准制定到跨部门推广复盘的完整项目落地能力。`,
     learningPath: [
       {
-        id: 'step-course',
-        title: '课程学习',
-        hint: '34 课时',
-        contentMarkdown: `紧贴工业、金融、医疗等实体产业数字化转型实践：
+        id: 'mod-1',
+        title: '模块一：商业需求建模与 ROI 评估方法',
+        hint: '8 课时',
+        contentMarkdown: `站在业务与产品视角规划高回报 AIGC 落地项目：
 
-- **模块 01 · 产业场景分析与 AI 产品建模（10 课时）**：垂直行业路径拆解、ROI 测算与人机协同原型设计。
-- **模块 02 · 数据工程管线与评测体系（12 课时）**：非结构化知识治理、评测基准与数据回流迭代。
-- **模块 03 · 智能化集成与跨部门推进（12 课时）**：信息化系统集成、上线验收与运营指标看板。`
+- **业务瓶颈拆解**：识别内容生产、设计排期与客服运营中的可自动化关键环节。
+- **验收标准与 ROI 核算**：建立商业交付质量基准与人力/成本节约测算模型。`
       },
       {
-        id: 'step-prep',
-        title: '案例研习与备考',
-        hint: '开通后解锁',
-        contentMarkdown: `解锁行业真实转型案例库与方案设计评分细则，支持在线模拟自测。`
+        id: 'mod-2',
+        title: '模块二：ComfyUI 商业可控视觉工作流',
+        hint: '12 课时',
+        contentMarkdown: `深入节点式图像与视频工作流，实现精准可控的批量商业出图：
+
+- **精准控制组合**：ControlNet 构图锁定、IP-Adapter 风格迁移与局部重绘（Inpainting）精修。
+- **电商与品牌实战**：搭建商品一键换场景、模特穿戴展示与海报排版自动化工作流。`
       },
       {
-        id: 'step-exam',
-        title: '参加评测考试',
-        hint: '综合评测 · 120 分钟',
-        contentMarkdown: `线上完成综合理论评测与行业方案设计考核，时长 **120 分钟**，**70 / 100 分** 及格。`
+        id: 'mod-3',
+        title: '模块三：低代码行业智能体编排实战',
+        hint: '8 课时',
+        contentMarkdown: `使用主流低代码编排平台，将业务 SOP 固化为可执行的智能体服务：
+
+- **多步工作流编排**：结合知识库检索、网页抓取、变量路由与结构化表格回写。
+- **自动化内容矩阵**：打造“热点追踪 → 选题策划 → 多平台图文生成”端到端闭环。`
       },
       {
-        id: 'step-cert',
-        title: '人才入库与领证',
-        hint: '长期有效',
-        contentMarkdown: `考核通过后正式纳入工业和信息化领域专业技术人才评价数据库，签发官方电子与纸质双版证书。`
+        id: 'mod-4',
+        title: '模块四：批量 API 化交付与团队协同运营',
+        hint: '6 课时',
+        contentMarkdown: `将个人工作流封装为全团队可用的稳定服务：
+
+- **工作流服务封装**：ComfyUI Headless API 集成与飞书/企微群机器人触发实践。
+- **标杆商业复盘**：复盘真实消费品牌 AIGC 内容中台搭建路径与常见避坑指南。`
       }
     ],
-    advisorContacts: [
-      { label: '联系人', value: '孙老师（部委认证教务处）' },
-      { label: '联系电话', value: '400-886-2026 转 812', copyable: true },
-      { label: '电子邮箱', value: 'aigc-exam@qianji-ai.cn', copyable: true },
-      { label: '服务时段', value: '周一至周六 09:00 - 18:00' }
+    advisorContacts: AIGC_ADVISOR_CONTACTS,
+    advisorQrHint: '扫码添加 AIGC 课程顾问获取试听与工作流资料'
+  },
+
+  // =========================================================================
+  // 4. 人工智能安全体系（中级 / 高级）
+  // =========================================================================
+  {
+    id: 'course-sec-l2',
+    systemId: 'ai-security',
+    systemName: '人工智能安全体系',
+    name: '人工智能安全体系（中级）：大模型安全护栏与攻防实战',
+    detailTitle: '大模型安全护栏与攻防实战（中级）实战课',
+    shortLevelName: 'AI安全 中级',
+    issuingBodies: ['AI 安全教研中心'],
+    level: '中级',
+    customTags: ['实战', '含靶场实操', '含项目实操'],
+    briefIntro:
+      '本课程聚焦 AI 原生安全与大模型攻防一线，系统讲授提示词注入防御、内容安全护栏构建、敏感数据动态脱敏及安全运营智能体联动开发。',
+    targetAudience: '安全开发工程师 / AI应用工程师',
+    coreCapabilities: [
+      '大模型安全护栏',
+      '提示词注入防御',
+      '威胁情报研判',
+      'SOAR联动编排',
+      '数据脱敏治理',
+      '安全评估报告'
     ],
-    advisorQrHint: '扫码添加专属顾问获取报名通道'
+    priceDisplay: '¥799.00',
+    feeDescription: '费用含 32 课时安全攻防实战课程、在线攻防靶场实训权限与安全护栏源码模板。',
+    examFormat: '安全靶场攻防演练',
+    examDuration: '随学随练',
+    passingScore: '完成靶场任务',
+    validityPeriod: '长期有效',
+    courseHours: '32 课时',
+    feeText: '¥799 / 门',
+    enrolledCount: 1680,
+    syllabus: [
+      {
+        title: '模块一：大模型安全风险全景与护栏机制',
+        duration: '10 课时',
+        topics: [
+          'OWASP LLM Top 10 漏洞原理与攻击面分析',
+          '提示词注入（Prompt Injection）与越狱检测拦截',
+          '敏感信息防泄漏（DLP）与动态脱敏网关设计'
+        ]
+      },
+      {
+        title: '模块二：安全运营智能体（SecOps Agent）开发实战',
+        duration: '12 课时',
+        topics: [
+          '告警日志降噪与自动化威胁研判智能体构建',
+          '安全知识图谱与私有漏洞库 RAG 增强检索',
+          '与 SIEM / SOAR 平台联动实现分钟级应急响应'
+        ]
+      },
+      {
+        title: '模块三：AI 应用合规评测与红队基础演练',
+        duration: '10 课时',
+        topics: [
+          '生成式人工智能服务安全基本要求落地自查',
+          '自动化红队对抗测试集构建与风险量化评分',
+          '企业级 AI 安全评估报告输出与整改闭环'
+        ]
+      }
+    ],
+    recognitionPoints: [
+      '配套在线大模型安全攻防靶场，包含 12 个真实提示词攻防演练场景',
+      '同时覆盖“保护 AI 应用本身”与“用 AI 赋能安全运营”两大紧缺方向',
+      '直接提供可部署的大模型输入输出安全护栏网关参考代码'
+    ],
+    introMarkdown: `**大模型安全护栏与攻防实战（中级）实战课**深度结合“大模型内生安全防护”与“AI 赋能安全运营（SecOps）”两大核心实战方向，依托真实在线攻防靶场，带你系统掌握大模型应用上线前必须具备的安全工程能力。
+
+### 核心实战能力
+- **大模型安全护栏工程**：针对提示词注入、间接注入、越狱诱导与敏感数据泄漏，构建低延迟输入输出安全防护网关。
+- **AI 安全运营智能体开发**：实战搭建告警降噪、威胁情报研判智能体，并与 SIEM / SOAR 联动实现自动化应急响应。
+- **合规自查与风险评测**：熟练对照生成式 AI 安全合规要求开展自动化红队测试，输出规范的安全评估与整改报告。`,
+    learningPath: [
+      {
+        id: 'mod-1',
+        title: '模块一：OWASP LLM 风险全景与提示词攻防',
+        hint: '8 课时',
+        contentMarkdown: `在靶场中亲手复现并防御主流大模型安全漏洞，知攻更懂防：
+
+- **常见攻击面剖析**：直接/间接提示词注入、系统提示词窃取、工具越权调用与模型投毒风险。
+- **靶场攻防实操**：完成 6 个典型越狱与注入绕过演练，深入理解攻防对抗机理。`
+      },
+      {
+        id: 'mod-2',
+        title: '模块二：输入输出安全护栏与动态脱敏网关',
+        hint: '8 课时',
+        contentMarkdown: `从零开发一套可插拔的企业级大模型安全代理网关：
+
+- **多层内容护栏**：规则引擎 + 轻量安全分类模型协同实现毫秒级违规拦截。
+- **敏感数据防泄漏（DLP）**：身份证/银行卡/源码密钥自动识别、动态脱敏占位与回填还原。`
+      },
+      {
+        id: 'mod-3',
+        title: '模块三：AI 安全运营智能体（SecOps）实战',
+        hint: '10 课时',
+        contentMarkdown: `利用大模型大幅提升安全运营团队的研判与处置效率：
+
+- **威胁研判 RAG**：接入私有漏洞库与攻击情报知识，自动生成告警溯源与处置建议。
+- **SOAR 联动闭环**：通过受控工具调用自动执行封禁 IP、隔离终端与工单流转演练。`
+      },
+      {
+        id: 'mod-4',
+        title: '模块四：AI 应用安全评测与合规自查报告',
+        hint: '6 课时',
+        contentMarkdown: `建立系统化的 AI 安全上线前验收流程：
+
+- **自动化红队扫描**：构建多维度安全对抗测试集，输出风险量化评分矩阵。
+- **安全评估与整改闭环**：完整编写一份符合政企验收标准的 AI 安全评估报告。`
+      }
+    ],
+    advisorContacts: SECURITY_ADVISOR_CONTACTS,
+    advisorQrHint: '扫码添加 AI 安全课程顾问获取靶场试听通道'
+  },
+  {
+    id: 'course-sec-l3',
+    systemId: 'ai-security',
+    systemName: '人工智能安全体系',
+    name: '人工智能安全体系（高级）：企业级 AI 红队对抗与合规治理',
+    detailTitle: '企业级 AI 红队对抗与合规治理（高级）实战课',
+    shortLevelName: 'AI安全 高级',
+    issuingBodies: ['AI 安全教研中心'],
+    level: '高级',
+    customTags: ['实战', '含靶场实操', '政企安全'],
+    briefIntro:
+      '本课程面向高安全等级政企与金融 AI 落地场景，深度演练自动化红队越狱攻防、多智能体分级分权治理、安全水印溯源与全链路合规审计建设。',
+    targetAudience: '安全架构师 / 政企合规与交付负责人',
+    coreCapabilities: [
+      '自动化红队评测',
+      '分级分权治理',
+      '数据防泄漏DLP',
+      '安全水印溯源',
+      '合规审计落地',
+      '应急响应闭环'
+    ],
+    priceDisplay: '¥1,280.00',
+    feeDescription: '费用含 40 课时高阶安全架构课程、高级攻防靶场演练时长与政企合规治理文档库。',
+    examFormat: '高级红队演练与方案评审',
+    examDuration: '随学随练',
+    passingScore: '完成合规治理方案',
+    validityPeriod: '长期有效',
+    courseHours: '40 课时',
+    feeText: '¥1,280 / 门',
+    enrolledCount: 840,
+    syllabus: [
+      {
+        title: '模块一：自动化红队对抗框架与深度渗透演练',
+        duration: '12 课时',
+        topics: [
+          '多轮诱导越狱、多模态对抗样本与 RAG 知识库投毒深度演练',
+          '基于攻击者模型的自动化红队 Fuzzing 测试平台搭建',
+          '智能体工具链权限逃逸与代码沙盒隔离加固'
+        ]
+      },
+      {
+        title: '模块二：多智能体分级分权与零信任安全架构',
+        duration: '14 课时',
+        topics: [
+          '企业级 AI 零信任网关与跨智能体最小权限访问控制',
+          '训练/微调语料合规清洗与数据血缘可追溯治理',
+          '隐式文本/图像安全水印嵌入与生成内容溯源体系'
+        ]
+      },
+      {
+        title: '模块三：政企与金融 AI 全生命周期合规审计体系',
+        duration: '14 课时',
+        topics: [
+          '大模型备案与安全评估核心指标逐项拆解落地',
+          '全链路不可篡改审计日志与异常行为实时告警',
+          'AI 安全事件应急响应预案与高安全行业标杆案例复盘'
+        ]
+      }
+    ],
+    recognitionPoints: [
+      '紧贴金融、能源、政务等高安全等级行业的真实合规与攻防要求',
+      '涵盖 RAG 投毒、Agent 沙盒逃逸、隐式水印等前沿深度攻防议题',
+      '提供全套政企 AI 安全架构基线清单与合规审计模板'
+    ],
+    introMarkdown: `**企业级 AI 红队对抗与合规治理（高级）实战课**面向主导高安全等级行业 AI 系统建设的安全架构师、红队专家与政企合规负责人，深入剖析复杂多智能体与私有化大模型环境下的深层安全威胁，系统构建“可测、可控、可审计、可溯源”的企业级 AI 安全治理体系。
+
+### 核心高阶专题
+- **自动化红队深度攻防**：掌握多轮越狱对抗、RAG 语料投毒、多模态绕过及 Agent 代码执行沙盒隔离等前沿攻防技术。
+- **AI 零信任与安全水印溯源**：设计跨智能体最小权限控制、数据血缘管理及生成内容隐式水印防伪溯源方案。
+- **全生命周期合规审计**：系统打通模型备案要求、安全基线落地、不可篡改审计日志与安全事件应急处置闭环。`,
+    learningPath: [
+      {
+        id: 'mod-1',
+        title: '模块一：深度红队对抗与自动化 Fuzzing 平台',
+        hint: '12 课时',
+        contentMarkdown: `超越人工手工测试，构建可持续运行的自动化 AI 红队对抗能力：
+
+- **复杂攻击场景演练**：多轮渐进式越狱、RAG 知识库投毒与多模态图文隐写绕过实战。
+- **自动化红队引擎**：利用攻击者模型自动变异攻击载荷，持续发现系统薄弱环节。`
+      },
+      {
+        id: 'mod-2',
+        title: '模块二：智能体沙盒隔离与零信任权限治理',
+        hint: '10 课时',
+        contentMarkdown: `解决智能体具备工具调用与代码执行能力后带来的高危越权风险：
+
+- **最小权限控制**：面向 MCP 与外部 API 的细粒度鉴权、二次确认与策略拦截网关。
+- **安全沙盒隔离**：基于微虚拟机/容器构建受限代码执行环境，阻断横向渗透路径。`
+      },
+      {
+        id: 'mod-3',
+        title: '模块三：数据血缘治理与隐式安全水印溯源',
+        hint: '8 课时',
+        contentMarkdown: `覆盖从训练数据到模型输出的全链路知识产权与防泄漏治理：
+
+- **语料合规与血缘**：微调语料版权/隐私自动化审查及数据血缘追踪机制。
+- **安全水印体系**：文本与图像隐式数字水印嵌入、鲁棒性验证与泄密内容快速溯源。`
+      },
+      {
+        id: 'mod-4',
+        title: '模块四：政企合规审计与应急响应实战',
+        hint: '10 课时',
+        contentMarkdown: `面向金融、能源与政务核心业务场景，完成企业级安全合规闭环建设：
+
+- **全链路审计与监控**：不可篡改调用审计日志、异常行为基线告警与合规报表自动生成。
+- **标杆案例与预案**：复盘大型金融机构 AI 安全治理架构落地全过程与应急演练手册。`
+      }
+    ],
+    advisorContacts: SECURITY_ADVISOR_CONTACTS,
+    advisorQrHint: '扫码添加 AI 安全课程顾问获取高阶方案资料'
   }
 ];

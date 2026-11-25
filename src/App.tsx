@@ -29,7 +29,7 @@ import { DatasetDetailModal } from './components/modals/DatasetDetailModal';
 import { SkillDetailModal } from './components/modals/SkillDetailModal';
 import { ModelCompareBar } from './components/modals/ModelCompareBar';
 import { Toast } from './components/common/Toast';
-import { AuthModal } from './components/modals/AuthModal';
+import { AuthPage } from './components/auth/AuthPage';
 import { InviteFriendsModal } from './components/modals/InviteFriendsModal';
 import { AgentTrialPageView } from './components/marketplace/AgentTrialPageView';
 import { ScreencastPlayerView } from './components/admin/screencast/ScreencastPlayerView';
@@ -64,13 +64,22 @@ const AppContent: React.FC = () => {
     setTryoutModel,
     publishTaskModalOpen,
     setPublishTaskModalOpen,
+    isAuthModalOpen,
+    setAuthModalMode,
+    setIsAuthModalOpen,
     showToast
   } = useApp();
 
   // Ensure persisted data-theme attribute is synced on mount
   React.useEffect(() => {
     initTheme();
-  }, []);
+    const params = new URLSearchParams(window.location.search);
+    const authParam = params.get('auth');
+    if (authParam === 'login' || authParam === 'register') {
+      setAuthModalMode(authParam);
+      setIsAuthModalOpen(true);
+    }
+  }, [setAuthModalMode, setIsAuthModalOpen]);
 
   // Scroll to top whenever activeTab changes or menu is clicked
   React.useEffect(() => {
@@ -117,13 +126,22 @@ const AppContent: React.FC = () => {
     );
   }
 
+  // 独立注册登录页：全屏 100vh 极简双栏页面（替代弹窗）
+  if (isAuthModalOpen) {
+    return (
+      <>
+        <AuthPage />
+        <Toast />
+      </>
+    );
+  }
+
   // 独立窗口模式：在新浏览器窗口单独打开 OPC 生态社区与政策网络页面
   const standalonePage = queryParams.get('standalone');
   if (standalonePage === 'opc-network') {
     return (
       <>
         <OpcCommunityNetworkPage />
-        <AuthModal />
         <Toast />
       </>
     );
@@ -206,7 +224,6 @@ const AppContent: React.FC = () => {
           onClose={() => setDetailSkill(null)}
         />
         <ModelCompareBar />
-        <AuthModal />
         <Toast />
       </div>
     );
@@ -380,7 +397,6 @@ const AppContent: React.FC = () => {
         onClose={() => setDetailSkill(null)}
       />
       <ModelCompareBar />
-      <AuthModal />
       <InviteFriendsModal />
       <Toast />
     </div>

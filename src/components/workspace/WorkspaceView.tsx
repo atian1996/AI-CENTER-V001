@@ -43,7 +43,7 @@ export const WorkspaceView: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 -m-4 md:-m-8">
+    <div className="min-h-screen bg-[#F8F9FA] flex flex-col font-sans text-[#1A1A1A] -m-4 md:-m-8">
       
       {/* Workspace Header */}
       <WorkspaceHeader />
@@ -52,8 +52,8 @@ export const WorkspaceView: React.FC = () => {
       <div className="flex-1 flex flex-col md:flex-row">
         
         {/* Left Sidebar Navigation */}
-        <aside className="w-full md:w-60 bg-white border-r border-slate-200/80 p-4 shrink-0 space-y-1">
-          <div className="px-3 py-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+        <aside className="w-full md:w-60 bg-white border-r border-[#EAEAEA] p-4 shrink-0 space-y-1">
+          <div className="px-3 py-2 text-[11px] font-semibold text-[#999999] tracking-wider">
             工作台功能导航
           </div>
 
@@ -64,22 +64,24 @@ export const WorkspaceView: React.FC = () => {
                 <button
                   key={item.id}
                   onClick={() => setWorkspaceSubTab(item.id)}
-                  className={`theme-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-extrabold cursor-pointer ${
+                  className={`theme-nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-md text-xs font-semibold cursor-pointer ${
                     isActive
                       ? 'theme-sidebar-active'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
+                      : 'text-[#666666] hover:text-[#1A1A1A] hover:bg-[#F5F5F5]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className={isActive ? 'theme-sidebar-icon text-white' : 'text-[var(--text-muted)]'}>
+                    <span className={isActive ? 'theme-sidebar-icon text-white' : 'text-[#888888]'}>
                       {item.icon}
                     </span>
                     <span>{item.label}</span>
                   </div>
 
                   {item.badge !== undefined && item.badge > 0 && (
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
-                      isActive ? 'bg-white text-[var(--text-primary)] border border-[var(--border-color)]' : 'bg-red-500 text-white'
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold tabular-nums ${
+                      isActive
+                        ? 'bg-[#991B1B] text-white'
+                        : 'bg-[#991B1B] text-white'
                     }`}>
                       {item.badge}
                     </span>

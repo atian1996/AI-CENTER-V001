@@ -183,26 +183,26 @@ export const WorkspaceTasks: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="p-6 max-w-7xl mx-auto space-y-6 animate-fade-in pb-12 text-[#1A1A1A]">
       {/* 顶部主选项卡切换 + 发布任务入口 */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-2 bg-slate-100/90 p-1.5 rounded-xl border border-slate-200/80">
+      <div className="bg-white rounded-md p-4 border border-[#EAEAEA] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-1 bg-[#F5F5F5] p-1 rounded-md border border-[#EAEAEA]">
           <button
             onClick={() => handleTabChange('published')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+            className={`px-4 py-2 rounded text-xs font-semibold transition cursor-pointer ${
               activeTab === 'published'
-                ? 'bg-indigo-600 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 font-bold'
+                ? 'bg-[#1A1A1A] text-white'
+                : 'text-[#555555] hover:text-[#1A1A1A]'
             }`}
           >
             我发布的任务
           </button>
           <button
             onClick={() => handleTabChange('undertaken')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+            className={`px-4 py-2 rounded text-xs font-semibold transition cursor-pointer ${
               activeTab === 'undertaken'
-                ? 'bg-indigo-600 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 font-bold'
+                ? 'bg-[#1A1A1A] text-white'
+                : 'text-[#555555] hover:text-[#1A1A1A]'
             }`}
           >
             我接单的任务
@@ -211,9 +211,9 @@ export const WorkspaceTasks: React.FC = () => {
 
         <button
           onClick={() => setIsCreatingTask(true)}
-          className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs shadow-sm shadow-indigo-600/20 transition flex items-center gap-1.5 cursor-pointer"
+          className="px-4 py-2 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white font-semibold text-xs transition flex items-center gap-1.5 cursor-pointer"
         >
-          <Plus className="w-4 h-4 stroke-[2.5]" />
+          <Plus className="w-4 h-4" />
           <span>发布新需求</span>
         </button>
       </div>
@@ -222,16 +222,16 @@ export const WorkspaceTasks: React.FC = () => {
       {activeTab === 'published' && (
         <div className="space-y-4">
           {/* 子状态筛选标签: 全部 / 审核中 / 进行中 / 已驳回 / 已结束 */}
-          <div className="flex flex-wrap items-center gap-2 px-1">
-            <span className="text-xs text-slate-400 font-bold mr-1">状态筛选:</span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-xs text-[#888888] font-medium mr-1">状态筛选:</span>
             {publishedFilterList.map(f => (
               <button
                 key={f}
                 onClick={() => setPublishedFilter(f)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition cursor-pointer border ${
                   publishedFilter === f
-                    ? 'bg-slate-900 text-white shadow-2xs'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                    ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]'
+                    : 'bg-white text-[#555555] border-[#EAEAEA] hover:bg-[#F5F5F5]'
                 }`}
               >
                 {f}
@@ -240,12 +240,12 @@ export const WorkspaceTasks: React.FC = () => {
           </div>
 
           {filteredPublishedTasks.length === 0 ? (
-            <div className="bg-white rounded-2xl p-16 text-center border border-slate-200">
-              <FileText className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-              <p className="text-sm font-bold text-slate-700">暂无符合条件的发布任务</p>
+            <div className="bg-white rounded-md p-16 text-center border border-[#EAEAEA]">
+              <FileText className="w-10 h-10 text-[#CCCCCC] mx-auto mb-2" />
+              <p className="text-sm font-semibold text-[#1A1A1A]">暂无符合条件的发布任务</p>
               <button
                 onClick={() => setIsCreatingTask(true)}
-                className="mt-4 px-5 py-2 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-500 cursor-pointer"
+                className="mt-4 px-4 py-2 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white text-xs font-semibold cursor-pointer transition"
               >
                 立即发布任务
               </button>
@@ -261,76 +261,82 @@ export const WorkspaceTasks: React.FC = () => {
                 return (
                   <div
                     key={task.id}
-                    className="bg-white rounded-2xl p-6 border border-slate-200 hover:border-slate-300 shadow-2xs space-y-4 transition"
+                    className="bg-white rounded-md p-5 border border-[#EAEAEA] hover:border-[#CCCCCC] space-y-4 transition-colors"
                   >
                     {/* 头部：标题 + 领域/难度 + 任务状态标签 */}
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div className="space-y-2">
                         <div className="flex flex-wrap items-center gap-2">
-                          {/* 所属领域与难度 */}
-                          <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/60">
+                          {/* 所属领域与难度：极细灰框 + 深灰字 */}
+                          <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#4B5563] border border-[#EAEAEA]">
                             {task.domain}
                           </span>
-                          <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-slate-100 text-slate-700">
+                          <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-white text-[#555555] border border-[#E2E2E2]">
                             {task.difficulty}难度
                           </span>
 
-                          {/* 任务状态 */}
-                          <span
-                            className={`px-2.5 py-0.5 rounded-md text-[11px] font-black ${
-                              isAuditing
-                                ? 'bg-amber-100 text-amber-800'
+                          {/* 任务状态：小圆点 + 深灰/克制语义文字 */}
+                          <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium pl-1 ${
+                            isRejected
+                              ? 'text-[#991B1B]'
+                              : isFinished && !task.refunded
+                              ? 'text-[#888888]'
+                              : isAuditing || task.refunded
+                              ? 'text-[#555555]'
+                              : 'text-[#166534]'
+                          }`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${
+                              isAuditing || task.refunded
+                                ? 'bg-[#D97706]'
                                 : isRejected
-                                ? 'bg-red-100 text-red-700'
-                                : task.refunded
-                                ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                                ? 'bg-[#991B1B]'
                                 : isFinished
-                                ? 'bg-slate-200 text-slate-600'
-                                : 'bg-emerald-100 text-emerald-800'
-                            }`}
-                          >
+                                ? 'bg-[#9CA3AF]'
+                                : 'bg-[#15803D]'
+                            }`} />
                             {task.refunded ? '已退款结束' : isFinished ? '已结束' : task.status}
                           </span>
 
                           {/* 详细到期退款分类标记 */}
                           {task.refunded && (task.takers || []).length === 0 && (
-                            <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                            <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
                               无人接单到期
                             </span>
                           )}
 
                           {task.refunded && (task.takers || []).length > 0 && (task.submissions || []).length === 0 && (
-                            <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-orange-50 text-orange-700 border border-orange-200">
+                            <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
                               接单超时未提交
                             </span>
                           )}
 
                           {task.refunded && (task.submissions || []).length > 0 && (
-                            <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                            <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#991B1B] border border-[#EAEAEA]">
                               成果全驳回到期
                             </span>
                           )}
 
                           {pendingCount > 0 && !isFinished && (
-                            <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-red-500 text-white animate-pulse">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-[#FEF2F2] text-[#991B1B] border border-[#FECACA]">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#991B1B]" />
                               {pendingCount} 份成果待验收
                             </span>
                           )}
                         </div>
 
-                        <h3 className="text-base font-extrabold text-slate-900">{task.title}</h3>
+                        <h3 className="text-base font-semibold text-[#1A1A1A]">{task.title}</h3>
                       </div>
 
-                      {/* 右侧赏金预算 */}
+                      {/* 右侧赏金预算：纯黑加粗突出 */}
                       <div className="text-right shrink-0">
-                        <div className="text-sm font-black font-mono text-indigo-600">
+                        <div className="text-lg font-bold font-mono tabular-nums text-[#1A1A1A]">
                           ¥{(task.cashReward || 0).toLocaleString()}
                         </div>
-                        <div className="text-[11px] text-slate-400 font-medium">
+                        <div className="text-xs text-[#666666] font-mono tabular-nums">
                           {(task.pointsReward || 0) > 0 ? `+${task.pointsReward} 积分` : '赏金预算'}
                         </div>
                         {(isAuditing || task.status === '进行中') && (
-                          <div className="mt-1 inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-indigo-50 text-[10px] font-bold text-indigo-700 border border-indigo-200/80">
+                          <div className="mt-1 inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#F5F5F5] text-[10px] font-medium text-[#555555] border border-[#EAEAEA]">
                             <span>资金与积分托管中</span>
                           </div>
                         )}
@@ -338,38 +344,38 @@ export const WorkspaceTasks: React.FC = () => {
                     </div>
 
                     {/* 基本信息行：周期、时间和单份奖励 */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-medium text-slate-600">
-                      <div>开始时间：<span className="font-mono text-slate-800 font-bold">{task.startTime?.split(' ')[0]}</span></div>
-                      <div>结束时间：<span className="font-mono text-slate-800 font-bold">{task.endTime?.split(' ')[0]}</span></div>
-                      <div>单份现金：<span className="font-mono text-indigo-600 font-bold">¥{task.cashReward}</span></div>
-                      <div>单份积分：<span className="font-mono text-amber-600 font-bold">{task.pointsReward} 个</span></div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-[#FAFAFA] border border-[#EAEAEA] rounded-md text-xs text-[#666666]">
+                      <div>开始时间：<span className="font-mono tabular-nums text-[#1A1A1A] font-medium">{task.startTime?.split(' ')[0]}</span></div>
+                      <div>结束时间：<span className="font-mono tabular-nums text-[#1A1A1A] font-medium">{task.endTime?.split(' ')[0]}</span></div>
+                      <div>单份现金：<span className="font-mono tabular-nums text-[#1A1A1A] font-semibold">¥{task.cashReward}</span></div>
+                      <div>单份积分：<span className="font-mono tabular-nums text-[#333333] font-medium">{task.pointsReward} 个</span></div>
                     </div>
 
                     {/* 被驳回原因 */}
                     {isRejected && task.rejectReason && (
-                      <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700">
-                        <span className="font-black">驳回原因：</span>{task.rejectReason}
+                      <div className="p-3 bg-white border border-[#EAEAEA] border-l-[3px] border-l-[#991B1B] rounded-md text-xs text-[#991B1B]">
+                        <span className="font-semibold">驳回原因：</span>{task.rejectReason}
                       </div>
                     )}
 
                     {/* 获胜极客信息 */}
                     {isFinished && task.winner && (
-                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 flex items-center justify-between">
+                      <div className="p-3 bg-[#FAFAFA] border border-[#EAEAEA] border-l-[3px] border-l-[#15803D] rounded-md text-xs text-[#333333] flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Award className="w-4 h-4 text-emerald-600" />
-                          <span>已验收获胜极客：<span className="font-extrabold">{task.winner.username}</span>，预付赏金已全额发放。</span>
+                          <Award className="w-4 h-4 text-[#166534]" />
+                          <span>已验收获胜极客：<span className="font-semibold text-[#1A1A1A]">{task.winner.username}</span>，预付赏金已全额发放。</span>
                         </div>
                       </div>
                     )}
 
                     {/* 到期全部驳回全额退款信息 */}
                     {isFinished && task.refunded && (
-                      <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 flex items-center justify-between">
+                      <div className="p-3 bg-[#FAFAFA] border border-[#EAEAEA] border-l-[3px] border-l-[#D97706] rounded-md text-xs text-[#444444] flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
-                          <RotateCcw className="w-4 h-4 text-amber-600 shrink-0" />
+                          <RotateCcw className="w-4 h-4 text-[#D97706] shrink-0" />
                           <span>{task.refundReason || '任务已到期结束，发布人已驳回所有交付成果，任务预付金额和积分已全额退还至发布人账户。'}</span>
                         </div>
-                        <span className="px-2.5 py-0.5 rounded-full bg-amber-200/90 text-amber-950 text-[10px] font-black shrink-0">
+                        <span className="px-2 py-0.5 rounded bg-[#F5F5F5] border border-[#EAEAEA] text-[#555555] text-[10px] font-medium shrink-0">
                           已全额退款
                         </span>
                       </div>
@@ -377,10 +383,10 @@ export const WorkspaceTasks: React.FC = () => {
 
                     {/* 接单极客团队/列表 */}
                     {(task.takers || []).length > 0 ? (
-                      <div className="p-3 bg-slate-50/80 border border-slate-100 rounded-xl flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <div className="p-3 bg-[#FAFAFA] border border-[#EAEAEA] rounded-md flex flex-wrap items-center justify-between gap-2 text-xs">
                         <div className="flex items-center gap-2">
-                          <span className="text-slate-500 font-bold flex items-center gap-1">
-                            <Users className="w-3.5 h-3.5 text-indigo-500" />
+                          <span className="text-[#666666] font-medium flex items-center gap-1.5">
+                            <Users className="w-3.5 h-3.5 text-[#555555]" />
                             接单极客 ({(task.takers || []).length}人):
                           </span>
                           <div className="flex items-center -space-x-1.5 overflow-hidden">
@@ -390,7 +396,7 @@ export const WorkspaceTasks: React.FC = () => {
                                 src={tk.userAvatar}
                                 alt={tk.username}
                                 title={`${tk.username} (${tk.status})`}
-                                className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover shadow-2xs"
+                                className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover"
                                 referrerPolicy="no-referrer"
                               />
                             ))}
@@ -419,13 +425,12 @@ export const WorkspaceTasks: React.FC = () => {
                             }
 
                             return (
-                              <span key={tk.id || idx} className="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-700 text-[11px] font-medium flex items-center gap-1">
+                              <span key={tk.id || idx} className="px-2 py-0.5 rounded bg-white border border-[#E2E2E2] text-[#333333] text-[11px] font-medium flex items-center gap-1">
                                 <span>{tk.username}</span>
-                                <span className={`text-[10px] font-bold ${
-                                  statusText === '已验收' ? 'text-emerald-600' :
-                                  statusText === '已提交' ? 'text-indigo-600' :
-                                  statusText === '已驳回' ? 'text-rose-500' :
-                                  statusText === '成果未通过' ? 'text-rose-600' : 'text-slate-400'
+                                <span className={`text-[10px] font-medium ${
+                                  statusText === '已验收' ? 'text-[#166534]' :
+                                  statusText === '已提交' ? 'text-[#1A1A1A]' :
+                                  statusText === '已驳回' || statusText === '成果未通过' ? 'text-[#991B1B]' : 'text-[#888888]'
                                 }`}>({statusText})</span>
                               </span>
                             );
@@ -433,34 +438,34 @@ export const WorkspaceTasks: React.FC = () => {
                         </div>
                       </div>
                     ) : task.refunded ? (
-                      <div className="p-3 bg-slate-50/80 border border-slate-200/80 rounded-xl text-xs text-slate-500 flex items-center gap-2 font-medium">
-                        <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <div className="p-3 bg-[#FAFAFA] border border-[#EAEAEA] rounded-md text-xs text-[#666666] flex items-center gap-2">
+                        <Users className="w-3.5 h-3.5 text-[#888888] shrink-0" />
                         <span>接单情况：该任务公示周期内无人接单，已到期结束并全额退款。</span>
                       </div>
                     ) : null}
 
                     {/* 底部操作行 */}
-                    <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
-                      <div className="flex items-center gap-4 text-slate-500 font-medium">
-                        <span>已接单: {(task.takers || []).length} 人</span>
-                        <span>已提交成果: {(task.submissions || []).length} 份</span>
-                        <span>发布时间: {task.publishTime}</span>
+                    <div className="pt-3 border-t border-[#F0F0F0] flex flex-wrap items-center justify-between gap-3 text-xs">
+                      <div className="flex items-center gap-4 text-[#666666]">
+                        <span>已接单: <strong className="font-mono tabular-nums text-[#333333] font-medium">{(task.takers || []).length}</strong> 人</span>
+                        <span>已提交成果: <strong className="font-mono tabular-nums text-[#333333] font-medium">{(task.submissions || []).length}</strong> 份</span>
+                        <span className="font-mono tabular-nums text-[11px] text-[#888888]">发布时间: {task.publishTime}</span>
                       </div>
 
                       <div className="flex items-center gap-2">
-                        {/* 1. 查看详情 */}
+                        {/* 1. 查看详情：浅灰描边按钮 */}
                         <button
                           onClick={() => setDetailTaskId(task.id)}
-                          className="px-3.5 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold transition cursor-pointer"
+                          className="px-3.5 py-1.5 rounded-md bg-white border border-[#D4D4D4] hover:border-[#1A1A1A] hover:bg-[#F5F5F5] text-[#1A1A1A] font-medium transition cursor-pointer"
                         >
                           查看详情
                         </button>
 
-                        {/* 2. 去验收 / 到期验收评审 / 查看退款详情 / 查看验收结果 */}
+                        {/* 2. 去验收 / 到期验收评审：纯黑填充主按钮 */}
                         {!task.winner && !task.refunded && ((task.submissions || []).length > 0 || (task.takers || []).length > 0) && (
                           <button
                             onClick={() => setVerifyTaskId(task.id)}
-                            className="px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold shadow-2xs transition flex items-center gap-1 cursor-pointer"
+                            className="px-4 py-1.5 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white font-semibold transition flex items-center gap-1.5 cursor-pointer"
                           >
                             <ShieldCheck className="w-3.5 h-3.5" />
                             <span>{isFinished ? '到期验收评审' : '去验收'} ({pendingCount})</span>
@@ -470,7 +475,7 @@ export const WorkspaceTasks: React.FC = () => {
                         {task.refunded && (
                           <button
                             onClick={() => setVerifyTaskId(task.id)}
-                            className="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold shadow-2xs transition flex items-center gap-1 cursor-pointer"
+                            className="px-3.5 py-1.5 rounded-md bg-white border border-[#D4D4D4] hover:border-[#1A1A1A] hover:bg-[#F5F5F5] text-[#1A1A1A] font-medium transition flex items-center gap-1.5 cursor-pointer"
                           >
                             <RotateCcw className="w-3.5 h-3.5" />
                             <span>{(task.submissions || []).length > 0 ? '查看驳回与退款详情' : '查看退款详情'}</span>
@@ -480,7 +485,7 @@ export const WorkspaceTasks: React.FC = () => {
                         {task.winner && (
                           <button
                             onClick={() => setVerifyTaskId(task.id)}
-                            className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold shadow-2xs transition flex items-center gap-1 cursor-pointer"
+                            className="px-3.5 py-1.5 rounded-md bg-white border border-[#1A1A1A] hover:bg-[#1A1A1A] text-[#1A1A1A] hover:text-white font-medium transition flex items-center gap-1.5 cursor-pointer"
                           >
                             <Award className="w-3.5 h-3.5" />
                             <span>查看验收结果</span>
@@ -491,14 +496,14 @@ export const WorkspaceTasks: React.FC = () => {
                         {isRejected && (
                           <button
                             onClick={() => setEditingTask(task)}
-                            className="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold shadow-2xs transition flex items-center gap-1 cursor-pointer"
+                            className="px-4 py-1.5 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white font-semibold transition flex items-center gap-1.5 cursor-pointer"
                           >
                             <Edit3 className="w-3.5 h-3.5" />
                             <span>编辑再发布</span>
                           </button>
                         )}
 
-                        {/* 4. 删除任务 (针对审核中和被驳回任务，删除后后台同步删除) */}
+                        {/* 4. 删除任务 */}
                         {(isAuditing || isRejected) && (
                           <button
                             onClick={() => {
@@ -506,7 +511,7 @@ export const WorkspaceTasks: React.FC = () => {
                                 deleteTask(task.id);
                               }
                             }}
-                            className="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold transition flex items-center gap-1 cursor-pointer"
+                            className="px-3 py-1.5 rounded-md bg-white hover:bg-[#FEF2F2] text-[#991B1B] border border-[#E5C5C5] font-medium transition flex items-center gap-1 cursor-pointer"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                             <span>删除</span>
@@ -525,17 +530,17 @@ export const WorkspaceTasks: React.FC = () => {
       {/* 视角二：我接单的任务 */}
       {activeTab === 'undertaken' && (
         <div className="space-y-4">
-          {/* 子状态筛选标签: 支持按 全部 | 待提交 | 待验收 | 成果被驳回 | 已验收 快速筛选 */}
-          <div className="flex flex-wrap items-center gap-2 px-1">
-            <span className="text-xs text-slate-400 font-bold mr-1">分类状态:</span>
+          {/* 子状态筛选标签: 全部 | 待提交 | 待验收 | 成果被驳回 | 已验收 */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-xs text-[#888888] font-medium mr-1">分类状态:</span>
             {undertakenFilterList.map(f => (
               <button
                 key={f}
                 onClick={() => setUndertakenFilter(f)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition cursor-pointer border ${
                   undertakenFilter === f
-                    ? 'bg-slate-900 text-white shadow-2xs'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                    ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]'
+                    : 'bg-white text-[#555555] border-[#EAEAEA] hover:bg-[#F5F5F5]'
                 }`}
               >
                 {f}
@@ -544,10 +549,10 @@ export const WorkspaceTasks: React.FC = () => {
           </div>
 
           {filteredUndertakenTasks.length === 0 ? (
-            <div className="bg-white rounded-2xl p-16 text-center border border-slate-200">
-              <FileText className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-              <p className="text-sm font-bold text-slate-700">暂无此状态下的接单需求</p>
-              <p className="text-xs text-slate-400 mt-1">前往任务大厅寻找适合您的开发需求接单参与</p>
+            <div className="bg-white rounded-md p-16 text-center border border-[#EAEAEA]">
+              <FileText className="w-10 h-10 text-[#CCCCCC] mx-auto mb-2" />
+              <p className="text-sm font-semibold text-[#1A1A1A]">暂无此状态下的接单需求</p>
+              <p className="text-xs text-[#888888] mt-1">前往任务大厅寻找适合您的开发需求接单参与</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4">
@@ -562,95 +567,98 @@ export const WorkspaceTasks: React.FC = () => {
                 return (
                   <div
                     key={task.id}
-                    className={`bg-white rounded-2xl p-6 border shadow-2xs space-y-4 transition ${
-                      isFinished && isWinner
-                        ? 'border-emerald-300 bg-emerald-50/20'
-                        : isRejected
-                        ? 'border-rose-200 hover:border-rose-300'
-                        : 'border-slate-200 hover:border-slate-300'
-                    }`}
+                    className="bg-white rounded-md p-5 border border-[#EAEAEA] hover:border-[#CCCCCC] space-y-4 transition-colors"
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div className="space-y-2">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/60">
+                          {/* 领域 & 难度：极细灰框 + 深灰字 */}
+                          <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#4B5563] border border-[#EAEAEA]">
                             {task.domain}
                           </span>
-                          <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-slate-100 text-slate-700">
+                          <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-white text-[#555555] border border-[#E2E2E2]">
                             {task.difficulty}难度
                           </span>
 
-                          {/* 列表项中的 状态 显著标记 */}
+                          {/* 列表项中的状态：精简为“小圆点 + 深灰/克制语义文字” */}
                           {isFinished ? (
                             <>
-                              <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-slate-500 text-white shadow-2xs">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#888888] pl-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#9CA3AF]" />
                                 已结束
                               </span>
+                              <span className="text-[#DCDCDC]">·</span>
                               {isWinner ? (
-                                <span className="px-3 py-0.5 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1 shadow-2xs">
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                                  <span>通过验收</span>
+                                <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#166534]">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
+                                  通过验收
                                 </span>
                               ) : isRejected ? (
-                                <span className="px-3 py-0.5 rounded-full text-xs font-black bg-rose-100 text-rose-700 border border-rose-200 flex items-center gap-1 shadow-2xs">
-                                  <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
-                                  <span>成果被驳回</span>
+                                <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#991B1B]">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#991B1B]" />
+                                  成果被驳回
                                 </span>
                               ) : hasSubmitted ? (
-                                <span className="px-3 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1 shadow-2xs">
-                                  <Clock className="w-3.5 h-3.5 text-slate-400" />
-                                  <span>待验收</span>
+                                <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#666666]">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#9CA3AF]" />
+                                  待验收
                                 </span>
                               ) : (
-                                <span className="px-3 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1 shadow-2xs">
-                                  <Clock className="w-3.5 h-3.5 text-slate-400" />
-                                  <span>待提交</span>
+                                <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#666666]">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#9CA3AF]" />
+                                  待提交
                                 </span>
                               )}
                             </>
                           ) : isRejected ? (
                             <>
-                              <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-emerald-500 text-white shadow-2xs">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#333333] pl-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
                                 进行中
                               </span>
-                              <span className="px-3 py-0.5 rounded-full text-xs font-black bg-rose-100 text-rose-700 border border-rose-200 flex items-center gap-1 shadow-2xs">
-                                <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
-                                <span>成果被驳回</span>
+                              <span className="text-[#DCDCDC]">·</span>
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#991B1B]">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#991B1B]" />
+                                成果被驳回
                               </span>
                             </>
                           ) : hasSubmitted ? (
                             <>
-                              <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-emerald-500 text-white shadow-2xs">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#333333] pl-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
                                 进行中
                               </span>
-                              <span className="px-3 py-0.5 rounded-full text-xs font-black bg-amber-100 text-amber-800 border border-amber-200 flex items-center gap-1 shadow-2xs">
-                                <Clock className="w-3.5 h-3.5 text-amber-600" />
-                                <span>待验收</span>
+                              <span className="text-[#DCDCDC]">·</span>
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#555555]">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
+                                待验收
                               </span>
                             </>
                           ) : (
                             <>
-                              <span className="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-emerald-500 text-white shadow-2xs">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#333333] pl-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
                                 进行中
                               </span>
-                              <span className="px-3 py-0.5 rounded-full text-xs font-black bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center gap-1 shadow-2xs">
-                                <Clock className="w-3.5 h-3.5 text-indigo-600" />
-                                <span>待提交</span>
+                              <span className="text-[#DCDCDC]">·</span>
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#555555]">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#6B7280]" />
+                                待提交
                               </span>
                             </>
                           )}
                         </div>
 
-                        <h3 className="text-base font-extrabold text-slate-900">{task.title}</h3>
+                        <h3 className="text-base font-semibold text-[#1A1A1A]">{task.title}</h3>
                       </div>
 
-                      {/* 赏金展示 */}
+                      {/* 赏金展示：纯黑/深灰，通过字号和字重突出 */}
                       <div className="text-right shrink-0">
-                        <div className="text-sm font-black font-mono text-emerald-600">
+                        <div className="text-lg font-bold font-mono tabular-nums text-[#1A1A1A]">
                           +¥{(task.cashReward || 0).toLocaleString()}
                         </div>
                         {(task.pointsReward || 0) > 0 && (
-                          <div className="text-[11px] font-bold text-amber-600">
+                          <div className="text-xs font-mono tabular-nums font-medium text-[#666666]">
                             +{task.pointsReward} 积分
                           </div>
                         )}
@@ -659,10 +667,10 @@ export const WorkspaceTasks: React.FC = () => {
 
                     {/* 其他接单极客与竞标状态 */}
                     {(task.takers || []).length > 0 && (
-                      <div className="p-3 bg-slate-50/80 border border-slate-100 rounded-xl flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <div className="p-3 bg-[#FAFAFA] border border-[#EAEAEA] rounded-md flex flex-wrap items-center justify-between gap-2 text-xs">
                         <div className="flex items-center gap-2">
-                          <span className="text-slate-500 font-bold flex items-center gap-1">
-                            <Users className="w-3.5 h-3.5 text-indigo-500" />
+                          <span className="text-[#666666] font-medium flex items-center gap-1.5">
+                            <Users className="w-3.5 h-3.5 text-[#555555]" />
                             接单极客团队 ({(task.takers || []).length}人):
                           </span>
                           <div className="flex items-center -space-x-1.5 overflow-hidden">
@@ -672,7 +680,7 @@ export const WorkspaceTasks: React.FC = () => {
                                 src={tk.userAvatar}
                                 alt={tk.username}
                                 title={`${tk.username} (${tk.status})`}
-                                className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover shadow-2xs"
+                                className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover"
                                 referrerPolicy="no-referrer"
                               />
                             ))}
@@ -704,15 +712,15 @@ export const WorkspaceTasks: React.FC = () => {
                             }
 
                             return (
-                              <span key={tk.id || idx} className={`px-2 py-0.5 rounded-md text-[11px] font-medium flex items-center gap-1 ${
-                                isMe ? 'bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold' : 'bg-white border border-slate-200 text-slate-700'
+                              <span key={tk.id || idx} className={`px-2 py-0.5 rounded text-[11px] font-medium flex items-center gap-1 ${
+                                isMe ? 'bg-white border border-[#1A1A1A] text-[#1A1A1A] font-semibold' : 'bg-white border border-[#E2E2E2] text-[#444444]'
                               }`}>
                                 <span>{tk.username}</span>
-                                <span className={`text-[10px] font-bold ${
-                                  tkStatusLabel === '已验收' ? 'text-emerald-600' :
-                                  tkStatusLabel === '成果被驳回' || tkStatusLabel === '已驳回' ? 'text-rose-600' :
-                                  tkStatusLabel === '待验收' && !isFinished ? 'text-amber-600' :
-                                  'text-slate-400'
+                                <span className={`text-[10px] font-medium ${
+                                  tkStatusLabel === '已验收' ? 'text-[#166534]' :
+                                  tkStatusLabel === '成果被驳回' || tkStatusLabel === '已驳回' ? 'text-[#991B1B]' :
+                                  tkStatusLabel === '待验收' && !isFinished ? 'text-[#555555]' :
+                                  'text-[#888888]'
                                 }`}>({tkStatusLabel})</span>
                               </span>
                             );
@@ -722,17 +730,17 @@ export const WorkspaceTasks: React.FC = () => {
                     )}
 
                     {/* 雇主与接单基础信息 */}
-                    <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
-                      <div className="flex items-center gap-3 text-slate-500 font-medium">
-                        <span>发布雇主：<strong className="text-slate-800">{task.publisher}</strong></span>
-                        <span>· 接单时间：{myRecord?.takeTime || '近期'}</span>
+                    <div className="pt-3 border-t border-[#F0F0F0] flex flex-wrap items-center justify-between gap-3 text-xs">
+                      <div className="flex items-center gap-3 text-[#666666]">
+                        <span>发布雇主：<strong className="text-[#1A1A1A] font-medium">{task.publisher}</strong></span>
+                        <span className="font-mono tabular-nums text-[11px] text-[#888888]">· 接单时间：{myRecord?.takeTime || '近期'}</span>
                       </div>
 
                       <div className="flex items-center gap-2">
-                        {/* 查看详情 */}
+                        {/* 查看详情：浅灰描边按钮 */}
                         <button
                           onClick={() => setDetailTaskId(task.id)}
-                          className="px-3.5 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold transition cursor-pointer"
+                          className="px-3.5 py-1.5 rounded-md bg-white border border-[#D4D4D4] hover:border-[#1A1A1A] hover:bg-[#F5F5F5] text-[#1A1A1A] font-medium transition cursor-pointer"
                         >
                           查看详情
                         </button>
@@ -760,35 +768,35 @@ export const WorkspaceTasks: React.FC = () => {
                                 rejectReason: mySub?.rejectReason
                               });
                             }}
-                            className="px-3.5 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 text-indigo-700 font-bold transition flex items-center gap-1 cursor-pointer"
+                            className="px-3.5 py-1.5 rounded-md bg-white border border-[#1A1A1A] hover:bg-[#1A1A1A] text-[#1A1A1A] hover:text-white font-medium transition flex items-center gap-1.5 cursor-pointer"
                           >
                             <FileText className="w-3.5 h-3.5" />
                             <span>查看我的成果</span>
                           </button>
                         )}
 
-                        {/* 被驳回后：修改成果重新提交 */}
+                        {/* 被驳回后：修改成果重新提交（纯黑主按钮） */}
                         {!isFinished && isRejected && (
                           <button
                             onClick={() => {
                               setResubmitSub(mySub || null);
                               setSubmitTask(task);
                             }}
-                            className="px-4 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold shadow-2xs transition flex items-center gap-1 cursor-pointer"
+                            className="px-4 py-1.5 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white font-semibold transition flex items-center gap-1.5 cursor-pointer"
                           >
                             <RotateCcw className="w-3.5 h-3.5" />
                             <span>修改重新提交</span>
                           </button>
                         )}
 
-                        {/* 首次提交交付成果 (若进行中且未提交且未被驳回) */}
+                        {/* 首次提交交付成果（纯黑主按钮） */}
                         {!isFinished && !hasSubmitted && !isRejected && (
                           <button
                             onClick={() => {
                               setResubmitSub(null);
                               setSubmitTask(task);
                             }}
-                            className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold shadow-2xs transition flex items-center gap-1 cursor-pointer"
+                            className="px-4 py-1.5 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white font-semibold transition flex items-center gap-1.5 cursor-pointer"
                           >
                             <Send className="w-3.5 h-3.5" />
                             <span>提交交付成果</span>

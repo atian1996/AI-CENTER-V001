@@ -38,61 +38,61 @@ export const WorkspaceNotifications: React.FC = () => {
     { key: 'interaction', label: '社区互动', desc: '社区帖子相关的互动通知（点赞、评论、回复、收藏、加精）' },
   ];
 
-  // 业务子分类映射配置
+  // 业务子分类映射配置（图标与分类标签全部统一为极简深灰线框 + 极浅灰底）
   const SUB_CATEGORY_CONFIG: Record<string, { label: string; icon: React.ReactNode; badgeClass: string; iconBg: string }> = {
     agent: {
       label: 'AI集市 · Agent',
-      icon: <Bot className="w-4 h-4 text-indigo-600" />,
-      badgeClass: 'bg-indigo-50 text-indigo-700 border-indigo-200/80',
-      iconBg: 'bg-indigo-100/80 text-indigo-700'
+      icon: <Bot className="w-4 h-4 text-[#333333]" />,
+      badgeClass: 'bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]',
+      iconBg: 'bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333]'
     },
     model: {
       label: 'AI集市 · 模型',
-      icon: <Cpu className="w-4 h-4 text-violet-600" />,
-      badgeClass: 'bg-violet-50 text-violet-700 border-violet-200/80',
-      iconBg: 'bg-violet-100/80 text-violet-700'
+      icon: <Cpu className="w-4 h-4 text-[#333333]" />,
+      badgeClass: 'bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]',
+      iconBg: 'bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333]'
     },
     dataset: {
       label: 'AI集市 · 数据集',
-      icon: <Database className="w-4 h-4 text-sky-600" />,
-      badgeClass: 'bg-sky-50 text-sky-700 border-sky-200/80',
-      iconBg: 'bg-sky-100/80 text-sky-700'
+      icon: <Database className="w-4 h-4 text-[#333333]" />,
+      badgeClass: 'bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]',
+      iconBg: 'bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333]'
     },
     skill: {
       label: 'AI集市 · Skill',
-      icon: <Zap className="w-4 h-4 text-amber-600" />,
-      badgeClass: 'bg-amber-50 text-amber-700 border-amber-200/80',
-      iconBg: 'bg-amber-100/80 text-amber-700'
+      icon: <Zap className="w-4 h-4 text-[#333333]" />,
+      badgeClass: 'bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]',
+      iconBg: 'bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333]'
     },
     task: {
       label: '任务大厅',
-      icon: <Briefcase className="w-4 h-4 text-blue-600" />,
-      badgeClass: 'bg-blue-50 text-blue-700 border-blue-200/80',
-      iconBg: 'bg-blue-100/80 text-blue-700'
+      icon: <Briefcase className="w-4 h-4 text-[#333333]" />,
+      badgeClass: 'bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]',
+      iconBg: 'bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333]'
     },
     compute: {
       label: '算力工坊',
-      icon: <Cpu className="w-4 h-4 text-rose-600" />,
-      badgeClass: 'bg-rose-50 text-rose-700 border-rose-200/80',
-      iconBg: 'bg-rose-100/80 text-rose-700'
+      icon: <Cpu className="w-4 h-4 text-[#333333]" />,
+      badgeClass: 'bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]',
+      iconBg: 'bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333]'
     },
     competition: {
       label: '赛事中心',
-      icon: <Trophy className="w-4 h-4 text-purple-600" />,
-      badgeClass: 'bg-purple-50 text-purple-700 border-purple-200/80',
-      iconBg: 'bg-purple-100/80 text-purple-700'
+      icon: <Trophy className="w-4 h-4 text-[#333333]" />,
+      badgeClass: 'bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]',
+      iconBg: 'bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333]'
     },
     account: {
       label: '账户相关',
-      icon: <Coins className="w-4 h-4 text-emerald-600" />,
-      badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
-      iconBg: 'bg-emerald-100/80 text-emerald-700'
+      icon: <Coins className="w-4 h-4 text-[#333333]" />,
+      badgeClass: 'bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]',
+      iconBg: 'bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333]'
     },
     community: {
       label: '社区互动',
-      icon: <MessageCircle className="w-4 h-4 text-teal-600" />,
-      badgeClass: 'bg-teal-50 text-teal-700 border-teal-200/80',
-      iconBg: 'bg-teal-100/80 text-teal-700'
+      icon: <MessageCircle className="w-4 h-4 text-[#333333]" />,
+      badgeClass: 'bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]',
+      iconBg: 'bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333]'
     }
   };
 
@@ -152,23 +152,23 @@ export const WorkspaceNotifications: React.FC = () => {
   ).length;
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto text-[#1A1A1A]">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAEAEA]">
         <div>
-          <h2 className="text-lg font-black text-slate-900 tracking-tight flex items-center gap-2">
+          <h2 className="text-xl font-semibold text-[#1A1A1A] tracking-tight flex items-center gap-2.5">
             <span>通知中心</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
+            <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
               消息网关
             </span>
             {totalUnreadCount > 0 && (
-              <span className="text-xs px-2 py-0.5 rounded-full font-extrabold bg-red-500 text-white shadow-2xs">
+              <span className="text-[11px] px-2 py-0.5 rounded-full font-semibold bg-[#991B1B] text-white tabular-nums">
                 {totalUnreadCount} 未读
               </span>
             )}
           </h2>
-          <p className="text-xs text-slate-500 font-medium mt-0.5">
+          <p className="text-xs text-[#666666] mt-1">
             实时接收业务通知（AI集市、任务大厅、算力工坊、赛事中心、账户）与社区互动
           </p>
         </div>
@@ -179,10 +179,10 @@ export const WorkspaceNotifications: React.FC = () => {
               setOnlyUnread(!onlyUnread);
               setCurrentPage(1);
             }}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border ${
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 cursor-pointer border ${
               onlyUnread 
-                ? 'bg-indigo-50 border-indigo-300 text-indigo-700 shadow-2xs' 
-                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                ? 'bg-[#1A1A1A] border-[#1A1A1A] text-white' 
+                : 'bg-white border-[#EAEAEA] text-[#555555] hover:bg-[#F5F5F5] hover:text-[#1A1A1A]'
             }`}
           >
             <Filter className="w-3.5 h-3.5" />
@@ -192,9 +192,9 @@ export const WorkspaceNotifications: React.FC = () => {
           {totalUnreadCount > 0 && (
             <button
               onClick={markAllNotificationsRead}
-              className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+              className="px-3.5 py-1.5 rounded-md bg-white hover:bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333] text-xs font-medium transition flex items-center gap-1.5 cursor-pointer"
             >
-              <CheckCheck className="w-3.5 h-3.5 text-indigo-600" />
+              <CheckCheck className="w-3.5 h-3.5 text-[#333333]" />
               <span>全部标记为已读</span>
             </button>
           )}
@@ -202,7 +202,7 @@ export const WorkspaceNotifications: React.FC = () => {
       </div>
 
       {/* 3 Tabs: 全部消息、业务通知、社区互动 */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-200 text-xs font-extrabold scrollbar-none">
+      <div className="flex items-center gap-6 overflow-x-auto border-b border-[#EAEAEA] text-xs scrollbar-none">
         {tabs.map(t => {
           const unreadCount = notifications.filter(n => {
             if (n.category === ('system' as any) || n.type === ('system' as any) || n.subCategory === ('system' as any)) return false;
@@ -225,21 +225,19 @@ export const WorkspaceNotifications: React.FC = () => {
               key={t.key}
               onClick={() => handleTabChange(t.key)}
               title={t.desc}
-              className={`pb-2.5 px-3.5 border-b-2 transition cursor-pointer whitespace-nowrap flex items-center gap-2 ${
+              className={`pb-3 px-1 border-b-2 transition cursor-pointer whitespace-nowrap flex items-center gap-2 ${
                 isActive 
-                  ? 'border-indigo-600 text-indigo-600 font-black' 
-                  : 'border-transparent text-slate-500 hover:text-slate-800'
+                  ? 'border-[#1A1A1A] text-[#1A1A1A] font-semibold' 
+                  : 'border-transparent text-[#666666] hover:text-[#1A1A1A] font-medium'
               }`}
             >
               <span>{t.label}</span>
               {unreadCount > 0 ? (
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold leading-tight ${
-                  isActive ? 'bg-indigo-600 text-white' : 'bg-red-500 text-white'
-                }`}>
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full font-semibold leading-tight bg-[#991B1B] text-white tabular-nums">
                   {unreadCount}
                 </span>
               ) : (
-                <span className="text-[10px] text-slate-400 font-medium">
+                <span className="text-[11px] text-[#888888] font-mono tabular-nums">
                   {totalCount}
                 </span>
               )}
@@ -249,18 +247,18 @@ export const WorkspaceNotifications: React.FC = () => {
       </div>
 
       {/* Tab 描述小提示 */}
-      <div className="text-[11px] text-slate-500 flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200/60">
-        <Sparkles className="w-3 h-3 text-indigo-500 shrink-0" />
+      <div className="text-[11px] text-[#666666] flex items-center gap-2 bg-[#FAFAFA] px-3.5 py-2 rounded-md border border-[#EAEAEA]">
+        <Bell className="w-3.5 h-3.5 text-[#666666] shrink-0" />
         <span>{tabs.find(t => t.key === activeTab)?.desc}</span>
       </div>
 
       {/* Notification List (10 items per page) */}
       <div className="space-y-3">
         {paginatedItems.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-3xl border border-slate-200/90 text-slate-400 text-xs font-medium space-y-2">
-            <Bell className="w-10 h-10 mx-auto text-slate-300 opacity-60" />
-            <p className="text-slate-600 font-bold text-sm">暂无此类通知消息</p>
-            <p className="text-slate-400 text-[11px]">
+          <div className="text-center py-16 bg-white rounded-md border border-[#EAEAEA] text-[#888888] text-xs space-y-2">
+            <Bell className="w-9 h-9 mx-auto text-[#CCCCCC]" />
+            <p className="text-[#333333] font-semibold text-sm">暂无此类通知消息</p>
+            <p className="text-[#888888] text-[11px]">
               {onlyUnread ? '当前分类下没有未读消息，可关闭“仅看未读”查看历史记录' : '最新变动或平台通知下发后将在此处实时呈现'}
             </p>
           </div>
@@ -277,27 +275,27 @@ export const WorkspaceNotifications: React.FC = () => {
                     markNotificationAsRead(n.id);
                   }
                 }}
-                className={`p-4 sm:p-5 rounded-2xl border transition flex items-start gap-3.5 ${
+                className={`p-4 sm:p-5 rounded-md border transition flex items-start gap-3.5 ${
                   !n.read 
-                    ? 'bg-indigo-50/30 border-indigo-200 shadow-2xs' 
-                    : 'bg-white border-slate-200/90'
+                    ? 'bg-[#FAFAFA] border-[#D4D4D4]' 
+                    : 'bg-white border-[#EAEAEA]'
                 }`}
               >
-                {/* Category Icon */}
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 shadow-2xs ${config.iconBg}`}>
+                {/* Category Icon（统一深灰线框） */}
+                <div className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0 mt-0.5 ${config.iconBg}`}>
                   {config.icon}
                 </div>
 
                 <div className="space-y-1.5 flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${config.badgeClass}`}>
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-medium border ${config.badgeClass}`}>
                       {config.label}
                     </span>
-                    <h4 className="text-xs sm:text-sm font-extrabold text-slate-900">
-                      {n.title.includes('未通过验收') || n.title.includes('未被选中') ? '❌ 您的提交被驳回' : n.title}
+                    <h4 className="text-xs sm:text-sm font-semibold text-[#1A1A1A]">
+                      {n.title.includes('未通过验收') || n.title.includes('未被选中') ? '您的提交被驳回' : n.title}
                     </h4>
                     {!n.read && (
-                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0" title="未读消息" />
+                      <span className="w-2 h-2 rounded-full bg-[#991B1B] shrink-0" title="未读消息" />
                     )}
                   </div>
 
@@ -315,10 +313,10 @@ export const WorkspaceNotifications: React.FC = () => {
                     if (hasReason) {
                       const parts = contentText.split(/(驳回原因：|原因：)/);
                       return (
-                        <div className="text-xs text-slate-600 font-normal leading-relaxed">
+                        <div className="text-xs text-[#555555] leading-relaxed">
                           <span>{parts[0]}</span>
-                          <span className="inline-block mt-1 p-2 bg-rose-50/80 border border-rose-200/80 rounded-xl text-rose-800 text-[11px] font-medium w-full">
-                            <strong className="font-extrabold text-rose-700">驳回原因：</strong>
+                          <span className="inline-block mt-1.5 p-2.5 bg-[#FAFAFA] border border-[#EAEAEA] border-l-[3px] border-l-[#991B1B] rounded text-[#333333] text-[11px] w-full">
+                            <strong className="font-semibold text-[#991B1B]">驳回原因：</strong>
                             {parts.slice(2).join('') || parts[2] || ''}
                           </span>
                         </div>
@@ -326,13 +324,13 @@ export const WorkspaceNotifications: React.FC = () => {
                     }
 
                     return (
-                      <p className="text-xs text-slate-600 font-normal leading-relaxed whitespace-pre-line">
+                      <p className="text-xs text-[#555555] leading-relaxed whitespace-pre-line">
                         {contentText}
                       </p>
                     );
                   })()}
 
-                  <div className="text-[11px] text-slate-400 font-medium pt-0.5">
+                  <div className="text-[11px] text-[#888888] font-mono tabular-nums pt-0.5">
                     {n.time}
                   </div>
                 </div>
@@ -344,19 +342,19 @@ export const WorkspaceNotifications: React.FC = () => {
 
       {/* 分页控制栏 (10条/页) */}
       {filtered.length > PAGE_SIZE && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-200 text-xs text-slate-500">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#EAEAEA] text-xs text-[#666666]">
           <div>
-            共 <span className="font-bold text-slate-700">{filtered.length}</span> 条通知，每页 {PAGE_SIZE} 条，当前第 <span className="font-bold text-indigo-600">{currentPageSafe}</span> / {totalPages} 页
+            共 <span className="font-semibold text-[#1A1A1A] tabular-nums">{filtered.length}</span> 条通知，每页 {PAGE_SIZE} 条，当前第 <span className="font-semibold text-[#1A1A1A] tabular-nums">{currentPageSafe}</span> / {totalPages} 页
           </div>
 
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
               disabled={currentPageSafe <= 1}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1 transition ${
+              className={`px-3 py-1.5 rounded-md border text-xs font-medium flex items-center gap-1 transition ${
                 currentPageSafe <= 1 
-                  ? 'border-slate-200 text-slate-300 cursor-not-allowed bg-slate-50' 
-                  : 'border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer bg-white'
+                  ? 'border-[#EAEAEA] text-[#CCCCCC] cursor-not-allowed bg-[#FAFAFA]' 
+                  : 'border-[#EAEAEA] text-[#333333] hover:bg-[#F5F5F5] cursor-pointer bg-white'
               }`}
             >
               <ChevronLeft className="w-3.5 h-3.5" />
@@ -367,10 +365,10 @@ export const WorkspaceNotifications: React.FC = () => {
               <button
                 key={pageNum}
                 onClick={() => setCurrentPage(pageNum)}
-                className={`w-8 h-8 rounded-lg text-xs font-bold transition cursor-pointer flex items-center justify-center ${
+                className={`w-8 h-8 rounded-md text-xs font-medium font-mono tabular-nums transition cursor-pointer flex items-center justify-center border ${
                   currentPageSafe === pageNum
-                    ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
+                    ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]'
+                    : 'bg-white border-[#EAEAEA] text-[#555555] hover:bg-[#F5F5F5]'
                 }`}
               >
                 {pageNum}
@@ -380,10 +378,10 @@ export const WorkspaceNotifications: React.FC = () => {
             <button
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
               disabled={currentPageSafe >= totalPages}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-bold flex items-center gap-1 transition ${
+              className={`px-3 py-1.5 rounded-md border text-xs font-medium flex items-center gap-1 transition ${
                 currentPageSafe >= totalPages 
-                  ? 'border-slate-200 text-slate-300 cursor-not-allowed bg-slate-50' 
-                  : 'border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer bg-white'
+                  ? 'border-[#EAEAEA] text-[#CCCCCC] cursor-not-allowed bg-[#FAFAFA]' 
+                  : 'border-[#EAEAEA] text-[#333333] hover:bg-[#F5F5F5] cursor-pointer bg-white'
               }`}
             >
               <span>下一页</span>

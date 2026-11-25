@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { useApp } from '../../context/AppContext';
+import { FeedPost } from '../../types';
 import { AdvisorContactModal } from '../training/AdvisorContactModal';
-import { ArrowRight, ArrowUpRight, X, Check, Copy, Folder, Puzzle } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Folder, Puzzle, Eye, ThumbsUp } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,32 +14,32 @@ interface FlywheelItem {
   num: string;
   title: string;
   desc: string;
-  targetTab: 'training' | 'tasks' | 'creative' | 'compute';
+  targetTab: 'training' | 'tasks' | 'creative' | 'compute' | 'community';
 }
 
 const FLYWHEEL_ITEMS: FlywheelItem[] = [
   {
     num: '01',
-    title: '学习',
-    desc: '体系化 AI 课程与高端实训，构建大模型开发核心能力。',
+    title: '培训',
+    desc: '体系化 AI 课程与前沿实训，筑牢大模型开发与工程化底座。',
     targetTab: 'training'
   },
   {
     num: '02',
-    title: '认证',
-    desc: '通过“AI 交付实战考试”，获取权威资质与能力背书。',
-    targetTab: 'training'
-  },
-  {
-    num: '03',
     title: '实战',
-    desc: '接入任务大厅与 AI 赛事，淬炼真实场景的项目交付力。',
+    desc: '直连真实企业需求与 AI 赛事，淬炼高价值场景的项目交付力。',
     targetTab: 'creative'
   },
   {
+    num: '03',
+    title: '社区',
+    desc: '聚合全网 AI 赛事、厂商动态与前沿资讯，打造极客技术交流圈。',
+    targetTab: 'community'
+  },
+  {
     num: '04',
-    title: '创收',
-    desc: '接单赚赏金，兑换海量 Token，让每一次技术实战都有回报。',
+    title: '兑现',
+    desc: '接单赚赏金，兑海量 Token，直通 OPC 生态，技术价值高效变现。',
     targetTab: 'tasks'
   }
 ];
@@ -102,23 +103,57 @@ const PARTNER_LOGOS: { name: string; en: string; mark: React.ReactNode }[] = [
   }
 ];
 
-const INDUSTRY_DISTRIBUTION = [
-  { label: '研发 / 互联网', percent: 45 },
-  { label: '政企 / 国防安全', percent: 24 },
-  { label: '高校 / 科研院所', percent: 19 },
-  { label: '金融 / 能源制造', percent: 12 }
-];
+const DEFAULT_FIVE_BOARDS = ['技术前沿', '极客圆桌', '厂商动态', '行业快讯', '活动速递'];
 
-const CITY_DISTRIBUTION = [
-  '北京 28%',
-  '上海 21%',
-  '深圳 18%',
-  '杭州 12%',
-  '成都 8%',
-  '武汉 6%',
-  '南京 4%',
-  '西安 3%'
-];
+function extractPlainSummary(markdown: string): string {
+  return markdown
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/[>*_~|-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function extractFeaturedSnippet(post: FeedPost): { label: string; lines: string[] } {
+  const codeMatch = post.content.match(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/);
+  if (codeMatch) {
+    const lang = (codeMatch[1] || 'CODE').toUpperCase();
+    const rawLines = codeMatch[2]
+      .split('\n')
+      .map((l) => l.trimEnd())
+      .filter((l) => l.trim().length > 0)
+      .slice(0, 4);
+    if (rawLines.length > 0) {
+      return { label: `${lang} · EXCERPT`, lines: rawLines };
+    }
+  }
+
+  // Fallback: crisp monospace key-point digest extracted from the featured post
+  const bulletLines = post.content
+    .split('\n')
+    .map((line) => line.replace(/^[\s>*#\-\d.]+/, '').replace(/\*\*/g, '').trim())
+    .filter((line) => line.length >= 12 && !line.startsWith('```'))
+    .slice(0, 3);
+
+  const tagsLine =
+    post.tags && post.tags.length > 0
+      ? post.tags.slice(0, 3).map((t) => `#${t}`).join('  ')
+      : `#${post.board}  #实战精选`;
+
+  return {
+    label: `${post.board} · DIGEST`,
+    lines: [
+      `$ topic --board "${post.board}" --author "${post.author}"`,
+      ...(bulletLines.length > 0
+        ? bulletLines.slice(0, 2).map((l) => `> ${l.length > 54 ? `${l.slice(0, 54)}...` : l}`)
+        : ['> 深度拆解核心架构演进与生产级工程落地实践']),
+      `tags: ${tagsLine}`
+    ]
+  };
+}
 
 const HOT_COMPETITIONS = [
   {
@@ -189,7 +224,60 @@ const UPCOMING_CLASSES: UpcomingClassItem[] = [
 ];
 
 export const HomeView06: React.FC = () => {
-  const { setActiveTab, showToast } = useApp();
+  const {
+    setActiveTab,
+    posts,
+    communityBoards,
+    openPostDetailWithOrigin,
+    setSelectedPostIdForDetail
+  } = useApp();
+
+  // 从 5 个社区板块各挑选 1 条互动量最高的热门帖子，按热度排序（第 1 条为头条大卡，后 4 条为紧凑列表）
+  const { featuredCommunityPost, compactCommunityPosts, featuredSnippet } = useMemo(() => {
+    const enabledBoardNames = communityBoards
+      .filter((b) => b.status === '已启用')
+      .sort((a, b) => a.sortWeight - b.sortWeight)
+      .map((b) => b.name);
+
+    const targetBoards = (enabledBoardNames.length > 0 ? enabledBoardNames : DEFAULT_FIVE_BOARDS).slice(0, 5);
+    const validPosts = posts.filter((p) => p.status !== '已驳回' && p.status !== '待审核');
+
+    const calcScore = (p: FeedPost) =>
+      (p.likesCount || 0) * 3 + (p.commentsCount || 0) * 5 + (p.viewsCount || 0) * 0.02;
+
+    const pickedByBoard: FeedPost[] = [];
+    const usedIds = new Set<string>();
+
+    for (const boardName of targetBoards) {
+      const candidates = validPosts
+        .filter((p) => p.board === boardName && !usedIds.has(p.id))
+        .sort((a, b) => calcScore(b) - calcScore(a));
+      if (candidates.length > 0) {
+        pickedByBoard.push(candidates[0]);
+        usedIds.add(candidates[0].id);
+      }
+    }
+
+    // 若不足 5 条，从全站最热帖子补齐至 5 条
+    if (pickedByBoard.length < 5) {
+      const remaining = validPosts
+        .filter((p) => !usedIds.has(p.id))
+        .sort((a, b) => calcScore(b) - calcScore(a));
+      for (const p of remaining) {
+        if (pickedByBoard.length >= 5) break;
+        pickedByBoard.push(p);
+        usedIds.add(p.id);
+      }
+    }
+
+    const sortedTop5 = [...pickedByBoard].sort((a, b) => calcScore(b) - calcScore(a));
+    const topOne = sortedTop5[0] || null;
+    return {
+      featuredCommunityPost: topOne,
+      compactCommunityPosts: sortedTop5.slice(1, 5),
+      featuredSnippet: topOne ? extractFeaturedSnippet(topOne) : null
+    };
+  }, [posts, communityBoards]);
 
   // Root & section refs
   const pageRootRef = useRef<HTMLDivElement | null>(null);
@@ -202,8 +290,6 @@ export const HomeView06: React.FC = () => {
   const section2Ref = useRef<HTMLElement | null>(null);
   const section2LeftRef = useRef<HTMLDivElement | null>(null);
   const section2RightRef = useRef<HTMLDivElement | null>(null);
-  const certCountSpanRef = useRef<HTMLSpanElement | null>(null);
-  const classCountSpanRef = useRef<HTMLSpanElement | null>(null);
 
   const section3Ref = useRef<HTMLElement | null>(null);
   const opcCardsContainerRef = useRef<HTMLDivElement | null>(null);
@@ -221,18 +307,6 @@ export const HomeView06: React.FC = () => {
   // Modals state
   const [opcPartnerModalOpen, setOpcPartnerModalOpen] = useState(false);
   const [selectedClassForSignup, setSelectedClassForSignup] = useState<UpcomingClassItem | null>(null);
-
-  // Partner Cooperation Form state
-  const [partnerForm, setPartnerForm] = useState({
-    company: '',
-    contact: '',
-    phone: '',
-    type: '算力与模型供给合作',
-    note: ''
-  });
-  const [partnerFormSubmitted, setPartnerFormSubmitted] = useState(false);
-
-  const [copiedPhone, setCopiedPhone] = useState(false);
 
   // =========================================================================
   // 1. Three.js Hero 3D Particle Matrix (Wave / Dome + Mouse Repulsion + Scroll Dispersion)
@@ -578,57 +652,7 @@ export const HomeView06: React.FC = () => {
         );
       });
 
-      // 4) Section 2: Count-up numbers & asymmetric parallax
-      if (section2Ref.current) {
-        const certCounter = { val: 0 };
-        gsap.to(certCounter, {
-          val: 12850,
-          duration: 1.8,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: section2Ref.current,
-            start: 'top 78%',
-            once: true
-          },
-          onUpdate: () => {
-            if (certCountSpanRef.current) {
-              certCountSpanRef.current.textContent =
-                Math.round(certCounter.val).toLocaleString('en-US') + '+';
-            }
-          }
-        });
-
-        const classCounter = { val: 0 };
-        gsap.to(classCounter, {
-          val: 86,
-          duration: 1.6,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: section2Ref.current,
-            start: 'top 78%',
-            once: true
-          },
-          onUpdate: () => {
-            if (classCountSpanRef.current) {
-              classCountSpanRef.current.textContent = String(Math.round(classCounter.val));
-            }
-          }
-        });
-
-        // Subtle parallax speed difference between left 40% and right 60%
-        if (section2LeftRef.current && section2RightRef.current) {
-          gsap.to(section2LeftRef.current, {
-            y: 24,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: section2Ref.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true
-            }
-          });
-        }
-      }
+      // 4) Section 2 uses clean Swiss grid alignment without vertical parallax offset
 
       // 5) Section 3: OPC Horizontal Drawer Slide-out + 45W+ count-up
       if (section3Ref.current && opcCardsContainerRef.current) {
@@ -676,26 +700,6 @@ export const HomeView06: React.FC = () => {
     };
   }, []);
 
-  const handlePartnerSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!partnerForm.company.trim() || !partnerForm.contact.trim() || !partnerForm.phone.trim()) {
-      showToast('请填写企业名称、联系人与联系电话');
-      return;
-    }
-    setPartnerFormSubmitted(true);
-    showToast('已提交生态伙伴合作意向，专属BD将在1个工作日内与您联系');
-  };
-
-  const handleCopyAdvisorPhone = () => {
-    try {
-      navigator.clipboard?.writeText('400-882-9100');
-      setCopiedPhone(true);
-      window.setTimeout(() => setCopiedPhone(false), 1800);
-    } catch {
-      // ignore
-    }
-  };
-
   return (
     <div
       ref={pageRootRef}
@@ -720,6 +724,7 @@ export const HomeView06: React.FC = () => {
           ref={heroTopTextRef}
           className="relative z-10 w-full max-w-[1280px] mx-auto px-6 sm:px-8 flex-[0_0_48%] min-h-[430px] flex flex-col items-center justify-start text-center"
         >
+
           {/* Eyebrow（距顶部 80px） */}
           <div className="pt-[80px] text-[13px] font-medium text-[#666666] tracking-[2px]">
             XCTF·AI | 一站式 AI 生态运营服务平台
@@ -732,7 +737,7 @@ export const HomeView06: React.FC = () => {
 
           {/* 副标题（单行不折行，流体字号自适应视口） */}
           <p className="mt-[20px] text-[clamp(12px,1.15vw,16px)] font-normal text-[#666666] leading-[1.6] sm:whitespace-nowrap mx-auto">
-            融合 AI 培训认证、热门赛事、算力交易、社区共享、资源协作及 OPC 合作的一站式 AI 实战与交付运营服务平台。
+            融合 AI 培训认证、热门赛事、社区共享、资源协作、供需对接及 OPC 合作的一站式 AI 实战与交付运营服务平台。
           </p>
 
           {/* CTA 按钮组（距副标题 40px，横向排列，间距 24px） */}
@@ -742,7 +747,7 @@ export const HomeView06: React.FC = () => {
               onClick={() => setActiveTab('training')}
               className="px-7 py-3.5 bg-[#1a1a1a] hover:bg-[#333333] text-[#ffffff] text-[14px] font-semibold rounded-[4px] inline-flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap"
             >
-              <span>开启认证之旅</span>
+              <span>开启课程培训</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
@@ -751,7 +756,7 @@ export const HomeView06: React.FC = () => {
               onClick={() => setActiveTab('tasks')}
               className="py-1.5 bg-transparent text-[#1a1a1a] hover:opacity-65 text-[14px] font-semibold border-b border-[#1a1a1a] transition-opacity cursor-pointer whitespace-nowrap"
             >
-              探索企业任务大厅
+              探索任务大厅
             </button>
           </div>
         </div>
@@ -845,165 +850,255 @@ export const HomeView06: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          📊 栏目二：数据与生态概览（信任背书 + 热门动态）
-          背景：极浅灰 (#fafafa)，左右非对称分栏（左 40% 数据，右 60% 列表）
+          📊 栏目二：数据与生态概览（社区五大板块精选热帖 + 热门赛事与开班动态）
+          纯白背景 (#ffffff)，瑞士极简 48:52 均衡双栏布局，无冗余底色与边框
          ===================================================================== */}
       <section
         ref={section2Ref}
-        className="w-full bg-[#fafafa] border-b border-[#eaeaea] py-[120px]"
+        className="w-full bg-[#ffffff] border-b border-[#eaeaea] py-[112px]"
       >
         <div className="w-full max-w-[1280px] mx-auto px-6 sm:px-8">
           {/* 栏目顶部标题 */}
-          <div className="gsap-fade-up pb-12 border-b border-[#eaeaea] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="gsap-fade-up pb-10 border-b border-[#eaeaea] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <div className="text-[13px] font-mono uppercase tracking-[2px] text-[#666666]">
-                02 / ECOSYSTEM TELEMETRY &amp; LIVE DYNAMICS
+                02 / LIVE &amp; TRENDING
               </div>
               <h2 className="mt-2 text-[32px] font-semibold text-[#1a1a1a] tracking-tight leading-tight">
-                数据与生态概览
+                开发者生态前沿
               </h2>
             </div>
             <p className="text-[14px] text-[#666666] max-w-md">
-              真实可验证的人才认证规模、高频实战赛事与即将开课的交付实训班次。
+              从最新技术探讨到实战竞技，一站式获取高质量技术成长资源。
             </p>
           </div>
 
-          {/* 左右非对称分栏：左 40% 数据，右 60% 列表 */}
-          <div className="mt-14 flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
-            {/* 左侧 40%：宏观数据与人员分布 */}
+          {/* 48:52 瑞士极简双栏布局：顶部基线与左右边界严格对齐，留白+细线取代多余框线 */}
+          <div className="mt-12 flex flex-col lg:flex-row items-stretch">
+            {/* 左侧 48%：社区板块精选（纯白无边框，靠顶部细线与留白建立层级） */}
             <div
               ref={section2LeftRef}
-              className="w-full lg:w-[40%] shrink-0 space-y-12"
+              className="gsap-fade-up w-full lg:w-[48%] shrink-0 flex flex-col justify-between lg:pr-12 lg:border-r lg:border-[#f0f0f0]"
             >
-              {/* 超大数字指标 */}
-              <div className="gsap-fade-up grid grid-cols-2 gap-8 pb-10 border-b border-[#eaeaea]">
-                <div>
-                  <div className="text-[13px] text-[#666666] font-medium">
-                    已认证 AI 工程师
-                  </div>
-                  <div className="mt-2 text-5xl sm:text-[64px] font-semibold text-[#1a1a1a] leading-none tabular-nums tracking-tight">
-                    <span ref={certCountSpanRef}>12,850+</span>
-                  </div>
-                  <div className="mt-3 text-[12px] text-[#999999]">
-                    覆盖大模型研发、FDE 交付与安全攻防
-                  </div>
-                </div>
-
-                <div>
-                  <div className="text-[13px] text-[#666666] font-medium">
-                    累计开班班次
-                  </div>
-                  <div className="mt-2 text-5xl sm:text-[64px] font-semibold text-[#1a1a1a] leading-none tabular-nums tracking-tight">
-                    <span ref={classCountSpanRef}>86</span>
-                  </div>
-                  <div className="mt-3 text-[12px] text-[#999999]">
-                    平均完课率 96.4% · 实操占比 &gt; 60%
-                  </div>
-                </div>
-              </div>
-
-              {/* 人员分布：行业占比（极简细长条形图） */}
-              <div className="gsap-fade-up space-y-5">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-[16px] font-semibold text-[#1a1a1a]">
-                    认证人员行业占比
+              <div>
+                {/* 左侧子标题：与右侧「近期热门赛事」高度与基线严格对齐 */}
+                <div className="h-7 flex items-baseline justify-between mb-5">
+                  <h3 className="text-[16px] font-semibold text-[#000000] leading-none">
+                    社区板块精选
                   </h3>
-                  <span className="text-[12px] font-mono text-[#999999]">
-                    INDUSTRY BREAKDOWN
+                  <span className="text-[11px] font-mono tracking-wider text-[#999999]">
+                    TOP 5 BOARDS
                   </span>
                 </div>
 
-                <div className="space-y-4">
-                  {INDUSTRY_DISTRIBUTION.map((item) => (
-                    <div key={item.label} className="space-y-1.5">
-                      <div className="flex items-center justify-between text-[14px]">
-                        <span className="text-[#1a1a1a] font-medium">{item.label}</span>
-                        <span className="text-[#666666] font-mono tabular-nums">{item.percent}%</span>
+                {/* 1. 头条热帖（弱化代码块为浅灰底细边框，确保标题始终是第一视觉焦点） */}
+                {featuredCommunityPost && (
+                  <article
+                    onClick={() => openPostDetailWithOrigin(featuredCommunityPost.id, 'home')}
+                    className="group cursor-pointer border-t border-[#eaeaea] pt-6 pb-8 -mx-3 px-3 rounded-[4px] transition-colors duration-200 hover:bg-[#fafafa]"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="inline-flex items-center px-2 py-0.5 text-[11px] font-medium bg-[#f4f4f4] text-[#555555] rounded-[3px] leading-tight">
+                        {featuredCommunityPost.board}
+                      </span>
+                      <span className="text-[11px] font-mono text-[#999999] tabular-nums">
+                        头条精选 · {featuredCommunityPost.time}
+                      </span>
+                    </div>
+
+                    <h4 className="mt-3.5 text-[20px] sm:text-[21px] font-bold text-[#000000] leading-[1.4] tracking-tight transition-transform duration-200 group-hover:translate-x-[2px]">
+                      {featuredCommunityPost.title ||
+                        extractPlainSummary(featuredCommunityPost.content).slice(0, 42)}
+                    </h4>
+
+                    <p className="mt-2.5 text-[13.5px] text-[#666666] leading-[1.7] line-clamp-2">
+                      {extractPlainSummary(featuredCommunityPost.content)}
+                    </p>
+
+                    {/* 轻量化极简浅灰代码摘要区（替代沉重黑块，保留极客质感与呼吸感） */}
+                    {featuredSnippet && (
+                      <div className="mt-4 bg-[#f7f7f7] border border-[#eaeaea] rounded-[4px] overflow-hidden">
+                        <div className="px-3.5 py-1.5 border-b border-[#efefef] flex items-center justify-between text-[10.5px] font-mono text-[#888888]">
+                          <span>{featuredSnippet.label}</span>
+                          <span className="text-[#a3a3a3]">DIGEST</span>
+                        </div>
+                        <pre className="px-3.5 py-3 text-[11.5px] font-mono leading-[1.7] overflow-hidden">
+                          <code className="block truncate">
+                            {featuredSnippet.lines.map((line, i) => (
+                              <span
+                                key={i}
+                                className={`block truncate ${
+                                  i === 0
+                                    ? 'text-[#1e3a5f] font-medium'
+                                    : i === 1
+                                      ? 'text-[#0f5e56]'
+                                      : 'text-[#52525b]'
+                                }`}
+                              >
+                                {line}
+                              </span>
+                            ))}
+                          </code>
+                        </pre>
                       </div>
-                      <div className="w-full h-[3px] bg-[#eaeaea] overflow-hidden">
-                        <div
-                          className="h-full bg-[#1a1a1a] transition-all duration-700"
-                          style={{ width: `${item.percent}%` }}
+                    )}
+
+                    {/* 底部作者与互动数据（右边界与下方列表严格对齐） */}
+                    <div className="mt-5 flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <img
+                          src={featuredCommunityPost.authorAvatar}
+                          alt={featuredCommunityPost.author}
+                          className="w-5 h-5 rounded-full object-cover grayscale border border-[#eaeaea] shrink-0"
                         />
+                        <span className="text-[12px] font-medium text-[#1a1a1a] truncate">
+                          {featuredCommunityPost.author}
+                        </span>
+                        {featuredCommunityPost.authorTag && (
+                          <span className="hidden sm:inline text-[11px] text-[#999999] truncate">
+                            · {featuredCommunityPost.authorTag}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-3.5 text-[12px] font-mono text-[#999999] tabular-nums shrink-0">
+                        <span className="inline-flex items-center gap-1">
+                          <Eye className="w-3.5 h-3.5" strokeWidth={1.6} />
+                          <span>
+                            {(
+                              featuredCommunityPost.viewsCount ??
+                              Math.max(1280, featuredCommunityPost.likesCount * 9)
+                            ).toLocaleString('en-US')}
+                          </span>
+                        </span>
+                        <span className="inline-flex items-center gap-1">
+                          <ThumbsUp className="w-3.5 h-3.5" strokeWidth={1.6} />
+                          <span>{featuredCommunityPost.likesCount}</span>
+                        </span>
                       </div>
                     </div>
-                  ))}
+                  </article>
+                )}
+
+                {/* 2. 列表热帖（上方留白解耦，极淡虚线分隔，去方括号标签，右边界严格对齐） */}
+                <div className="mt-2 border-t border-[#eaeaea] divide-y divide-dashed divide-[#ececec]">
+                  {compactCommunityPosts.map((post) => {
+                    const displayTitle =
+                      post.title || extractPlainSummary(post.content).slice(0, 48);
+                    return (
+                      <div
+                        key={post.id}
+                        onClick={() => openPostDetailWithOrigin(post.id, 'home')}
+                        className="group py-4 -mx-3 px-3 rounded-[4px] transition-colors duration-200 hover:bg-[#fafafa] cursor-pointer flex items-center justify-between gap-4"
+                      >
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <span className="shrink-0 inline-flex items-center px-2 py-0.5 text-[11px] font-medium bg-[#f4f4f4] text-[#555555] rounded-[3px] leading-tight">
+                            {post.board}
+                          </span>
+                          <span className="text-[14px] font-medium text-[#000000] truncate transition-transform duration-200 group-hover:translate-x-[2px]">
+                            {displayTitle}
+                          </span>
+                          <ArrowRight
+                            className="w-3.5 h-3.5 text-[#1a1a1a] shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
+                            strokeWidth={1.75}
+                          />
+                        </div>
+
+                        <div className="shrink-0 flex items-center justify-end gap-1.5 text-[12px] font-mono text-[#999999] tabular-nums">
+                          <ThumbsUp className="w-3 h-3" strokeWidth={1.6} />
+                          <span>{post.likesCount}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* 人员分布：城市分布（浅灰极简标签） */}
-              <div className="gsap-fade-up space-y-4 pt-4 border-t border-[#eaeaea]">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-[16px] font-semibold text-[#1a1a1a]">
-                    核心城市分布
-                  </h3>
-                  <span className="text-[12px] font-mono text-[#999999]">
-                    TOP CITIES
-                  </span>
+              {/* 3. 底部信息解耦：独立右对齐操作链接 + 最底部克制微型活跃数据 */}
+              <div className="mt-8">
+                <div className="flex items-center justify-end">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedPostIdForDetail(null);
+                      setActiveTab('community');
+                    }}
+                    className="group text-[13px] font-medium text-[#1a1a1a] hover:opacity-65 inline-flex items-center gap-1.5 transition-opacity cursor-pointer"
+                  >
+                    <span>探索更多社区干货</span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </button>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {CITY_DISTRIBUTION.map((city) => (
-                    <span
-                      key={city}
-                      className="px-3 py-1.5 bg-[#ffffff] border border-[#eaeaea] text-[13px] text-[#666666] font-mono"
-                    >
-                      {city}
+                <div className="mt-6 pt-5 border-t border-[#f0f0f0] flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[11.5px] text-[#a3a3a3] font-mono tabular-nums">
+                  <div className="flex items-center gap-3.5">
+                    <span>
+                      今日新增帖子 <span className="text-[#666666] font-medium">128</span> 篇
                     </span>
-                  ))}
+                    <span className="text-[#e5e5e5]">/</span>
+                    <span>
+                      在线开发者 <span className="text-[#666666] font-medium">2,400</span> 人
+                    </span>
+                  </div>
+                  <span className="text-[#b0b0b0]">实时同步</span>
                 </div>
               </div>
             </div>
 
-            {/* 右侧 60%：近期热门（上方 3 个热门赛事 + 下方近期开班信息牌） */}
+            {/* 右侧 52%：近期热门赛事 + 近期开班计划（去外框、用细线与 40px 留白建立节奏） */}
             <div
               ref={section2RightRef}
-              className="w-full lg:w-[60%] space-y-12"
+              className="w-full lg:w-[52%] flex flex-col justify-between lg:pl-12 pt-12 lg:pt-0"
             >
-              {/* 上方：3 个热门赛事 */}
-              <div className="gsap-fade-up space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-[16px] font-semibold text-[#1a1a1a]">
+              {/* 上方：3 个热门赛事（去卡片边框，顶部细线+淡分割线，圆点状态标识） */}
+              <div className="gsap-fade-up">
+                <div className="h-7 flex items-baseline justify-between mb-5">
+                  <h3 className="text-[16px] font-semibold text-[#000000] leading-none">
                     近期热门赛事
                   </h3>
                   <button
                     type="button"
                     onClick={() => setActiveTab('creative')}
-                    className="text-[13px] text-[#666666] hover:text-[#1a1a1a] inline-flex items-center gap-1 transition-colors cursor-pointer"
+                    className="text-[12.5px] text-[#666666] hover:text-[#000000] inline-flex items-center gap-1 transition-colors cursor-pointer"
                   >
                     <span>全部赛事</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
 
-                <div className="space-y-3">
+                <div className="border-t border-[#eaeaea] divide-y divide-[#f0f0f0]">
                   {HOT_COMPETITIONS.map((comp) => (
                     <div
                       key={comp.id}
                       onClick={() => setActiveTab('creative')}
-                      className="group bg-[#fafafa] hover:bg-[#ffffff] border border-[#eaeaea] hover:border-[#1a1a1a] p-5 transition-colors duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                      className="group -mx-3 px-3 py-5 rounded-[4px] hover:bg-[#fafafa] transition-colors duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                     >
                       <div className="space-y-1.5 min-w-0">
-                        <div className="flex items-center gap-3">
-                          <span className="px-2 py-0.5 bg-[#1a1a1a] text-[#ffffff] text-[11px] font-mono">
-                            [{comp.status}]
+                        <div className="flex items-center gap-2.5 text-[12px]">
+                          <span className="inline-flex items-center gap-1.5 font-medium text-[#1a1a1a]">
+                            <span
+                              aria-hidden="true"
+                              className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"
+                            />
+                            <span>{comp.status}</span>
                           </span>
-                          <span className="text-[12px] font-mono text-[#999999]">
+                          <span className="text-[#d4d4d4]" aria-hidden="true">·</span>
+                          <span className="font-mono text-[#999999] tabular-nums">
                             {comp.deadline}
                           </span>
                         </div>
-                        <div className="text-[16px] font-semibold text-[#1a1a1a] truncate">
+                        <div className="text-[15px] font-semibold text-[#000000] truncate transition-transform duration-200 group-hover:translate-x-[2px]">
                           {comp.title}
                         </div>
-                        <div className="text-[14px] text-[#666666]">
+                        <div className="text-[13px] text-[#666666]">
                           {comp.reward}
                         </div>
                       </div>
 
                       <div className="shrink-0">
-                        <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#1a1a1a] group-hover:translate-x-0.5 transition-transform whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1 text-[12.5px] font-medium text-[#1a1a1a] group-hover:translate-x-0.5 transition-transform whitespace-nowrap">
                           <span>查看赛事</span>
-                          <ArrowRight className="w-4 h-4" />
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </span>
                       </div>
                     </div>
@@ -1011,50 +1106,50 @@ export const HomeView06: React.FC = () => {
                 </div>
               </div>
 
-              {/* 下方：近期开班（类似航班信息牌的列表） */}
-              <div className="gsap-fade-up space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-[16px] font-semibold text-[#1a1a1a]">
+              {/* 下方：近期开班计划（与上方赛事保持 40px 充裕留白，瘦身批次号与余位标识） */}
+              <div className="gsap-fade-up mt-10">
+                <div className="h-7 flex items-baseline justify-between mb-5">
+                  <h3 className="text-[16px] font-semibold text-[#000000] leading-none">
                     近期开班计划
                   </h3>
-                  <span className="text-[12px] font-mono text-[#999999]">
+                  <span className="text-[11px] font-mono tracking-wider text-[#999999]">
                     LIVE ENROLLMENT BOARD
                   </span>
                 </div>
 
-                <div className="border-t border-[#eaeaea] divide-y divide-[#eaeaea]">
+                <div className="border-t border-[#eaeaea] divide-y divide-[#f0f0f0]">
                   {UPCOMING_CLASSES.map((cls) => (
                     <div
                       key={cls.code}
                       onClick={() => setSelectedClassForSignup(cls)}
-                      className="group bg-[#fafafa] hover:bg-[#ffffff] px-4 py-4 border-x border-transparent hover:border-[#1a1a1a] transition-colors duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      className="group -mx-3 px-3 py-4 rounded-[4px] hover:bg-[#fafafa] transition-colors duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
-                      <div className="flex items-start sm:items-center gap-4 min-w-0">
-                        <span className="text-[12px] font-mono text-[#999999] shrink-0 pt-0.5 sm:pt-0">
+                      <div className="flex items-start sm:items-center gap-3.5 min-w-0">
+                        <span className="text-[10.5px] font-mono text-[#a3a3a3] tracking-wide w-[66px] shrink-0 pt-0.5 sm:pt-0">
                           {cls.code}
                         </span>
                         <div className="min-w-0">
-                          <div className="text-[15px] font-semibold text-[#1a1a1a] truncate">
+                          <div className="text-[14px] font-medium text-[#000000] truncate transition-transform duration-200 group-hover:translate-x-[2px]">
                             {cls.name}
                           </div>
-                          <div className="text-[12px] text-[#666666] font-mono mt-0.5">
+                          <div className="text-[12px] text-[#888888] font-mono mt-0.5 tabular-nums">
                             {cls.date} · {cls.location}
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between sm:justify-end gap-5 shrink-0">
+                      <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0">
                         <span
-                          className={`text-[12px] font-mono px-2.5 py-0.5 border ${
+                          className={`text-[11.5px] font-medium px-2 py-0.5 rounded-[3px] whitespace-nowrap tabular-nums ${
                             cls.urgent
-                              ? 'bg-[#1a1a1a] text-[#ffffff] border-[#1a1a1a] font-semibold'
-                              : 'bg-[#ffffff] text-[#666666] border-[#eaeaea]'
+                              ? 'bg-[#fff1f2] text-[#9f1239]'
+                              : 'bg-[#f5f5f5] text-[#737373]'
                           }`}
                         >
                           {cls.seatsText}
                         </span>
 
-                        <span className="text-[13px] font-semibold text-[#1a1a1a] inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform whitespace-nowrap">
+                        <span className="text-[12.5px] font-medium text-[#1a1a1a] inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform whitespace-nowrap">
                           <span>直接报名</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </span>
@@ -1120,17 +1215,14 @@ export const HomeView06: React.FC = () => {
               </div>
 
               <div className="mt-8 pt-4 border-t border-[#eaeaea] flex items-center justify-between text-[13px] font-semibold text-[#1a1a1a]">
-                <span>查看社区地图与政策</span>
+                <span>查询OPC政策</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </a>
 
             {/* 模块 2：生态伙伴 */}
             <div
-              onClick={() => {
-                setPartnerFormSubmitted(false);
-                setOpcPartnerModalOpen(true);
-              }}
+              onClick={() => setOpcPartnerModalOpen(true)}
               className="opc-drawer-col group p-8 lg:p-10 bg-[#ffffff] hover:bg-[#fafafa] transition-colors cursor-pointer flex flex-col justify-between min-h-[290px]"
             >
               <div>
@@ -1149,7 +1241,7 @@ export const HomeView06: React.FC = () => {
               </div>
 
               <div className="mt-8 pt-4 border-t border-[#eaeaea] flex items-center justify-between text-[13px] font-semibold text-[#1a1a1a]">
-                <span>留下合作意向</span>
+                <span>寻求商务合作</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -1202,7 +1294,7 @@ export const HomeView06: React.FC = () => {
               </div>
 
               <div className="mt-8 pt-4 border-t border-[#eaeaea] flex items-center justify-between text-[13px] font-semibold text-[#1a1a1a]">
-                <span>跳转任务大厅接单变现</span>
+                <span>前往大厅接单</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -1428,165 +1520,26 @@ export const HomeView06: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          弹窗 1：OPC 生态伙伴（300+ 企业合作意向与联系方式弹窗）
+          弹窗 1：OPC 生态伙伴商务合作联系人弹窗（与认证详情联系人弹窗完全一致）
          ===================================================================== */}
-      {opcPartnerModalOpen && (
-        <div
-          className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/50"
-          onClick={() => setOpcPartnerModalOpen(false)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div
-            className="relative w-full max-w-[520px] bg-[#ffffff] border border-[#eaeaea] p-8 text-[#1a1a1a]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={() => setOpcPartnerModalOpen(false)}
-              className="absolute top-5 right-5 p-1.5 text-[#999999] hover:text-[#1a1a1a] cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="text-[12px] font-mono text-[#666666] tracking-[2px]">
-              ECOSYSTEM PARTNERSHIP
-            </div>
-            <h3 className="mt-1 text-[22px] font-semibold text-[#1a1a1a]">
-              成为 XCTF·AI 生态合作伙伴
-            </h3>
-            <p className="mt-1.5 text-[13px] text-[#666666]">
-              连接 45W+ 超级个体与 12,850+ 认证工程师，支持企业外包发包、联合认证及算力供给合作。
-            </p>
-
-            {/* 平台合作直联信息 */}
-            <div className="mt-5 p-4 bg-[#fafafa] border border-[#eaeaea] flex items-center justify-between text-[13px]">
-              <div>
-                <div className="text-[#666666]">生态合作负责人：赵总监</div>
-                <div className="text-[#1a1a1a] font-mono mt-0.5">
-                  电话：400-882-9100 · 邮箱：partner@xctf-ai.com
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={handleCopyAdvisorPhone}
-                className="px-2.5 py-1.5 border border-[#eaeaea] bg-[#ffffff] hover:border-[#1a1a1a] text-[12px] inline-flex items-center gap-1 cursor-pointer"
-              >
-                {copiedPhone ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedPhone ? '已复制' : '复制电话'}</span>
-              </button>
-            </div>
-
-            {partnerFormSubmitted ? (
-              <div className="mt-6 p-6 bg-[#fafafa] border border-[#eaeaea] text-center space-y-3">
-                <div className="text-[16px] font-semibold text-[#1a1a1a]">
-                  合作意向已成功登记
-                </div>
-                <p className="text-[13px] text-[#666666]">
-                  我们已收到「{partnerForm.company}」的合作申请，生态合作团队将在 1 个工作日内与您对接。
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setOpcPartnerModalOpen(false)}
-                  className="px-5 py-2 bg-[#1a1a1a] text-[#ffffff] text-[13px] font-semibold rounded-[4px] cursor-pointer"
-                >
-                  完成
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handlePartnerSubmit} className="mt-5 space-y-4">
-                <div>
-                  <label className="block text-[12px] font-medium text-[#666666] mb-1">
-                    企业 / 机构名称 *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={partnerForm.company}
-                    onChange={(e) => setPartnerForm({ ...partnerForm, company: e.target.value })}
-                    placeholder="请输入企业或机构全称"
-                    className="w-full px-3.5 py-2.5 bg-[#ffffff] border border-[#eaeaea] focus:border-[#1a1a1a] outline-none text-[14px]"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[12px] font-medium text-[#666666] mb-1">
-                      联系人姓名 *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={partnerForm.contact}
-                      onChange={(e) => setPartnerForm({ ...partnerForm, contact: e.target.value })}
-                      placeholder="您的姓名"
-                      className="w-full px-3.5 py-2.5 bg-[#ffffff] border border-[#eaeaea] focus:border-[#1a1a1a] outline-none text-[14px]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[12px] font-medium text-[#666666] mb-1">
-                      联系电话 *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={partnerForm.phone}
-                      onChange={(e) => setPartnerForm({ ...partnerForm, phone: e.target.value })}
-                      placeholder="手机或座机号码"
-                      className="w-full px-3.5 py-2.5 bg-[#ffffff] border border-[#eaeaea] focus:border-[#1a1a1a] outline-none text-[14px]"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[12px] font-medium text-[#666666] mb-1">
-                    合作方向
-                  </label>
-                  <select
-                    value={partnerForm.type}
-                    onChange={(e) => setPartnerForm({ ...partnerForm, type: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-[#ffffff] border border-[#eaeaea] focus:border-[#1a1a1a] outline-none text-[14px]"
-                  >
-                    <option value="算力与模型供给合作">算力与模型供给合作</option>
-                    <option value="企业AI项目悬赏发包">企业 AI 项目悬赏发包</option>
-                    <option value="联合培训认证与赛事">联合培训认证与赛事共建</option>
-                    <option value="OPC园区与创投对接">OPC 园区入驻与创投对接</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-[12px] font-medium text-[#666666] mb-1">
-                    合作需求简述
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={partnerForm.note}
-                    onChange={(e) => setPartnerForm({ ...partnerForm, note: e.target.value })}
-                    placeholder="选填：简要描述您的合作诉求"
-                    className="w-full px-3.5 py-2 bg-[#ffffff] border border-[#eaeaea] focus:border-[#1a1a1a] outline-none text-[14px] resize-none"
-                  />
-                </div>
-
-                <div className="pt-2 flex items-center justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setOpcPartnerModalOpen(false)}
-                    className="px-4 py-2.5 border border-[#eaeaea] text-[#666666] hover:text-[#1a1a1a] text-[13px] cursor-pointer"
-                  >
-                    取消
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-6 py-2.5 bg-[#1a1a1a] hover:bg-[#333333] text-[#ffffff] text-[13px] font-semibold rounded-[4px] cursor-pointer"
-                  >
-                    提交合作意向
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
+      <AdvisorContactModal
+        isOpen={opcPartnerModalOpen}
+        onClose={() => setOpcPartnerModalOpen(false)}
+        title="联系商务顾问"
+        subtitlePrefix="合作方向："
+        certification={{
+          id: 'opc-partner-contact',
+          systemId: 'aigc',
+          name: 'XCTF·AI 生态合作与企业级商务对接',
+          advisorContacts: [
+            { label: '联系人', value: '赵总监（生态合作负责人）' },
+            { label: '联系电话', value: '400-882-9100', copyable: true },
+            { label: '电子邮箱', value: 'partner@xctf-ai.com', copyable: true },
+            { label: '服务时段', value: '工作日 09:00 - 19:00' }
+          ],
+          advisorQrHint: '扫码添加专属商务顾问洽谈合作'
+        }}
+      />
 
       {/* =====================================================================
           弹窗 3：近期开班直接报名联系人弹窗（与认证详情「立即开通」弹窗完全一致）

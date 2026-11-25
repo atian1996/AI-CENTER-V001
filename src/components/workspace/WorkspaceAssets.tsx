@@ -684,78 +684,47 @@ export const WorkspaceAssets: React.FC = () => {
     return true;
   });
 
-  // Render App Type Badge on Card Icon
-  const renderAppTypeIconBadge = (ag: AgentItem) => {
+  // Render monochrome wireframe icon for Agent cards
+  const renderAgentWireframeIcon = (ag: AgentItem) => {
     const form = (ag.appType || ag.techForm || '工作流') as string;
     if (form === '工作流' || form === 'Workflow') {
-      return (
-        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center ring-2 ring-white text-[9px] shadow-xs">
-          <GitFork className="w-2.5 h-2.5" />
-        </div>
-      );
+      return <GitFork className="w-4 h-4" />;
     }
     if (form === '对话流') {
-      return (
-        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-sky-500 text-white flex items-center justify-center ring-2 ring-white text-[9px] shadow-xs">
-          <MessageSquareShare className="w-2.5 h-2.5" />
-        </div>
-      );
+      return <MessageSquareShare className="w-4 h-4" />;
     }
     if (form === '聊天助手' || form === 'Chatbot') {
-      return (
-        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center ring-2 ring-white text-[9px] shadow-xs">
-          <Bot className="w-2.5 h-2.5" />
-        </div>
-      );
+      return <Bot className="w-4 h-4" />;
     }
     if (form === 'Agent') {
-      return (
-        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-purple-600 text-white flex items-center justify-center ring-2 ring-white text-[9px] shadow-xs">
-          <Sparkles className="w-2.5 h-2.5" />
-        </div>
-      );
+      return <Sparkles className="w-4 h-4" />;
     }
-    return (
-      <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center ring-2 ring-white text-[9px] shadow-xs">
-        <FileText className="w-2.5 h-2.5" />
-      </div>
-    );
+    return <FileText className="w-4 h-4" />;
   };
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto select-none">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto select-none text-[#1A1A1A]">
       
       {/* Header & Asset Category Tabs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-200/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAEAEA]">
         <div>
-          <h2 className="text-lg font-black text-slate-900 tracking-tight flex items-center gap-2">
+          <h2 className="text-xl font-semibold text-[#1A1A1A] tracking-tight flex items-center gap-2.5">
             <span>我的资产</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-indigo-50 text-indigo-700">
+            <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
               资产库中心
             </span>
           </h2>
-          <p className="text-xs text-slate-400 font-medium mt-0.5">
+          <p className="text-xs text-[#666666] mt-1">
             统一管理您创建、编排与授权的 AI 工作流应用、智能体、数据集与开发者资源
           </p>
         </div>
 
         {/* Global Action Button */}
         <div>
-          {/* 暂时隐藏创建 Agent 按钮 */}
-          {/* activeAssetTab === 'agents' && (
-            <button
-              onClick={() => openModal('createAgent')}
-              className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black transition shadow-xs flex items-center gap-2 cursor-pointer"
-            >
-              <Plus className="w-4 h-4" />
-              <span>创建 Agent</span>
-            </button>
-          ) */}
-
           {activeAssetTab === 'datasets' && (
             <button
               onClick={() => setIsUploadingDataset(true)}
-              className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black transition shadow-xs flex items-center gap-2 cursor-pointer"
+              className="px-4 py-2 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>上传数据集</span>
@@ -765,7 +734,7 @@ export const WorkspaceAssets: React.FC = () => {
           {activeAssetTab === 'skills' && (
             <button
               onClick={() => setIsCreatingSkill(true)}
-              className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black transition shadow-xs flex items-center gap-2 cursor-pointer"
+              className="px-4 py-2 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>创建 Skill</span>
@@ -775,7 +744,7 @@ export const WorkspaceAssets: React.FC = () => {
       </div>
 
       {/* SubTabs bar */}
-      <div className="flex items-center gap-2 border-b border-slate-200 text-xs font-extrabold">
+      <div className="flex items-center gap-6 border-b border-[#EAEAEA] text-xs">
         {[
           { key: 'agents', label: '我的 Agent', count: subscribedAgents.length, icon: Bot },
           { key: 'datasets', label: '我的数据集', count: datasets.length, icon: Database },
@@ -787,16 +756,16 @@ export const WorkspaceAssets: React.FC = () => {
             <button
               key={tab.key}
               onClick={() => setActiveAssetTab(tab.key as any)}
-              className={`pb-3 px-3 flex items-center gap-2 border-b-2 transition cursor-pointer ${
+              className={`pb-3 px-1 flex items-center gap-2 border-b-2 transition cursor-pointer -mb-px ${
                 isActive 
-                  ? 'border-blue-600 text-blue-600 font-black' 
-                  : 'border-transparent text-slate-500 hover:text-slate-800'
+                  ? 'border-[#1A1A1A] text-[#1A1A1A] font-semibold' 
+                  : 'border-transparent text-[#666666] hover:text-[#1A1A1A] font-medium'
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-3.5 h-3.5" />
               <span>{tab.label}</span>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] ${
-                isActive ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-500'
+              <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono tabular-nums ${
+                isActive ? 'bg-[#1A1A1A] text-white' : 'bg-[#F5F5F5] text-[#666666]'
               }`}>
                 {tab.count}
               </span>
@@ -807,30 +776,29 @@ export const WorkspaceAssets: React.FC = () => {
 
       {/* 1. SubTab: 我的 Agent (Application List & Orchestration Entrance) */}
       {activeAssetTab === 'agents' && (
-        <div className="space-y-6">
+        <div className="space-y-5">
           
-          {/* Sub-level Tabs: 我创建的 / 我调用的 (按要求暂时隐藏，默认呈现我调用的 Agent) */}
           {/* Top Filter Bar */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pt-1">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
             
             {/* Left Filter Dropdowns & Search */}
-            <div className="flex items-center flex-wrap gap-2 text-xs font-medium text-slate-700">
+            <div className="flex items-center flex-wrap gap-2 text-xs font-medium text-[#333333]">
               
               {/* Filter 1: 类型 ∨ */}
               <div className="relative">
                 <button
                   type="button"
                   onClick={() => { setShowTypeDropdown(!showTypeDropdown); setShowSceneDropdown(false); setShowIndustryDropdown(false); setShowSortDropdown(false); }}
-                  className={`px-3 py-1.5 rounded-xl border bg-white flex items-center gap-1.5 transition cursor-pointer ${
-                    selectedTypeFilter !== 'all' ? 'border-blue-500 text-blue-600 bg-blue-50/40 font-bold' : 'border-slate-200 hover:border-slate-300 text-slate-700'
+                  className={`px-3 py-1.5 rounded-md border bg-white flex items-center gap-1.5 transition cursor-pointer ${
+                    selectedTypeFilter !== 'all' ? 'border-[#1A1A1A] text-[#1A1A1A] bg-[#F5F5F5] font-semibold' : 'border-[#E0E0E0] hover:border-[#BDBDBD] text-[#333333]'
                   }`}
                 >
                   <span>{selectedTypeFilter === 'all' ? '类型' : selectedTypeFilter}</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                  <ChevronDown className="w-3.5 h-3.5 text-[#888888]" />
                 </button>
 
                 {showTypeDropdown && (
-                  <div className="absolute left-0 top-10 z-40 w-36 bg-white border border-slate-200 rounded-xl shadow-lg py-1 text-xs animate-fade-in">
+                  <div className="absolute left-0 top-10 z-40 w-36 bg-white border border-[#EAEAEA] rounded-md py-1 text-xs animate-fade-in">
                     {[
                       { key: 'all', label: '全部类型' },
                       { key: '工作流', label: '工作流' },
@@ -842,8 +810,8 @@ export const WorkspaceAssets: React.FC = () => {
                       <button
                         key={item.key}
                         onClick={() => { setSelectedTypeFilter(item.key); setShowTypeDropdown(false); }}
-                        className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 transition cursor-pointer ${
-                          selectedTypeFilter === item.key ? 'text-blue-600 font-black bg-blue-50/50' : 'text-slate-700'
+                        className={`w-full text-left px-3 py-1.5 hover:bg-[#F5F5F5] transition cursor-pointer ${
+                          selectedTypeFilter === item.key ? 'text-[#1A1A1A] font-semibold bg-[#F5F5F5]' : 'text-[#555555]'
                         }`}
                       >
                         {item.label}
@@ -858,23 +826,23 @@ export const WorkspaceAssets: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => { setShowSceneDropdown(!showSceneDropdown); setShowTypeDropdown(false); setShowIndustryDropdown(false); setShowSortDropdown(false); }}
-                  className={`px-3 py-1.5 rounded-xl border bg-white flex items-center gap-1.5 transition cursor-pointer ${
-                    selectedSceneFilter !== 'all' ? 'border-indigo-500 text-indigo-600 bg-indigo-50/40 font-bold' : 'border-slate-200 hover:border-slate-300 text-slate-700'
+                  className={`px-3 py-1.5 rounded-md border bg-white flex items-center gap-1.5 transition cursor-pointer ${
+                    selectedSceneFilter !== 'all' ? 'border-[#1A1A1A] text-[#1A1A1A] bg-[#F5F5F5] font-semibold' : 'border-[#E0E0E0] hover:border-[#BDBDBD] text-[#333333]'
                   }`}
                 >
-                  <LayoutGrid className="w-3.5 h-3.5 text-indigo-500" />
+                  <LayoutGrid className="w-3.5 h-3.5 text-[#666666]" />
                   <span>{selectedSceneFilter === 'all' ? '应用场景' : selectedSceneFilter}</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                  <ChevronDown className="w-3.5 h-3.5 text-[#888888]" />
                 </button>
 
                 {showSceneDropdown && (
-                  <div className="absolute left-0 top-10 z-40 w-36 bg-white border border-slate-200 rounded-xl shadow-lg py-1 text-xs animate-fade-in max-h-56 overflow-y-auto scrollbar-thin">
+                  <div className="absolute left-0 top-10 z-40 w-36 bg-white border border-[#EAEAEA] rounded-md py-1 text-xs animate-fade-in max-h-56 overflow-y-auto scrollbar-thin">
                     {['全部场景', '内容创作', '数据分析', '智能客服', '办公助理', '编程开发', '营销推广', '教育培训', '行业垂直'].map((scene) => (
                       <button
                         key={scene}
                         onClick={() => { setSelectedSceneFilter(scene === '全部场景' ? 'all' : scene); setShowSceneDropdown(false); }}
-                        className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 transition cursor-pointer ${
-                          (selectedSceneFilter === 'all' && scene === '全部场景') || selectedSceneFilter === scene ? 'text-indigo-600 font-bold bg-indigo-50/50' : 'text-slate-700'
+                        className={`w-full text-left px-3 py-1.5 hover:bg-[#F5F5F5] transition cursor-pointer ${
+                          (selectedSceneFilter === 'all' && scene === '全部场景') || selectedSceneFilter === scene ? 'text-[#1A1A1A] font-semibold bg-[#F5F5F5]' : 'text-[#555555]'
                         }`}
                       >
                         {scene}
@@ -889,23 +857,23 @@ export const WorkspaceAssets: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => { setShowIndustryDropdown(!showIndustryDropdown); setShowTypeDropdown(false); setShowSceneDropdown(false); setShowSortDropdown(false); }}
-                  className={`px-3 py-1.5 rounded-xl border bg-white flex items-center gap-1.5 transition cursor-pointer ${
-                    selectedIndustryFilter !== 'all' ? 'border-teal-500 text-teal-600 bg-teal-50/40 font-bold' : 'border-slate-200 hover:border-slate-300 text-slate-700'
+                  className={`px-3 py-1.5 rounded-md border bg-white flex items-center gap-1.5 transition cursor-pointer ${
+                    selectedIndustryFilter !== 'all' ? 'border-[#1A1A1A] text-[#1A1A1A] bg-[#F5F5F5] font-semibold' : 'border-[#E0E0E0] hover:border-[#BDBDBD] text-[#333333]'
                   }`}
                 >
-                  <Building2 className="w-3.5 h-3.5 text-teal-500" />
+                  <Building2 className="w-3.5 h-3.5 text-[#666666]" />
                   <span>{selectedIndustryFilter === 'all' ? '行业领域' : selectedIndustryFilter}</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                  <ChevronDown className="w-3.5 h-3.5 text-[#888888]" />
                 </button>
 
                 {showIndustryDropdown && (
-                  <div className="absolute left-0 top-10 z-40 w-36 bg-white border border-slate-200 rounded-xl shadow-lg py-1 text-xs animate-fade-in max-h-56 overflow-y-auto scrollbar-thin">
+                  <div className="absolute left-0 top-10 z-40 w-36 bg-white border border-[#EAEAEA] rounded-md py-1 text-xs animate-fade-in max-h-56 overflow-y-auto scrollbar-thin">
                     {['全部领域', '通用', '政务', '制造', '零售', '金融', '医疗', '教育', '文旅', '物流'].map((ind) => (
                       <button
                         key={ind}
                         onClick={() => { setSelectedIndustryFilter(ind === '全部领域' ? 'all' : ind); setShowIndustryDropdown(false); }}
-                        className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 transition cursor-pointer ${
-                          (selectedIndustryFilter === 'all' && ind === '全部领域') || selectedIndustryFilter === ind ? 'text-teal-600 font-bold bg-teal-50/50' : 'text-slate-700'
+                        className={`w-full text-left px-3 py-1.5 hover:bg-[#F5F5F5] transition cursor-pointer ${
+                          (selectedIndustryFilter === 'all' && ind === '全部领域') || selectedIndustryFilter === ind ? 'text-[#1A1A1A] font-semibold bg-[#F5F5F5]' : 'text-[#555555]'
                         }`}
                       >
                         {ind}
@@ -917,13 +885,13 @@ export const WorkspaceAssets: React.FC = () => {
 
               {/* Search Box */}
               <div className="relative min-w-[240px]">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+                <Search className="w-3.5 h-3.5 text-[#999999] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="搜索Agent名称"
-                  className="w-full pl-8 pr-3 py-1.5 bg-slate-100/80 hover:bg-slate-100 focus:bg-white border border-transparent focus:border-blue-500 rounded-xl text-xs text-slate-800 outline-none transition"
+                  className="w-full pl-8 pr-3 py-1.5 bg-white border border-[#E0E0E0] focus:border-[#1A1A1A] rounded-md text-xs text-[#1A1A1A] placeholder-[#999999] outline-none transition"
                 />
               </div>
 
@@ -933,12 +901,14 @@ export const WorkspaceAssets: React.FC = () => {
 
           {/* Application Cards Grid */}
           {currentDisplayAgents.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center space-y-3">
-              <Bot className="w-10 h-10 text-slate-300 mx-auto" />
-              <h4 className="text-sm font-bold text-slate-700">
+            <div className="bg-white rounded-md border border-[#EAEAEA] p-12 text-center space-y-3">
+              <div className="w-11 h-11 rounded-md bg-[#F5F5F5] border border-[#EAEAEA] text-[#888888] flex items-center justify-center mx-auto">
+                <Bot className="w-5 h-5" />
+              </div>
+              <h4 className="text-sm font-semibold text-[#1A1A1A]">
                 {agentScopeTab === 'created' ? '暂未创建任何 Agent' : '暂未调用任何 Agent'}
               </h4>
-              <p className="text-xs text-slate-400 max-w-md mx-auto">
+              <p className="text-xs text-[#666666] max-w-md mx-auto">
                 {agentScopeTab === 'created' 
                   ? '点击页面右上方的“创建 Agent”按钮，即可快速创建专属工作流、智能体与助手应用。' 
                   : '前往 Agent 商店浏览丰富多样的场景化智能体，一键极速体验调用！'}
@@ -946,7 +916,7 @@ export const WorkspaceAssets: React.FC = () => {
               {agentScopeTab === 'subscribed' && (
                 <button
                   onClick={() => setSelectedMainTab('marketplace')}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition cursor-pointer"
+                  className="px-4 py-2 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white text-xs font-semibold transition cursor-pointer"
                 >
                   探索 Agent 商店
                 </button>
@@ -972,32 +942,31 @@ export const WorkspaceAssets: React.FC = () => {
                         window.open(targetUrl, '_blank');
                       }
                     }}
-                    className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-slate-300 transition-all cursor-pointer flex flex-col justify-between group min-h-[190px]"
+                    className="bg-white p-4 rounded-md border border-[#EAEAEA] hover:border-[#CCCCCC] transition-colors cursor-pointer flex flex-col justify-between group min-h-[188px]"
                     title={agentScopeTab === 'created' ? '点击进入应用编排界面' : '点击在独立标签页立即体验该 Agent'}
                   >
                     
-                    <div className="space-y-2.5">
-                      {/* Top: Icon + App Name & App Type */}
+                    <div className="space-y-3">
+                      {/* Top: Monochrome Wireframe Icon + App Name & App Type */}
                       <div className="flex items-start gap-3">
                         
-                        {/* App Icon with Sub-Badge */}
-                        <div className={`w-11 h-11 rounded-xl border flex items-center justify-center text-xl shrink-0 relative shadow-2xs ${ag.iconBgColor || 'bg-rose-100 border-rose-200 text-rose-600'}`}>
-                          {ag.avatar || '🤖'}
-                          {renderAppTypeIconBadge(ag)}
+                        {/* Monochrome Wireframe Icon Container */}
+                        <div className="w-10 h-10 rounded-md bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333] flex items-center justify-center shrink-0">
+                          {renderAgentWireframeIcon(ag)}
                         </div>
 
                         {/* App Name & App Type text */}
                         <div className="min-w-0 flex-1">
-                          <h4 className="text-xs font-extrabold text-slate-900 group-hover:text-blue-600 transition truncate leading-snug">
+                          <h4 className="text-sm font-semibold text-[#1A1A1A] truncate leading-snug">
                             {ag.name}
                           </h4>
-                          <div className="flex items-center gap-1.5 mt-0.5">
-                            <span className="text-[10px] text-slate-500 font-bold bg-slate-100 px-1.5 py-0.2 rounded uppercase tracking-tight">
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <span className="text-[10px] text-[#555555] font-medium bg-[#F5F5F5] border border-[#EAEAEA] px-1.5 py-0.5 rounded uppercase tracking-tight">
                               {ag.appType || ag.techForm || '工作流'}
                             </span>
                             {ag.baseModel && (
-                              <span className="text-[10px] text-slate-400 font-medium truncate hidden sm:inline">
-                                · {ag.baseModel}
+                              <span className="text-[10px] text-[#888888] font-normal truncate hidden sm:inline">
+                                {ag.baseModel}
                               </span>
                             )}
                           </div>
@@ -1005,35 +974,34 @@ export const WorkspaceAssets: React.FC = () => {
 
                       </div>
 
-                      {/* Scene & Industry Tags */}
-                      <div className="flex items-center flex-wrap gap-1.5 pt-0.5">
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-100/70">
-                          <LayoutGrid className="w-2.5 h-2.5 text-indigo-500" />
+                      {/* Scene & Industry Tags (统一极浅灰底/细灰框 + 深灰字) */}
+                      <div className="flex items-center flex-wrap gap-1.5">
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
+                          <LayoutGrid className="w-2.5 h-2.5 text-[#777777]" />
                           <span>{sceneTag}</span>
                         </span>
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 border border-teal-100/70">
-                          <Building2 className="w-2.5 h-2.5 text-teal-500" />
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded bg-white text-[#555555] border border-[#E2E2E2]">
+                          <Building2 className="w-2.5 h-2.5 text-[#777777]" />
                           <span>{industryTag}</span>
                         </span>
                       </div>
 
                       {/* Description */}
                       {ag.description && (
-                        <p className="text-[11px] text-slate-500 font-medium line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-[#666666] line-clamp-2 leading-relaxed">
                           {ag.description}
                         </p>
                       )}
                     </div>
 
-                    {/* Bottom section */}
-                    <div className="pt-2.5 mt-2.5 border-t border-slate-100 space-y-2">
+                    {/* Bottom section: 透明底 + 顶部细分割线 + 纯黑描边线框按钮 */}
+                    <div className="pt-3 mt-3 border-t border-[#F0F0F0]">
                       
                       {agentScopeTab === 'subscribed' ? (
-                        <div className="flex items-center justify-between text-[10px] bg-indigo-50/70 border border-indigo-200/60 rounded-lg p-1.5">
-                          <div className="flex items-center gap-1 text-indigo-800 font-bold truncate">
-                            <Coins className="w-3 h-3 text-indigo-600 shrink-0" />
+                        <div className="flex items-center justify-between gap-2 text-[11px]">
+                          <div className="flex items-center gap-1 text-[#666666] truncate">
                             <span className="shrink-0">免费额度:</span>
-                            <span className="font-extrabold text-indigo-900 truncate">{quotaText}</span>
+                            <span className="font-mono tabular-nums font-semibold text-[#1A1A1A] truncate">{quotaText}</span>
                           </div>
                           <button
                             type="button"
@@ -1044,13 +1012,13 @@ export const WorkspaceAssets: React.FC = () => {
                                 : (ag.trialUrl || `${window.location.origin}${window.location.pathname}?trial=${ag.id}`);
                               window.open(targetUrl, '_blank');
                             }}
-                            className="text-[10px] font-bold px-2 py-0.5 bg-blue-600 hover:bg-blue-500 text-white rounded-md transition cursor-pointer shrink-0 ml-1 shadow-2xs"
+                            className="text-[11px] font-medium px-2.5 py-1 bg-transparent hover:bg-[#1A1A1A] text-[#1A1A1A] hover:text-white border border-[#1A1A1A] rounded transition-colors cursor-pointer shrink-0"
                           >
                             立即体验
                           </button>
                         </div>
                       ) : (
-                        <div className="flex items-center justify-between text-[10px] text-slate-400 font-medium">
+                        <div className="flex items-center justify-between text-[11px] text-[#888888]">
                           <span className="truncate">
                             {ag.author || '极客小千'} · {ag.updatedAt ? `编辑于 ${ag.updatedAt}` : '已就绪'}
                           </span>
@@ -1060,7 +1028,7 @@ export const WorkspaceAssets: React.FC = () => {
                               e.stopPropagation();
                               setOrchestratingAgent(ag);
                             }}
-                            className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md transition cursor-pointer shrink-0 ml-1"
+                            className="text-[11px] font-medium px-2.5 py-1 bg-transparent hover:bg-[#1A1A1A] text-[#1A1A1A] hover:text-white border border-[#1A1A1A] rounded transition-colors cursor-pointer shrink-0 ml-1"
                           >
                             进入编排
                           </button>
@@ -1080,23 +1048,23 @@ export const WorkspaceAssets: React.FC = () => {
 
       {/* 2. SubTab: 我的数据集 */}
       {activeAssetTab === 'datasets' && (
-        <div className="space-y-6">
+        <div className="space-y-5">
           
           {/* Sub-level Tabs: 我上传的 / 已下载的数据集 */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-2">
-            <div className="flex items-center gap-2 bg-slate-100/80 p-1 rounded-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-[#EAEAEA]">
+            <div className="flex items-center gap-1 bg-[#F5F5F5] border border-[#EAEAEA] p-1 rounded-md">
               <button
                 type="button"
                 onClick={() => setDatasetScopeTab('created')}
-                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded text-xs font-medium transition flex items-center gap-2 cursor-pointer ${
                   datasetScopeTab === 'created'
-                    ? 'bg-white text-blue-600 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white text-[#1A1A1A] font-semibold border border-[#E0E0E0]'
+                    : 'text-[#666666] hover:text-[#1A1A1A]'
                 }`}
               >
                 <span>我上传的</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${
-                  datasetScopeTab === 'created' ? 'bg-blue-100 text-blue-700' : 'bg-slate-200 text-slate-600'
+                <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono tabular-nums ${
+                  datasetScopeTab === 'created' ? 'bg-[#1A1A1A] text-white' : 'bg-[#EAEAEA] text-[#555555]'
                 }`}>
                   {createdDatasets.length}
                 </span>
@@ -1105,66 +1073,66 @@ export const WorkspaceAssets: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setDatasetScopeTab('downloaded')}
-                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded text-xs font-medium transition flex items-center gap-2 cursor-pointer ${
                   datasetScopeTab === 'downloaded'
-                    ? 'bg-white text-blue-600 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white text-[#1A1A1A] font-semibold border border-[#E0E0E0]'
+                    : 'text-[#666666] hover:text-[#1A1A1A]'
                 }`}
               >
                 <span>已下载的数据集</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${
-                  datasetScopeTab === 'downloaded' ? 'bg-blue-100 text-blue-700' : 'bg-slate-200 text-slate-600'
+                <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono tabular-nums ${
+                  datasetScopeTab === 'downloaded' ? 'bg-[#1A1A1A] text-white' : 'bg-[#EAEAEA] text-[#555555]'
                 }`}>
                   {datasetDownloads.length}
                 </span>
               </button>
             </div>
 
-            <div className="text-xs text-slate-400 font-medium">
-              共管理 <span className="font-bold text-slate-700">{createdDatasets.length}</span> 个数据集资产
+            <div className="text-xs text-[#666666]">
+              共管理 <span className="font-mono tabular-nums font-semibold text-[#1A1A1A]">{createdDatasets.length}</span> 个数据集资产
             </div>
           </div>
 
           {datasetScopeTab === 'downloaded' ? (
             /* 已下载的数据集 Table */
-            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
+            <div className="bg-white rounded-md border border-[#EAEAEA] overflow-hidden">
               {datasetDownloads.length === 0 ? (
-                <div className="p-12 text-center text-slate-400 text-xs">
+                <div className="p-12 text-center text-[#888888] text-xs">
                   暂无数据集下载记录。您可以在数据集广场浏览并一键极速下载数据包。
                 </div>
               ) : (
                 <table className="w-full text-left text-xs border-collapse">
-                  <thead className="bg-slate-50 text-slate-600 font-extrabold border-b border-slate-200">
+                  <thead className="bg-[#F8F9FA] text-[#333333] font-semibold border-b border-[#EAEAEA]">
                     <tr>
-                      <th className="p-4">数据集名称</th>
-                      <th className="p-4">模态</th>
-                      <th className="p-4">数据集大小</th>
-                      <th className="p-4">创建者</th>
-                      <th className="p-4">下载时间</th>
-                      <th className="p-4 text-right">操作</th>
+                      <th className="py-3.5 px-4">数据集名称</th>
+                      <th className="py-3.5 px-4">模态</th>
+                      <th className="py-3.5 px-4">数据集大小</th>
+                      <th className="py-3.5 px-4">创建者</th>
+                      <th className="py-3.5 px-4">下载时间</th>
+                      <th className="py-3.5 px-4 text-right">操作</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 font-medium">
+                  <tbody className="divide-y divide-[#F2F2F2] text-[#333333]">
                     {datasetDownloads.map(rec => {
                       const targetDs = datasets.find(d => d.id === rec.datasetId);
                       return (
-                        <tr key={rec.id} className="hover:bg-blue-50/30 transition">
-                          <td className="p-4 font-bold text-slate-900">{rec.datasetName}</td>
-                          <td className="p-4">
-                            <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold">
+                        <tr key={rec.id} className="hover:bg-[#FAFAFA] transition-colors">
+                          <td className="py-3.5 px-4 font-semibold text-[#1A1A1A]">{rec.datasetName}</td>
+                          <td className="py-3.5 px-4">
+                            <span className="px-2 py-0.5 rounded bg-[#F5F5F5] text-[#4B5563] border border-[#EAEAEA] text-[11px] font-medium">
                               {rec.modality || '表格数据'}
                             </span>
                           </td>
-                          <td className="p-4 font-mono font-bold text-slate-700">{rec.fileSize || '267.5 MB'}</td>
-                          <td className="p-4 text-slate-600 font-medium">{rec.uploaderName || '平台提供'}</td>
-                          <td className="p-4 text-slate-400 font-mono">{rec.downloadTime || rec.downloadedAt}</td>
-                          <td className="p-4 text-right space-x-2">
+                          <td className="py-3.5 px-4 font-mono tabular-nums font-medium text-[#333333]">{rec.fileSize || '267.5 MB'}</td>
+                          <td className="py-3.5 px-4 text-[#666666]">{rec.uploaderName || '平台提供'}</td>
+                          <td className="py-3.5 px-4 text-[#888888] font-mono tabular-nums text-[11px]">{rec.downloadTime || rec.downloadedAt}</td>
+                          <td className="py-3.5 px-4 text-right space-x-1.5 whitespace-nowrap">
                             <button
                               onClick={() => {
                                 if (targetDs) setReadOnlyDatasetModal(targetDs);
                                 else showToast(`查看【${rec.datasetName}】详情`);
                               }}
-                              className="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs cursor-pointer transition"
+                              className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#333333] hover:text-[#1A1A1A] font-medium text-xs cursor-pointer transition"
                             >
                               详情
                             </button>
@@ -1173,7 +1141,7 @@ export const WorkspaceAssets: React.FC = () => {
                                 if (targetDs) downloadDataset(targetDs);
                                 showToast(`已重新下载数据集【${rec.datasetName}】`);
                               }}
-                              className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs cursor-pointer shadow-2xs transition"
+                              className="px-2.5 py-1 rounded bg-[#1A1A1A] hover:bg-[#333333] text-white font-medium text-xs cursor-pointer transition"
                             >
                               再次下载
                             </button>
@@ -1184,7 +1152,7 @@ export const WorkspaceAssets: React.FC = () => {
                                   showToast(`已删除数据集【${rec.datasetName}】下载记录`);
                                 }
                               }}
-                              className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                              className="px-2.5 py-1 rounded bg-white hover:bg-[#FEF2F2] text-[#991B1B] border border-[#E5C5C5] text-xs font-medium transition cursor-pointer"
                             >
                               删除
                             </button>
@@ -1198,74 +1166,82 @@ export const WorkspaceAssets: React.FC = () => {
             </div>
           ) : (
             /* 我上传的数据集 Table */
-            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
+            <div className="bg-white rounded-md border border-[#EAEAEA] overflow-hidden">
               <table className="w-full text-left text-xs border-collapse">
-                <thead className="bg-slate-50 text-slate-600 font-extrabold border-b border-slate-200">
+                <thead className="bg-[#F8F9FA] text-[#333333] font-semibold border-b border-[#EAEAEA]">
                   <tr>
-                    <th className="p-4">数据集名称</th>
-                    <th className="p-4">模态</th>
-                    <th className="p-4">数据集大小</th>
-                    <th className="p-4">上传时间</th>
-                    <th className="p-4">状态</th>
-                    <th className="p-4 text-right">操作</th>
+                    <th className="py-3.5 px-4">数据集名称</th>
+                    <th className="py-3.5 px-4">模态</th>
+                    <th className="py-3.5 px-4">数据集大小</th>
+                    <th className="py-3.5 px-4">上传时间</th>
+                    <th className="py-3.5 px-4">状态</th>
+                    <th className="py-3.5 px-4 text-right">操作</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 font-medium">
+                <tbody className="divide-y divide-[#F2F2F2] text-[#333333]">
                   {createdDatasets.map((ds) => {
                     const isPending = ds.status === '待审核';
                     const isRejected = ds.status === '已驳回';
                     const isListed = ds.status === '已上架';
-                    const isUnlisted = !isPending && !isRejected && !isListed; // 未上架/已下架
 
                     return (
-                      <tr key={ds.id} className="hover:bg-blue-50/30 transition">
-                        <td className="p-4">
-                          <div className="font-extrabold text-slate-900">{ds.name}</div>
-                          <div className="text-[10px] text-slate-400 mt-0.5 max-w-xs truncate">
+                      <tr key={ds.id} className="hover:bg-[#FAFAFA] transition-colors">
+                        <td className="py-3.5 px-4">
+                          <div className="font-semibold text-[#1A1A1A]">{ds.name}</div>
+                          <div className="text-[11px] text-[#888888] mt-0.5 max-w-xs truncate">
                             {ds.brief || ds.description?.slice(0, 35) || '暂无描述'}
                           </div>
                         </td>
 
-                        <td className="p-4">
-                          <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold">
+                        <td className="py-3.5 px-4">
+                          <span className="px-2 py-0.5 rounded bg-[#F5F5F5] text-[#4B5563] border border-[#EAEAEA] text-[11px] font-medium">
                             {ds.modalityCategory || '表格数据'}
                           </span>
                         </td>
 
-                        <td className="p-4 font-mono font-bold text-slate-800">
+                        <td className="py-3.5 px-4 font-mono tabular-nums font-medium text-[#333333]">
                           {ds.fileSize || ds.scale || '18.4 MB'}
                         </td>
 
-                        <td className="p-4 text-slate-400 font-mono">
+                        <td className="py-3.5 px-4 text-[#888888] font-mono tabular-nums text-[11px]">
                           {ds.updatedAt || '2025-05-20'}
                         </td>
 
-                        <td className="p-4">
-                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
+                        <td className="py-3.5 px-4 whitespace-nowrap">
+                          <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium ${
                             isListed
-                              ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                              ? 'text-[#166534]'
                               : isPending
-                              ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                              ? 'text-[#666666]'
                               : isRejected
-                              ? 'bg-red-100 text-red-700 border border-red-300'
-                              : 'bg-slate-100 text-slate-700 border border-slate-300'
+                              ? 'text-[#991B1B]'
+                              : 'text-[#888888]'
                           }`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${
+                              isListed
+                                ? 'bg-[#15803D]'
+                                : isPending
+                                ? 'bg-[#D97706]'
+                                : isRejected
+                                ? 'bg-[#991B1B]'
+                                : 'bg-[#9CA3AF]'
+                            }`} />
                             {isListed ? '已上架' : isPending ? '待审核' : isRejected ? '已驳回' : '未上架'}
                           </span>
                           {isRejected && ds.auditReason && (
-                            <div className="text-[10px] text-red-500 mt-0.5 max-w-xs" title={ds.auditReason}>
+                            <div className="text-[10px] text-[#991B1B] mt-0.5 max-w-xs truncate" title={ds.auditReason}>
                               驳回: {ds.auditReason}
                             </div>
                           )}
                         </td>
 
-                        <td className="p-4 text-right space-x-2">
+                        <td className="py-3.5 px-4 text-right space-x-1.5 whitespace-nowrap">
                           {/* 1. 待审核: 支持【详情】和【删除】 */}
                           {isPending && (
                             <>
                               <button
                                 onClick={() => setReadOnlyDatasetModal(ds)}
-                                className="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#333333] hover:text-[#1A1A1A] text-xs font-medium transition cursor-pointer"
                               >
                                 详情
                               </button>
@@ -1276,7 +1252,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     showToast(`待审核数据集【${ds.name}】已成功删除`);
                                   }
                                 }}
-                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#FEF2F2] text-[#991B1B] border border-[#E5C5C5] text-xs font-medium transition cursor-pointer"
                               >
                                 删除
                               </button>
@@ -1288,7 +1264,7 @@ export const WorkspaceAssets: React.FC = () => {
                             <>
                               <button
                                 onClick={() => setEditingDataset(ds)}
-                                className="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#1A1A1A] text-xs font-medium transition cursor-pointer"
                               >
                                 修改
                               </button>
@@ -1299,7 +1275,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     showToast(`数据集【${ds.name}】已成功删除`);
                                   }
                                 }}
-                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#FEF2F2] text-[#991B1B] border border-[#E5C5C5] text-xs font-medium transition cursor-pointer"
                               >
                                 删除
                               </button>
@@ -1311,7 +1287,7 @@ export const WorkspaceAssets: React.FC = () => {
                             <>
                               <button
                                 onClick={() => setReadOnlyDatasetModal(ds)}
-                                className="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#333333] hover:text-[#1A1A1A] text-xs font-medium transition cursor-pointer"
                               >
                                 详情
                               </button>
@@ -1322,7 +1298,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     toggleDatasetStatus(ds.id, '已下架');
                                     showToast(`数据集【${ds.name}】已下架`);
                                   }}
-                                  className="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs font-bold transition cursor-pointer"
+                                  className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#333333] hover:text-[#1A1A1A] text-xs font-medium transition cursor-pointer"
                                 >
                                   下架
                                 </button>
@@ -1332,7 +1308,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     toggleDatasetStatus(ds.id, '已上架');
                                     showToast(`数据集【${ds.name}】已成功上架`);
                                   }}
-                                  className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-2xs transition cursor-pointer"
+                                  className="px-2.5 py-1 rounded bg-[#1A1A1A] hover:bg-[#333333] text-white text-xs font-medium transition cursor-pointer"
                                 >
                                   上架
                                 </button>
@@ -1345,7 +1321,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     showToast(`数据集【${ds.name}】已成功删除`);
                                   }
                                 }}
-                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#FEF2F2] text-[#991B1B] border border-[#E5C5C5] text-xs font-medium transition cursor-pointer"
                               >
                                 删除
                               </button>
@@ -1365,22 +1341,22 @@ export const WorkspaceAssets: React.FC = () => {
 
       {/* 3. SubTab: 我的 Skill */}
       {activeAssetTab === 'skills' && (
-        <div className="space-y-6">
+        <div className="space-y-5">
           {/* Sub-level Tabs: 我创建的 / 已下载的 */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-2">
-            <div className="flex items-center gap-2 bg-slate-100/80 p-1 rounded-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-[#EAEAEA]">
+            <div className="flex items-center gap-1 bg-[#F5F5F5] border border-[#EAEAEA] p-1 rounded-md">
               <button
                 type="button"
                 onClick={() => setSkillScopeTab('created')}
-                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded text-xs font-medium transition flex items-center gap-2 cursor-pointer ${
                   skillScopeTab === 'created'
-                    ? 'bg-white text-purple-600 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white text-[#1A1A1A] font-semibold border border-[#E0E0E0]'
+                    : 'text-[#666666] hover:text-[#1A1A1A]'
                 }`}
               >
                 <span>我创建的 Skill</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${
-                  skillScopeTab === 'created' ? 'bg-purple-100 text-purple-700' : 'bg-slate-200 text-slate-600'
+                <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono tabular-nums ${
+                  skillScopeTab === 'created' ? 'bg-[#1A1A1A] text-white' : 'bg-[#EAEAEA] text-[#555555]'
                 }`}>
                   {skills.filter(s => s.isCreatedByMe || s.uploaderType === 'user').length}
                 </span>
@@ -1389,72 +1365,74 @@ export const WorkspaceAssets: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSkillScopeTab('downloaded')}
-                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded text-xs font-medium transition flex items-center gap-2 cursor-pointer ${
                   skillScopeTab === 'downloaded'
-                    ? 'bg-white text-purple-600 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white text-[#1A1A1A] font-semibold border border-[#E0E0E0]'
+                    : 'text-[#666666] hover:text-[#1A1A1A]'
                 }`}
               >
                 <span>已下载的 Skill</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${
-                  skillScopeTab === 'downloaded' ? 'bg-purple-100 text-purple-700' : 'bg-slate-200 text-slate-600'
+                <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono tabular-nums ${
+                  skillScopeTab === 'downloaded' ? 'bg-[#1A1A1A] text-white' : 'bg-[#EAEAEA] text-[#555555]'
                 }`}>
                   {skillDownloads.length}
                 </span>
               </button>
             </div>
 
-            <div className="text-xs text-slate-400 font-medium">
+            <div className="text-xs text-[#666666]">
               管理与调试 Agent 扩展插件工具箱
             </div>
           </div>
 
           {skillScopeTab === 'downloaded' ? (
             /* 已下载的 Skill Table */
-            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
+            <div className="bg-white rounded-md border border-[#EAEAEA] overflow-hidden">
               {skillDownloads.length === 0 ? (
-                <div className="p-12 text-center text-slate-400 text-xs">
+                <div className="p-12 text-center text-[#888888] text-xs">
                   暂无下载记录。您可以在 Skill 插件集市中浏览并极速下载需要的工具插件。
                 </div>
               ) : (
                 <table className="w-full text-left text-xs border-collapse">
-                  <thead className="bg-slate-50 text-slate-600 font-extrabold border-b border-slate-200">
+                  <thead className="bg-[#F8F9FA] text-[#333333] font-semibold border-b border-[#EAEAEA]">
                     <tr>
-                      <th className="p-4">Skill 名称</th>
-                      <th className="p-4">slug</th>
-                      <th className="p-4">场景分类</th>
-                      <th className="p-4">上传者</th>
-                      <th className="p-4">下载时间</th>
-                      <th className="p-4 text-right">操作</th>
+                      <th className="py-3.5 px-4">Skill 名称</th>
+                      <th className="py-3.5 px-4">slug</th>
+                      <th className="py-3.5 px-4">场景分类</th>
+                      <th className="py-3.5 px-4">上传者</th>
+                      <th className="py-3.5 px-4">下载时间</th>
+                      <th className="py-3.5 px-4 text-right">操作</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 font-medium">
+                  <tbody className="divide-y divide-[#F2F2F2] text-[#333333]">
                     {skillDownloads.map(rec => {
                       const targetSk = skills.find(s => s.id === rec.skillId);
                       return (
-                        <tr key={rec.id} className="hover:bg-purple-50/30 transition">
-                          <td className="p-4 font-bold text-slate-900">{rec.skillName}</td>
-                          <td className="p-4 font-mono font-bold text-slate-600">
-                            {targetSk?.repoPath || rec.skillId}
+                        <tr key={rec.id} className="hover:bg-[#FAFAFA] transition-colors">
+                          <td className="py-3.5 px-4 font-semibold text-[#1A1A1A]">{rec.skillName}</td>
+                          <td className="py-3.5 px-4">
+                            <code className="px-1.5 py-0.5 rounded bg-[#F5F5F5] border border-[#EAEAEA] font-mono text-[11px] text-[#4B5563]">
+                              {targetSk?.repoPath || rec.skillId}
+                            </code>
                           </td>
-                          <td className="p-4">
-                            <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-100">
+                          <td className="py-3.5 px-4">
+                            <span className="px-2 py-0.5 rounded bg-[#F5F5F5] text-[#4B5563] border border-[#EAEAEA] text-[11px] font-medium">
                               {rec.category || targetSk?.category || '效率工具'}
                             </span>
                           </td>
-                          <td className="p-4 text-slate-600 font-medium">
+                          <td className="py-3.5 px-4 text-[#666666]">
                             {rec.uploaderName || rec.developer || targetSk?.developer || '极客社区'}
                           </td>
-                          <td className="p-4 text-slate-400 font-mono">
+                          <td className="py-3.5 px-4 text-[#888888] font-mono tabular-nums text-[11px]">
                             {rec.downloadTime || rec.downloadedAt}
                           </td>
-                          <td className="p-4 text-right space-x-2">
+                          <td className="py-3.5 px-4 text-right space-x-1.5 whitespace-nowrap">
                             <button
                               onClick={() => {
                                 if (targetSk) setReadOnlySkillModal(targetSk);
                                 else showToast(`查看【${rec.skillName}】详情`);
                               }}
-                              className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-xs cursor-pointer transition"
+                              className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#333333] hover:text-[#1A1A1A] font-medium text-xs cursor-pointer transition"
                             >
                               详情
                             </button>
@@ -1463,7 +1441,7 @@ export const WorkspaceAssets: React.FC = () => {
                                 if (targetSk) downloadSkill(targetSk);
                                 showToast(`已重新下载 Skill【${rec.skillName}】`);
                               }}
-                              className="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-2xs transition"
+                              className="px-2.5 py-1 rounded bg-[#1A1A1A] hover:bg-[#333333] text-white font-medium text-xs cursor-pointer transition"
                             >
                               再次下载
                             </button>
@@ -1474,7 +1452,7 @@ export const WorkspaceAssets: React.FC = () => {
                                   showToast(`已删除 Skill【${rec.skillName}】下载记录`);
                                 }
                               }}
-                              className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                              className="px-2.5 py-1 rounded bg-white hover:bg-[#FEF2F2] text-[#991B1B] border border-[#E5C5C5] text-xs font-medium transition cursor-pointer"
                             >
                               删除
                             </button>
@@ -1488,73 +1466,83 @@ export const WorkspaceAssets: React.FC = () => {
             </div>
           ) : (
             /* 我创建的 Skill Table */
-            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
+            <div className="bg-white rounded-md border border-[#EAEAEA] overflow-hidden">
               <table className="w-full text-left text-xs border-collapse">
-                <thead className="bg-slate-50 text-slate-600 font-extrabold border-b border-slate-200">
+                <thead className="bg-[#F8F9FA] text-[#333333] font-semibold border-b border-[#EAEAEA]">
                   <tr>
-                    <th className="p-4">skill名称</th>
-                    <th className="p-4">slug</th>
-                    <th className="p-4">场景分类</th>
-                    <th className="p-4">创建时间</th>
-                    <th className="p-4">状态</th>
-                    <th className="p-4 text-right">操作</th>
+                    <th className="py-3.5 px-4">skill名称</th>
+                    <th className="py-3.5 px-4">slug</th>
+                    <th className="py-3.5 px-4">场景分类</th>
+                    <th className="py-3.5 px-4">创建时间</th>
+                    <th className="py-3.5 px-4">状态</th>
+                    <th className="py-3.5 px-4 text-right">操作</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 font-medium">
+                <tbody className="divide-y divide-[#F2F2F2] text-[#333333]">
                   {skills.map((sk) => {
                     const isPending = sk.status === '待审核';
                     const isRejected = sk.status === '已驳回';
                     const isListed = sk.status === '已上架';
-                    const isUnlisted = !isPending && !isRejected && !isListed; // 未上架/已下架
 
                     const slugVal = sk.repoPath ? sk.repoPath.split('/')[1] || sk.id : sk.id;
 
                     return (
-                      <tr key={sk.id} className="hover:bg-purple-50/30 transition">
-                        <td className="p-4 font-extrabold text-slate-900">
+                      <tr key={sk.id} className="hover:bg-[#FAFAFA] transition-colors">
+                        <td className="py-3.5 px-4 font-semibold text-[#1A1A1A]">
                           {sk.name}
                         </td>
 
-                        <td className="p-4 font-mono font-bold text-slate-700">
-                          {slugVal}
+                        <td className="py-3.5 px-4">
+                          <code className="px-1.5 py-0.5 rounded bg-[#F5F5F5] border border-[#EAEAEA] font-mono text-[11px] text-[#4B5563]">
+                            {slugVal}
+                          </code>
                         </td>
 
-                        <td className="p-4">
-                          <span className="px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 text-[10px] font-bold border border-purple-100">
+                        <td className="py-3.5 px-4">
+                          <span className="px-2 py-0.5 rounded bg-[#F5F5F5] text-[#4B5563] text-[11px] font-medium border border-[#EAEAEA]">
                             {sk.category || '效率工具'}
                           </span>
                         </td>
 
-                        <td className="p-4 text-slate-400 font-mono">
+                        <td className="py-3.5 px-4 text-[#888888] font-mono tabular-nums text-[11px]">
                           {sk.updatedAt || '2025-05-20'}
                         </td>
 
-                        <td className="p-4">
-                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
+                        <td className="py-3.5 px-4 whitespace-nowrap">
+                          <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium ${
                             isListed
-                              ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                              ? 'text-[#166534]'
                               : isPending
-                              ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                              ? 'text-[#666666]'
                               : isRejected
-                              ? 'bg-red-100 text-red-700 border border-red-300'
-                              : 'bg-slate-100 text-slate-700 border border-slate-300'
+                              ? 'text-[#991B1B]'
+                              : 'text-[#888888]'
                           }`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${
+                              isListed
+                                ? 'bg-[#15803D]'
+                                : isPending
+                                ? 'bg-[#D97706]'
+                                : isRejected
+                                ? 'bg-[#991B1B]'
+                                : 'bg-[#9CA3AF]'
+                            }`} />
                             {isListed ? '已上架' : isPending ? '待审核' : isRejected ? '已驳回' : '未上架'}
                           </span>
                           {isRejected && sk.auditReason && (
-                            <div className="text-[10px] text-red-500 mt-0.5 max-w-xs" title={sk.auditReason}>
+                            <div className="text-[10px] text-[#991B1B] mt-0.5 max-w-xs truncate" title={sk.auditReason}>
                               驳回: {sk.auditReason}
                             </div>
                           )}
                         </td>
 
-                        <td className="p-4 text-right space-x-2">
+                        <td className="py-3.5 px-4 text-right space-x-1.5 whitespace-nowrap">
                           {/* 1. 待审核: 支持【详情】和【删除】 */}
                           {isPending && (
                             <>
                               <button
                                 onClick={() => setReadOnlySkillModal(sk)}
-                                className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#333333] hover:text-[#1A1A1A] text-xs font-medium transition cursor-pointer"
                               >
                                 详情
                               </button>
@@ -1565,7 +1553,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     showToast(`待审核 Skill 插件【${sk.name}】已成功删除`);
                                   }
                                 }}
-                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#FEF2F2] text-[#991B1B] border border-[#E5C5C5] text-xs font-medium transition cursor-pointer"
                               >
                                 删除
                               </button>
@@ -1577,7 +1565,7 @@ export const WorkspaceAssets: React.FC = () => {
                             <>
                               <button
                                 onClick={() => setEditingSkill(sk)}
-                                className="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#1A1A1A] text-xs font-medium transition cursor-pointer"
                               >
                                 修改
                               </button>
@@ -1588,7 +1576,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     showToast(`Skill 插件【${sk.name}】已成功删除`);
                                   }
                                 }}
-                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#FEF2F2] text-[#991B1B] border border-[#E5C5C5] text-xs font-medium transition cursor-pointer"
                               >
                                 删除
                               </button>
@@ -1600,7 +1588,7 @@ export const WorkspaceAssets: React.FC = () => {
                             <>
                               <button
                                 onClick={() => setReadOnlySkillModal(sk)}
-                                className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#333333] hover:text-[#1A1A1A] text-xs font-medium transition cursor-pointer"
                               >
                                 详情
                               </button>
@@ -1611,7 +1599,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     toggleSkillStatus(sk.id, '已下架');
                                     showToast(`Skill【${sk.name}】已成功下架`);
                                   }}
-                                  className="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs font-bold transition cursor-pointer"
+                                  className="px-2.5 py-1 rounded bg-white hover:bg-[#F5F5F5] border border-[#D4D4D4] text-[#333333] hover:text-[#1A1A1A] text-xs font-medium transition cursor-pointer"
                                 >
                                   下架
                                 </button>
@@ -1621,7 +1609,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     toggleSkillStatus(sk.id, '已上架');
                                     showToast(`Skill【${sk.name}】已成功上架`);
                                   }}
-                                  className="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-2xs transition cursor-pointer"
+                                  className="px-2.5 py-1 rounded bg-[#1A1A1A] hover:bg-[#333333] text-white text-xs font-medium transition cursor-pointer"
                                 >
                                   上架
                                 </button>
@@ -1634,7 +1622,7 @@ export const WorkspaceAssets: React.FC = () => {
                                     showToast(`Skill 插件【${sk.name}】已成功删除`);
                                   }
                                 }}
-                                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-white hover:bg-[#FEF2F2] text-[#991B1B] border border-[#E5C5C5] text-xs font-medium transition cursor-pointer"
                               >
                                 删除
                               </button>

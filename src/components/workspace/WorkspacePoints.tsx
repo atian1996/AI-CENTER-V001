@@ -176,19 +176,19 @@ export const WorkspacePoints: React.FC = () => {
   });
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto font-sans text-slate-800">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto font-sans text-[#1A1A1A]">
       
       {/* 顶部标题栏 */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAEAEA]">
         <div>
-          <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <Wallet className="w-6 h-6 text-indigo-600" />
+          <h2 className="text-xl font-semibold text-[#1A1A1A] tracking-tight flex items-center gap-2.5">
+            <Wallet className="w-5 h-5 text-[#333333]" />
             <span>我的账户</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full font-extrabold bg-indigo-50 text-indigo-700 border border-indigo-100">
+            <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
               资金与积分中心
             </span>
           </h2>
-          <p className="text-xs text-slate-500 font-medium mt-1">
+          <p className="text-xs text-[#666666] mt-1">
             用户管理资金和积分的核心页面，整合余额、充值、积分、签到与流水记录，明晰钱与积分的流向
           </p>
         </div>
@@ -196,9 +196,9 @@ export const WorkspacePoints: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowRulesModal(true)}
-            className="px-3.5 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+            className="px-3.5 py-2 rounded-md bg-white hover:bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333] text-xs font-medium transition flex items-center gap-1.5 cursor-pointer"
           >
-            <HelpCircle className="w-4 h-4 text-slate-500" />
+            <HelpCircle className="w-4 h-4 text-[#666666]" />
             <span>抵扣与规则说明</span>
           </button>
         </div>
@@ -207,106 +207,102 @@ export const WorkspacePoints: React.FC = () => {
       {/* ============================================================ */}
       {/* 顶部资产卡 (展示可用余额 & 积分余额) */}
       {/* ============================================================ */}
-      <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 space-y-4">
+      <div className="bg-white rounded-md border border-[#EAEAEA] p-5 space-y-4">
         
         {/* 卡片主面板 */}
-        <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-7 shadow-lg relative overflow-hidden border border-slate-800">
+        <div className="bg-[#1A1A1A] text-white rounded-md p-6 sm:p-7 relative overflow-hidden border border-[#2A2A2A]">
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
             
             {/* 左侧：可用余额 */}
             <div className="space-y-4 lg:border-r lg:border-white/10 lg:pr-8 flex flex-col justify-between">
               <div>
-                <div className="text-xs text-slate-300 font-bold uppercase tracking-wider flex items-center gap-2 mb-2">
-                  <div className="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                <div className="text-xs text-[#A3A3A3] font-medium tracking-wider flex items-center gap-2 mb-2">
+                  <div className="w-6 h-6 rounded bg-white/10 text-white flex items-center justify-center">
                     <Wallet className="w-3.5 h-3.5" />
                   </div>
                   <span>可用余额 (人民币)</span>
                 </div>
                 
                 <div className="flex flex-wrap items-baseline gap-4 mt-2">
-                  <span className="text-3xl sm:text-4xl font-black tracking-tight text-white font-mono">
+                  <span className="text-3xl sm:text-4xl font-bold tracking-tight text-white font-mono tabular-nums">
                     ¥{currentBalance.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                   
                   <button
                     onClick={() => openRechargeModal()}
-                    className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-600 hover:to-cyan-600 text-white text-xs font-black shadow-md hover:shadow-lg transition-all transform active:scale-95 flex items-center gap-1.5 cursor-pointer"
+                    className="px-4 py-1.5 rounded-md bg-white hover:bg-[#EAEAEA] text-[#1A1A1A] text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer"
                   >
-                    <PlusCircle className="w-4 h-4" />
+                    <PlusCircle className="w-3.5 h-3.5" />
                     <span>充 值</span>
                   </button>
                 </div>
               </div>
 
-              <div className="text-[11px] text-slate-300 font-medium flex flex-wrap items-center gap-2 sm:gap-3 pt-2 border-t border-white/10">
+              <div className="text-[11px] text-[#A3A3A3] flex flex-wrap items-center gap-2 sm:gap-3 pt-3 border-t border-white/10">
                 <span className="flex items-center gap-1.5">
-                  <span className="text-slate-400">冻结资金：</span>
-                  <strong className="text-cyan-300 font-mono font-bold">
+                  <span className="text-[#888888]">冻结资金：</span>
+                  <strong className="text-white font-mono font-semibold tabular-nums">
                     ¥{frozenBalance.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </strong>
                 </span>
-                <span className="text-white/20">•</span>
-                <span className="px-1.5 py-0.5 rounded bg-indigo-500/30 text-indigo-200 text-[10px] font-bold">
+                <span className="text-white/20">·</span>
+                <span className="px-1.5 py-0.5 rounded bg-white/10 text-[#E5E5E5] text-[10px] font-medium">
                   发布任务托管
                 </span>
-                <span className="text-white/20">•</span>
-                <span className="text-emerald-400 font-medium">支持在线按量扣费与实例续费</span>
+                <span className="text-white/20">·</span>
+                <span className="text-[#D4D4D4]">支持在线按量扣费与实例续费</span>
               </div>
             </div>
 
             {/* 右侧：积分 */}
             <div className="space-y-4 flex flex-col justify-between">
               <div>
-                <div className="text-xs text-slate-300 font-bold uppercase tracking-wider flex items-center gap-2 mb-2">
-                  <div className="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                <div className="text-xs text-[#A3A3A3] font-medium tracking-wider flex items-center gap-2 mb-2">
+                  <div className="w-6 h-6 rounded bg-white/10 text-[#D97706] flex items-center justify-center">
                     <Coins className="w-3.5 h-3.5" />
                   </div>
                   <span>我的积分</span>
                 </div>
 
                 <div className="flex items-baseline gap-2 mt-1">
-                  <span className="text-3xl sm:text-4xl font-black tracking-tight text-amber-400 font-mono">
+                  <span className="text-3xl sm:text-4xl font-bold tracking-tight text-white font-mono tabular-nums">
                     {currentPoints.toLocaleString()}
                   </span>
-                  <span className="text-sm font-extrabold text-amber-200/90 font-mono">
+                  <span className="text-sm font-medium text-[#A3A3A3] font-mono tabular-nums">
                     （=¥{pointsWorthRmb}）
                   </span>
                 </div>
               </div>
 
-              <div className="text-[11px] text-slate-300 font-medium flex flex-wrap items-center gap-2 sm:gap-3 pt-2 border-t border-white/10">
+              <div className="text-[11px] text-[#A3A3A3] flex flex-wrap items-center gap-2 sm:gap-3 pt-3 border-t border-white/10">
                 <span className="flex items-center gap-1.5">
-                  <span className="text-slate-400">冻结积分：</span>
-                  <strong className="text-amber-300 font-mono font-bold">
+                  <span className="text-[#888888]">冻结积分：</span>
+                  <strong className="text-white font-mono font-semibold tabular-nums">
                     {frozenPoints.toLocaleString()} 积分
                   </strong>
-                  <span className="text-amber-200/80 text-[10px] font-mono">(=¥{frozenPointsWorthRmb})</span>
+                  <span className="text-[#A3A3A3] text-[10px] font-mono tabular-nums">(=¥{frozenPointsWorthRmb})</span>
                 </span>
-                <span className="text-white/20">•</span>
-                <span className="px-1.5 py-0.5 rounded bg-amber-500/30 text-amber-200 text-[10px] font-bold">
+                <span className="text-white/20">·</span>
+                <span className="px-1.5 py-0.5 rounded bg-white/10 text-[#E5E5E5] text-[10px] font-medium">
                   发布任务托管
                 </span>
-                <span className="text-white/20">•</span>
-                <span className="text-amber-300/90 font-medium">1积分=¥0.01 抵扣</span>
+                <span className="text-white/20">·</span>
+                <span className="text-[#D4D4D4]">1积分=¥0.01 抵扣</span>
               </div>
             </div>
 
           </div>
-
-          {/* 背景光影 */}
-          <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -left-12 -top-12 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
         </div>
       </div>
 
       {/* ============================================================ */}
       {/* 中部：5个 Tab 切换与流水列表 */}
       {/* ============================================================ */}
-      <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden space-y-0">
+      <div className="bg-white rounded-md border border-[#EAEAEA] overflow-hidden space-y-0">
         
         {/* Tab 选项卡导航 */}
-        <div className="p-4 bg-slate-50/80 border-b border-slate-200/80 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div className="p-4 bg-[#FAFAFA] border-b border-[#EAEAEA] flex flex-col md:flex-row md:items-center justify-between gap-3">
           
           {/* 5个 Tab 按钮 */}
           <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1 md:pb-0">
@@ -323,15 +319,15 @@ export const WorkspacePoints: React.FC = () => {
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key as any)}
-                  className={`px-4 py-2 rounded-xl text-xs font-extrabold transition whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3.5 py-1.5 rounded-md text-xs font-medium transition whitespace-nowrap cursor-pointer flex items-center gap-1.5 border ${
                     isActive 
-                      ? 'bg-indigo-600 text-white shadow-xs' 
-                      : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/80'
+                      ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]' 
+                      : 'bg-white text-[#555555] hover:text-[#1A1A1A] hover:bg-[#F5F5F5] border-[#EAEAEA]'
                   }`}
                 >
                   <span>{tab.label}</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                    isActive ? 'bg-indigo-700/80 text-white' : 'bg-slate-100 text-slate-500'
+                  <span className={`text-[10px] px-1.5 py-0.2 rounded font-mono tabular-nums ${
+                    isActive ? 'bg-white/15 text-white' : 'bg-[#F5F5F5] text-[#666666]'
                   }`}>
                     {count}
                   </span>
@@ -342,18 +338,18 @@ export const WorkspacePoints: React.FC = () => {
 
           {/* 搜索框 */}
           <div className="relative min-w-[220px]">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#999999]" />
             <input 
               type="text"
               placeholder="搜索流水/商品/方式..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 bg-white rounded-xl border border-slate-200 text-xs font-medium focus:border-indigo-600 focus:ring-1 focus:ring-indigo-100 outline-none transition"
+              className="w-full pl-8 pr-3 py-1.5 bg-white rounded-md border border-[#E0E0E0] text-xs text-[#1A1A1A] placeholder-[#999999] focus:border-[#1A1A1A] outline-none transition"
             />
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#999999] hover:text-[#333333] text-xs cursor-pointer"
               >
                 ×
               </button>
@@ -364,136 +360,136 @@ export const WorkspacePoints: React.FC = () => {
         {/* 表格内容区域 (根据当前选中的 Tab 专属列展示) */}
         <div className="overflow-x-auto">
           {filteredTransactions.length === 0 ? (
-            <div className="py-16 text-center text-slate-400 text-xs space-y-2">
-              <History className="w-10 h-10 mx-auto text-slate-300" />
-              <div className="font-bold text-slate-500">暂无相关流水记录</div>
-              <div className="text-[11px] text-slate-400">您可以尝试切换上方 Tab 标签或清除搜索词</div>
+            <div className="py-16 text-center text-[#999999] text-xs space-y-2">
+              <History className="w-9 h-9 mx-auto text-[#CCCCCC]" />
+              <div className="font-semibold text-[#555555]">暂无相关流水记录</div>
+              <div className="text-[11px] text-[#999999]">您可以尝试切换上方 Tab 标签或清除搜索词</div>
             </div>
           ) : (
             <table className="w-full text-left text-xs">
               
               {/* ======================= ① 全部流水表头 ======================= */}
               {activeTab === 'all' && (
-                <thead className="bg-slate-100/70 text-slate-500 font-extrabold border-b border-slate-200">
+                <thead className="bg-[#F8F9FA] text-[#333333] font-semibold border-b border-[#EAEAEA]">
                   <tr>
-                    <th className="p-3.5 pl-6">时间</th>
-                    <th className="p-3.5">类型</th>
-                    <th className="p-3.5">详情</th>
-                    <th className="p-3.5">金额 / 积分变动</th>
-                    <th className="p-3.5">余额 / 积分变化</th>
-                    <th className="p-3.5 text-right pr-6">状态</th>
+                    <th className="py-3 px-3.5 pl-6">时间</th>
+                    <th className="py-3 px-3.5">类型</th>
+                    <th className="py-3 px-3.5">详情</th>
+                    <th className="py-3 px-3.5">金额 / 积分变动</th>
+                    <th className="py-3 px-3.5">余额 / 积分变化</th>
+                    <th className="py-3 px-3.5 text-right pr-6">状态</th>
                   </tr>
                 </thead>
               )}
 
               {/* ======================= ② 充值记录表头 ======================= */}
               {activeTab === 'recharge' && (
-                <thead className="bg-slate-100/70 text-slate-500 font-extrabold border-b border-slate-200">
+                <thead className="bg-[#F8F9FA] text-[#333333] font-semibold border-b border-[#EAEAEA]">
                   <tr>
-                    <th className="p-3.5 pl-6">时间</th>
-                    <th className="p-3.5">支付方式</th>
-                    <th className="p-3.5">充值金额</th>
-                    <th className="p-3.5">余额结余</th>
-                    <th className="p-3.5 text-right pr-6">状态</th>
+                    <th className="py-3 px-3.5 pl-6">时间</th>
+                    <th className="py-3 px-3.5">支付方式</th>
+                    <th className="py-3 px-3.5">充值金额</th>
+                    <th className="py-3 px-3.5">余额结余</th>
+                    <th className="py-3 px-3.5 text-right pr-6">状态</th>
                   </tr>
                 </thead>
               )}
 
               {/* ======================= ③ 消费记录表头 ======================= */}
               {activeTab === 'expense' && (
-                <thead className="bg-slate-100/70 text-slate-500 font-extrabold border-b border-slate-200">
+                <thead className="bg-[#F8F9FA] text-[#333333] font-semibold border-b border-[#EAEAEA]">
                   <tr>
-                    <th className="p-3.5 pl-6">时间</th>
-                    <th className="p-3.5">消费场景</th>
-                    <th className="p-3.5">商品名称</th>
-                    <th className="p-3.5">消费金额</th>
-                    <th className="p-3.5">余额变动</th>
-                    <th className="p-3.5 text-right pr-6">状态</th>
+                    <th className="py-3 px-3.5 pl-6">时间</th>
+                    <th className="py-3 px-3.5">消费场景</th>
+                    <th className="py-3 px-3.5">商品名称</th>
+                    <th className="py-3 px-3.5">消费金额</th>
+                    <th className="py-3 px-3.5">余额变动</th>
+                    <th className="py-3 px-3.5 text-right pr-6">状态</th>
                   </tr>
                 </thead>
               )}
 
               {/* ======================= ④ 积分获取表头 ======================= */}
               {activeTab === 'points_earn' && (
-                <thead className="bg-slate-100/70 text-slate-500 font-extrabold border-b border-slate-200">
+                <thead className="bg-[#F8F9FA] text-[#333333] font-semibold border-b border-[#EAEAEA]">
                   <tr>
-                    <th className="p-3.5 pl-6">时间</th>
-                    <th className="p-3.5">获取来源</th>
-                    <th className="p-3.5">获取积分</th>
-                    <th className="p-3.5">说明备注</th>
-                    <th className="p-3.5">积分结余</th>
-                    <th className="p-3.5 text-right pr-6">状态</th>
+                    <th className="py-3 px-3.5 pl-6">时间</th>
+                    <th className="py-3 px-3.5">获取来源</th>
+                    <th className="py-3 px-3.5">获取积分</th>
+                    <th className="py-3 px-3.5">说明备注</th>
+                    <th className="py-3 px-3.5">积分结余</th>
+                    <th className="py-3 px-3.5 text-right pr-6">状态</th>
                   </tr>
                 </thead>
               )}
 
               {/* ======================= ⑤ 积分消耗表头 ======================= */}
               {activeTab === 'points_spend' && (
-                <thead className="bg-slate-100/70 text-slate-500 font-extrabold border-b border-slate-200">
+                <thead className="bg-[#F8F9FA] text-[#333333] font-semibold border-b border-[#EAEAEA]">
                   <tr>
-                    <th className="p-3.5 pl-6">时间</th>
-                    <th className="p-3.5">消耗用途</th>
-                    <th className="p-3.5">消耗积分</th>
-                    <th className="p-3.5">抵扣说明</th>
-                    <th className="p-3.5">积分结余</th>
-                    <th className="p-3.5 text-right pr-6">状态</th>
+                    <th className="py-3 px-3.5 pl-6">时间</th>
+                    <th className="py-3 px-3.5">消耗用途</th>
+                    <th className="py-3 px-3.5">消耗积分</th>
+                    <th className="py-3 px-3.5">抵扣说明</th>
+                    <th className="py-3 px-3.5">积分结余</th>
+                    <th className="py-3 px-3.5 text-right pr-6">状态</th>
                   </tr>
                 </thead>
               )}
 
-              <tbody className="divide-y divide-slate-100 font-medium">
+              <tbody className="divide-y divide-[#F2F2F2] font-normal">
                 {filteredTransactions.map(tx => {
                   return (
-                    <tr key={tx.id} className="hover:bg-slate-50/80 transition">
+                    <tr key={tx.id} className="hover:bg-[#FAFAFA] transition">
                       
                       {/* 1. 全部流水视图 */}
                       {activeTab === 'all' && (
                         <>
-                          <td className="p-3.5 pl-6 font-mono text-slate-600 whitespace-nowrap">
+                          <td className="p-3.5 pl-6 font-mono tabular-nums text-[#666666] whitespace-nowrap">
                             {tx.time}
                           </td>
                           <td className="p-3.5">
                             {tx.category === 'recharge' && (
-                              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
+                              <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#166534] border border-[#EAEAEA]">
                                 充值
                               </span>
                             )}
                             {tx.category === 'expense' && (
-                              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200/80">
+                              <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#991B1B] border border-[#EAEAEA]">
                                 消费
                               </span>
                             )}
                             {tx.category === 'points_earn' && (
-                              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200/80">
+                              <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#166534] border border-[#EAEAEA]">
                                 积分获取
                               </span>
                             )}
                             {tx.category === 'points_spend' && (
-                              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200/80">
+                              <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#4B5563] border border-[#EAEAEA]">
                                 积分消耗
                               </span>
                             )}
                           </td>
                           <td className="p-3.5">
-                            <span className="font-extrabold text-slate-900 text-xs">
+                            <span className="font-semibold text-[#1A1A1A] text-xs">
                               {tx.detail || tx.title}
                             </span>
                           </td>
-                          <td className="p-3.5 font-mono">
-                            <span className={`font-black text-xs ${
+                          <td className="p-3.5 font-mono tabular-nums">
+                            <span className={`font-semibold text-xs ${
                               tx.amountText?.startsWith('+') 
-                                ? (tx.category === 'recharge' ? 'text-emerald-600' : 'text-amber-600')
-                                : (tx.category === 'expense' ? 'text-rose-600' : 'text-slate-700')
+                                ? 'text-[#166534]'
+                                : (tx.category === 'expense' ? 'text-[#991B1B]' : 'text-[#333333]')
                             }`}>
                               {tx.amountText || (tx.rmbAmount !== undefined ? `${tx.rmbAmount > 0 ? '+' : ''}¥${tx.rmbAmount.toFixed(2)}` : '')}
                             </span>
                           </td>
-                          <td className="p-3.5 font-mono text-slate-500 text-xs">
+                          <td className="p-3.5 font-mono tabular-nums text-[#666666] text-xs">
                             {tx.balanceChangeText || '-'}
                           </td>
                           <td className="p-3.5 text-right pr-6">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-50 text-emerald-700">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#166534]">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
                               <span>{tx.status || '成功'}</span>
                             </span>
                           </td>
@@ -503,30 +499,25 @@ export const WorkspacePoints: React.FC = () => {
                       {/* 2. 充值记录视图 */}
                       {activeTab === 'recharge' && (
                         <>
-                          <td className="p-3.5 pl-6 font-mono text-slate-600 whitespace-nowrap">
+                          <td className="p-3.5 pl-6 font-mono tabular-nums text-[#666666] whitespace-nowrap">
                             {tx.time}
                           </td>
                           <td className="p-3.5">
-                            <span className="px-2.5 py-1 rounded-xl bg-slate-100 font-extrabold text-slate-800 text-[11px] inline-flex items-center gap-1.5">
-                              {tx.paymentMethod === '微信支付' ? (
-                                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                              ) : (
-                                <span className="w-2 h-2 rounded-full bg-sky-500" />
-                              )}
+                            <span className="px-2 py-0.5 rounded bg-[#F5F5F5] border border-[#EAEAEA] font-medium text-[#333333] text-[11px] inline-flex items-center gap-1.5">
                               <span>{tx.paymentMethod || tx.detail || '微信支付'}</span>
                             </span>
                           </td>
-                          <td className="p-3.5 font-mono">
-                            <span className="font-black text-emerald-600 text-xs">
+                          <td className="p-3.5 font-mono tabular-nums">
+                            <span className="font-semibold text-[#166534] text-xs">
                               {tx.amountText?.startsWith('+') ? tx.amountText : `+¥${tx.rmbAmount ? tx.rmbAmount.toFixed(2) : '100.00'}`}
                             </span>
                           </td>
-                          <td className="p-3.5 font-mono text-slate-500 text-xs">
+                          <td className="p-3.5 font-mono tabular-nums text-[#666666] text-xs">
                             {tx.balanceChangeText || (tx.rmbBalanceAfter ? `余额 ¥${tx.rmbBalanceAfter.toFixed(2)}` : '-')}
                           </td>
                           <td className="p-3.5 text-right pr-6">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-50 text-emerald-700">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#166534]">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
                               <span>{tx.status || '成功'}</span>
                             </span>
                           </td>
@@ -536,30 +527,30 @@ export const WorkspacePoints: React.FC = () => {
                       {/* 3. 消费记录视图 */}
                       {activeTab === 'expense' && (
                         <>
-                          <td className="p-3.5 pl-6 font-mono text-slate-600 whitespace-nowrap">
+                          <td className="p-3.5 pl-6 font-mono tabular-nums text-[#666666] whitespace-nowrap">
                             {tx.time}
                           </td>
                           <td className="p-3.5">
-                            <span className="px-2.5 py-1 rounded-xl bg-indigo-50 text-indigo-700 font-extrabold text-[11px]">
+                            <span className="px-2 py-0.5 rounded bg-[#F5F5F5] border border-[#EAEAEA] text-[#4B5563] font-medium text-[11px]">
                               {tx.scene || (tx.detail?.includes('Agent') ? 'Agent订阅' : '算力租赁')}
                             </span>
                           </td>
                           <td className="p-3.5">
-                            <span className="font-extrabold text-slate-900 text-xs">
+                            <span className="font-semibold text-[#1A1A1A] text-xs">
                               {tx.productName || tx.detail}
                             </span>
                           </td>
-                          <td className="p-3.5 font-mono">
-                            <span className="font-black text-rose-600 text-xs">
+                          <td className="p-3.5 font-mono tabular-nums">
+                            <span className="font-semibold text-[#991B1B] text-xs">
                               {tx.amountText || (tx.rmbAmount ? `-¥${Math.abs(tx.rmbAmount).toFixed(2)}` : '-')}
                             </span>
                           </td>
-                          <td className="p-3.5 font-mono text-slate-500 text-xs">
+                          <td className="p-3.5 font-mono tabular-nums text-[#666666] text-xs">
                             {tx.balanceChangeText || (tx.rmbBalanceAfter ? `¥${tx.rmbBalanceAfter.toFixed(2)}` : '-')}
                           </td>
                           <td className="p-3.5 text-right pr-6">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-50 text-emerald-700">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#166534]">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
                               <span>{tx.status || '成功'}</span>
                             </span>
                           </td>
@@ -569,29 +560,28 @@ export const WorkspacePoints: React.FC = () => {
                       {/* 4. 积分获取视图 */}
                       {activeTab === 'points_earn' && (
                         <>
-                          <td className="p-3.5 pl-6 font-mono text-slate-600 whitespace-nowrap">
+                          <td className="p-3.5 pl-6 font-mono tabular-nums text-[#666666] whitespace-nowrap">
                             {tx.time}
                           </td>
                           <td className="p-3.5">
-                            <span className="px-2.5 py-1 rounded-xl bg-amber-50 text-amber-800 font-extrabold text-[11px] inline-flex items-center gap-1">
-                              <Sparkles className="w-3 h-3 text-amber-500" />
+                            <span className="px-2 py-0.5 rounded bg-[#F5F5F5] border border-[#EAEAEA] text-[#333333] font-medium text-[11px] inline-flex items-center gap-1">
                               <span>{tx.source || tx.detail || '每日签到'}</span>
                             </span>
                           </td>
-                          <td className="p-3.5 font-mono">
-                            <span className="font-black text-amber-600 text-xs">
+                          <td className="p-3.5 font-mono tabular-nums">
+                            <span className="font-semibold text-[#166534] text-xs">
                               {tx.amountText || (tx.pointsAmountNum ? `+${tx.pointsAmountNum}` : (tx.pointsAmount ? `+${tx.pointsAmount}` : '+5'))}
                             </span>
                           </td>
-                          <td className="p-3.5 text-slate-600 text-xs">
+                          <td className="p-3.5 text-[#666666] text-xs">
                             {tx.remark || '签到奖励'}
                           </td>
-                          <td className="p-3.5 font-mono text-slate-500 text-xs">
+                          <td className="p-3.5 font-mono tabular-nums text-[#666666] text-xs">
                             {tx.balanceChangeText || (tx.pointsBalanceAfter ? `结余 ${tx.pointsBalanceAfter}分` : '-')}
                           </td>
                           <td className="p-3.5 text-right pr-6">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-50 text-emerald-700">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#166534]">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
                               <span>{tx.status || '成功'}</span>
                             </span>
                           </td>
@@ -601,30 +591,30 @@ export const WorkspacePoints: React.FC = () => {
                       {/* 5. 积分消耗视图 */}
                       {activeTab === 'points_spend' && (
                         <>
-                          <td className="p-3.5 pl-6 font-mono text-slate-600 whitespace-nowrap">
+                          <td className="p-3.5 pl-6 font-mono tabular-nums text-[#666666] whitespace-nowrap">
                             {tx.time}
                           </td>
                           <td className="p-3.5">
-                            <span className="font-extrabold text-slate-900 text-xs">
+                            <span className="font-semibold text-[#1A1A1A] text-xs">
                               {tx.purpose || tx.detail || 'Agent订阅抵扣'}
                             </span>
                           </td>
-                          <td className="p-3.5 font-mono">
-                            <span className="font-black text-purple-600 text-xs">
+                          <td className="p-3.5 font-mono tabular-nums">
+                            <span className="font-semibold text-[#991B1B] text-xs">
                               {tx.amountText || (tx.pointsAmountNum ? `${tx.pointsAmountNum}` : (tx.pointsAmount ? `${tx.pointsAmount}` : '-300'))}
                             </span>
                           </td>
-                          <td className="p-3.5 text-slate-600 text-xs">
-                            <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 font-bold border border-amber-200/60 text-[11px]">
+                          <td className="p-3.5 text-[#666666] text-xs">
+                            <span className="px-2 py-0.5 rounded bg-[#F5F5F5] text-[#4B5563] font-medium border border-[#EAEAEA] text-[11px]">
                               {tx.remark || tx.deductionInfo || '抵扣¥3.00'}
                             </span>
                           </td>
-                          <td className="p-3.5 font-mono text-slate-500 text-xs">
+                          <td className="p-3.5 font-mono tabular-nums text-[#666666] text-xs">
                             {tx.balanceChangeText || (tx.pointsBalanceAfter ? `结余 ${tx.pointsBalanceAfter}分` : '-')}
                           </td>
                           <td className="p-3.5 text-right pr-6">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-50 text-emerald-700">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#166534]">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
                               <span>{tx.status || '成功'}</span>
                             </span>
                           </td>
@@ -641,35 +631,35 @@ export const WorkspacePoints: React.FC = () => {
       </div>
 
       {/* ============================================================ */}
-      {/* 底部固定区域：每日签到按钮与连续打卡卡片 */}
+      {/* 底部固定区域：每日签到按钮与连续打卡卡片（去亮黄降噪，仅图标与主按钮保留暗琥珀 #D97706） */}
       {/* ============================================================ */}
-      <div className="bg-gradient-to-r from-amber-500/10 via-amber-50 to-orange-50/80 rounded-3xl border border-amber-200/80 p-5 sm:p-6 shadow-xs flex flex-col md:flex-row items-center justify-between gap-5">
+      <div className="bg-[#F9F9F8] rounded-md border border-[#EAEAEA] p-5 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-5">
         
         {/* 左侧说明与7天连续签到进度 */}
-        <div className="space-y-3 w-full md:w-auto">
+        <div className="space-y-3.5 w-full md:w-auto">
           <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-white flex items-center justify-center shadow-md shrink-0">
-              <CalendarCheck className="w-6 h-6" />
+            <div className="w-11 h-11 rounded-md bg-white border border-[#EAEAEA] text-[#D97706] flex items-center justify-center shrink-0">
+              <CalendarCheck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+              <h3 className="text-base font-semibold text-[#1A1A1A] flex flex-wrap items-center gap-2">
                 <span>每日签到</span>
-                <span className="text-[11px] px-2.5 py-0.5 rounded-full font-black bg-amber-200 text-amber-900 flex items-center gap-1">
-                  <Flame className="w-3 h-3 text-amber-700" />
+                <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-white text-[#333333] border border-[#EAEAEA] inline-flex items-center gap-1">
+                  <Flame className="w-3 h-3 text-[#D97706]" />
                   <span>5积分 / 天</span>
                 </span>
-                <span className="text-[11px] px-2.5 py-0.5 rounded-full font-black bg-orange-100 text-orange-800 border border-orange-200">
+                <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-white text-[#555555] border border-[#EAEAEA]">
                   连续7天额外+20积分
                 </span>
               </h3>
-              <p className="text-xs text-slate-600 font-medium mt-0.5">
+              <p className="text-xs text-[#666666] mt-0.5">
                 坚持每日打卡赚取免费积分，可用于抵扣全平台 Agent 订阅订单费用
               </p>
             </div>
           </div>
 
           {/* 7 天连续签到徽章日历条 */}
-          <div className="flex items-center gap-1.5 sm:gap-2 pt-1">
+          <div className="flex items-center gap-1.5 sm:gap-2 pt-0.5">
             {[1, 2, 3, 4, 5, 6, 7].map(day => {
               const isChecked = day <= continuousDays;
               const isTodayTarget = day === continuousDays + (hasCheckedInToday ? 0 : 1);
@@ -678,16 +668,16 @@ export const WorkspacePoints: React.FC = () => {
               return (
                 <div 
                   key={day}
-                  className={`px-2.5 py-1.5 rounded-xl text-center border text-[11px] flex-1 sm:flex-initial transition ${
+                  className={`px-2.5 py-1.5 rounded-md text-center border text-[11px] flex-1 sm:flex-initial min-w-[54px] transition ${
                     isChecked
-                      ? 'bg-amber-500 border-amber-600 text-white font-black shadow-2xs'
+                      ? 'bg-[#1A1A1A] border-[#1A1A1A] text-white font-semibold'
                       : isTodayTarget
-                      ? 'bg-white border-amber-400 text-amber-800 font-extrabold ring-2 ring-amber-300/60'
-                      : 'bg-white/60 border-slate-200 text-slate-400 font-medium'
+                      ? 'bg-white border-[#D97706] text-[#1A1A1A] font-semibold'
+                      : 'bg-white border-[#EAEAEA] text-[#999999] font-normal'
                   }`}
                 >
-                  <div className="text-[10px] opacity-90">第{day}天</div>
-                  <div className="font-bold flex items-center justify-center gap-0.5">
+                  <div className="text-[10px] opacity-85">第{day}天</div>
+                  <div className="font-mono tabular-nums font-semibold flex items-center justify-center gap-0.5 mt-0.5">
                     {isChecked ? <Check className="w-3 h-3" /> : isBonusDay ? '+25' : '+5'}
                   </div>
                 </div>
@@ -701,15 +691,15 @@ export const WorkspacePoints: React.FC = () => {
           <button
             onClick={handleCheckIn}
             disabled={hasCheckedInToday}
-            className={`w-full sm:w-auto px-7 py-3.5 rounded-2xl text-xs sm:text-sm font-black transition shadow-md flex items-center justify-center gap-2 cursor-pointer ${
+            className={`w-full sm:w-auto px-6 py-2.5 rounded-md text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-2 cursor-pointer ${
               hasCheckedInToday
-                ? 'bg-slate-200 text-slate-500 cursor-not-allowed shadow-none border border-slate-300'
-                : 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 active:scale-95 text-white hover:shadow-lg'
+                ? 'bg-[#EAEAEA] text-[#666666] cursor-not-allowed border border-[#D4D4D4]'
+                : 'bg-[#D97706] hover:bg-[#B45309] text-white'
             }`}
           >
             {hasCheckedInToday ? (
               <>
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <CheckCircle2 className="w-4 h-4 text-[#166534]" />
                 <span>今日已签到 (已连续签到 {continuousDays} 天)</span>
               </>
             ) : (

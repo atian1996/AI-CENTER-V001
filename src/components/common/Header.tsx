@@ -28,7 +28,6 @@ import {
   ShieldCheck,
   Gift,
   ArrowRight,
-  Share2,
   Sun,
   Moon,
   GraduationCap,
@@ -44,7 +43,6 @@ export const Header: React.FC = () => {
     isLoggedIn,
     logout,
     openAuthModal,
-    openInviteModal,
     notifications, 
     unreadCount, 
     markAllNotificationsRead,
@@ -93,7 +91,7 @@ export const Header: React.FC = () => {
 
   const navItems: { id: MainTabType; label: string; icon: React.ReactNode }[] = [
     { id: 'home', label: '首页', icon: <Sparkles className="w-4 h-4" /> },
-    { id: 'training', label: '培训认证', icon: <GraduationCap className="w-4 h-4" /> },
+    { id: 'training', label: '课程培训', icon: <GraduationCap className="w-4 h-4" /> },
     { id: 'trial', label: '高端试用', icon: <Layers className="w-4 h-4" /> },
     { id: 'marketplace', label: 'AI集市', icon: <Store className="w-4 h-4" /> },
     { id: 'tasks', label: '任务大厅', icon: <Briefcase className="w-4 h-4" /> },
@@ -339,35 +337,6 @@ export const Header: React.FC = () => {
                           <span className="font-extrabold text-amber-600 text-xs">{user.points.toLocaleString()} 分</span>
                         </div>
                       </div>
-                    </div>
-
-                    {/* 立即邀请好友功能入口 */}
-                    <div className="py-1">
-                      <button
-                        onClick={() => {
-                          openInviteModal();
-                          setUserMenuOpen(false);
-                        }}
-                        className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50/80 hover:from-amber-100 hover:to-orange-100 border border-amber-200 text-amber-900 text-left transition font-bold shadow-2xs group cursor-pointer"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-lg bg-amber-500 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
-                            <Share2 className="w-3.5 h-3.5" />
-                          </div>
-                          <div>
-                            <div className="text-xs font-black text-amber-900 flex items-center gap-1">
-                              <span>立即邀请好友</span>
-                              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                            </div>
-                            <div className="text-[10px] text-amber-700 font-medium font-mono">
-                              双方立得 ¥20 券 + 100 积分
-                            </div>
-                          </div>
-                        </div>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-200/80 text-amber-900 font-bold border border-amber-300">
-                          领奖励
-                        </span>
-                      </button>
                     </div>
 
                     {/* 后台管理系统入口 */}

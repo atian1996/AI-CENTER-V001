@@ -127,66 +127,54 @@ export const WorkspaceCompetitions: React.FC = () => {
     switch (status) {
       case 'unstarted':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
-            <Clock className="w-3 h-3 text-amber-500" />
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#666666]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#9CA3AF]" />
             未开始
           </span>
         );
       case 'ongoing':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#166534]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
             进行中
           </span>
         );
       case 'ended':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+          <span className="text-[11px] font-normal text-[#888888]">
             已结束
           </span>
         );
     }
   };
 
-  const getTypeTagStyle = (tag: string) => {
-    if (tag.includes('数据科学')) {
-      return 'bg-cyan-50 text-cyan-700 border-cyan-200';
-    }
-    if (tag.includes('安全') || tag.includes('挑战')) {
-      return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-    }
-    if (tag.includes('AIGC') || tag.includes('生成')) {
-      return 'bg-purple-50 text-purple-700 border-purple-200';
-    }
-    if (tag.includes('产品') || tag.includes('创新') || tag.includes('应用')) {
-      return 'bg-indigo-50 text-indigo-700 border-indigo-200';
-    }
-    return 'bg-slate-50 text-slate-700 border-slate-200';
+  const getTypeTagStyle = (_tag: string) => {
+    return 'bg-white text-[#333333] border-[#E0E0E0]';
   };
 
   return (
-    <div id="workspace-competitions-view" className="p-6 space-y-6 max-w-7xl mx-auto font-sans">
+    <div id="workspace-competitions-view" className="p-6 space-y-6 max-w-7xl mx-auto font-sans text-[#1A1A1A]">
       
       {/* 顶部标题 */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAEAEA]">
         <div>
-          <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-indigo-600" />
-            我的赛事
+          <h2 className="text-xl font-semibold text-[#1A1A1A] tracking-tight flex items-center gap-2.5">
+            <Trophy className="w-5 h-5 text-[#333333]" />
+            <span>我的赛事</span>
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-[#666666] mt-1">
             展示您报名参与的所有官方赛事，便捷查看赛程详情并一键直达竞赛平台
           </p>
         </div>
       </div>
 
       {/* 筛选与检索栏 */}
-      <div className="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-2xs space-y-3">
+      <div className="bg-white border border-[#EAEAEA] rounded-md p-4 space-y-3">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           
           {/* 赛事状态筛选 */}
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-xs text-slate-400 font-bold mr-1">赛事状态:</span>
+            <span className="text-xs text-[#888888] font-medium mr-1">赛事状态:</span>
             {[
               { id: 'all', label: '全部' },
               { id: 'unstarted', label: `未开始 (${unstartedTotal})` },
@@ -196,10 +184,10 @@ export const WorkspaceCompetitions: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setStatusFilter(tab.id as any)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition cursor-pointer ${
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition cursor-pointer border ${
                   statusFilter === tab.id
-                    ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
+                    ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]'
+                    : 'bg-white hover:bg-[#F5F5F5] text-[#555555] border-[#EAEAEA]'
                 }`}
               >
                 {tab.label}
@@ -210,11 +198,11 @@ export const WorkspaceCompetitions: React.FC = () => {
           {/* 赛事模式 & 搜索 */}
           <div className="flex items-center gap-3 flex-wrap">
             <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400 font-bold">赛事模式:</span>
+              <span className="text-xs text-[#888888] font-medium">赛事模式:</span>
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+                className="px-3 py-1.5 rounded-md bg-white text-[#333333] text-xs font-medium border border-[#E0E0E0] focus:outline-hidden focus:border-[#1A1A1A] cursor-pointer transition"
               >
                 <option value="all">全部赛事模式</option>
                 <option value="AI数据科学赛">AI数据科学赛</option>
@@ -225,13 +213,13 @@ export const WorkspaceCompetitions: React.FC = () => {
             </div>
 
             <div className="relative min-w-[220px]">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-[#999999] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="搜索赛事名称、主办方或模式..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 bg-slate-100 rounded-xl text-xs text-slate-800 placeholder-slate-400 border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 font-medium"
+                className="w-full pl-8 pr-3 py-1.5 bg-white rounded-md text-xs text-[#1A1A1A] placeholder-[#999999] border border-[#E0E0E0] focus:outline-hidden focus:border-[#1A1A1A] transition"
               />
             </div>
           </div>
@@ -240,14 +228,14 @@ export const WorkspaceCompetitions: React.FC = () => {
       </div>
 
       {/* 赛事列表 */}
-      <div className="bg-white border border-slate-200/80 rounded-2xl shadow-2xs overflow-hidden">
+      <div className="bg-white border border-[#EAEAEA] rounded-md overflow-hidden">
         {filteredList.length === 0 ? (
           <div className="text-center py-16 px-4 space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
-              <Trophy className="w-6 h-6" />
+            <div className="w-11 h-11 rounded-md bg-[#F5F5F5] border border-[#EAEAEA] text-[#888888] flex items-center justify-center mx-auto">
+              <Trophy className="w-5 h-5" />
             </div>
-            <div className="text-sm font-bold text-slate-700">暂无匹配的赛事</div>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+            <div className="text-sm font-semibold text-[#1A1A1A]">暂无匹配的赛事</div>
+            <p className="text-xs text-[#666666] max-w-sm mx-auto">
               您可以前往赛事中心浏览并报名当前热门的 AI 官方巅峰赛与技术挑战赛
             </p>
           </div>
@@ -255,7 +243,7 @@ export const WorkspaceCompetitions: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/75 text-[11px] font-black text-slate-400 uppercase tracking-wider">
+                <tr className="border-b border-[#EAEAEA] bg-[#F8F9FA] text-xs font-semibold text-[#333333]">
                   <th className="py-3.5 px-4 min-w-[200px]">赛事名称</th>
                   <th className="py-3.5 px-4 min-w-[150px]">主办单位</th>
                   <th className="py-3.5 px-4 min-w-[160px]">赛事模式</th>
@@ -265,36 +253,36 @@ export const WorkspaceCompetitions: React.FC = () => {
                   <th className="py-3.5 px-4 text-right min-w-[100px]">操作</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-xs font-medium text-slate-700">
+              <tbody className="divide-y divide-[#F5F5F5] text-xs text-[#333333]">
                 {filteredList.map((item) => {
                   const startDateOnly = item.startTime.split(' ')[0];
                   const endDateOnly = item.endTime.split(' ')[0];
 
                   return (
-                    <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
+                    <tr key={item.id} className="hover:bg-[#FAFAFA] transition-colors">
                       
-                      {/* 1. 赛事名称 (已移除“国家一级学会”等所有标签) */}
-                      <td className="py-3.5 px-4">
-                        <span className="font-extrabold text-slate-900 leading-snug">
+                      {/* 1. 赛事名称 */}
+                      <td className="py-4 px-4">
+                        <span className="font-semibold text-[#1A1A1A] leading-snug">
                           {item.title}
                         </span>
                       </td>
 
-                      {/* 2. 主办单位 (独立一列展示) */}
-                      <td className="py-3.5 px-4">
-                        <div className="text-slate-600 flex items-center gap-1.5 font-medium">
-                          <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      {/* 2. 主办单位 */}
+                      <td className="py-4 px-4">
+                        <div className="text-[#555555] flex items-center gap-1.5">
+                          <Building2 className="w-3.5 h-3.5 text-[#888888] shrink-0" />
                           <span>{item.organizer}</span>
                         </div>
                       </td>
 
-                      {/* 3. 赛事模式 (支持展示多个模式标签) */}
-                      <td className="py-3.5 px-4">
+                      {/* 3. 赛事模式（极细灰框 + 深灰字） */}
+                      <td className="py-4 px-4">
                         <div className="flex flex-wrap gap-1.5">
                           {item.typeTags.map((tag) => (
                             <span 
                               key={tag} 
-                              className={`px-2 py-0.5 rounded-md text-[11px] font-bold border ${getTypeTagStyle(tag)}`}
+                              className={`px-2 py-0.5 rounded text-[11px] font-medium border ${getTypeTagStyle(tag)}`}
                             >
                               {tag}
                             </span>
@@ -302,41 +290,37 @@ export const WorkspaceCompetitions: React.FC = () => {
                         </div>
                       </td>
 
-                      {/* 4. 赛事时间 (赛事开始时间到截止时间的时间段) */}
-                      <td className="py-3.5 px-4 text-slate-600 font-mono text-[11px]">
+                      {/* 4. 赛事时间 */}
+                      <td className="py-4 px-4 text-[#555555] font-mono tabular-nums text-[11px] whitespace-nowrap">
                         <div className="flex items-center gap-1.5">
-                          <Calendar className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
+                          <Calendar className="w-3.5 h-3.5 text-[#888888] shrink-0" />
                           <span>{startDateOnly} ~ {endDateOnly}</span>
                         </div>
                       </td>
 
-                      {/* 5. 赛事状态 (根据时间动态判断) */}
-                      <td className="py-3.5 px-4">
+                      {/* 5. 赛事状态 */}
+                      <td className="py-4 px-4 whitespace-nowrap">
                         {getStatusBadge(item.computedStatus)}
                       </td>
 
-                      {/* 6. 参赛模式 (仅区分 团队参赛 / 个人参赛) */}
-                      <td className="py-3.5 px-4">
-                        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold ${
-                          item.teamType === '团队参赛'
-                            ? 'bg-purple-50 text-purple-700 border border-purple-100'
-                            : 'bg-slate-100 text-slate-700 border border-slate-200/70'
-                        }`}>
+                      {/* 6. 参赛模式 */}
+                      <td className="py-4 px-4 whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-[#F5F5F5] text-[#4B5563] border border-[#EAEAEA]">
                           {item.teamType === '团队参赛' ? (
-                            <Users className="w-3 h-3 text-purple-500" />
+                            <Users className="w-3 h-3 text-[#666666]" />
                           ) : (
-                            <User className="w-3 h-3 text-slate-500" />
+                            <User className="w-3 h-3 text-[#666666]" />
                           )}
                           <span>{item.teamType}</span>
                         </span>
                       </td>
 
-                      {/* 7. 操作栏 (仅保留 赛事详情 按钮) */}
-                      <td className="py-3.5 px-4 text-right">
+                      {/* 7. 操作栏 */}
+                      <td className="py-4 px-4 text-right whitespace-nowrap">
                         <button
                           id={`view-detail-${item.id}`}
                           onClick={() => openCompetitionDetail(item.competitionId)}
-                          className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-600 text-slate-700 hover:text-white font-extrabold text-xs transition-all shadow-2xs inline-flex items-center gap-1 cursor-pointer"
+                          className="px-3 py-1.5 rounded-md bg-white border border-[#D4D4D4] hover:border-[#1A1A1A] hover:bg-[#1A1A1A] text-[#333333] hover:text-white font-medium text-xs transition-all inline-flex items-center gap-1 cursor-pointer"
                         >
                           <span>赛事详情</span>
                           <ChevronRight className="w-3.5 h-3.5" />

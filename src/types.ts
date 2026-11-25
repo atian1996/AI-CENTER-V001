@@ -1737,10 +1737,10 @@ export interface UserFavoriteItem {
   commentsCount: number;
 }
 
-// 培训认证中心类型定义
+// 课程培训中心类型定义
 export type CertificationLevel = '初级' | '中级' | '高级';
 
-export type CertificationSystemId = 'zhipu' | 'tencent' | '360' | 'aigc';
+export type CertificationSystemId = 'fde' | 'ade' | 'aigc' | 'ai-security';
 
 export interface CertificationSystem {
   id: CertificationSystemId;
@@ -1758,7 +1758,7 @@ export interface CertificationSyllabusModule {
 export interface CertificationPathStep {
   id: string;
   title: string;
-  /** 标题右侧浅色提示，如 "29 课时"、"开通后解锁" */
+  /** 标题右侧浅色提示，如 "6 课时" */
   hint?: string;
   /** 支持 Markdown 渲染的正文内容 */
   contentMarkdown: string;
@@ -1774,13 +1774,17 @@ export interface CertificationItem {
   id: string;
   systemId: CertificationSystemId;
   systemName: string;
-  /** 证书名称 */
+  /** 列表页课程主标题 */
   name: string;
-  /** 颁发机构（支持配置多个） */
+  /** 详情页课程大标题（可选，缺省回退 name） */
+  detailTitle?: string;
+  /** 面包屑末级简称，如 "FDE 初级" */
+  shortLevelName?: string;
+  /** 颁发/共建机构（兼容保留） */
   issuingBodies: string[];
-  /** 认证等级 */
+  /** 课程等级 */
   level: CertificationLevel;
-  /** 等级展示前缀，如 L1 / L2 / L3（可选） */
+  /** 等级展示前缀（可选） */
   levelCode?: string;
   /** 自定义标签（支持多个，前台直接展示标签值，不显示字段名称） */
   customTags: string[];
