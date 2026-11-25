@@ -1315,7 +1315,7 @@ export const HomeView06: React.FC = () => {
                   rel="noopener noreferrer"
                   className="px-5 py-2.5 bg-[#FFFFFF] hover:opacity-85 text-[#111111] text-[13px] font-semibold rounded-[4px] inline-flex items-center gap-1.5 transition-opacity whitespace-nowrap"
                 >
-                  <span>前往数安次元</span>
+                  <span>前往数安词源</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </a>
               </div>

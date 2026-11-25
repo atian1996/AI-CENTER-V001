@@ -42,7 +42,7 @@ export const StandalonePageHeader: React.FC<StandalonePageHeaderProps> = ({
             <img
               src="/assets/aistudio/ea682d94c6d331b5596968167ea7f0f1_7d972a6f.png"
               alt="XCTF AI"
-              className="h-7 sm:h-8 w-auto object-contain"
+              className="h-9 sm:h-10 w-auto object-contain"
             />
           </a>
           <span className="text-[#EAEAEA] text-lg font-light select-none" aria-hidden="true">

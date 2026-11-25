@@ -30,11 +30,11 @@ const TRIAL_CONTACTS: Record<string, TrialProductContact> = {
     qrHint: '扫码添加专属顾问，获取「AI 数字孪生靶场」定制演练沙箱试用权限'
   },
   digitoken: {
-    productName: 'Digitoken 数元网关',
+    productName: '数安词源',
     contactPerson: '林工（AI 基础设施架构顾问）',
     phone: '400-882-9100 转 3',
     email: 'digitoken@qianji-ai.com',
-    qrHint: '扫码添加专属顾问，领取「Digitoken 数元网关」测试 Token 与私有化部署包'
+    qrHint: '扫码添加专属顾问，领取「数安词源」测试 Token 与私有化部署包'
   }
 };
 
@@ -710,7 +710,7 @@ export const PremiumTrialView: React.FC = () => {
           </section>
 
           {/* =====================================================================
-              4. 区块三：Digitoken 数元网关（左文右图）
+              4. 区块三：数安词源（左文右图）
              ===================================================================== */}
           <section
             aria-labelledby="trial-section-digitoken-title"
@@ -726,7 +726,7 @@ export const PremiumTrialView: React.FC = () => {
                   id="trial-section-digitoken-title"
                   className="text-[24px] sm:text-[28px] font-semibold text-[var(--text-main)] tracking-tight leading-snug"
                 >
-                  Digitoken 数元网关
+                  数安词源
                 </h2>
                 <p className="text-[14px] font-medium text-[var(--text-sub)]">
                   统一 API 网关，服务于海量 AI 模型
