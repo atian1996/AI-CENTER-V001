@@ -46,6 +46,7 @@ import {
   Check,
   Layers,
   FolderOpen,
+  FolderGit2,
   X,
   FileSpreadsheet
 } from 'lucide-react';
@@ -705,14 +706,12 @@ export const WorkspaceAssets: React.FC = () => {
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto select-none text-[#1A1A1A]">
       
-      {/* Header & Asset Category Tabs */}
+      {/* 顶部标题 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAEAEA]">
         <div>
           <h2 className="text-xl font-semibold text-[#1A1A1A] tracking-tight flex items-center gap-2.5">
+            <FolderGit2 className="w-5 h-5 text-[#333333]" />
             <span>我的资产</span>
-            <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
-              资产库中心
-            </span>
           </h2>
           <p className="text-xs text-[#666666] mt-1">
             统一管理您创建、编排与授权的 AI 工作流应用、智能体、数据集与开发者资源

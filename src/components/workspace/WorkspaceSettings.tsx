@@ -31,17 +31,14 @@ export const WorkspaceSettings: React.FC = () => {
   };
 
   return (
-    <div className="p-6 space-y-6 max-w-4xl mx-auto font-sans text-[#1A1A1A]">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto font-sans text-[#1A1A1A]">
       
-      {/* Header */}
+      {/* 顶部标题 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAEAEA]">
         <div>
           <h2 className="text-xl font-semibold text-[#1A1A1A] tracking-tight flex items-center gap-2.5">
             <User className="w-5 h-5 text-[#333333]" />
             <span>我的资料</span>
-            <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
-              个人信息
-            </span>
           </h2>
           <p className="text-xs text-[#666666] mt-1">
             管理更新您的头像、昵称、身份类型、个人简介及社交主页链接

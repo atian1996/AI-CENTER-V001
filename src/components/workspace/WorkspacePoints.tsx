@@ -184,9 +184,6 @@ export const WorkspacePoints: React.FC = () => {
           <h2 className="text-xl font-semibold text-[#1A1A1A] tracking-tight flex items-center gap-2.5">
             <Wallet className="w-5 h-5 text-[#333333]" />
             <span>我的账户</span>
-            <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
-              资金与积分中心
-            </span>
           </h2>
           <p className="text-xs text-[#666666] mt-1">
             用户管理资金和积分的核心页面，整合余额、充值、积分、签到与流水记录，明晰钱与积分的流向

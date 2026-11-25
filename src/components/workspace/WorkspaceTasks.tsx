@@ -19,7 +19,8 @@ import {
   XCircle,
   Zap,
   Palette,
-  Edit3
+  Edit3,
+  CheckSquare
 } from 'lucide-react';
 import { TaskDetailSubPage } from '../tasks/TaskDetailSubPage';
 import { TaskVerificationModal } from '../tasks/TaskVerificationModal';
@@ -184,37 +185,48 @@ export const WorkspaceTasks: React.FC = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6 animate-fade-in pb-12 text-[#1A1A1A]">
-      {/* 顶部主选项卡切换 + 发布任务入口 */}
-      <div className="bg-white rounded-md p-4 border border-[#EAEAEA] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-1 bg-[#F5F5F5] p-1 rounded-md border border-[#EAEAEA]">
-          <button
-            onClick={() => handleTabChange('published')}
-            className={`px-4 py-2 rounded text-xs font-semibold transition cursor-pointer ${
-              activeTab === 'published'
-                ? 'bg-[#1A1A1A] text-white'
-                : 'text-[#555555] hover:text-[#1A1A1A]'
-            }`}
-          >
-            我发布的任务
-          </button>
-          <button
-            onClick={() => handleTabChange('undertaken')}
-            className={`px-4 py-2 rounded text-xs font-semibold transition cursor-pointer ${
-              activeTab === 'undertaken'
-                ? 'bg-[#1A1A1A] text-white'
-                : 'text-[#555555] hover:text-[#1A1A1A]'
-            }`}
-          >
-            我接单的任务
-          </button>
+      {/* 顶部标题与新建入口 */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAEAEA]">
+        <div>
+          <h2 className="text-xl font-semibold text-[#1A1A1A] tracking-tight flex items-center gap-2.5">
+            <CheckSquare className="w-5 h-5 text-[#333333]" />
+            <span>我的任务</span>
+          </h2>
+          <p className="text-xs text-[#666666] mt-1">
+            统一管理您发布的悬赏需求与承接的实战任务，实时跟进提交与验收进度
+          </p>
         </div>
 
         <button
           onClick={() => setIsCreatingTask(true)}
-          className="px-4 py-2 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white font-semibold text-xs transition flex items-center gap-1.5 cursor-pointer"
+          className="px-4 py-2 rounded-md bg-[#1A1A1A] hover:bg-[#333333] text-white font-semibold text-xs transition flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>发布新需求</span>
+        </button>
+      </div>
+
+      {/* 主选项卡切换 */}
+      <div className="flex items-center gap-1 bg-white p-1 rounded-md border border-[#EAEAEA] w-fit">
+        <button
+          onClick={() => handleTabChange('published')}
+          className={`px-4 py-2 rounded text-xs font-semibold transition cursor-pointer ${
+            activeTab === 'published'
+              ? 'bg-[#1A1A1A] text-white'
+              : 'text-[#555555] hover:text-[#1A1A1A]'
+          }`}
+        >
+          我发布的任务
+        </button>
+        <button
+          onClick={() => handleTabChange('undertaken')}
+          className={`px-4 py-2 rounded text-xs font-semibold transition cursor-pointer ${
+            activeTab === 'undertaken'
+              ? 'bg-[#1A1A1A] text-white'
+              : 'text-[#555555] hover:text-[#1A1A1A]'
+          }`}
+        >
+          我接单的任务
         </button>
       </div>
 

@@ -154,19 +154,12 @@ export const WorkspaceNotifications: React.FC = () => {
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto text-[#1A1A1A]">
       
-      {/* Header */}
+      {/* 顶部标题 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EAEAEA]">
         <div>
           <h2 className="text-xl font-semibold text-[#1A1A1A] tracking-tight flex items-center gap-2.5">
+            <Bell className="w-5 h-5 text-[#333333]" />
             <span>通知中心</span>
-            <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA]">
-              消息网关
-            </span>
-            {totalUnreadCount > 0 && (
-              <span className="text-[11px] px-2 py-0.5 rounded-full font-semibold bg-[#991B1B] text-white tabular-nums">
-                {totalUnreadCount} 未读
-              </span>
-            )}
           </h2>
           <p className="text-xs text-[#666666] mt-1">
             实时接收业务通知（AI集市、任务大厅、算力工坊、赛事中心、账户）与社区互动
