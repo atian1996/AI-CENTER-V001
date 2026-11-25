@@ -1255,120 +1255,12 @@ export const HomeView06: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          代码 / 粒子“溶解”遮罩过渡带（从纯白 #ffffff 平滑溶解至深黑 #1a1a1a）
-          多层渐进点阵 + SVG Noise 颗粒纹理 + CSS mask-image 渐变遮罩
-         ===================================================================== */}
-      <div
-        aria-hidden="true"
-        className="relative w-full h-[220px] overflow-hidden select-none pointer-events-none"
-        style={{
-          background:
-            'linear-gradient(180deg, #ffffff 0%, #fbfbfb 14%, #e9e9e9 34%, #9c9c9c 58%, #383838 82%, #1a1a1a 100%)'
-        }}
-      >
-        {/* 第 1 层：细密微点阵（顶部极淡浮现，向下逐步加深） */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: 'radial-gradient(rgba(26,26,26,0.72) 1px, transparent 1.25px)',
-            backgroundSize: '6px 6px',
-            maskImage:
-              'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.9) 70%, #000000 100%)',
-            WebkitMaskImage:
-              'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.9) 70%, #000000 100%)'
-          }}
-        />
-
-        {/* 第 2 层：中尺度错位粒子栅格（营造赛博点阵溶解质感） */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: 'radial-gradient(rgba(26,26,26,0.92) 2px, transparent 2.3px)',
-            backgroundSize: '12px 12px',
-            backgroundPosition: '6px 6px',
-            maskImage:
-              'linear-gradient(180deg, transparent 18%, rgba(0,0,0,0.55) 52%, rgba(0,0,0,0.95) 82%, #000000 100%)',
-            WebkitMaskImage:
-              'linear-gradient(180deg, transparent 18%, rgba(0,0,0,0.55) 52%, rgba(0,0,0,0.95) 82%, #000000 100%)'
-          }}
-        />
-
-        {/* 第 3 层：大颗粒像素块溶解层（中下部与深黑底座自然咬合） */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: 'radial-gradient(#1a1a1a 3.4px, transparent 3.7px)',
-            backgroundSize: '18px 18px',
-            backgroundPosition: '3px 9px',
-            maskImage:
-              'linear-gradient(180deg, transparent 42%, rgba(0,0,0,0.78) 76%, #000000 100%)',
-            WebkitMaskImage:
-              'linear-gradient(180deg, transparent 42%, rgba(0,0,0,0.78) 76%, #000000 100%)'
-          }}
-        />
-
-        {/* 第 4 层：SVG Noise 黑色细颗粒噪点纹理（消除阶梯感，呈现平滑砂砾溶解） */}
-        <svg className="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none">
-          <defs>
-            <filter id="xctf-dissolve-noise" x="0%" y="0%" width="100%" height="100%">
-              <feTurbulence
-                type="fractalNoise"
-                baseFrequency="0.85"
-                numOctaves="3"
-                stitchTiles="stitch"
-              />
-              <feColorMatrix type="saturate" values="0" />
-            </filter>
-            <linearGradient id="xctf-noise-mask-grad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="black" stopOpacity="0" />
-              <stop offset="28%" stopColor="white" stopOpacity="0.65" />
-              <stop offset="68%" stopColor="white" stopOpacity="0.85" />
-              <stop offset="100%" stopColor="black" stopOpacity="0" />
-            </linearGradient>
-            <mask id="xctf-noise-mask">
-              <rect width="100%" height="100%" fill="url(#xctf-noise-mask-grad)" />
-            </mask>
-          </defs>
-          <rect
-            width="100%"
-            height="100%"
-            filter="url(#xctf-dissolve-noise)"
-            mask="url(#xctf-noise-mask)"
-          />
-        </svg>
-
-        {/* 第 5 层：极微弱代码粒子字符行（硬核科技视觉暗示） */}
-        <div
-          className="absolute inset-x-0 top-1/2 -translate-y-1/2 max-w-[1280px] mx-auto px-8 flex items-center justify-between text-[10px] font-mono tracking-[0.35em] text-[#1a1a1a]/30"
-          style={{
-            maskImage: 'linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%)',
-            WebkitMaskImage:
-              'linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%)'
-          }}
-        >
-          <span>0x01 // DISSOLVE</span>
-          <span className="hidden sm:inline">::: MATRIX.SYNC :::</span>
-          <span>10110 · 01001</span>
-          <span className="hidden md:inline">[ RESOURCE.HUB ]</span>
-          <span>#1A1A1A</span>
-        </div>
-
-        {/* 底部纯黑融合锚定层，确保与栏目四 #1a1a1a 零缝隙衔接 */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-14"
-          style={{
-            background: 'linear-gradient(180deg, rgba(26,26,26,0) 0%, #1a1a1a 100%)'
-          }}
-        />
-      </div>
-
-      {/* =====================================================================
           🛒 栏目四：资源枢纽与生态集市（资源推广与转化）
-          深色背景 (#1a1a1a) + “一大两小”非对称卡片 + 底部粒子汇聚呼应首屏
+          极简硬切深色背景 (#1A1A1A) + 顶部 1px #333333 细线
          ===================================================================== */}
       <section
         ref={section4Ref}
-        className="relative w-full bg-[#1a1a1a] text-[#ffffff] pt-[96px] pb-[120px] overflow-hidden"
+        className="relative w-full bg-[#1A1A1A] border-t border-[#333333] text-[#FFFFFF] pt-[96px] pb-[120px] overflow-hidden"
       >
         <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 sm:px-8">
           {/* 栏目头部 */}
@@ -1500,17 +1392,17 @@ export const HomeView06: React.FC = () => {
             {/* 右侧两小卡（右上：AI 集市；右下：算力与 Token） */}
             <div className="lg:col-span-5 flex flex-col justify-between gap-6">
               {/* 右上卡：AI 集市 */}
-              <div className="gsap-fade-up flex-1 bg-[#141414] border border-[#2e2e2e] hover:border-[#666666] p-8 flex flex-col justify-between transition-colors">
+              <div className="gsap-fade-up flex-1 bg-[#242424] border-0 rounded-[6px] p-8 flex flex-col justify-between transition-colors hover:bg-[#2A2A2A]">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[12px] font-mono uppercase tracking-[2px] text-[#999999]">
                       INDEPENDENT ECOSYSTEM
                     </span>
-                    <span className="text-[11px] font-mono text-[#999999] border border-[#333333] px-2 py-0.5">
+                    <span className="text-[12px] font-mono text-[#999999]">
                       独立运营中心
                     </span>
                   </div>
-                  <h3 className="text-[24px] font-semibold text-[#ffffff] tracking-tight">
+                  <h3 className="text-[24px] font-semibold text-[#FFFFFF] tracking-tight">
                     AI 集市
                   </h3>
                   <p className="text-[14px] text-[#999999] leading-relaxed">
@@ -1518,14 +1410,14 @@ export const HomeView06: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-[#262626] flex items-center justify-between">
-                  <span className="text-[12px] font-mono text-[#666666]">
+                <div className="pt-6 mt-6 border-t border-[#333333] flex items-center justify-between">
+                  <span className="text-[12px] font-mono text-[#999999]">
                     2,400+ 经过安全审计的 AI 资产
                   </span>
                   <button
                     type="button"
                     onClick={() => setActiveTab('marketplace')}
-                    className="px-5 py-2.5 bg-transparent hover:bg-[#ffffff] text-[#ffffff] hover:text-[#1a1a1a] border border-[#ffffff] text-[13px] font-semibold rounded-[4px] inline-flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
+                    className="px-4 py-2 bg-transparent hover:bg-[#FFFFFF] text-[#FFFFFF] hover:text-[#1A1A1A] border border-[#FFFFFF]/40 hover:border-[#FFFFFF] text-[13px] font-medium rounded-[4px] inline-flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
                   >
                     <span>进入集市</span>
                     <ArrowUpRight className="w-4 h-4" />
@@ -1534,17 +1426,17 @@ export const HomeView06: React.FC = () => {
               </div>
 
               {/* 右下卡：算力与 Token */}
-              <div className="gsap-fade-up flex-1 bg-[#141414] border border-[#2e2e2e] hover:border-[#666666] p-8 flex flex-col justify-between transition-colors">
+              <div className="gsap-fade-up flex-1 bg-[#242424] border-0 rounded-[6px] p-8 flex flex-col justify-between transition-colors hover:bg-[#2A2A2A]">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[12px] font-mono uppercase tracking-[2px] text-[#999999]">
                       ELASTIC GPU &amp; TOKENS
                     </span>
-                    <span className="text-[11px] font-mono text-[#999999] border border-[#333333] px-2 py-0.5">
+                    <span className="text-[12px] font-mono text-[#999999]">
                       秒级就绪
                     </span>
                   </div>
-                  <h3 className="text-[24px] font-semibold text-[#ffffff] tracking-tight">
+                  <h3 className="text-[24px] font-semibold text-[#FFFFFF] tracking-tight">
                     算力与 Token
                   </h3>
                   <p className="text-[14px] text-[#999999] leading-relaxed">
@@ -1552,14 +1444,14 @@ export const HomeView06: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-[#262626] flex items-center justify-between">
-                  <span className="text-[12px] font-mono text-[#666666]">
+                <div className="pt-6 mt-6 border-t border-[#333333] flex items-center justify-between">
+                  <span className="text-[12px] font-mono text-[#999999]">
                     低至 ¥2.80 / GPU 时 · 按分钟计费
                   </span>
                   <button
                     type="button"
                     onClick={() => setActiveTab('compute')}
-                    className="px-5 py-2.5 bg-[#ffffff] hover:bg-[#e5e5e5] text-[#1a1a1a] text-[13px] font-semibold rounded-[4px] inline-flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
+                    className="px-4 py-2 bg-[#FFFFFF] hover:opacity-80 text-[#1A1A1A] text-[13px] font-medium rounded-[4px] inline-flex items-center gap-1.5 transition-opacity cursor-pointer whitespace-nowrap"
                   >
                     <span>立即选购</span>
                     <ArrowRight className="w-4 h-4" />

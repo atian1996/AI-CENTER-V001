@@ -82,41 +82,41 @@ export const TrainingCertificationView: React.FC = () => {
   return (
     <div className="w-full max-w-[1320px] mx-auto pb-16 pt-2 antialiased">
       {/* Page Title Header */}
-      <header className="pb-8 border-b border-[var(--border-color)]">
+      <header className="pb-8 border-b border-[var(--border-light)]">
         <div className="space-y-2">
-          <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+          <h1 className="text-[32px] font-semibold tracking-[-0.5px] text-[var(--text-main)] leading-tight">
             权威 AI 能力认证中心
           </h1>
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
             选择认证方向，查阅配套课程、能力评估与行业认可度。
           </p>
         </div>
       </header>
 
-      {/* Main 2-Column Content: Left Certification Systems Sidebar + Right Certification Cards */}
-      <div className="flex flex-col md:flex-row items-start gap-8 xl:gap-10 pt-8">
-        {/* Left Sidebar: 认证体系方案 + 等级筛选（固定吸附在左侧视野内） */}
-        <aside className="w-full md:w-[228px] lg:w-[236px] shrink-0 md:sticky md:top-24 md:self-start md:max-h-[calc(100vh-7rem)] md:overflow-y-auto space-y-7">
-          {/* System Navigation */}
+      {/* Main 2-Column Content: Left Certification Systems Sidebar + Right Clean Divider List */}
+      <div className="flex flex-col md:flex-row items-start gap-8 xl:gap-12 pt-8">
+        {/* Left Sidebar: 认证体系方案 + 等级筛选 */}
+        <aside className="w-full md:w-[228px] lg:w-[236px] shrink-0 md:sticky md:top-24 md:self-start md:max-h-[calc(100vh-7rem)] md:overflow-y-auto space-y-8">
+          {/* System Navigation — 无灰色底块，选中态左侧 3px #1A1A1A 高亮线 */}
           <div>
-            <h2 className="text-[15px] font-bold text-[var(--text-primary)] mb-3.5 px-1">
+            <h2 className="text-[16px] font-semibold text-[var(--text-main)] mb-3 px-3">
               认证体系方案
             </h2>
             <nav
               aria-label="认证体系筛选"
-              className="flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-visible pb-1 md:pb-0"
+              className="flex flex-row md:flex-col gap-0.5 overflow-x-auto md:overflow-visible pb-1 md:pb-0"
             >
               <button
                 type="button"
                 onClick={() => setSelectedSystem('all')}
-                className={`theme-nav-item w-auto md:w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-lg text-[13.5px] font-medium text-left transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`w-auto md:w-full h-[40px] flex items-center justify-between gap-3 px-3 text-[14px] text-left transition-colors cursor-pointer whitespace-nowrap shrink-0 border-l-[3px] bg-transparent ${
                   selectedSystem === 'all'
-                    ? 'theme-sidebar-active font-semibold'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
+                    ? 'border-[var(--border-dark)] text-[var(--text-main)] font-semibold'
+                    : 'border-transparent text-[var(--text-sub)] font-normal hover:text-[var(--text-main)] hover:bg-[var(--bg-hover)]'
                 }`}
               >
                 <span>全部认证体系</span>
-                <span className="text-xs opacity-70 tabular-nums">
+                <span className="text-[12px] text-[var(--text-muted)] tabular-nums">
                   {systemCounts.all}
                 </span>
               </button>
@@ -128,14 +128,14 @@ export const TrainingCertificationView: React.FC = () => {
                     key={sys.id}
                     type="button"
                     onClick={() => setSelectedSystem(sys.id)}
-                    className={`theme-nav-item w-auto md:w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-lg text-[13.5px] font-medium text-left transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                    className={`w-auto md:w-full h-[40px] flex items-center justify-between gap-3 px-3 text-[14px] text-left transition-colors cursor-pointer whitespace-nowrap shrink-0 border-l-[3px] bg-transparent ${
                       isActive
-                        ? 'theme-sidebar-active font-semibold'
-                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
+                        ? 'border-[var(--border-dark)] text-[var(--text-main)] font-semibold'
+                        : 'border-transparent text-[var(--text-sub)] font-normal hover:text-[var(--text-main)] hover:bg-[var(--bg-hover)]'
                     }`}
                   >
                     <span className="truncate">{sys.name}</span>
-                    <span className="text-xs opacity-70 tabular-nums shrink-0">
+                    <span className="text-[12px] text-[var(--text-muted)] tabular-nums shrink-0">
                       {systemCounts[sys.id] || 0}
                     </span>
                   </button>
@@ -144,24 +144,24 @@ export const TrainingCertificationView: React.FC = () => {
             </nav>
           </div>
 
-          {/* Level Filter */}
-          <div className="pt-5 border-t border-[var(--border-color)]">
+          {/* Level Filter — 极简圆角小标签按钮 */}
+          <div className="pt-6 border-t border-[var(--border-light)]">
             <div className="flex items-center justify-between mb-3 px-1">
-              <h3 className="text-xs font-semibold text-[var(--text-secondary)]">
+              <h3 className="text-[12px] font-semibold text-[var(--text-sub)]">
                 认证等级
               </h3>
               {hasActiveFilter && (
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] inline-flex items-center gap-1 transition-colors cursor-pointer"
+                  className="text-[12px] text-[var(--text-muted)] hover:text-[var(--text-main)] inline-flex items-center gap-1 transition-colors cursor-pointer"
                 >
                   <RotateCcw className="w-3 h-3" />
                   <span>重置</span>
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-4 md:grid-cols-2 gap-1.5">
+            <div className="grid grid-cols-4 md:grid-cols-2 gap-2">
               {LEVEL_OPTIONS.map((opt) => {
                 const isActive = selectedLevel === opt.value;
                 return (
@@ -169,10 +169,10 @@ export const TrainingCertificationView: React.FC = () => {
                     key={opt.value}
                     type="button"
                     onClick={() => setSelectedLevel(opt.value)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer whitespace-nowrap ${
+                    className={`px-3 py-1.5 rounded-[4px] text-[12px] font-medium border transition-colors cursor-pointer whitespace-nowrap ${
                       isActive
-                        ? 'border-[var(--brand-primary)] bg-[var(--brand-soft-bg)] text-[var(--brand-primary)] font-semibold'
-                        : 'border-[var(--border-color)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
+                        ? 'border-[var(--text-main)] bg-[var(--text-main)] text-[#FFFFFF]'
+                        : 'border-[var(--border-light)] bg-transparent text-[var(--text-sub)] hover:border-[var(--border-dark)] hover:text-[var(--text-main)]'
                     }`}
                   >
                     {opt.label}
@@ -183,22 +183,21 @@ export const TrainingCertificationView: React.FC = () => {
           </div>
         </aside>
 
-        {/* Right Content Area: Certification Cards */}
-        <section className="flex-1 min-w-0 w-full space-y-5">
+        {/* Right Content Area: 去外框化干净列表，使用 1px 细横线分割 */}
+        <section className="flex-1 min-w-0 w-full">
           {/* Active Track Context Line */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
-            <div className="min-w-0">
-              <div className="flex items-center gap-2.5">
-                <h2 className="text-base font-bold text-[var(--text-primary)]">
-                  {activeSystemMeta.name}
-                </h2>
-              </div>
-            </div>
+          <div className="flex items-center justify-between pb-4 border-b border-[var(--border-light)]">
+            <h2 className="text-[16px] font-semibold text-[var(--text-main)]">
+              {activeSystemMeta.name}
+            </h2>
+            <span className="text-[12px] text-[var(--text-muted)] tabular-nums">
+              共 {filteredCertifications.length} 项认证
+            </span>
           </div>
 
-          {/* Cards List */}
+          {/* Clean Horizontal-Divider List */}
           {filteredCertifications.length > 0 ? (
-            <div className="space-y-5">
+            <div className="bg-[var(--bg-card)] rounded-[6px] border border-[var(--border-light)] mt-4 divide-y divide-[var(--border-light)]">
               {filteredCertifications.map((cert) => {
                 const levelDisplay = cert.levelCode
                   ? `${cert.levelCode} ${cert.level}`
@@ -207,90 +206,82 @@ export const TrainingCertificationView: React.FC = () => {
                 return (
                   <article
                     key={cert.id}
-                    className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-[var(--card-radius)] shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] p-6 sm:p-7 transition-all duration-200"
+                    className="p-6 transition-colors hover:bg-[var(--bg-page)]/50"
                   >
-                    <div className="flex flex-col xl:flex-row items-stretch gap-6 xl:gap-8">
+                    <div className="flex flex-col xl:flex-row items-start gap-6 xl:gap-10">
                       {/* Left Main Info Column */}
-                      <div className="flex-1 min-w-0 flex flex-col justify-between gap-4">
-                        <div className="space-y-3.5">
-                          {/* Level + Custom Tags Row (Directly show custom tag values without field label) */}
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border border-[var(--text-primary)]/30 bg-[var(--bg-surface-muted)] text-[var(--text-primary)] whitespace-nowrap">
-                              {levelDisplay}
-                            </span>
-                            {cert.customTags.map((tag) => (
-                              <span
-                                key={tag}
-                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal border border-[var(--border-color)] bg-[var(--bg-surface)] text-[var(--text-secondary)] whitespace-nowrap"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-
-                          {/* Certificate Title & Issuing Organizations */}
-                          <div>
-                            <h3 className="text-xl sm:text-[22px] font-bold text-[var(--text-primary)] tracking-tight leading-snug">
-                              {cert.name}
-                            </h3>
-                            <p className="text-[13px] text-[var(--text-secondary)] mt-1.5">
-                              颁发机构：{cert.issuingBodies.join(' · ')}
-                            </p>
-                          </div>
-
-                          {/* Brief Intro (<= 100 chars) */}
-                          <div className="bg-[var(--bg-surface-muted)] rounded-[10px] px-4 py-3.5 text-[13.5px] leading-[1.7] text-[var(--text-secondary)]">
-                            {cert.briefIntro}
-                          </div>
+                      <div className="flex-1 min-w-0 space-y-4">
+                        {/* Title Row: 左侧 18px 粗体标题 + 右侧 12px 灰色颁发机构 */}
+                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+                          <h3 className="text-[18px] font-semibold text-[var(--text-main)] tracking-tight leading-snug">
+                            {cert.name}
+                          </h3>
+                          <span className="text-[12px] text-[var(--text-sub)] shrink-0">
+                            颁发机构：{cert.issuingBodies.join(' · ')}
+                          </span>
                         </div>
 
-                        {/* Target Audience (<= 20 chars) + Action CTA */}
-                        <div className="pt-1 space-y-4">
-                          <div>
-                            <div className="text-xs text-[var(--text-muted)]">适用人群</div>
-                            <div className="text-[13.5px] font-medium text-[var(--text-primary)] mt-1">
+                        {/* Tag Row: 统一为 1px solid #1A1A1A 细边框，无背景填充 */}
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[12px] font-medium border border-[var(--border-dark)] bg-transparent text-[var(--text-main)] whitespace-nowrap">
+                            {levelDisplay}
+                          </span>
+                          {cert.customTags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[12px] font-normal border border-[var(--border-dark)] bg-transparent text-[var(--text-main)] whitespace-nowrap"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Brief Intro: 极简正文，去除多余底块 */}
+                        <p className="text-[14px] leading-[1.6] text-[var(--text-sub)]">
+                          {cert.briefIntro}
+                        </p>
+
+                        {/* Target Audience + CTA */}
+                        <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                          <div className="text-[12px] text-[var(--text-sub)]">
+                            <span className="text-[var(--text-muted)] mr-2">适用人群</span>
+                            <span className="text-[var(--text-main)] font-medium">
                               {cert.targetAudience}
-                            </div>
+                            </span>
                           </div>
 
-                          <div className="flex flex-wrap items-center gap-3.5">
-                            <button
-                              type="button"
-                              onClick={() => setSelectedCert(cert)}
-                              className="theme-btn-primary px-5 py-2.5 rounded-[10px] text-[13px] font-semibold inline-flex items-center gap-2 cursor-pointer whitespace-nowrap shrink-0"
-                            >
-                              <span>查看认证详情</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedCert(cert)}
+                            className="px-4 py-2 rounded-[4px] bg-[var(--brand-color)] hover:opacity-80 text-[#FFFFFF] text-[13px] font-medium inline-flex items-center gap-1.5 transition-opacity cursor-pointer whitespace-nowrap shrink-0 self-start sm:self-auto"
+                          >
+                            <span>查看认证详情</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
                         </div>
                       </div>
 
-                      {/* Right Core Capabilities Panel */}
-                      <div className="w-full xl:w-[368px] shrink-0 bg-[var(--bg-surface-muted)] rounded-[10px] p-5 flex flex-col">
-                        <div>
-                          <div className="flex items-center justify-between mb-3.5">
-                            <span className="text-xs font-semibold text-[var(--text-secondary)]">
-                              核心能力
-                            </span>
-                          </div>
+                      {/* Right Core Capabilities: 删除灰色圆角背景块，两列排布 + 纯黑勾号 + 14px 灰字 */}
+                      <div className="w-full xl:w-[340px] shrink-0 pt-4 xl:pt-0 xl:pl-8 border-t xl:border-t-0 xl:border-l border-[var(--border-light)]">
+                        <div className="text-[12px] font-semibold text-[var(--text-main)] mb-3">
+                          核心能力
+                        </div>
 
-                          <div className="grid grid-cols-2 gap-2.5">
-                            {cert.coreCapabilities.map((capability) => (
-                              <div
-                                key={capability}
-                                className="bg-[var(--bg-surface)] border border-[var(--border-color)] rounded-lg px-3 py-2.5 flex items-center gap-2 text-[12.5px] font-medium text-[var(--text-primary)]"
-                              >
-                                <Check
-                                  className="w-3.5 h-3.5 text-emerald-600 shrink-0"
-                                  strokeWidth={2.5}
-                                />
-                                <span className="truncate" title={capability}>
-                                  {capability}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+                          {cert.coreCapabilities.map((capability) => (
+                            <div
+                              key={capability}
+                              className="flex items-start gap-2 text-[14px] leading-[1.5] text-[var(--text-sub)]"
+                            >
+                              <Check
+                                className="w-4 h-4 text-[var(--text-main)] shrink-0 mt-0.5"
+                                strokeWidth={1.8}
+                              />
+                              <span className="truncate" title={capability}>
+                                {capability}
+                              </span>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -300,18 +291,18 @@ export const TrainingCertificationView: React.FC = () => {
             </div>
           ) : (
             /* Empty State */
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-[var(--card-radius)] py-16 px-6 text-center space-y-3">
-              <div className="text-base font-semibold text-[var(--text-primary)]">
+            <div className="mt-4 bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] py-16 px-6 text-center space-y-3">
+              <div className="text-[16px] font-semibold text-[var(--text-main)]">
                 暂无匹配的认证项
               </div>
-              <p className="text-xs text-[var(--text-muted)] max-w-md mx-auto">
-                当前筛选条件下未找到对应的培训认证方案，您可以清空关键词或切换其他认证体系查看。
+              <p className="text-[14px] text-[var(--text-sub)] max-w-md mx-auto">
+                当前筛选条件下未找到对应的培训认证方案，您可以清空筛选或切换其他认证体系查看。
               </p>
               <div className="pt-2">
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="theme-btn-primary px-4 py-2 rounded-[10px] text-xs font-semibold cursor-pointer"
+                  className="px-4 py-2 rounded-[4px] bg-[var(--brand-color)] hover:opacity-80 text-[#FFFFFF] text-[13px] font-medium transition-opacity cursor-pointer"
                 >
                   查看全部认证
                 </button>

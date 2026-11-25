@@ -2351,30 +2351,23 @@ export const CommunityView: React.FC = () => {
   const visibleFeedPosts = filteredPosts.slice(0, currentPage * WATERFALL_PAGE_SIZE);
 
   return (
-    <div
-      className="-mx-8 -my-6 px-8 pt-8 pb-16 min-h-[calc(100vh-64px)] bg-[#F7F8FA] text-[#111827] select-none relative antialiased"
-      style={{
-        fontFamily:
-          'Inter, -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif'
-      }}
-    >
-      {/* 1. 顶部页面标题栏 — 与培训认证页面头部风格及排版完全一致 */}
-      <header className="w-full max-w-[1320px] mx-auto pb-8 border-b border-[var(--border-color)] flex flex-col lg:flex-row lg:items-end justify-between gap-5">
-        {/* 左侧：仅保留标题与一句副标题（与培训认证头部一致） */}
+    <div className="-mx-8 -my-6 px-8 pt-8 pb-16 min-h-[calc(100vh-64px)] bg-[var(--bg-page)] text-[var(--text-main)] select-none relative antialiased">
+      {/* 1. 顶部页面标题栏 */}
+      <header className="w-full max-w-[1320px] mx-auto pb-8 border-b border-[var(--border-light)] flex flex-col lg:flex-row lg:items-end justify-between gap-5">
         <div className="space-y-2">
-          <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+          <h1 className="text-[32px] font-semibold tracking-[-0.5px] text-[var(--text-main)] leading-tight">
             开发者技术社区
           </h1>
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
             汇聚全球 AI 开发者、算法工程师与独立创作者，分享实践经验、解答技术难题与人脉连接。
           </p>
         </div>
 
-        {/* 右侧：极简浅灰搜索框 + 纯黑 [+ 发帖] 按钮 */}
+        {/* 右侧：极简搜索框 + 主操作 [+ 发帖] 按钮 */}
         <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4 shrink-0">
           <div className="relative w-full sm:w-[280px] md:w-[320px]">
             <Search
-              className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+              className="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
               strokeWidth={1.6}
             />
             <input
@@ -2382,14 +2375,14 @@ export const CommunityView: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="搜索帖子标题、技术标签或作者..."
-              className="w-full pl-9 pr-8 py-2 bg-[#FFFFFF] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] outline-none border border-[#E5E7EB] transition-colors focus:border-[#111827]"
+              className="w-full pl-9 pr-8 py-2 bg-[var(--bg-card)] rounded-[4px] text-[13px] text-[var(--text-main)] placeholder-[var(--text-muted)] outline-none border border-[var(--border-light)] transition-colors focus:border-[var(--border-dark)]"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
                 aria-label="清除搜索"
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#111827] cursor-pointer"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-main)] cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" strokeWidth={1.6} />
               </button>
@@ -2399,7 +2392,7 @@ export const CommunityView: React.FC = () => {
           <button
             type="button"
             onClick={() => setViewMode('publish')}
-            className="px-4 py-2 bg-[#000000] hover:bg-[#1F2937] text-[#FFFFFF] rounded-[6px] text-[13.5px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
+            className="px-4 py-2 bg-[var(--brand-color)] hover:opacity-80 text-[#FFFFFF] rounded-[4px] text-[13px] font-medium inline-flex items-center gap-1.5 transition-opacity cursor-pointer shrink-0 whitespace-nowrap"
           >
             <Plus className="w-4 h-4" strokeWidth={1.8} />
             <span>发帖</span>
@@ -2407,13 +2400,13 @@ export const CommunityView: React.FC = () => {
         </div>
       </header>
 
-      {/* 三、页面布局框架：左窄 (200px) 右宽 (自适应，最大宽度 900px)，靠留白隔开，无沉重边框 */}
+      {/* 三、页面布局框架：左窄 (200px) 右宽 (自适应，最大宽度 900px) */}
       <div className="w-full max-w-[1320px] mx-auto pt-8 sm:pt-10 flex flex-col md:flex-row items-start gap-8 lg:gap-12">
-        {/* 2. 极简左侧导航栏 (Sidebar) — 宽度 200px，去背景、去边框，靠留白隔开 */}
+        {/* 2. 极简左侧导航栏 (Sidebar) — 选中项加重左侧 3px 纯黑标识条 */}
         <aside className="w-full md:w-[200px] shrink-0 md:sticky md:top-24 md:self-start">
           <nav
             aria-label="社区板块导航"
-            className="flex flex-row md:flex-col gap-5 md:gap-0 md:space-y-[20px] overflow-x-auto md:overflow-visible pb-2 md:pb-0"
+            className="flex flex-row md:flex-col gap-3 md:gap-1 overflow-x-auto md:overflow-visible pb-2 md:pb-0"
           >
             {boardConfigs.map((b) => {
               const isActive = activeBoard === b.id;
@@ -2423,21 +2416,20 @@ export const CommunityView: React.FC = () => {
                   key={b.id}
                   type="button"
                   onClick={() => setActiveBoard(b.id)}
-                  className={`group relative flex items-center gap-2.5 text-left text-[14px] leading-none transition-colors cursor-pointer whitespace-nowrap shrink-0 py-0.5 ${
+                  className={`group relative h-[40px] px-2 flex items-center gap-2.5 text-left text-[14px] leading-none transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                     isActive
-                      ? 'text-[#111827] font-semibold'
-                      : 'text-[#4B5563] font-normal hover:text-[#111827]'
+                      ? 'text-[var(--text-main)] font-semibold'
+                      : 'text-[var(--text-sub)] font-normal hover:text-[var(--text-main)]'
                   }`}
                 >
-                  {/* 选中态左侧 2px 宽、16px 高纯黑小竖线 */}
+                  {/* 选中态左侧加重纯黑标识条 (3px 宽) */}
                   <span
                     aria-hidden="true"
-                    className={`w-[2px] h-[16px] shrink-0 transition-opacity ${
-                      isActive ? 'bg-[#000000] opacity-100' : 'bg-transparent opacity-0'
+                    className={`w-[3px] h-[18px] shrink-0 transition-opacity ${
+                      isActive ? 'bg-[var(--text-main)] opacity-100' : 'bg-transparent opacity-0'
                     }`}
                   />
 
-                  {/* 16px 极细线性图标（颜色同文字） */}
                   <span className="shrink-0 text-current">{b.icon}</span>
 
                   <span>{b.label}</span>
@@ -2447,10 +2439,10 @@ export const CommunityView: React.FC = () => {
           </nav>
         </aside>
 
-        {/* 3. 右侧内容区 (纯白背景 #FFFFFF，极简列表，最大宽度 900px) */}
-        <div className="flex-1 w-full max-w-[900px] bg-[#FFFFFF]">
-          {/* 列表顶部轻量筛选与板块说明栏（极细底部分割线 #F3F4F6） */}
-          <div className="px-6 py-4 border-b border-[#F3F4F6] flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
+        {/* 3. 右侧内容区 (纯白背景 #FFFFFF，极简列表，最大宽度 900px，统一 6px 圆角 + 1px 细边框) */}
+        <div className="flex-1 w-full max-w-[900px] bg-[var(--bg-card)] rounded-[6px] border border-[var(--border-light)] overflow-hidden">
+          {/* 列表顶部轻量筛选与板块说明栏 */}
+          <div className="px-6 py-4 border-b border-[var(--border-light)] flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
             <div className="flex items-center gap-6 shrink-0">
               {[
                 { id: 'recommend', label: '推荐' },
@@ -2464,15 +2456,15 @@ export const CommunityView: React.FC = () => {
                     onClick={() => setActiveFilter(tab.id as 'recommend' | 'latest')}
                     className={`relative py-1 text-[14px] transition-colors cursor-pointer ${
                       isSelected
-                        ? 'text-[#111827] font-semibold'
-                        : 'text-[#9CA3AF] font-normal hover:text-[#4B5563]'
+                        ? 'text-[var(--text-main)] font-semibold'
+                        : 'text-[var(--text-muted)] font-normal hover:text-[var(--text-sub)]'
                     }`}
                   >
                     <span>{tab.label}</span>
                     {isSelected && (
                       <span
                         aria-hidden="true"
-                        className="absolute left-0 right-0 -bottom-[17px] h-[2px] bg-[#000000]"
+                        className="absolute left-0 right-0 -bottom-[17px] h-[2px] bg-[var(--text-main)]"
                       />
                     )}
                   </button>
@@ -2480,7 +2472,7 @@ export const CommunityView: React.FC = () => {
               })}
             </div>
 
-            <div className="text-[12.5px] text-[#9CA3AF] text-right leading-snug">
+            <div className="text-[12px] text-[var(--text-sub)] text-right leading-snug">
               {boardConfigs.find((b) => b.id === activeBoard)?.desc}
             </div>
           </div>
@@ -2488,17 +2480,17 @@ export const CommunityView: React.FC = () => {
           {/* 核心内容流列表 (List View) */}
           {filteredPosts.length === 0 ? (
             <div className="px-6 py-20 text-center space-y-3">
-              <div className="text-[15px] font-semibold text-[#111827]">
+              <div className="text-[16px] font-semibold text-[var(--text-main)]">
                 暂无相关社区帖子
               </div>
-              <p className="text-[13px] text-[#9CA3AF]">
+              <p className="text-[14px] text-[var(--text-sub)]">
                 尝试更换搜索关键词或切换左侧板块，也可以发布第一条技术讨论。
               </p>
               <div className="pt-2">
                 <button
                   type="button"
                   onClick={() => setViewMode('publish')}
-                  className="px-4 py-2 bg-[#000000] hover:bg-[#1F2937] text-[#FFFFFF] text-[13px] font-medium rounded-[6px] cursor-pointer transition-colors"
+                  className="px-4 py-2 bg-[var(--brand-color)] hover:opacity-80 text-[#FFFFFF] text-[13px] font-medium rounded-[4px] cursor-pointer transition-opacity"
                 >
                   + 发帖
                 </button>
@@ -2506,7 +2498,7 @@ export const CommunityView: React.FC = () => {
             </div>
           ) : (
             <div>
-              <div className="divide-y divide-[#F3F4F6]">
+              <div className="divide-y divide-[var(--border-light)]">
                 {visibleFeedPosts.map((post) => {
                   const likesInfo = getPostLikes(post);
                   const cleanSummary = stripMarkdownSymbols(post.content);
@@ -2517,11 +2509,10 @@ export const CommunityView: React.FC = () => {
                     <article
                       key={post.id}
                       onClick={() => openPostDetail(post.id)}
-                      className="px-6 py-[24px] bg-[#FFFFFF] hover:bg-[#FAFAFA] transition-colors cursor-pointer"
+                      className="px-6 py-6 bg-[var(--bg-card)] hover:bg-[var(--bg-page)]/60 transition-colors cursor-pointer"
                     >
-                      {/* 第一层：元信息 (Meta Info) — 下方留白 8px */}
-                      <div className="mb-[8px] flex items-center justify-between gap-3 text-[12px] text-[#9CA3AF]">
-                        {/* 左侧：[20x20 圆形头像] + [作者名] */}
+                      {/* 第一层：元信息 (Meta Info) */}
+                      <div className="mb-2 flex items-center justify-between gap-3 text-[12px] text-[var(--text-muted)]">
                         <div className="flex items-center gap-2 min-w-0">
                           <img
                             src={post.authorAvatar}
@@ -2530,72 +2521,71 @@ export const CommunityView: React.FC = () => {
                             decoding="async"
                             className="w-[20px] h-[20px] rounded-full object-cover shrink-0"
                           />
-                          <span className="text-[#4B5563] font-normal truncate">
+                          <span className="text-[var(--text-sub)] font-normal truncate">
                             {post.author}
                           </span>
                         </div>
 
-                        {/* 右侧：[特殊标签：置顶/精华 (1px solid #E5E7EB 描边，深灰文字)] + [时间] */}
                         <div className="flex items-center gap-2 shrink-0">
                           {(post.isPinned || post.isTop) && (
-                            <span className="px-1.5 py-0.5 rounded-[4px] border border-[#E5E7EB] text-[#4B5563] text-[12px] leading-none">
+                            <span className="px-1.5 py-0.5 rounded-[4px] border border-[var(--border-dark)] text-[var(--text-main)] text-[12px] leading-none">
                               置顶
                             </span>
                           )}
                           {post.isEssential && (
-                            <span className="px-1.5 py-0.5 rounded-[4px] border border-[#E5E7EB] text-[#4B5563] text-[12px] leading-none">
+                            <span className="px-1.5 py-0.5 rounded-[4px] border border-[var(--border-light)] text-[var(--text-sub)] text-[12px] leading-none">
                               精华
                             </span>
                           )}
-                          <span className="text-[12px] text-[#9CA3AF] tabular-nums">
+                          <span className="text-[12px] text-[var(--text-muted)] tabular-nums">
                             {post.time}
                           </span>
                         </div>
                       </div>
 
-                      {/* 第二层：标题 (Title) — 18px, 字重 600, #111827, 行高 1.4, 单行截断, 下方留白 8px */}
-                      <h2 className="mb-[8px] text-[18px] font-semibold text-[#111827] leading-[1.4] truncate">
+                      {/* 第二层：标题 */}
+                      <h2 className="mb-2 text-[18px] font-semibold text-[var(--text-main)] leading-[1.4] truncate">
                         {displayTitle}
                       </h2>
 
-                      {/* 第三层：摘要 (Summary) — 14px, 字重 400, #4B5563, 行高 1.6, 固定两行截断, 过滤 Markdown 符号, 下方留白 12px */}
-                      <p className="mb-[12px] text-[14px] font-normal text-[#4B5563] leading-[1.6] line-clamp-2">
+                      {/* 第三层：摘要 */}
+                      <p className="mb-3.5 text-[14px] font-normal text-[var(--text-sub)] leading-[1.6] line-clamp-2">
                         {cleanSummary}
                       </p>
 
-                      {/* 第四层：底部信息 (Footer) — 左右两端对齐 */}
+                      {/* 第四层：底部信息 — 左无背景 #标签 + 右纯黑线性图标与灰色数字 */}
                       <div className="flex flex-wrap items-center justify-between gap-4">
-                        {/* 左侧（分类/话题标签）：统一浅灰背景 #F3F4F6, 文字 #6B7280, 字号 12px, 圆角 4px, 内边距 4px 8px */}
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="px-[8px] py-[4px] rounded-[4px] bg-[#F3F4F6] text-[#6B7280] text-[12px] leading-none">
-                            {post.board}
+                        {/* 左侧（分类/话题标签）：去除浅灰填充背景，纯黑文字搭配灰色 # 号前缀 */}
+                        <div className="flex flex-wrap items-center gap-3">
+                          <span className="inline-flex items-center gap-0.5 text-[12px] text-[var(--text-main)] leading-none">
+                            <span className="text-[var(--text-muted)]">#</span>
+                            <span>{post.board}</span>
                           </span>
                           {post.tags &&
                             post.tags.slice(0, 4).map((tag, idx) => (
                               <span
                                 key={`${post.id}-tag-${idx}`}
-                                className="px-[8px] py-[4px] rounded-[4px] bg-[#F3F4F6] text-[#6B7280] text-[12px] leading-none"
+                                className="inline-flex items-center gap-0.5 text-[12px] text-[var(--text-main)] leading-none"
                               >
-                                {tag}
+                                <span className="text-[var(--text-muted)]">#</span>
+                                <span>{tag.replace(/^#/, '')}</span>
                               </span>
                             ))}
                         </div>
 
-                        {/* 右侧（操作/数据）：点赞、评论、浏览、分享 (16px 线性图标 #9CA3AF + 13px 数字) */}
-                        <div className="flex items-center gap-5 text-[13px] text-[#9CA3AF] tabular-nums">
+                        {/* 右侧（操作/数据）：纯黑线性 SVG 图标 + 12px 灰色数字 */}
+                        <div className="flex items-center gap-5 text-[12px] text-[var(--text-sub)] tabular-nums">
                           {/* 点赞 */}
                           <button
                             type="button"
                             onClick={(e) => handleLikePost(post.id, e)}
                             aria-label="点赞"
-                            className={`inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
-                              likesInfo.isLiked
-                                ? 'text-[#111827] font-medium'
-                                : 'text-[#9CA3AF] hover:text-[#4B5563]'
+                            className={`inline-flex items-center gap-1.5 transition-opacity hover:opacity-75 cursor-pointer ${
+                              likesInfo.isLiked ? 'font-semibold text-[var(--text-main)]' : ''
                             }`}
                           >
-                            <ThumbsUp className="w-4 h-4" strokeWidth={1.6} />
-                            <span>{likesInfo.count}</span>
+                            <ThumbsUp className="w-4 h-4 text-[var(--text-main)]" strokeWidth={1.6} />
+                            <span className="text-[var(--text-sub)]">{likesInfo.count}</span>
                           </button>
 
                           {/* 评论 */}
@@ -2606,16 +2596,16 @@ export const CommunityView: React.FC = () => {
                               openPostDetail(post.id);
                             }}
                             aria-label="评论"
-                            className="inline-flex items-center gap-1.5 text-[#9CA3AF] hover:text-[#4B5563] transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1.5 transition-opacity hover:opacity-75 cursor-pointer"
                           >
-                            <MessageSquare className="w-4 h-4" strokeWidth={1.6} />
-                            <span>{post.commentsCount || 12}</span>
+                            <MessageSquare className="w-4 h-4 text-[var(--text-main)]" strokeWidth={1.6} />
+                            <span className="text-[var(--text-sub)]">{post.commentsCount || 12}</span>
                           </button>
 
                           {/* 浏览 */}
-                          <span className="inline-flex items-center gap-1.5 text-[#9CA3AF]">
-                            <Eye className="w-4 h-4" strokeWidth={1.6} />
-                            <span>{post.viewsCount || 120}</span>
+                          <span className="inline-flex items-center gap-1.5">
+                            <Eye className="w-4 h-4 text-[var(--text-main)]" strokeWidth={1.6} />
+                            <span className="text-[var(--text-sub)]">{post.viewsCount || 120}</span>
                           </span>
 
                           {/* 分享 */}
@@ -2626,9 +2616,9 @@ export const CommunityView: React.FC = () => {
                               showToast('动态链接已复制到剪贴板');
                             }}
                             aria-label="分享"
-                            className="inline-flex items-center gap-1 text-[#9CA3AF] hover:text-[#4B5563] transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1 transition-opacity hover:opacity-75 cursor-pointer"
                           >
-                            <Share2 className="w-4 h-4" strokeWidth={1.6} />
+                            <Share2 className="w-4 h-4 text-[var(--text-main)]" strokeWidth={1.6} />
                           </button>
                         </div>
                       </div>
@@ -2639,19 +2629,19 @@ export const CommunityView: React.FC = () => {
 
               {/* 底部加载状态指示条 */}
               {isLoadingMore && (
-                <div className="py-6 flex items-center justify-center gap-2 text-xs text-[#9CA3AF] border-t border-[#F3F4F6]">
-                  <div className="w-3.5 h-3.5 border border-[#111827] border-t-transparent rounded-full animate-spin" />
+                <div className="py-6 flex items-center justify-center gap-2 text-[12px] text-[var(--text-muted)] border-t border-[var(--border-light)]">
+                  <div className="w-3.5 h-3.5 border border-[var(--text-main)] border-t-transparent rounded-full animate-spin" />
                   <span>正在加载更多讨论...</span>
                 </div>
               )}
 
               {isLoadError && (
-                <div className="py-6 flex flex-col items-center justify-center gap-2 text-xs border-t border-[#F3F4F6]">
-                  <span className="text-[#4B5563]">加载失败，请重试</span>
+                <div className="py-6 flex flex-col items-center justify-center gap-2 text-[12px] border-t border-[var(--border-light)]">
+                  <span className="text-[var(--text-sub)]">加载失败，请重试</span>
                   <button
                     type="button"
                     onClick={handleRetry}
-                    className="px-3.5 py-1.5 rounded-[6px] bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111827] transition-colors cursor-pointer flex items-center gap-1.5"
+                    className="px-3.5 py-1.5 rounded-[4px] border border-[var(--border-light)] hover:border-[var(--border-dark)] text-[var(--text-main)] transition-colors cursor-pointer flex items-center gap-1.5"
                   >
                     <RotateCcw className="w-3.5 h-3.5" strokeWidth={1.6} />
                     <span>点击重试</span>
@@ -2660,7 +2650,7 @@ export const CommunityView: React.FC = () => {
               )}
 
               {isMaxLimitReached && (
-                <div className="py-6 text-center text-xs text-[#9CA3AF] border-t border-[#F3F4F6]">
+                <div className="py-6 text-center text-[12px] text-[var(--text-muted)] border-t border-[var(--border-light)]">
                   已达到展示上限，请使用搜索或板块筛选查看更多
                 </div>
               )}
@@ -2669,7 +2659,7 @@ export const CommunityView: React.FC = () => {
                 !isMaxLimitReached &&
                 !isLoadingMore &&
                 visibleFeedPosts.length > 0 && (
-                  <div className="py-6 text-center text-xs text-[#9CA3AF] border-t border-[#F3F4F6]">
+                  <div className="py-6 text-center text-[12px] text-[var(--text-muted)] border-t border-[var(--border-light)]">
                     已显示全部 {visibleFeedPosts.length} 篇讨论
                   </div>
                 )}

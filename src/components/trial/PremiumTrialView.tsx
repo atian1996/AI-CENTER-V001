@@ -178,22 +178,22 @@ export const PremiumTrialView: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-[1320px] mx-auto pb-16 pt-2 antialiased text-[var(--text-primary)]">
+    <div className="w-full max-w-[1320px] mx-auto pb-16 pt-2 antialiased text-[var(--text-main)]">
       <div className="w-full">
-        {/* 1. 页面头部 (Header) — 与培训认证页面头部排版完全一致 */}
-        <header className="pb-8 border-b border-[var(--border-color)]">
+        {/* 1. 页面头部 (Header) */}
+        <header className="pb-8 border-b border-[var(--border-light)]">
           <div className="space-y-2">
-            <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+            <h1 className="text-[32px] font-semibold tracking-[-0.5px] text-[var(--text-main)] leading-tight">
               探索企业级 AI 基础设施
             </h1>
-            <p className="text-sm text-[var(--text-secondary)]">
+            <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
               从大模型实训研发到数字孪生实战推演，打通底层算力到上层应用的全链路，为院校与企业提供低门槛、高可用的 AI 落地平台。
             </p>
           </div>
         </header>
 
-        {/* 全宽画廊陈列窗：三大平台区块（Z 字形交替，上下 120px 大留白间距） */}
-        <div className="py-16 sm:py-24 space-y-24 lg:space-y-[120px]">
+        {/* 全宽画廊陈列窗：三大平台区块（Z 字形交替，大留白间距） */}
+        <div className="py-12 sm:py-16 space-y-20 lg:space-y-[104px]">
           {/* =====================================================================
               2. 区块一：大模型实验场（左文右图）
              ===================================================================== */}
@@ -204,70 +204,70 @@ export const PremiumTrialView: React.FC = () => {
             {/* 左侧（文字区） */}
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-2">
-                <div className="text-xs font-mono uppercase tracking-widest text-[#666666]">
+                <div className="text-[12px] font-mono uppercase tracking-widest text-[var(--text-muted)]">
                   01 / AI TRAINING &amp; R&amp;D PLATFORM
                 </div>
                 <h2
                   id="trial-section-lab-title"
-                  className="text-2xl sm:text-[28px] font-bold text-[#1a1a1a] tracking-tight leading-snug"
+                  className="text-[24px] sm:text-[28px] font-semibold text-[var(--text-main)] tracking-tight leading-snug"
                 >
                   大模型实验场
                 </h2>
-                <p className="text-[15px] font-medium text-[#666666]">
+                <p className="text-[14px] font-medium text-[var(--text-sub)]">
                   打通 AI 学习到研发全链路，赋能未来 AI 人才
                 </p>
               </div>
 
-              {/* 简介（灰色底块） */}
-              <div className="bg-[#f7f7f7] border border-[#eaeaea] rounded-[10px] p-4 text-[13.5px] text-[#666666] leading-relaxed">
+              {/* 简介 */}
+              <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 text-[14px] text-[var(--text-sub)] leading-[1.6]">
                 传统教育理论与实践脱节、技术门槛高、缺乏实战环境。本平台旨在连接学习与产业，提供体系化实战教学能力与低门槛模型开发方案。
               </div>
 
-              {/* 四大核心能力（2x2 极简网格卡片布局） */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div className="bg-[#ffffff] border border-[#eaeaea] rounded-[10px] p-4 space-y-1.5 hover:border-[#1a1a1a] transition-colors">
-                  <div className="text-[14px] font-semibold text-[#1a1a1a]">
+              {/* 四大核心能力（2x2 极简网格卡片布局，零阴影） */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-5 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[16px] font-semibold text-[var(--text-main)]">
                     AI实训
                   </div>
-                  <p className="text-xs text-[#666666] leading-relaxed">
+                  <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
                     体系化实战教学，包含学习路径、课程训练、比赛测验、人才评估。
                   </p>
                 </div>
 
-                <div className="bg-[#ffffff] border border-[#eaeaea] rounded-[10px] p-4 space-y-1.5 hover:border-[#1a1a1a] transition-colors">
-                  <div className="text-[14px] font-semibold text-[#1a1a1a]">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-5 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[16px] font-semibold text-[var(--text-main)]">
                     模型开发
                   </div>
-                  <p className="text-xs text-[#666666] leading-relaxed">
+                  <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
                     覆盖数据标注、模型微调、模型评估全流程。
                   </p>
                 </div>
 
-                <div className="bg-[#ffffff] border border-[#eaeaea] rounded-[10px] p-4 space-y-1.5 hover:border-[#1a1a1a] transition-colors">
-                  <div className="text-[14px] font-semibold text-[#1a1a1a]">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-5 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[16px] font-semibold text-[var(--text-main)]">
                     智能体开发
                   </div>
-                  <p className="text-xs text-[#666666] leading-relaxed">
+                  <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
                     可视化搭建，包含知识库、MCP、Skill 仓库管理。
                   </p>
                 </div>
 
-                <div className="bg-[#ffffff] border border-[#eaeaea] rounded-[10px] p-4 space-y-1.5 hover:border-[#1a1a1a] transition-colors">
-                  <div className="text-[14px] font-semibold text-[#1a1a1a]">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-5 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[16px] font-semibold text-[var(--text-main)]">
                     智能服务
                   </div>
-                  <p className="text-xs text-[#666666] leading-relaxed">
+                  <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
                     一键部署，提供模型推理与智能体服务。
                   </p>
                 </div>
               </div>
 
-              {/* 亮点标签栏（横向排列的浅灰胶囊标签） */}
+              {/* 亮点标签栏 */}
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 {['国家职业技术技能标准', '700+ 实训课时', '60%+ 实操'].map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#f7f7f7] text-[#1a1a1a] border border-[#eaeaea]"
+                    className="inline-flex items-center px-2.5 py-1 rounded-[4px] text-[12px] font-normal bg-transparent text-[var(--text-main)] border border-[var(--border-dark)]"
                   >
                     {tag}
                   </span>
@@ -279,7 +279,7 @@ export const PremiumTrialView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveModalKey('lab')}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-[10px] bg-[#1a1a1a] hover:bg-[#333333] text-[#ffffff] text-sm font-semibold transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[4px] bg-[var(--brand-color)] hover:opacity-80 text-[#FFFFFF] text-[14px] font-medium transition-opacity cursor-pointer"
                 >
                   <span>申请免费试用</span>
                   <ArrowRight className="w-4 h-4" />
@@ -287,9 +287,9 @@ export const PremiumTrialView: React.FC = () => {
               </div>
             </div>
 
-            {/* 右侧（纯 CSS 绘制深色后台 UI 示意图） */}
+            {/* 右侧（纯 CSS 绘制深色后台 UI 示意图，零阴影、6px 圆角） */}
             <div className="lg:col-span-6">
-              <div className="w-full rounded-[12px] bg-[#1a1a1a] border border-[#2e2e2e] shadow-[0_16px_40px_rgba(0,0,0,0.08)] overflow-hidden text-[#ffffff]">
+              <div className="w-full rounded-[6px] bg-[#1A1A1A] border border-[#2E2E2E] overflow-hidden text-[#FFFFFF]">
                 {/* 顶部窗口栏（带三个浅灰圆点） */}
                 <div className="px-4 py-3 border-b border-[#2e2e2e] bg-[#141414] flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
@@ -477,45 +477,198 @@ export const PremiumTrialView: React.FC = () => {
             aria-labelledby="trial-section-range-title"
             className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
           >
-            {/* 左侧（AI 数字孪生靶场架构图） */}
+            {/* 左侧（纯代码重绘：黑白极简三层架构线框图，纯白底、无红黄蓝杂色、无阴影） */}
             <div className="lg:col-span-6 order-2 lg:order-1">
-              <div className="w-full rounded-[12px] bg-[#ffffff] border border-[#eaeaea] p-4 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden">
-                <img
-                  src="/assets/aistudio/image_a815fd5f.png"
-                  alt="AI 数字孪生靶场架构图"
-                  className="w-full h-auto block rounded-[8px] object-contain"
-                />
+              <div className="w-full rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] p-6 space-y-4">
+                {/* 顶部图标题 */}
+                <div className="flex items-center justify-between pb-3 border-b border-[#EAEAEA]">
+                  <span className="text-[12px] font-semibold text-[#1A1A1A] tracking-wide">
+                    AI 数字孪生靶场 · 三层技术架构图
+                  </span>
+                  <span className="text-[12px] font-mono text-[#666666]">
+                    ARCHITECTURE SPEC
+                  </span>
+                </div>
+
+                {/* 第一层：业务层 (Business Layer) */}
+                <div className="border border-[#1A1A1A] rounded-[4px] p-4 bg-[#FFFFFF]">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[12px] font-semibold text-[#1A1A1A]">
+                      业务层 · 场景演练与能力输出
+                    </span>
+                    <span className="text-[11px] font-mono text-[#666666]">
+                      BUSINESS LAYER
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    {[
+                      { title: '实战学训', sub: '体系化攻防课程' },
+                      { title: '竞技赛事', sub: '高并发多模式对抗' },
+                      { title: '推演演练', sub: '场内 / 场外联动' },
+                      { title: '科学评测', sub: '全维度量化评估' }
+                    ].map((node) => (
+                      <div
+                        key={node.title}
+                        className="border border-[#1A1A1A] rounded-[4px] px-2.5 py-2 text-left bg-[#FFFFFF]"
+                      >
+                        <div className="text-[12px] font-semibold text-[#1A1A1A]">
+                          {node.title}
+                        </div>
+                        <div className="text-[11px] text-[#666666] mt-0.5 leading-snug">
+                          {node.sub}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 虚线连接器 1 -> 2 */}
+                <div className="flex items-center justify-around px-6" aria-hidden="true">
+                  {[0, 1, 2].map((i) => (
+                    <svg key={i} width="16" height="20" viewBox="0 0 16 20" fill="none">
+                      <line
+                        x1="8"
+                        y1="0"
+                        x2="8"
+                        y2="16"
+                        stroke="#1A1A1A"
+                        strokeWidth="1"
+                        strokeDasharray="2.5 2.5"
+                      />
+                      <path d="M5 13L8 17L11 13" stroke="#1A1A1A" strokeWidth="1" />
+                    </svg>
+                  ))}
+                </div>
+
+                {/* 第二层：引擎层 (Engine Layer) */}
+                <div className="border border-[#1A1A1A] rounded-[4px] p-4 bg-[#FFFFFF]">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[12px] font-semibold text-[#1A1A1A]">
+                      引擎层 · 数字孪生仿真与标准流程
+                    </span>
+                    <span className="text-[11px] font-mono text-[#666666]">
+                      ENGINE LAYER
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2">
+                    {[
+                      '方案想定',
+                      '环境构建',
+                      '智能行为模拟',
+                      '攻防数据采集',
+                      '效果评估'
+                    ].map((step, idx, arr) => (
+                      <React.Fragment key={step}>
+                        <div className="flex-1 min-w-[78px] border border-dashed border-[#1A1A1A] rounded-[4px] px-2 py-2 text-center">
+                          <span className="text-[12px] text-[#1A1A1A] font-medium whitespace-nowrap">
+                            {step}
+                          </span>
+                        </div>
+                        {idx < arr.length - 1 && (
+                          <svg
+                            width="14"
+                            height="12"
+                            viewBox="0 0 14 12"
+                            fill="none"
+                            className="shrink-0 hidden sm:block"
+                            aria-hidden="true"
+                          >
+                            <line
+                              x1="0"
+                              y1="6"
+                              x2="11"
+                              y2="6"
+                              stroke="#666666"
+                              strokeWidth="1"
+                              strokeDasharray="2 2"
+                            />
+                            <path d="M8.5 3.5L11.5 6L8.5 8.5" stroke="#666666" strokeWidth="1" />
+                          </svg>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 虚线连接器 2 -> 3 */}
+                <div className="flex items-center justify-around px-6" aria-hidden="true">
+                  {[0, 1, 2].map((i) => (
+                    <svg key={i} width="16" height="20" viewBox="0 0 16 20" fill="none">
+                      <line
+                        x1="8"
+                        y1="0"
+                        x2="8"
+                        y2="16"
+                        stroke="#1A1A1A"
+                        strokeWidth="1"
+                        strokeDasharray="2.5 2.5"
+                      />
+                      <path d="M5 13L8 17L11 13" stroke="#1A1A1A" strokeWidth="1" />
+                    </svg>
+                  ))}
+                </div>
+
+                {/* 第三层：底层 (Infrastructure Layer) */}
+                <div className="border border-[#1A1A1A] rounded-[4px] p-4 bg-[#FFFFFF]">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[12px] font-semibold text-[#1A1A1A]">
+                      底层 · 云原生底座与异构基础设施
+                    </span>
+                    <span className="text-[11px] font-mono text-[#666666]">
+                      INFRASTRUCTURE LAYER
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2.5">
+                    {[
+                      { name: '虚实互联网络', detail: 'SDN / 协议仿真' },
+                      { name: '弹性算力集群', detail: 'GPU / 容器沙箱' },
+                      { name: '镜像与资产库', detail: '漏洞 / 拓扑模板' }
+                    ].map((infra) => (
+                      <div
+                        key={infra.name}
+                        className="border border-[#EAEAEA] rounded-[4px] px-3 py-2 bg-[#F8F9FA]"
+                      >
+                        <div className="text-[12px] font-medium text-[#1A1A1A]">
+                          {infra.name}
+                        </div>
+                        <div className="text-[11px] text-[#666666] mt-0.5">
+                          {infra.detail}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* 右侧（文字区） */}
             <div className="lg:col-span-6 space-y-6 order-1 lg:order-2">
               <div className="space-y-2">
-                <div className="text-xs font-mono uppercase tracking-widest text-[#666666]">
+                <div className="text-[12px] font-mono uppercase tracking-widest text-[var(--text-muted)]">
                   02 / DIGITAL TWIN CYBER RANGE
                 </div>
                 <h2
                   id="trial-section-range-title"
-                  className="text-2xl sm:text-[28px] font-bold text-[#1a1a1a] tracking-tight leading-snug"
+                  className="text-[24px] sm:text-[28px] font-semibold text-[var(--text-main)] tracking-tight leading-snug"
                 >
                   AI 数字孪生靶场
                 </h2>
-                <p className="text-[15px] font-medium text-[#666666]">
+                <p className="text-[14px] font-medium text-[var(--text-sub)]">
                   以数字之身，铸实战之能
                 </p>
               </div>
 
               {/* 简介 */}
-              <p className="text-[14px] text-[#666666] leading-relaxed">
+              <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
                 基于底层云平台，通过高精度仿真推演与多场景构建，为各行业提供全维度的实战演练与科学评测。
               </p>
 
-              {/* 适用行业（采用两列网格展示，每个行业配一个极简线框图标） */}
-              <div className="space-y-2.5">
-                <div className="text-xs font-semibold uppercase tracking-wider text-[#666666]">
+              {/* 适用行业 */}
+              <div className="space-y-3">
+                <div className="text-[12px] font-semibold uppercase tracking-wider text-[var(--text-sub)]">
                   适用行业场景
                 </div>
-                <div className="grid grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-2 gap-4">
                   {[
                     { label: '国防军工', type: 'defense' as const, desc: '复杂电磁与攻防态势推演' },
                     { label: '能源电力', type: 'energy' as const, desc: '电网关键设施数字孪生防护' },
@@ -524,16 +677,16 @@ export const PremiumTrialView: React.FC = () => {
                   ].map((ind) => (
                     <div
                       key={ind.label}
-                      className="bg-[#ffffff] border border-[#eaeaea] rounded-[10px] p-4 flex items-start gap-3 hover:border-[#1a1a1a] transition-colors"
+                      className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 flex items-start gap-3 hover:border-[var(--border-dark)] transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-[8px] bg-[#f7f7f7] border border-[#eaeaea] flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="w-8 h-8 rounded-[4px] bg-[var(--bg-hover)] border border-[var(--border-light)] flex items-center justify-center shrink-0 mt-0.5">
                         <IndustryWireframeIcon type={ind.type} />
                       </div>
                       <div className="min-w-0">
-                        <div className="text-[14px] font-semibold text-[#1a1a1a]">
+                        <div className="text-[14px] font-semibold text-[var(--text-main)]">
                           {ind.label}
                         </div>
-                        <div className="text-xs text-[#666666] mt-0.5 truncate">
+                        <div className="text-[12px] text-[var(--text-sub)] mt-0.5 truncate">
                           {ind.desc}
                         </div>
                       </div>
@@ -547,7 +700,7 @@ export const PremiumTrialView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveModalKey('range')}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-[10px] bg-[#1a1a1a] hover:bg-[#333333] text-[#ffffff] text-sm font-semibold transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[4px] bg-[var(--brand-color)] hover:opacity-80 text-[#FFFFFF] text-[14px] font-medium transition-opacity cursor-pointer"
                 >
                   <span>申请免费试用</span>
                   <ArrowRight className="w-4 h-4" />
@@ -566,50 +719,50 @@ export const PremiumTrialView: React.FC = () => {
             {/* 左侧（文字区） */}
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-2">
-                <div className="text-xs font-mono uppercase tracking-widest text-[#666666]">
+                <div className="text-[12px] font-mono uppercase tracking-widest text-[var(--text-muted)]">
                   03 / UNIFIED ENTERPRISE AI GATEWAY
                 </div>
                 <h2
                   id="trial-section-digitoken-title"
-                  className="text-2xl sm:text-[28px] font-bold text-[#1a1a1a] tracking-tight leading-snug"
+                  className="text-[24px] sm:text-[28px] font-semibold text-[var(--text-main)] tracking-tight leading-snug"
                 >
                   Digitoken 数元网关
                 </h2>
-                <p className="text-[15px] font-medium text-[#666666]">
+                <p className="text-[14px] font-medium text-[var(--text-sub)]">
                   统一 API 网关，服务于海量 AI 模型
                 </p>
               </div>
 
-              {/* 简介（灰色底块） */}
-              <div className="bg-[#f7f7f7] border border-[#eaeaea] rounded-[10px] p-4 text-[13.5px] text-[#666666] leading-relaxed">
+              {/* 简介 */}
+              <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 text-[14px] text-[var(--text-sub)] leading-[1.6]">
                 基于 New API 深度开发的企业级 AI 资产基座。通过统一、标准的接口协议接入全网主流大模型，高效管理数字资产，为 AI 应用提供极速、安全、透明的 Token 分发与调用服务。
               </div>
 
-              {/* 三大核心特性（横向排列的极简卡片） */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                <div className="bg-[#ffffff] border border-[#eaeaea] rounded-[10px] p-4 space-y-1.5 hover:border-[#1a1a1a] transition-colors">
-                  <div className="text-[14px] font-semibold text-[#1a1a1a]">
+              {/* 三大核心特性 */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[14px] font-semibold text-[var(--text-main)]">
                     极速接入与路由
                   </div>
-                  <p className="text-xs text-[#666666] leading-relaxed">
+                  <p className="text-[12px] text-[var(--text-sub)] leading-[1.6]">
                     兼容 OpenAI、Claude、Gemini 等多协议，支持自动负载均衡与失败重试，毫秒级响应。
                   </p>
                 </div>
 
-                <div className="bg-[#ffffff] border border-[#eaeaea] rounded-[10px] p-4 space-y-1.5 hover:border-[#1a1a1a] transition-colors">
-                  <div className="text-[14px] font-semibold text-[#1a1a1a]">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[14px] font-semibold text-[var(--text-main)]">
                     透明计费与管控
                   </div>
-                  <p className="text-xs text-[#666666] leading-relaxed">
+                  <p className="text-[12px] text-[var(--text-sub)] leading-[1.6]">
                     按 Token 用量实时计费，提供细粒度的速率限制、成本跟踪与多用户团队权限管理。
                   </p>
                 </div>
 
-                <div className="bg-[#ffffff] border border-[#eaeaea] rounded-[10px] p-4 space-y-1.5 hover:border-[#1a1a1a] transition-colors">
-                  <div className="text-[14px] font-semibold text-[#1a1a1a]">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[14px] font-semibold text-[var(--text-main)]">
                     开源生态与自托管
                   </div>
-                  <p className="text-xs text-[#666666] leading-relaxed">
+                  <p className="text-[12px] text-[var(--text-sub)] leading-[1.6]">
                     社区驱动，支持完全私有化部署与灵活扩展，保障企业数据资产安全。
                   </p>
                 </div>
@@ -620,7 +773,7 @@ export const PremiumTrialView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveModalKey('digitoken')}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-[10px] bg-[#1a1a1a] hover:bg-[#333333] text-[#ffffff] text-sm font-semibold transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[4px] bg-[var(--brand-color)] hover:opacity-80 text-[#FFFFFF] text-[14px] font-medium transition-opacity cursor-pointer"
                 >
                   <span>申请免费试用</span>
                   <ArrowRight className="w-4 h-4" />
@@ -628,9 +781,9 @@ export const PremiumTrialView: React.FC = () => {
               </div>
             </div>
 
-            {/* 右侧（纯 CSS 绘制极简代码终端窗口 Terminal） */}
+            {/* 右侧（纯 CSS 绘制极简代码终端窗口 Terminal，零阴影、6px 圆角） */}
             <div className="lg:col-span-6">
-              <div className="w-full rounded-[12px] bg-[#141414] border border-[#2e2e2e] shadow-[0_16px_40px_rgba(0,0,0,0.08)] overflow-hidden text-[#e5e5e5]">
+              <div className="w-full rounded-[6px] bg-[#141414] border border-[#2E2E2E] overflow-hidden text-[#E5E5E5]">
                 {/* 顶部窗口栏（带三个圆点） */}
                 <div className="px-4 py-3 border-b border-[#2a2a2a] bg-[#1a1a1a] flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
@@ -709,7 +862,7 @@ Authorization: Bearer sk-digitoken-8f92a7c4e1b0...
           aria-labelledby="trial-contact-modal-title"
         >
           <div
-            className="relative w-full max-w-[440px] bg-[#ffffff] border border-[#eaeaea] rounded-[12px] shadow-[0_20px_60px_rgba(0,0,0,0.16)] p-7 sm:p-8 text-[#1a1a1a]"
+            className="relative w-full max-w-[440px] bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] p-7 sm:p-8 text-[#1A1A1A]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* 右上角极简关闭按钮 */}
@@ -717,7 +870,7 @@ Authorization: Bearer sk-digitoken-8f92a7c4e1b0...
               type="button"
               onClick={() => setActiveModalKey(null)}
               aria-label="关闭弹窗"
-              className="absolute top-5 right-5 p-1.5 rounded-lg text-[#999999] hover:text-[#1a1a1a] hover:bg-[#f7f7f7] transition-colors cursor-pointer"
+              className="absolute top-5 right-5 p-1.5 rounded-[4px] text-[#999999] hover:text-[#1A1A1A] hover:bg-[#F1F3F5] transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" strokeWidth={1.75} />
             </button>
@@ -726,17 +879,17 @@ Authorization: Bearer sk-digitoken-8f92a7c4e1b0...
             <div className="pr-8">
               <h2
                 id="trial-contact-modal-title"
-                className="text-xl font-semibold text-[#1a1a1a] tracking-tight"
+                className="text-[20px] font-semibold text-[#1A1A1A] tracking-tight"
               >
                 申请免费试用
               </h2>
-              <p className="text-xs text-[#666666] mt-1.5 truncate">
+              <p className="text-[12px] text-[#666666] mt-1.5 truncate">
                 意向平台：{currentContact.productName}
               </p>
             </div>
 
             {/* 联系人、电话、邮箱列表 */}
-            <div className="mt-6 border-t border-b border-[#eaeaea] divide-y divide-[#eaeaea]">
+            <div className="mt-6 border-t border-b border-[#EAEAEA] divide-y divide-[#EAEAEA]">
               {[
                 { label: '联系人', value: currentContact.contactPerson, copyable: false },
                 { label: '联系电话', value: currentContact.phone, copyable: true },
@@ -750,7 +903,7 @@ Authorization: Bearer sk-digitoken-8f92a7c4e1b0...
                     {item.label}
                   </span>
                   <div className="flex items-center justify-end gap-2 min-w-0">
-                    <span className="text-[#1a1a1a] font-medium truncate tabular-nums">
+                    <span className="text-[#1A1A1A] font-medium truncate tabular-nums">
                       {item.value}
                     </span>
                     {item.copyable && (
@@ -759,10 +912,10 @@ Authorization: Bearer sk-digitoken-8f92a7c4e1b0...
                         onClick={() => handleCopy(item.value)}
                         title="复制"
                         aria-label={`复制${item.label}`}
-                        className="p-1 rounded text-[#999999] hover:text-[#1a1a1a] hover:bg-[#f7f7f7] transition-colors cursor-pointer shrink-0"
+                        className="p-1 rounded-[4px] text-[#999999] hover:text-[#1A1A1A] hover:bg-[#F1F3F5] transition-colors cursor-pointer shrink-0"
                       >
                         {copiedValue === item.value ? (
-                          <Check className="w-3.5 h-3.5 text-[#1a1a1a]" />
+                          <Check className="w-3.5 h-3.5 text-[#1A1A1A]" />
                         ) : (
                           <Copy className="w-3.5 h-3.5" />
                         )}
@@ -773,12 +926,12 @@ Authorization: Bearer sk-digitoken-8f92a7c4e1b0...
               ))}
             </div>
 
-            {/* 二维码占位符区域 */}
-            <div className="mt-6 bg-[#f7f7f7] border border-[#eaeaea] rounded-[12px] p-6 flex flex-col items-center justify-center text-center">
-              <div className="bg-[#ffffff] p-3 rounded-[10px] border border-[#eaeaea]">
+            {/* 二维码区域 */}
+            <div className="mt-6 bg-[#F8F9FA] border border-[#EAEAEA] rounded-[6px] p-6 flex flex-col items-center justify-center text-center">
+              <div className="bg-[#FFFFFF] p-3 rounded-[6px] border border-[#EAEAEA]">
                 <MinimalQrSvg seed={`trial-${currentContact.productName}`} />
               </div>
-              <p className="text-xs text-[#666666] mt-3.5 leading-relaxed">
+              <p className="text-[12px] text-[#666666] mt-3.5 leading-relaxed">
                 {currentContact.qrHint}
               </p>
             </div>

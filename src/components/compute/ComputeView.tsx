@@ -72,57 +72,45 @@ export const ComputeView: React.FC = () => {
   const [dropdownInstId, setDropdownInstId] = useState<string | null>(null);
   const [restartDropdownId, setRestartDropdownId] = useState<string | null>(null);
 
-  // 4 个顶部快速场景 Preset 卡片定义 (参考图片 3)
+  // 4 个顶部快速场景 Preset 卡片定义（极简设计系统：24px 纯黑线性图标，无彩色条）
   const quickPresets = [
     {
       id: 'notebook',
       badge: '数据实验',
-      badgeStyle: 'bg-cyan-50 text-cyan-700 border-cyan-200',
-      icon: <BookOpen className="w-5 h-5 text-cyan-600" />,
-      iconBg: 'bg-cyan-50 border-cyan-100',
-      title: '📓 Notebook 开发',
+      icon: <BookOpen className="w-6 h-6 text-[#1A1A1A]" strokeWidth={1.6} />,
+      title: 'Notebook 开发',
       description: '预装 JupyterLab 与 PyTorch 框架，开箱即用，支持在线交互调试',
       actionText: '一键创建 Notebook',
-      actionColor: 'text-indigo-600 hover:text-indigo-700',
       scene: 'Notebook开发' as GPUInstance['scene'],
       imageName: 'PyTorch 2'
     },
     {
       id: 'finetune',
       badge: '大模型微调',
-      badgeStyle: 'bg-amber-50 text-amber-800 border-amber-200',
-      icon: <Flame className="w-5 h-5 text-amber-600" />,
-      iconBg: 'bg-amber-50 border-amber-100',
-      title: '🔥 大模型微调 (LLaMA/Qwen)',
+      icon: <Flame className="w-6 h-6 text-[#1A1A1A]" strokeWidth={1.6} />,
+      title: '大模型微调 (LLaMA/Qwen)',
       description: '适配 A100 80G 多卡集群，包含 DeepSpeed, LLaMA-Factory 与 LoRA',
       actionText: '一键创建微调环境',
-      actionColor: 'text-indigo-600 hover:text-indigo-700',
       scene: 'LLaMA/Qwen微调' as GPUInstance['scene'],
       imageName: 'PyTorch 2'
     },
     {
       id: 'comfyui',
       badge: 'AIGC 绘画',
-      badgeStyle: 'bg-purple-50 text-purple-700 border-purple-200',
-      icon: <Palette className="w-5 h-5 text-purple-600" />,
-      iconBg: 'bg-purple-50 border-purple-100',
-      title: '🎨 文生图生成 (ComfyUI)',
+      icon: <Palette className="w-6 h-6 text-[#1A1A1A]" strokeWidth={1.6} />,
+      title: '文生图生成 (ComfyUI)',
       description: '预装 Flux.1, ControlNet 基础模型包与节点拓展，开箱直接渲染',
       actionText: '一键创建 ComfyUI',
-      actionColor: 'text-indigo-600 hover:text-indigo-700',
       scene: 'ComfyUI绘图' as GPUInstance['scene'],
       imageName: '🧘 ComfyUI v0.19.3 (包含 WAN2.2 Animation)'
     },
     {
       id: 'custom',
       badge: '全自由配置',
-      badgeStyle: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      icon: <Sliders className="w-5 h-5 text-emerald-600" />,
-      iconBg: 'bg-emerald-50 border-emerald-100',
-      title: '⚙️ 自定义自由配置',
+      icon: <Sliders className="w-6 h-6 text-[#1A1A1A]" strokeWidth={1.6} />,
+      title: '自定义自由配置',
       description: '自由选择 GPU 型号、显存大小、网络带宽与私有 Docker 镜像',
       actionText: '高级自定义创建',
-      actionColor: 'text-indigo-600 hover:text-indigo-700',
       scene: '自定义部署' as GPUInstance['scene'],
       imageName: 'Ubuntu 22.04 纯净版'
     }
@@ -252,15 +240,15 @@ export const ComputeView: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-[1320px] mx-auto space-y-6 animate-fade-in text-slate-800 pb-16 pt-2 select-none font-sans antialiased">
+    <div className="w-full max-w-[1320px] mx-auto space-y-8 animate-fade-in text-[var(--text-main)] pb-16 pt-2 select-none antialiased">
       
-      {/* Unified Page Header (与培训认证顶部一致) */}
-      <header className="pb-8 border-b border-[var(--border-color)] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      {/* Unified Page Header */}
+      <header className="pb-8 border-b border-[var(--border-light)] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div className="space-y-2">
-          <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+          <h1 className="text-[32px] font-semibold tracking-[-0.5px] text-[var(--text-main)] leading-tight">
             算力工坊
           </h1>
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
             提供按量计费的优质高性能 GPU 算力资源，包含 RTX PRO 6000、5090、H100、4090 等多样化容器实例。
           </p>
         </div>
@@ -268,22 +256,22 @@ export const ComputeView: React.FC = () => {
         <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={() => setHistoryModalOpen(true)}
-            className="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+            className="px-4 py-2 rounded-[4px] bg-transparent border border-[var(--border-light)] hover:border-[var(--border-dark)] text-[var(--text-main)] font-medium text-[13px] flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <History className="w-4 h-4 text-slate-400" />
-            <span>历史明细 & 账单</span>
+            <History className="w-4 h-4 text-[var(--text-main)]" strokeWidth={1.6} />
+            <span>历史明细 &amp; 账单</span>
           </button>
         </div>
       </header>
 
       {/* TOP NAVIGATION TABS */}
-      <div className="flex items-center border-b border-slate-200">
+      <div className="flex items-center border-b border-[var(--border-light)]">
         <button
           onClick={() => setActiveTab('available')}
-          className={`px-6 py-3 font-extrabold text-sm transition relative cursor-pointer ${
+          className={`px-6 py-3 font-semibold text-[14px] transition-colors relative cursor-pointer ${
             activeTab === 'available'
-              ? 'text-indigo-600 border-b-2 border-indigo-600'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'text-[var(--text-main)] border-b-2 border-[var(--text-main)]'
+              : 'text-[var(--text-sub)] hover:text-[var(--text-main)]'
           }`}
         >
           可租用实例
@@ -291,28 +279,28 @@ export const ComputeView: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('my_instances')}
-          className={`px-6 py-3 font-extrabold text-sm transition relative cursor-pointer flex items-center gap-2 ${
+          className={`px-6 py-3 font-semibold text-[14px] transition-colors relative cursor-pointer flex items-center gap-2 ${
             activeTab === 'my_instances'
-              ? 'text-indigo-600 border-b-2 border-indigo-600'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'text-[var(--text-main)] border-b-2 border-[var(--text-main)]'
+              : 'text-[var(--text-sub)] hover:text-[var(--text-main)]'
           }`}
         >
           <span>我租用的实例</span>
-          <span className="px-2 py-0.2 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-200">
+          <span className="px-2 py-0.5 rounded-[4px] bg-[var(--bg-hover)] text-[var(--text-main)] text-[12px] font-medium tabular-nums">
             {gpuInstances.length}
           </span>
         </button>
 
         <button
           onClick={() => setActiveTab('my_images')}
-          className={`px-6 py-3 font-extrabold text-sm transition relative cursor-pointer flex items-center gap-2 ${
+          className={`px-6 py-3 font-semibold text-[14px] transition-colors relative cursor-pointer flex items-center gap-2 ${
             activeTab === 'my_images'
-              ? 'text-indigo-600 border-b-2 border-indigo-600'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'text-[var(--text-main)] border-b-2 border-[var(--text-main)]'
+              : 'text-[var(--text-sub)] hover:text-[var(--text-main)]'
           }`}
         >
           <span>我的镜像</span>
-          <span className="px-2 py-0.2 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-200">
+          <span className="px-2 py-0.5 rounded-[4px] bg-[var(--bg-hover)] text-[var(--text-main)] text-[12px] font-medium tabular-nums">
             {myCustomImages.length}
           </span>
         </button>
@@ -320,13 +308,14 @@ export const ComputeView: React.FC = () => {
 
       {/* TAB 1: 可租用实例 */}
       {activeTab === 'available' && (
-        <div className="space-y-8">
+        <div className="space-y-12">
           
-          {/* SECTION A: 顶部4个快速方案卡片 (严格还原参考图片 3) */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-indigo-600" />
-              <h2 className="text-sm font-extrabold text-slate-900">快速开箱配置（根据应用场景一键部署）</h2>
+          {/* SECTION A: 顶部4个快速方案卡片 — 纯白卡片 + 1px solid #EAEAEA + 24px 纯黑线性图标 */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-[16px] font-semibold text-[var(--text-main)]">
+                快速开箱配置（根据应用场景一键部署）
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -334,108 +323,103 @@ export const ComputeView: React.FC = () => {
                 <div 
                   key={preset.id}
                   onClick={() => handleQuickPresetClick(preset)}
-                  className="group relative rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1 cursor-pointer overflow-hidden"
+                  className="group rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-light)] hover:border-[var(--border-dark)] p-6 transition-colors flex flex-col justify-between space-y-5 cursor-pointer"
                 >
                   <div className="space-y-3">
-                    {/* Header: Icon & Badge */}
+                    {/* Header: 24px 纯黑线性图标 & 极简线框标签 */}
                     <div className="flex items-start justify-between gap-2">
-                      <div className={`w-10 h-10 rounded-xl ${preset.iconBg} border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}>
+                      <div className="shrink-0">
                         {preset.icon}
                       </div>
 
-                      <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-extrabold border ${preset.badgeStyle}`}>
+                      <span className="text-[12px] px-2 py-0.5 rounded-[4px] font-normal border border-[var(--border-light)] bg-transparent text-[var(--text-sub)]">
                         {preset.badge}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-sm font-extrabold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                    <h3 className="text-[16px] font-semibold text-[var(--text-main)] leading-snug">
                       {preset.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-xs text-slate-500 leading-relaxed font-normal min-h-[38px]">
+                    <p className="text-[14px] text-[var(--text-sub)] leading-[1.6] font-normal min-h-[44px]">
                       {preset.description}
                     </p>
                   </div>
 
-                  {/* Action Link */}
-                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-indigo-600 group-hover:translate-x-0.5 transition-transform">
+                  {/* Text Action Link */}
+                  <div className="pt-4 border-t border-[var(--border-light)] flex items-center justify-between text-[13px] font-medium text-[var(--text-main)]">
                     <span>{preset.actionText}</span>
-                    <ChevronRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" strokeWidth={1.6} />
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* SECTION B: 丰富的实例数据卡片列表 */}
-          <div className="space-y-3">
+          {/* SECTION B: GPU 容器实例大厅 — 纯白卡片 + 1px #EAEAEA 边框，去彩色条/圆点 */}
+          <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-indigo-600" />
-                <h2 className="text-sm font-extrabold text-slate-900">裸金属与 GPU 容器实例大厅 ({availableRentalCards.length})</h2>
-              </div>
-              <span className="text-xs text-slate-400 font-medium">按需弹性秒级拉起 • 秒级计费</span>
+              <h2 className="text-[16px] font-semibold text-[var(--text-main)]">
+                裸金属与 GPU 容器实例大厅 ({availableRentalCards.length})
+              </h2>
+              <span className="text-[12px] text-[var(--text-sub)]">按需弹性秒级拉起 · 秒级计费</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {availableRentalCards.map((card) => (
                 <div 
                   key={card.id}
-                  className={`bg-white rounded-2xl border border-slate-200/90 ${card.topBorderColor} border-t-4 p-6 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between space-y-5`}
+                  className="bg-[var(--bg-card)] rounded-[6px] border border-[var(--border-light)] p-6 transition-colors hover:border-[var(--border-dark)] flex flex-col justify-between space-y-6"
                 >
-                  {/* Header: Title + Available Badge */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                  <div className="space-y-5">
+                    {/* Header: 硬件规格主标题 + 可用卡数 */}
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="text-[18px] font-semibold text-[var(--text-main)] tracking-tight leading-snug">
                         {card.title}
-                      </h2>
-                      <span className="px-3 py-1 rounded-full text-xs font-extrabold text-blue-600 bg-blue-50 border border-blue-200/80">
+                      </h3>
+                      <span className="px-2 py-0.5 rounded-[4px] text-[12px] font-normal text-[var(--text-sub)] bg-transparent border border-[var(--border-light)] shrink-0 tabular-nums">
                         {card.maxGpuCount ?? card.availableCards}卡可用
                       </span>
                     </div>
 
-                    {/* Pricing Display */}
-                    <div className="flex items-center gap-1.5 text-xs text-slate-600 font-medium pb-2 border-b border-slate-100">
-                      <Tag className="w-3.5 h-3.5 text-indigo-500 fill-indigo-100" />
-                      <span>按量使用</span>
-                      <span className="text-red-500 font-black text-lg font-mono">¥{(card.hourlyPrice ?? 0).toFixed(2)}</span>
-                      <span className="text-slate-400">/ 小时</span>
+                    {/* Price Display: 超大号加粗深黑价格 + 小号灰色单位 */}
+                    <div className="pb-4 border-b border-[var(--border-light)] flex items-baseline gap-1.5">
+                      <span className="text-[28px] font-bold text-[var(--text-main)] tabular-nums leading-none tracking-tight">
+                        ¥ {(card.hourlyPrice ?? 0).toFixed(2)}
+                      </span>
+                      <span className="text-[12px] text-[var(--text-sub)]">/小时</span>
+                      <span className="ml-auto text-[12px] text-[var(--text-muted)]">按量计费</span>
                     </div>
 
-                    {/* Specs List */}
-                    <div className="space-y-2.5 text-xs font-medium text-slate-700">
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 text-center">🟢</span>
-                        <span className="text-slate-500 font-bold">GPU</span>
-                        <span className="font-semibold text-slate-900">{card.gpuModel}，共 {card.vram}</span>
+                    {/* Specs Hierarchy: 去除所有绿/红/蓝圆点，清晰分层排版 */}
+                    <div className="space-y-2.5">
+                      <div className="text-[14px] font-semibold text-[var(--text-main)] leading-snug">
+                        {card.gpuModel} · {card.vram}
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 text-center">💻</span>
-                        <span className="text-slate-500 font-bold">CPU</span>
-                        <span className="font-semibold text-slate-900">{card.cpu}</span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 text-center">🧠</span>
-                        <span className="text-slate-500 font-bold">内存</span>
-                        <span className="font-semibold text-slate-900">{card.ram}</span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 text-center">🗄️</span>
-                        <span className="text-slate-500 font-bold">硬盘</span>
-                        <span className="font-semibold text-slate-900">{card.disk}</span>
+                      <div className="space-y-1.5 text-[12px] text-[var(--text-sub)]">
+                        <div className="flex items-baseline justify-between gap-4">
+                          <span className="text-[var(--text-muted)] shrink-0">CPU</span>
+                          <span className="text-[var(--text-sub)] text-right truncate">{card.cpu}</span>
+                        </div>
+                        <div className="flex items-baseline justify-between gap-4">
+                          <span className="text-[var(--text-muted)] shrink-0">内存</span>
+                          <span className="text-[var(--text-sub)] text-right truncate">{card.ram}</span>
+                        </div>
+                        <div className="flex items-baseline justify-between gap-4">
+                          <span className="text-[var(--text-muted)] shrink-0">硬盘</span>
+                          <span className="text-[var(--text-sub)] text-right truncate">{card.disk}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Bottom Action Button */}
+                  {/* Bottom Action Button: 100% 宽度，白底黑框，hover 反转为黑底白字 */}
                   <button
                     onClick={() => handleStartCardRental(card)}
-                    className="w-full py-2.5 rounded-xl border border-indigo-200 text-indigo-600 hover:bg-indigo-50 font-extrabold text-xs transition cursor-pointer active:scale-98"
+                    className="w-full py-2.5 rounded-[4px] bg-[#FFFFFF] border border-[var(--border-dark)] text-[var(--text-main)] hover:bg-[var(--text-main)] hover:text-[#FFFFFF] font-medium text-[13px] transition-colors cursor-pointer"
                   >
                     开始使用
                   </button>
@@ -505,133 +489,128 @@ export const ComputeView: React.FC = () => {
                 return (
                   <div
                     key={inst.id}
-                    className="bg-white rounded-2xl border border-slate-200 p-5 shadow-2xs space-y-4 hover:shadow-xs transition"
+                    className="bg-[var(--bg-card)] rounded-[6px] border border-[var(--border-light)] p-6 space-y-4"
                   >
                     {/* Header Row: 规格名称 / 单价 / 状态 Tag <---> 实例 ID */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border-light)] pb-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-base font-black text-slate-900">{inst.name}</span>
-                        <span className="text-xs font-extrabold text-amber-600 bg-amber-50/60 px-2 py-0.5 rounded-md border border-amber-200/50">
-                          {inst.hourlyCost} 元 / 小时
+                        <span className="text-[16px] font-semibold text-[var(--text-main)]">{inst.name}</span>
+                        <span className="text-[12px] font-medium text-[var(--text-sub)] tabular-nums">
+                          ¥{inst.hourlyCost} / 小时
                         </span>
 
-                        {/* Status Tags */}
+                        {/* Status Tags — 极简黑白灰体系 */}
                         {isRunning && (
-                          <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-300 flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="text-[12px] font-medium text-[#FFFFFF] bg-[var(--text-main)] px-2 py-0.5 rounded-[4px]">
                             运行中
                           </span>
                         )}
 
                         {isStarting && (
-                          <span className="text-[11px] font-bold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-300 flex items-center gap-1">
-                            <RefreshCw className="w-3 h-3 animate-spin text-amber-600" />
+                          <span className="text-[12px] font-medium text-[var(--text-main)] bg-[var(--bg-hover)] px-2 py-0.5 rounded-[4px] flex items-center gap-1">
+                            <RefreshCw className="w-3 h-3 animate-spin text-[var(--text-main)]" />
                             {inst.progressPercent ? `正在下载镜像: ${inst.progressPercent}%` : '正在开机...'}
                           </span>
                         )}
 
                         {isCreatingImage && (
-                          <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-300 flex items-center gap-1">
-                            <RefreshCw className="w-3 h-3 animate-spin text-purple-600" />
+                          <span className="text-[12px] font-medium text-[var(--text-main)] bg-[var(--bg-hover)] px-2 py-0.5 rounded-[4px] flex items-center gap-1">
+                            <RefreshCw className="w-3 h-3 animate-spin text-[var(--text-main)]" />
                             创建镜像中
                           </span>
                         )}
 
                         {isStopped && (
-                          <span className="text-[11px] font-bold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-300">
+                          <span className="text-[12px] font-medium text-[var(--text-sub)] bg-[var(--bg-hover)] px-2 py-0.5 rounded-[4px]">
                             已关机
                           </span>
                         )}
                       </div>
 
-                      <div className="text-xs text-slate-400 font-mono">
-                        实例 ID: <span className="text-slate-600 font-bold">{inst.id}</span>
+                      <div className="text-[12px] text-[var(--text-muted)] font-mono">
+                        实例 ID: <span className="text-[var(--text-main)] font-medium">{inst.id}</span>
                       </div>
                     </div>
 
                     {/* Middle Info Grid: 2 Columns Layout (左硬件右费用) */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[13px] leading-relaxed">
                       {/* Left Column: 硬件配置 */}
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs">🟢</span>
-                          <span className="font-extrabold text-slate-800 shrink-0">GPU</span>
-                          <span className="text-slate-600 font-medium">
+                        <div className="flex items-center gap-3">
+                          <span className="font-semibold text-[var(--text-main)] w-10 shrink-0">GPU</span>
+                          <span className="text-[var(--text-sub)]">
                             {inst.gpuCount} 块 {inst.gpuModel}，共 {inst.vram} 显存
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs">💻</span>
-                          <span className="font-extrabold text-slate-800 shrink-0">CPU</span>
-                          <span className="text-slate-600 font-medium">{inst.cpu}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="font-semibold text-[var(--text-main)] w-10 shrink-0">CPU</span>
+                          <span className="text-[var(--text-sub)]">{inst.cpu}</span>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs">🟧</span>
-                          <span className="font-extrabold text-slate-800 shrink-0">内存</span>
-                          <span className="text-slate-600 font-medium">{inst.ram}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="font-semibold text-[var(--text-main)] w-10 shrink-0">内存</span>
+                          <span className="text-[var(--text-sub)]">{inst.ram}</span>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs">🗄️</span>
-                          <span className="font-extrabold text-slate-800 shrink-0">硬盘</span>
-                          <span className="text-slate-600 font-medium">{inst.disk || '375.8 GB'}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="font-semibold text-[var(--text-main)] w-10 shrink-0">硬盘</span>
+                          <span className="text-[var(--text-sub)]">{inst.disk || '375.8 GB'}</span>
                         </div>
                       </div>
 
                       {/* Right Column: 租用与费用明细 */}
-                      <div className="space-y-2 border-l border-slate-100 pl-0 md:pl-6">
+                      <div className="space-y-2 border-l border-[var(--border-light)] pl-0 md:pl-6">
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-500 font-medium">租用时间</span>
-                          <span className="text-slate-800 font-bold font-mono">{inst.startTime || inst.createdAt || '2026-08-19 14:22'}</span>
+                          <span className="text-[var(--text-sub)]">租用时间</span>
+                          <span className="text-[var(--text-main)] font-medium tabular-nums">{inst.startTime || inst.createdAt || '2026-08-19 14:22'}</span>
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-500 font-medium">租用方式</span>
-                          <span className="text-slate-800 font-bold">{inst.billingType}</span>
+                          <span className="text-[var(--text-sub)]">租用方式</span>
+                          <span className="text-[var(--text-main)] font-medium">{inst.billingType}</span>
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-500 font-medium">费用情况</span>
-                          <span className="text-slate-800 font-medium">
-                            共计 <strong className="font-bold">{inst.totalCost ?? 0.0}</strong> 元，其中积分已抵扣 <strong className="font-bold">{inst.voucherDeduction ?? 0.0}</strong> 元
+                          <span className="text-[var(--text-sub)]">费用情况</span>
+                          <span className="text-[var(--text-main)] tabular-nums">
+                            共计 <strong className="font-semibold">{inst.totalCost ?? 0.0}</strong> 元，其中积分已抵扣 <strong className="font-semibold">{inst.voucherDeduction ?? 0.0}</strong> 元
                           </span>
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-500 font-medium">到期时间</span>
-                          <span className="text-slate-800 font-medium">
+                          <span className="text-[var(--text-sub)]">到期时间</span>
+                          <span className="text-[var(--text-main)] tabular-nums">
                             {inst.expireTime ? (
-                              <strong className="text-amber-600">{inst.expireTime} 到期</strong>
+                              <strong className="font-semibold">{inst.expireTime} 到期</strong>
                             ) : (
-                              <span>当前余额预计还可使用 <strong className="font-bold">{inst.remainingHours ?? 8}</strong> 小时</span>
+                              <span>当前余额预计还可使用 <strong className="font-semibold">{inst.remainingHours ?? 8}</strong> 小时</span>
                             )}
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Banner & Remarks Section (开机中 / 创建镜像中 / 专属备注) */}
+                    {/* Banner & Remarks Section */}
                     {(isStarting || isCreatingImage || inst.remark) && (
                       <div className="pt-1">
                         {isCreatingImage ? (
-                          <div className="p-3 rounded-xl bg-purple-50/70 border border-purple-200/60 text-xs text-purple-900 space-y-1">
+                          <div className="p-3 rounded-[4px] bg-[var(--bg-hover)] border border-[var(--border-light)] text-[12px] text-[var(--text-main)] space-y-1">
                             {inst.remark && (
-                              <div className="font-bold text-slate-700">备注: {inst.remark}</div>
+                              <div className="font-semibold">备注: {inst.remark}</div>
                             )}
-                            <div className="text-purple-700 flex items-center gap-1.5">
-                              <AlertCircle className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                            <div className="text-[var(--text-sub)] flex items-center gap-1.5">
+                              <AlertCircle className="w-3.5 h-3.5 text-[var(--text-main)] shrink-0" />
                               <span>该实例正在创建镜像，你可以在我的镜像中查看进度，创建完成后，实例将自动关机停止计费</span>
                             </div>
                           </div>
                         ) : isStarting ? (
-                          <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/60 text-xs text-amber-900 flex items-center gap-2">
-                            <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-600" />
+                          <div className="p-3 rounded-[4px] bg-[var(--bg-hover)] border border-[var(--border-light)] text-[12px] text-[var(--text-main)] flex items-center gap-2">
+                            <RefreshCw className="w-3.5 h-3.5 animate-spin text-[var(--text-main)]" />
                             <span>实例已创建，正在进行网络与环境部署 ({inst.progressPercent || 39}%)...</span>
                           </div>
                         ) : (
-                          <div className="text-xs text-slate-500 font-medium bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                          <div className="text-[12px] text-[var(--text-sub)] bg-[var(--bg-page)] px-3 py-1.5 rounded-[4px] border border-[var(--border-light)]">
                             备注: {inst.remark}
                           </div>
                         )}
