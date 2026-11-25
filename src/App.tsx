@@ -33,6 +33,8 @@ import { AuthModal } from './components/modals/AuthModal';
 import { InviteFriendsModal } from './components/modals/InviteFriendsModal';
 import { AgentTrialPageView } from './components/marketplace/AgentTrialPageView';
 import { ScreencastPlayerView } from './components/admin/screencast/ScreencastPlayerView';
+import { OpcCommunityNetworkPage } from './components/opc/OpcCommunityNetworkPage';
+import { StandalonePageHeader } from './components/common/StandalonePageHeader';
 
 const AppContent: React.FC = () => {
   const { 
@@ -110,6 +112,101 @@ const AppContent: React.FC = () => {
     return (
       <div className="min-h-screen w-full bg-[#0a0f1d] text-slate-100 font-sans selection:bg-blue-600 selection:text-white">
         <ScreencastPlayerView type={screencastType} />
+        <Toast />
+      </div>
+    );
+  }
+
+  // 独立窗口模式：在新浏览器窗口单独打开 OPC 生态社区与政策网络页面
+  const standalonePage = queryParams.get('standalone');
+  if (standalonePage === 'opc-network') {
+    return (
+      <>
+        <OpcCommunityNetworkPage />
+        <AuthModal />
+        <Toast />
+      </>
+    );
+  }
+
+  // 独立窗口模式：在新浏览器窗口单独打开 AI 集市页面（配与 OPC 社区网络一致的独立顶栏）
+  if (standalonePage === 'marketplace') {
+    return (
+      <div className="min-h-screen w-full bg-[var(--bg-page)] text-[var(--text-main)] font-sans flex flex-col">
+        <StandalonePageHeader pageTitle="AI 集市" maxWidthClass="max-w-[1320px]" />
+        <main className="flex-1 w-full max-w-[1920px] mx-auto px-8 py-8 overflow-x-clip">
+          <MarketplaceView />
+        </main>
+
+        <CreateBlankAppModal />
+        <RechargeModal />
+        {detailModalAgent && (
+          <AgentDetailViewModal
+            agent={detailModalAgent}
+            isOpen={!!detailModalAgent}
+            onClose={() => setDetailModalAgent(null)}
+            onOpenSubscribeModal={(ag) => setSubscribeModalAgent(ag)}
+            onOpenQuotaModal={(ag) => setQuotaModalAgent(ag)}
+            userSubscription={subscriptions[detailModalAgent.id]}
+            isPayPerTokenMode={!!payPerTokenAgents[detailModalAgent.id]}
+            trialCountLeft={trialCountLeft}
+            setTrialCountLeft={setTrialCountLeft}
+            setPayPerTokenMode={(enabled) => {
+              setPayPerTokenAgents(prev => ({ ...prev, [detailModalAgent.id]: enabled }));
+            }}
+          />
+        )}
+        {subscribeModalAgent && (
+          <SubscribeModal
+            agent={subscribeModalAgent}
+            isOpen={!!subscribeModalAgent}
+            onClose={() => setSubscribeModalAgent(null)}
+            currentTrialLeft={trialCountLeft}
+            onSuccess={(newSub) => {
+              setSubscriptions(prev => ({ ...prev, [newSub.agentId]: newSub }));
+              setAgents(prev => prev.map(a => a.id === newSub.agentId ? { ...a, isPurchased: true } : a));
+            }}
+          />
+        )}
+        {quotaModalAgent && (
+          <QuotaExhaustedModal
+            agent={quotaModalAgent}
+            isOpen={!!quotaModalAgent}
+            onClose={() => setQuotaModalAgent(null)}
+            onSelectPayPerToken={() => {
+              setPayPerTokenAgents(prev => ({ ...prev, [quotaModalAgent.id]: true }));
+              showToast('已开启“按 Token 扣费”继续使用模式！');
+              const ag = quotaModalAgent;
+              setQuotaModalAgent(null);
+              setDetailModalAgent(ag);
+            }}
+            onSelectSubscribe={() => {
+              const ag = quotaModalAgent;
+              setQuotaModalAgent(null);
+              setSubscribeModalAgent(ag);
+            }}
+          />
+        )}
+        <AgentSandboxModal />
+        <ModelTryoutModal />
+        <ModelDetailModal
+          model={detailModel}
+          isOpen={!!detailModel}
+          onClose={() => setDetailModel(null)}
+          onOpenTryout={(model) => setTryoutModel(model)}
+        />
+        <DatasetDetailModal
+          dataset={detailDataset}
+          isOpen={!!detailDataset}
+          onClose={() => setDetailDataset(null)}
+        />
+        <SkillDetailModal
+          skill={detailSkill}
+          isOpen={!!detailSkill}
+          onClose={() => setDetailSkill(null)}
+        />
+        <ModelCompareBar />
+        <AuthModal />
         <Toast />
       </div>
     );

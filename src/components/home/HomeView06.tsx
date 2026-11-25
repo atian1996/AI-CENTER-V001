@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { useApp } from '../../context/AppContext';
 import { AdvisorContactModal } from '../training/AdvisorContactModal';
-import { ArrowRight, ArrowUpRight, X, Check, Copy } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, X, Check, Copy, Folder, Puzzle } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -188,14 +188,6 @@ const UPCOMING_CLASSES: UpcomingClassItem[] = [
   }
 ];
 
-const OPC_CITY_POLICIES = [
-  { city: '北京 · 中关村 AI 超级个体社区', policy: '最高 50 万算力券直补 + 6 个月免费独立工位 + 政企订单优先派发' },
-  { city: '上海 · 模速空间 OPC 创新基地', policy: 'Token 调用补贴 40% + 创业免息贷款绿色通道 + 大模型备案辅导' },
-  { city: '深圳 · 前海深港 AI 创客中心', policy: '跨境算力专线支持 + 最高 30 万项目交付奖励 + 产业基金直投对接' },
-  { city: '杭州 · 滨江硅谷 AI 极客部落', policy: '免费 GPU 实验集群配额 + 人才公寓租金减免 + 悬赏任务佣金全免' },
-  { city: '成都 / 武汉 / 南京 / 西安 等 50+ 城市节点', policy: '属地化高校实训基地开放 + 共享会议空间 + 远程交付法务与财税托管' }
-];
-
 export const HomeView06: React.FC = () => {
   const { setActiveTab, showToast } = useApp();
 
@@ -226,18 +218,9 @@ export const HomeView06: React.FC = () => {
   // Flywheel hover state
   const [hoveredFlywheelIdx, setHoveredFlywheelIdx] = useState<number | null>(null);
 
-  // 3D Tilt state for Section 4 large discount card
-  const [cardTilt, setCardTilt] = useState<{ rx: number; ry: number; active: boolean }>({
-    rx: 0,
-    ry: 0,
-    active: false
-  });
-
   // Modals state
-  const [opcCityModalOpen, setOpcCityModalOpen] = useState(false);
   const [opcPartnerModalOpen, setOpcPartnerModalOpen] = useState(false);
   const [selectedClassForSignup, setSelectedClassForSignup] = useState<UpcomingClassItem | null>(null);
-  const [discountHubModalOpen, setDiscountHubModalOpen] = useState(false);
 
   // Partner Cooperation Form state
   const [partnerForm, setPartnerForm] = useState({
@@ -693,22 +676,6 @@ export const HomeView06: React.FC = () => {
     };
   }, []);
 
-  // 3D Tilt handlers for Section 4 Large Card
-  const handleDiscountCardMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setCardTilt({
-      rx: -y * 7,
-      ry: x * 7,
-      active: true
-    });
-  };
-
-  const handleDiscountCardLeave = () => {
-    setCardTilt({ rx: 0, ry: 0, active: false });
-  };
-
   const handlePartnerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!partnerForm.company.trim() || !partnerForm.contact.trim() || !partnerForm.phone.trim()) {
@@ -1130,9 +1097,11 @@ export const HomeView06: React.FC = () => {
             ref={opcCardsContainerRef}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#eaeaea] border-b border-[#eaeaea]"
           >
-            {/* 模块 1：覆盖区域 */}
-            <div
-              onClick={() => setOpcCityModalOpen(true)}
+            {/* 模块 1：覆盖区域（新窗口打开独立页 OPC 生态社区与政策网络） */}
+            <a
+              href={`${typeof window !== 'undefined' ? window.location.pathname : '/'}?standalone=opc-network`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="opc-drawer-col group p-8 lg:p-10 bg-[#ffffff] hover:bg-[#fafafa] transition-colors cursor-pointer flex flex-col justify-between min-h-[290px]"
             >
               <div>
@@ -1154,7 +1123,7 @@ export const HomeView06: React.FC = () => {
                 <span>查看社区地图与政策</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
-            </div>
+            </a>
 
             {/* 模块 2：生态伙伴 */}
             <div
@@ -1255,208 +1224,172 @@ export const HomeView06: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          🛒 栏目四：资源枢纽与生态集市（资源推广与转化）
-          极简硬切深色背景 (#1A1A1A) + 顶部 1px #333333 细线
+          🛒 栏目四：资源枢纽与生态集市（黑底 #111111，左右等宽双卡，gap 24px）
          ===================================================================== */}
       <section
         ref={section4Ref}
-        className="relative w-full bg-[#1A1A1A] border-t border-[#333333] text-[#FFFFFF] pt-[96px] pb-[120px] overflow-hidden"
+        className="relative w-full bg-[#111111] border-t border-[#2A2A2A] text-[#FFFFFF] pt-[96px] pb-[120px] overflow-hidden"
       >
         <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 sm:px-8">
           {/* 栏目头部 */}
-          <div className="gsap-fade-up pb-12 border-b border-[#2e2e2e] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="gsap-fade-up pb-12 border-b border-[#262626] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <div className="text-[13px] font-mono uppercase tracking-[2px] text-[#999999]">
                 04 / RESOURCE HUB &amp; ECOSYSTEM MARKETPLACE
               </div>
-              <h2 className="mt-2 text-[32px] font-semibold text-[#ffffff] tracking-tight leading-tight">
+              <h2 className="mt-2 text-[32px] font-semibold text-[#FFFFFF] tracking-tight leading-tight">
                 资源枢纽与生态集市
               </h2>
             </div>
             <p className="text-[14px] text-[#999999] max-w-md">
-              打通高性价比模型路由、独立 AI 资产交易集市与弹性 GPU 算力底座。
+              统一大模型 API 网关与高质量 AI 资产市场，打通底层推理供给与上层应用研发。
             </p>
           </div>
 
-          {/* “一大两小”非对称卡片布局 */}
-          <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            {/* 左侧大卡（近期模型优惠 · 3D Tilt 倾斜 + 发光折线图） */}
-            <div
-              onMouseMove={handleDiscountCardMove}
-              onMouseLeave={handleDiscountCardLeave}
-              style={{
-                transform: cardTilt.active
-                  ? `perspective(1000px) rotateX(${cardTilt.rx.toFixed(2)}deg) rotateY(${cardTilt.ry.toFixed(2)}deg)`
-                  : 'perspective(1000px) rotateX(0deg) rotateY(0deg)',
-                transition: cardTilt.active ? 'transform 80ms linear' : 'transform 400ms ease-out'
-              }}
-              className="gsap-fade-up lg:col-span-7 bg-[#141414] border border-[#2e2e2e] hover:border-[#666666] p-8 sm:p-10 flex flex-col justify-between"
-            >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
+          {/* 左右双卡等宽分布，中间 gap: 24px */}
+          <div className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-[24px] items-stretch">
+            {/* 🃏 卡片一（左）：数安词源 · 模型 API 网关 */}
+            <div className="gsap-fade-up bg-[#161616] border border-[#2C2C2C] hover:border-[#4A4A4A] rounded-[6px] p-8 sm:p-10 flex flex-col justify-between transition-colors">
+              <div>
+                {/* 顶部眉标与右上角标签 */}
+                <div className="flex items-center justify-between gap-4">
                   <span className="text-[12px] font-mono uppercase tracking-[2px] text-[#999999]">
-                    FEATURED OFFER · TOKEN GATEWAY
+                    DIGITOKEN GATEWAY
                   </span>
-                  <span className="px-2.5 py-0.5 bg-[#ffffff] text-[#1a1a1a] text-[11px] font-mono font-semibold">
-                    限时阶梯折扣
+                  <span className="px-2.5 py-0.5 rounded-[4px] border border-[#333333] bg-[#1A1A1A] text-[#FFFFFF] text-[12px] font-medium">
+                    官方直连
                   </span>
                 </div>
 
-                <h3 className="text-[28px] sm:text-[32px] font-semibold text-[#ffffff] tracking-tight">
-                  数安次元 · 模型折扣
+                {/* 主标题 */}
+                <h3 className="mt-4 text-[24px] sm:text-[26px] font-semibold text-[#FFFFFF] tracking-tight leading-snug">
+                  数安词源 · 大模型 API
                 </h3>
 
-                <p className="text-[14px] text-[#999999] leading-relaxed max-w-xl">
-                  基于 Digitoken 数元网关统一 API 接入全网主流旗舰大模型（DeepSeek-V3 / Qwen-2.5 / GLM-4 / Claude），认证极客与 OPC 团队享专属 Token 路由阶梯折扣，综合推理成本直降 42%。
+                {/* 正文描述 */}
+                <p className="mt-3 text-[14px] text-[#999999] leading-[1.7]">
+                  统一接入全网主流大模型（DeepSeek / Qwen / GLM 等），兼容 OpenAI 标准接口，支持高并发与自动重试。按 Token 实际用量计费。
                 </p>
-              </div>
 
-              {/* 极简折线图线框（鼠标悬浮时线条产生发光动效） */}
-              <div className="my-8 p-5 bg-[#1a1a1a] border border-[#2a2a2a]">
-                <div className="flex items-center justify-between text-[11px] font-mono text-[#999999] mb-3">
-                  <span>TOKEN THROUGHPUT &amp; COST INDEX</span>
-                  <span className="text-[#ffffff]">AVG COST -42.0% ↓</span>
-                </div>
+                {/* 视觉替代区：核心模型极简文字行 + 极简代码终端框 */}
+                <div className="mt-8 space-y-3">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12px] font-mono text-[#888888]">
+                    <span className="text-[#FFFFFF]">DeepSeek-V3</span>
+                    <span className="text-[#444444]">/</span>
+                    <span>Qwen-2.5</span>
+                    <span className="text-[#444444]">/</span>
+                    <span>GLM-4</span>
+                    <span className="text-[#444444]">/</span>
+                    <span>OpenAI Compatible</span>
+                  </div>
 
-                <svg
-                  viewBox="0 0 520 140"
-                  className="w-full h-36 block overflow-visible"
-                  fill="none"
-                >
-                  {/* 网格线 */}
-                  <line x1="0" y1="25" x2="520" y2="25" stroke="#262626" strokeWidth="1" />
-                  <line x1="0" y1="70" x2="520" y2="70" stroke="#262626" strokeWidth="1" />
-                  <line x1="0" y1="115" x2="520" y2="115" stroke="#262626" strokeWidth="1" />
-
-                  {/* 传统直连成本参考虚线 */}
-                  <polyline
-                    points="10,95 110,88 210,82 310,76 410,72 510,68"
-                    stroke="#555555"
-                    strokeWidth="1.2"
-                    strokeDasharray="4 4"
-                  />
-
-                  {/* 数安次元吞吐与折扣曲线（悬浮高亮发光） */}
-                  <polyline
-                    points="10,118 95,102 185,78 275,64 365,38 450,26 510,16"
-                    stroke="#ffffff"
-                    strokeWidth={cardTilt.active ? '2.4' : '1.6'}
-                    style={{
-                      filter: cardTilt.active
-                        ? 'drop-shadow(0 0 8px rgba(255,255,255,0.85))'
-                        : 'none',
-                      transition: 'filter 250ms ease, stroke-width 250ms ease'
-                    }}
-                  />
-                  {[
-                    [10, 118],
-                    [95, 102],
-                    [185, 78],
-                    [275, 64],
-                    [365, 38],
-                    [450, 26],
-                    [510, 16]
-                  ].map(([cx, cy], i) => (
-                    <circle
-                      key={i}
-                      cx={cx}
-                      cy={cy}
-                      r={cardTilt.active ? 3.5 : 2.5}
-                      fill="#ffffff"
-                    />
-                  ))}
-                </svg>
-
-                <div className="flex items-center justify-between text-[11px] font-mono text-[#666666] mt-2">
-                  <span>Tier 1 (10M Tokens)</span>
-                  <span>Tier 2 (100M Tokens)</span>
-                  <span>Enterprise (1B+ Tokens)</span>
+                  <div className="bg-[#0B0B0B] border border-[#333333] rounded-[6px] overflow-hidden">
+                    <div className="px-4 py-2 border-b border-[#242424] bg-[#141414] flex items-center justify-between text-[11px] font-mono text-[#777777]">
+                      <span>API REQUEST · HTTPS</span>
+                      <span className="text-[#888888]">200 OK</span>
+                    </div>
+                    <pre className="p-5 text-[13px] font-mono leading-[1.85] overflow-x-auto select-text">
+                      <code>
+                        <span className="text-[#86EFAC]">POST</span>{' '}
+                        <span className="text-[#FFFFFF]">/v1/chat/completions</span>
+                        {'\n'}
+                        <span className="text-[#888888]">Authorization:</span>{' '}
+                        <span className="text-[#D4D4D4]">Bearer sk-xxx</span>
+                        {'\n'}
+                        <span className="text-[#888888]">&quot;model&quot;:</span>{' '}
+                        <span className="text-[#86EFAC]">&quot;deepseek-v3&quot;</span>
+                      </code>
+                    </pre>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-                <div className="text-[12px] font-mono text-[#999999]">
-                  兼容 OpenAI 标准接口 · 毫秒级自动故障切换
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setDiscountHubModalOpen(true)}
-                  className="px-6 py-3 bg-[#ffffff] hover:bg-[#e5e5e5] text-[#1a1a1a] text-[14px] font-semibold rounded-[4px] inline-flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap"
+              {/* 底部操作区 */}
+              <div className="mt-8 pt-6 border-t border-[#2A2A2A] flex flex-wrap items-center justify-between gap-4">
+                <span className="text-[12px] font-mono text-[#999999]">
+                  按量计费 · 秒级弹性
+                </span>
+                <a
+                  href="https://digitoken.cyberpeace.cn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-2.5 bg-[#FFFFFF] hover:opacity-85 text-[#111111] text-[13px] font-semibold rounded-[4px] inline-flex items-center gap-1.5 transition-opacity whitespace-nowrap"
                 >
                   <span>前往数安次元</span>
                   <ArrowUpRight className="w-4 h-4" />
-                </button>
+                </a>
               </div>
             </div>
 
-            {/* 右侧两小卡（右上：AI 集市；右下：算力与 Token） */}
-            <div className="lg:col-span-5 flex flex-col justify-between gap-6">
-              {/* 右上卡：AI 集市 */}
-              <div className="gsap-fade-up flex-1 bg-[#242424] border-0 rounded-[6px] p-8 flex flex-col justify-between transition-colors hover:bg-[#2A2A2A]">
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[12px] font-mono uppercase tracking-[2px] text-[#999999]">
-                      INDEPENDENT ECOSYSTEM
-                    </span>
-                    <span className="text-[12px] font-mono text-[#999999]">
-                      独立运营中心
-                    </span>
-                  </div>
-                  <h3 className="text-[24px] font-semibold text-[#FFFFFF] tracking-tight">
-                    AI 集市
-                  </h3>
-                  <p className="text-[14px] text-[#999999] leading-relaxed">
-                    模型 · 数据集 · Skill 插件一站式交易。现已升级为独立生态集市运营，支持在线免配置沙盒试用与开发者 85% 固定高比例分润。
-                  </p>
+            {/* 🃏 卡片二（右）：AI 资产集市 */}
+            <div className="gsap-fade-up bg-[#161616] border border-[#2C2C2C] hover:border-[#4A4A4A] rounded-[6px] p-8 sm:p-10 flex flex-col justify-between transition-colors">
+              <div>
+                {/* 顶部眉标与右上角标签 */}
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-[12px] font-mono uppercase tracking-[2px] text-[#999999]">
+                    DEVELOPER ASSETS
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-[4px] border border-[#333333] bg-[#1A1A1A] text-[#CCCCCC] text-[12px] font-medium">
+                    独立运营
+                  </span>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-[#333333] flex items-center justify-between">
-                  <span className="text-[12px] font-mono text-[#999999]">
-                    2,400+ 经过安全审计的 AI 资产
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab('marketplace')}
-                    className="px-4 py-2 bg-transparent hover:bg-[#FFFFFF] text-[#FFFFFF] hover:text-[#1A1A1A] border border-[#FFFFFF]/40 hover:border-[#FFFFFF] text-[13px] font-medium rounded-[4px] inline-flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
-                  >
-                    <span>进入集市</span>
-                    <ArrowUpRight className="w-4 h-4" />
-                  </button>
+                {/* 主标题 */}
+                <h3 className="mt-4 text-[24px] sm:text-[26px] font-semibold text-[#FFFFFF] tracking-tight leading-snug">
+                  数据集与 Skill 市场
+                </h3>
+
+                {/* 正文描述 */}
+                <p className="mt-3 text-[14px] text-[#999999] leading-[1.7]">
+                  汇聚高质量行业数据集与开箱即用的 AI Skill 插件。支持数据安全脱敏审核与沙盒试用，加速您的模型微调与应用开发。
+                </p>
+
+                {/* 视觉替代区：两个极简线框图标卡片横向并排展示 (#1A1A1A 背景 + #333 边框) */}
+                <div className="mt-8 pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-[#1A1A1A] border border-[#333333] rounded-[6px] p-5 flex flex-col justify-between min-h-[138px]">
+                    <div className="w-9 h-9 rounded-[4px] border border-[#333333] bg-[#141414] flex items-center justify-center text-[#FFFFFF]">
+                      <Folder className="w-5 h-5" strokeWidth={1.6} />
+                    </div>
+                    <div className="mt-5">
+                      <div className="text-[24px] font-semibold text-[#FFFFFF] font-mono tabular-nums leading-none">
+                        1,200+
+                      </div>
+                      <div className="mt-2 text-[13px] text-[#999999]">
+                        高质量数据集
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#1A1A1A] border border-[#333333] rounded-[6px] p-5 flex flex-col justify-between min-h-[138px]">
+                    <div className="w-9 h-9 rounded-[4px] border border-[#333333] bg-[#141414] flex items-center justify-center text-[#FFFFFF]">
+                      <Puzzle className="w-5 h-5" strokeWidth={1.6} />
+                    </div>
+                    <div className="mt-5">
+                      <div className="text-[24px] font-semibold text-[#FFFFFF] font-mono tabular-nums leading-none">
+                        800+
+                      </div>
+                      <div className="mt-2 text-[13px] text-[#999999]">
+                        开箱即用 Skill
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* 右下卡：算力与 Token */}
-              <div className="gsap-fade-up flex-1 bg-[#242424] border-0 rounded-[6px] p-8 flex flex-col justify-between transition-colors hover:bg-[#2A2A2A]">
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[12px] font-mono uppercase tracking-[2px] text-[#999999]">
-                      ELASTIC GPU &amp; TOKENS
-                    </span>
-                    <span className="text-[12px] font-mono text-[#999999]">
-                      秒级就绪
-                    </span>
-                  </div>
-                  <h3 className="text-[24px] font-semibold text-[#FFFFFF] tracking-tight">
-                    算力与 Token
-                  </h3>
-                  <p className="text-[14px] text-[#999999] leading-relaxed">
-                    按需购买，弹性 GPU 集群（NVIDIA A100 / H800 / RTX 4090）一键拉起 JupyterLab 与 SSH 容器，支持平台积分直接抵扣算力账单。
-                  </p>
-                </div>
-
-                <div className="pt-6 mt-6 border-t border-[#333333] flex items-center justify-between">
-                  <span className="text-[12px] font-mono text-[#999999]">
-                    低至 ¥2.80 / GPU 时 · 按分钟计费
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab('compute')}
-                    className="px-4 py-2 bg-[#FFFFFF] hover:opacity-80 text-[#1A1A1A] text-[13px] font-medium rounded-[4px] inline-flex items-center gap-1.5 transition-opacity cursor-pointer whitespace-nowrap"
-                  >
-                    <span>立即选购</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
+              {/* 底部操作区 */}
+              <div className="mt-8 pt-6 border-t border-[#2A2A2A] flex flex-wrap items-center justify-between gap-4">
+                <span className="text-[12px] font-mono text-[#999999]">
+                  安全审计 · 极速交付
+                </span>
+                <a
+                  href={`${typeof window !== 'undefined' ? window.location.pathname : '/'}?standalone=marketplace`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-2.5 bg-transparent hover:bg-[#FFFFFF] text-[#FFFFFF] hover:text-[#111111] border border-[#FFFFFF]/60 hover:border-[#FFFFFF] text-[13px] font-medium rounded-[4px] inline-flex items-center gap-1.5 transition-colors whitespace-nowrap"
+                >
+                  <span>进入 AI 集市</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
               </div>
             </div>
           </div>
@@ -1495,71 +1428,7 @@ export const HomeView06: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          弹窗 1：OPC 覆盖区域（54+ 城市社区地图与属地政策弹窗）
-         ===================================================================== */}
-      {opcCityModalOpen && (
-        <div
-          className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/50"
-          onClick={() => setOpcCityModalOpen(false)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div
-            className="relative w-full max-w-[580px] bg-[#ffffff] border border-[#eaeaea] p-8 text-[#1a1a1a]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={() => setOpcCityModalOpen(false)}
-              className="absolute top-5 right-5 p-1.5 text-[#999999] hover:text-[#1a1a1a] cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="text-[12px] font-mono text-[#666666] tracking-[2px]">
-              OPC NODE CITIES &amp; POLICIES
-            </div>
-            <h3 className="mt-1 text-[22px] font-semibold text-[#1a1a1a]">
-              全国 54+ 城市 OPC 超级个体社区与政策速配
-            </h3>
-            <p className="mt-1.5 text-[13px] text-[#666666]">
-              通过平台能力认证的开发者，可免押金申请入驻各地 OPC 实体空间并申领属地算力补贴。
-            </p>
-
-            <div className="mt-6 border-t border-b border-[#eaeaea] divide-y divide-[#eaeaea] max-h-[340px] overflow-y-auto">
-              {OPC_CITY_POLICIES.map((item) => (
-                <div key={item.city} className="py-4 space-y-1">
-                  <div className="text-[14px] font-semibold text-[#1a1a1a]">
-                    {item.city}
-                  </div>
-                  <div className="text-[13px] text-[#666666] leading-relaxed">
-                    {item.policy}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 flex items-center justify-between">
-              <span className="text-[12px] text-[#666666]">
-                咨询入驻专线：400-882-9100
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  setOpcCityModalOpen(false);
-                  setActiveTab('training');
-                }}
-                className="px-5 py-2.5 bg-[#1a1a1a] hover:bg-[#333333] text-[#ffffff] text-[13px] font-semibold rounded-[4px] cursor-pointer"
-              >
-                前往获取认证准入资格 →
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* =====================================================================
-          弹窗 2：OPC 生态伙伴（300+ 企业合作意向与联系方式弹窗）
+          弹窗 1：OPC 生态伙伴（300+ 企业合作意向与联系方式弹窗）
          ===================================================================== */}
       {opcPartnerModalOpen && (
         <div
@@ -1740,78 +1609,6 @@ export const HomeView06: React.FC = () => {
             advisorQrHint: '扫码添加专属顾问获取报名通道'
           }}
         />
-      )}
-
-      {/* =====================================================================
-          弹窗 4：数安次元 · 模型折扣独立预览与跳转弹窗
-         ===================================================================== */}
-      {discountHubModalOpen && (
-        <div
-          className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/50"
-          onClick={() => setDiscountHubModalOpen(false)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div
-            className="relative w-full max-w-[520px] bg-[#ffffff] border border-[#eaeaea] p-8 text-[#1a1a1a]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={() => setDiscountHubModalOpen(false)}
-              className="absolute top-5 right-5 p-1.5 text-[#999999] hover:text-[#1a1a1a] cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="text-[12px] font-mono text-[#666666] tracking-[2px]">
-              SHU&apos;AN DIMENSION · MODEL DISCOUNT SCHEDULE
-            </div>
-            <h3 className="mt-1 text-[22px] font-semibold text-[#1a1a1a]">
-              数安次元 · 企业级大模型折扣清单
-            </h3>
-            <p className="mt-1.5 text-[13px] text-[#666666]">
-              通过 Digitoken 数元网关统一分发，支持按 Token 实时计费与多模型负载均衡。
-            </p>
-
-            <div className="mt-5 border-t border-b border-[#eaeaea] divide-y divide-[#eaeaea] text-[13px]">
-              {[
-                { model: 'DeepSeek-V3 / R1 满血版', official: '¥2.00 / 1M', discount: '¥1.15 / 1M (-42%)' },
-                { model: 'GLM-4-Plus 企业增强版', official: '¥5.00 / 1M', discount: '¥2.90 / 1M (-42%)' },
-                { model: 'Qwen-2.5-72B-Instruct', official: '¥4.00 / 1M', discount: '¥2.40 / 1M (-40%)' },
-                { model: 'Claude-3.7-Sonnet 路由专线', official: '¥21.00 / 1M', discount: '¥14.50 / 1M (-31%)' }
-              ].map((row) => (
-                <div key={row.model} className="py-3.5 flex items-center justify-between gap-4">
-                  <span className="font-semibold text-[#1a1a1a]">{row.model}</span>
-                  <div className="text-right font-mono">
-                    <span className="text-[#999999] line-through mr-2.5">{row.official}</span>
-                    <span className="text-[#1a1a1a] font-semibold">{row.discount}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 flex items-center justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => setDiscountHubModalOpen(false)}
-                className="px-4 py-2.5 border border-[#eaeaea] text-[#666666] text-[13px] cursor-pointer"
-              >
-                关闭
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setDiscountHubModalOpen(false);
-                  setActiveTab('trial');
-                }}
-                className="px-6 py-2.5 bg-[#1a1a1a] hover:bg-[#333333] text-[#ffffff] text-[13px] font-semibold rounded-[4px] cursor-pointer"
-              >
-                前往 Digitoken 数元网关申请试用 →
-              </button>
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );

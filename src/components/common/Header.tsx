@@ -70,6 +70,9 @@ export const Header: React.FC = () => {
   const handleToggleTheme = () => {
     const nextTheme = toggleTheme();
     setTheme(nextTheme);
+    if (nextTheme === 'minimal' && (activeTab === 'marketplace' || activeTab === 'compute')) {
+      setActiveTab('home');
+    }
     showToast(nextTheme === 'minimal' ? '已切换至「极简科技风」主题' : '已切换回「当前默认风格」主题');
   };
 
@@ -99,6 +102,10 @@ export const Header: React.FC = () => {
     { id: 'community', label: '社区', icon: <Users className="w-4 h-4" /> },
   ];
 
+  const visibleNavItems = theme === 'minimal'
+    ? navItems.filter(item => item.id !== 'marketplace' && item.id !== 'compute')
+    : navItems;
+
   return (
     <header className="theme-header sticky top-0 z-50 w-full backdrop-blur-md shadow-sm select-none">
       <div className="w-full max-w-[1920px] mx-auto px-6 xl:px-8 h-16 flex items-center justify-between gap-4">
@@ -117,7 +124,7 @@ export const Header: React.FC = () => {
 
         {/* Center Navigation Tabs */}
         <nav className="theme-nav-group flex items-center gap-1 p-1.5">
-          {navItems.map(item => {
+          {visibleNavItems.map(item => {
             const isActive = activeTab === item.id;
             return (
               <button

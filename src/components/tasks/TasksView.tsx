@@ -191,10 +191,10 @@ export const TasksView: React.FC = () => {
       <header className="pb-8 border-b border-[var(--border-light)] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div className="space-y-2">
           <h1 className="text-[32px] font-semibold tracking-[-0.5px] text-[var(--text-main)] leading-tight">
-            任务大厅
+            AI 商业交付中心
           </h1>
           <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
-            汇聚高质量 AI 开发、模型调优与工程交付需求，在线接单交付，高额赏金撮合验收。
+            连接企业真实业务场景与认证开发者。在线承接大模型开发与工程调优任务，实现从技术实战到商业变现的闭环。
           </p>
         </div>
 

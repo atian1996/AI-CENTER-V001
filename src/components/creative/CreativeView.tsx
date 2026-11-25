@@ -127,10 +127,10 @@ export const CreativeView: React.FC = () => {
       <header className="pb-8 border-b border-[var(--border-light)]">
         <div className="space-y-2">
           <h1 className="text-[32px] font-semibold tracking-[-0.5px] text-[var(--text-main)] leading-tight">
-            赛事中心
+            AI 算法与安全竞技场
           </h1>
           <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
-            汇聚全球顶尖 AI 算法赛、网安攻防对抗与 AIGC 创意竞技，海量真实行业数据集与专属 GPU 评测环境。
+            汇聚全球顶尖极客，共逐前沿技术高峰。基于真实产业数据与高能算力底座，打造极具含金量的 AI 实战竞技与评测平台。
           </p>
         </div>
       </header>

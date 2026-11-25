@@ -10,6 +10,7 @@ interface AdvisorContactModalProps {
   isOpen: boolean;
   onClose: () => void;
   subtitlePrefix?: string;
+  title?: string;
 }
 
 /**
@@ -94,7 +95,8 @@ export const AdvisorContactModal: React.FC<AdvisorContactModalProps> = ({
   certification,
   isOpen,
   onClose,
-  subtitlePrefix = '咨询认证：'
+  subtitlePrefix = '咨询认证：',
+  title = '联系认证顾问'
 }) => {
   const [copiedValue, setCopiedValue] = useState<string | null>(null);
 
@@ -149,7 +151,7 @@ export const AdvisorContactModal: React.FC<AdvisorContactModalProps> = ({
             id="advisor-contact-modal-title"
             className="text-xl font-semibold text-[#1a1a1a] tracking-tight"
           >
-            联系认证顾问
+            {title}
           </h2>
           <p className="text-xs text-[#666666] mt-1.5 truncate">
             {subtitlePrefix}{certification.name}

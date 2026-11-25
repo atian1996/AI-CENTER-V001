@@ -88,7 +88,7 @@ export const TrainingCertificationView: React.FC = () => {
             权威 AI 能力认证中心
           </h1>
           <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
-            选择认证方向，查阅配套课程、能力评估与行业认可度。
+            从体系化大模型实训到前沿实战推演，打通“学、练、考、测”全链路，为你提供低门槛、高价值的 AI 交付能力背书。
           </p>
         </div>
       </header>
