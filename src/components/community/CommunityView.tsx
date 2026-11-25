@@ -2352,65 +2352,63 @@ export const CommunityView: React.FC = () => {
 
   return (
     <div
-      className="-mx-8 -my-6 px-6 sm:px-8 py-8 min-h-[calc(100vh-64px)] bg-[#F7F8FA] text-[#111827] select-none relative antialiased"
+      className="-mx-8 -my-6 px-8 pt-8 pb-16 min-h-[calc(100vh-64px)] bg-[#F7F8FA] text-[#111827] select-none relative antialiased"
       style={{
         fontFamily:
           'Inter, -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif'
       }}
     >
-      {/* 1. 顶部导航栏 (Top Bar) — 与培训认证页面头部排版保持一致，纯白背景 + 1px solid #F3F4F6 分割线 */}
-      <header className="w-full max-w-[1280px] mx-auto bg-[#FFFFFF] px-6 sm:px-8 py-6 border-b border-[#F3F4F6]">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-          {/* 左侧：标题与副标题（与培训认证头部一致） */}
-          <div className="space-y-1.5">
-            <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[#111827] leading-tight">
-              开发者技术社区
-            </h1>
-            <p className="text-sm text-[#4B5563]">
-              汇聚全球 AI 开发者、算法工程师与独立创作者，分享实践经验、解答技术难题与人脉连接。
-            </p>
+      {/* 1. 顶部页面标题栏 — 与培训认证页面头部风格及排版完全一致 */}
+      <header className="w-full max-w-[1320px] mx-auto pb-8 border-b border-[var(--border-color)] flex flex-col lg:flex-row lg:items-end justify-between gap-5">
+        {/* 左侧：仅保留标题与一句副标题（与培训认证头部一致） */}
+        <div className="space-y-2">
+          <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+            开发者技术社区
+          </h1>
+          <p className="text-sm text-[var(--text-secondary)]">
+            汇聚全球 AI 开发者、算法工程师与独立创作者，分享实践经验、解答技术难题与人脉连接。
+          </p>
+        </div>
+
+        {/* 右侧：极简浅灰搜索框 + 纯黑 [+ 发帖] 按钮 */}
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4 shrink-0">
+          <div className="relative w-full sm:w-[280px] md:w-[320px]">
+            <Search
+              className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+              strokeWidth={1.6}
+            />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="搜索帖子标题、技术标签或作者..."
+              className="w-full pl-9 pr-8 py-2 bg-[#FFFFFF] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] outline-none border border-[#E5E7EB] transition-colors focus:border-[#111827]"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                aria-label="清除搜索"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#111827] cursor-pointer"
+              >
+                <X className="w-3.5 h-3.5" strokeWidth={1.6} />
+              </button>
+            )}
           </div>
 
-          {/* 中间/右侧：极简浅灰搜索框 (#F3F4F6, 圆角 8px, 无粗边框) + 右上角纯黑 [+ 发帖] 按钮 (#000, 圆角 6px, 无阴影) */}
-          <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4 shrink-0">
-            <div className="relative w-full sm:w-[280px] md:w-[320px]">
-              <Search
-                className="w-4 h-4 text-[#9CA3AF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                strokeWidth={1.6}
-              />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="搜索帖子标题、技术标签或作者..."
-                className="w-full pl-9 pr-8 py-2 bg-[#F3F4F6] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] outline-none border-0 transition-colors focus:bg-[#ECEEF2]"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  aria-label="清除搜索"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#111827] cursor-pointer"
-                >
-                  <X className="w-3.5 h-3.5" strokeWidth={1.6} />
-                </button>
-              )}
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setViewMode('publish')}
-              className="px-4 py-2 bg-[#000000] hover:bg-[#1F2937] text-[#FFFFFF] rounded-[6px] text-[13.5px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
-            >
-              <Plus className="w-4 h-4" strokeWidth={1.8} />
-              <span>发帖</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setViewMode('publish')}
+            className="px-4 py-2 bg-[#000000] hover:bg-[#1F2937] text-[#FFFFFF] rounded-[6px] text-[13.5px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 whitespace-nowrap"
+          >
+            <Plus className="w-4 h-4" strokeWidth={1.8} />
+            <span>发帖</span>
+          </button>
         </div>
       </header>
 
       {/* 三、页面布局框架：左窄 (200px) 右宽 (自适应，最大宽度 900px)，靠留白隔开，无沉重边框 */}
-      <div className="w-full max-w-[1280px] mx-auto pt-8 sm:pt-10 pb-16 flex flex-col md:flex-row items-start gap-8 lg:gap-12">
+      <div className="w-full max-w-[1320px] mx-auto pt-8 sm:pt-10 flex flex-col md:flex-row items-start gap-8 lg:gap-12">
         {/* 2. 极简左侧导航栏 (Sidebar) — 宽度 200px，去背景、去边框，靠留白隔开 */}
         <aside className="w-full md:w-[200px] shrink-0 md:sticky md:top-24 md:self-start">
           <nav

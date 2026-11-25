@@ -3,9 +3,13 @@ import { CertificationItem } from '../../types';
 import { X, Copy, Check } from 'lucide-react';
 
 interface AdvisorContactModalProps {
-  certification: CertificationItem;
+  certification: Pick<
+    CertificationItem,
+    'id' | 'systemId' | 'name' | 'advisorContacts' | 'advisorQrHint'
+  >;
   isOpen: boolean;
   onClose: () => void;
+  subtitlePrefix?: string;
 }
 
 /**
@@ -89,7 +93,8 @@ const MinimalQrSvg: React.FC<{ seed: string }> = ({ seed }) => {
 export const AdvisorContactModal: React.FC<AdvisorContactModalProps> = ({
   certification,
   isOpen,
-  onClose
+  onClose,
+  subtitlePrefix = '咨询认证：'
 }) => {
   const [copiedValue, setCopiedValue] = useState<string | null>(null);
 
@@ -147,7 +152,7 @@ export const AdvisorContactModal: React.FC<AdvisorContactModalProps> = ({
             联系认证顾问
           </h2>
           <p className="text-xs text-[#666666] mt-1.5 truncate">
-            咨询认证：{certification.name}
+            {subtitlePrefix}{certification.name}
           </p>
         </div>
 

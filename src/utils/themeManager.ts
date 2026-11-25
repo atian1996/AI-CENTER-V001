@@ -1,18 +1,18 @@
 export type AppTheme = 'default' | 'minimal';
 
-export const THEME_STORAGE_KEY = 'ai_ops_theme';
+export const THEME_STORAGE_KEY = 'ai_ops_theme_v2';
 export const THEME_CHANGE_EVENT = 'app-theme-change';
 
 /**
- * 读取本地持久化的主题配置（原生 localStorage）
+ * 读取本地持久化的主题配置（原生 localStorage，默认为极简科技风 minimal）
  */
 export function getStoredTheme(): AppTheme {
-  if (typeof window === 'undefined') return 'default';
+  if (typeof window === 'undefined') return 'minimal';
   try {
     const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
-    return saved === 'minimal' ? 'minimal' : 'default';
+    return saved === 'default' ? 'default' : 'minimal';
   } catch {
-    return 'default';
+    return 'minimal';
   }
 }
 
@@ -20,7 +20,7 @@ export function getStoredTheme(): AppTheme {
  * 获取当前 <html> 标签上的 data-theme 状态
  */
 export function getCurrentTheme(): AppTheme {
-  if (typeof document === 'undefined') return 'default';
+  if (typeof document === 'undefined') return 'minimal';
   const attr = document.documentElement.getAttribute('data-theme');
   if (attr === 'minimal' || attr === 'default') {
     return attr;
@@ -73,11 +73,11 @@ export function subscribeThemeChange(listener: (theme: AppTheme) => void): () =>
   if (typeof window === 'undefined') return () => {};
   const handleCustomEvent = (event: Event) => {
     const customEvent = event as CustomEvent<AppTheme>;
-    listener(customEvent.detail === 'minimal' ? 'minimal' : 'default');
+    listener(customEvent.detail === 'default' ? 'default' : 'minimal');
   };
   const handleStorageEvent = (event: StorageEvent) => {
     if (event.key === THEME_STORAGE_KEY) {
-      const next: AppTheme = event.newValue === 'minimal' ? 'minimal' : 'default';
+      const next: AppTheme = event.newValue === 'default' ? 'default' : 'minimal';
       document.documentElement.setAttribute('data-theme', next);
       listener(next);
     }

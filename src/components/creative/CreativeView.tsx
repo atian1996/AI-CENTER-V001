@@ -123,27 +123,19 @@ export const CreativeView: React.FC = () => {
   };
 
   return (
-    <div id="competition-center-container" className="w-full space-y-6 animate-fade-in pb-16 select-none font-sans">
+    <div id="competition-center-container" className="w-full max-w-[1320px] mx-auto space-y-6 animate-fade-in pb-16 pt-2 select-none font-sans antialiased">
       
-      {/* Standard Unified Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-2xs shrink-0">
-            <Trophy className="w-6 h-6 text-indigo-600" />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
-              赛事中心
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                AI 竞技场
-              </span>
-            </h1>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              汇聚全球顶尖 AI 算法赛、网安攻防对抗与 AIGC 创意竞技，海量真实行业数据集与专属 GPU 评测环境
-            </p>
-          </div>
+      {/* Unified Page Header (与培训认证顶部一致) */}
+      <header className="pb-8 border-b border-[var(--border-color)]">
+        <div className="space-y-2">
+          <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+            赛事中心
+          </h1>
+          <p className="text-sm text-[var(--text-secondary)]">
+            汇聚全球顶尖 AI 算法赛、网安攻防对抗与 AIGC 创意竞技，海量真实行业数据集与专属 GPU 评测环境。
+          </p>
         </div>
-      </div>
+      </header>
 
       {/* 筛选与检索控制中心 */}
       <div id="competition-filter-card" className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-2xs space-y-4">

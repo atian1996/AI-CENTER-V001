@@ -252,25 +252,17 @@ export const ComputeView: React.FC = () => {
   };
 
   return (
-    <div className="w-full space-y-6 animate-fade-in text-slate-800 pb-12 select-none font-sans">
+    <div className="w-full max-w-[1320px] mx-auto space-y-6 animate-fade-in text-slate-800 pb-16 pt-2 select-none font-sans antialiased">
       
-      {/* Standard Unified Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-2xs shrink-0">
-            <Zap className="w-6 h-6 fill-indigo-600" />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
-              算力工坊
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                GPU 容器云
-              </span>
-            </h1>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              提供按量计费的优质高性能 GPU 算力资源，包含 RTX PRO 6000、5090、H100、4090 等多样化容器实例
-            </p>
-          </div>
+      {/* Unified Page Header (与培训认证顶部一致) */}
+      <header className="pb-8 border-b border-[var(--border-color)] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="space-y-2">
+          <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+            算力工坊
+          </h1>
+          <p className="text-sm text-[var(--text-secondary)]">
+            提供按量计费的优质高性能 GPU 算力资源，包含 RTX PRO 6000、5090、H100、4090 等多样化容器实例。
+          </p>
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
@@ -282,7 +274,7 @@ export const ComputeView: React.FC = () => {
             <span>历史明细 & 账单</span>
           </button>
         </div>
-      </div>
+      </header>
 
       {/* TOP NAVIGATION TABS */}
       <div className="flex items-center border-b border-slate-200">

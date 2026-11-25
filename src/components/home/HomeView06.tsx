@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { useApp } from '../../context/AppContext';
+import { AdvisorContactModal } from '../training/AdvisorContactModal';
 import { ArrowRight, ArrowUpRight, X, Check, Copy } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -248,12 +249,6 @@ export const HomeView06: React.FC = () => {
   });
   const [partnerFormSubmitted, setPartnerFormSubmitted] = useState(false);
 
-  // Class Signup Form state
-  const [classSignupForm, setClassSignupForm] = useState({
-    name: '',
-    phone: '',
-    org: ''
-  });
   const [copiedPhone, setCopiedPhone] = useState(false);
 
   // =========================================================================
@@ -724,17 +719,6 @@ export const HomeView06: React.FC = () => {
     showToast('已提交生态伙伴合作意向，专属BD将在1个工作日内与您联系');
   };
 
-  const handleClassSignupSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!classSignupForm.name.trim() || !classSignupForm.phone.trim()) {
-      showToast('请填写学员姓名与联系电话');
-      return;
-    }
-    showToast(`已成功锁定「${selectedClassForSignup?.name}」席位，教务顾问将尽快联系您`);
-    setSelectedClassForSignup(null);
-    setClassSignupForm({ name: '', phone: '', org: '' });
-  };
-
   const handleCopyAdvisorPhone = () => {
     try {
       navigator.clipboard?.writeText('400-882-9100');
@@ -774,13 +758,13 @@ export const HomeView06: React.FC = () => {
             XCTF·AI | 一站式 AI 生态运营服务平台
           </div>
 
-          {/* 主标题（距顶部小字 24px，字号 64-68px，行高 1.1） */}
-          <h1 className="mt-[24px] text-4xl sm:text-5xl lg:text-[68px] font-bold text-[#1a1a1a] leading-[1.1] tracking-tight max-w-5xl">
+          {/* 主标题（单行不折行，流体字号自适应视口） */}
+          <h1 className="mt-[24px] text-[clamp(24px,4.2vw,60px)] font-bold text-[#1a1a1a] leading-[1.15] tracking-tight whitespace-nowrap">
             让 AI 能力可见，让技术价值兑现。
           </h1>
 
-          {/* 副标题（距主标题 20px，字号 16px，最大宽度 800px 居中） */}
-          <p className="mt-[20px] text-[16px] font-normal text-[#666666] leading-[1.6] max-w-[800px] mx-auto">
+          {/* 副标题（单行不折行，流体字号自适应视口） */}
+          <p className="mt-[20px] text-[clamp(12px,1.15vw,16px)] font-normal text-[#666666] leading-[1.6] sm:whitespace-nowrap mx-auto">
             融合 AI 培训认证、热门赛事、算力交易、社区共享、资源协作及 OPC 合作的一站式 AI 实战与交付运营服务平台。
           </p>
 
@@ -1064,7 +1048,7 @@ export const HomeView06: React.FC = () => {
               <div className="gsap-fade-up space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-[16px] font-semibold text-[#1a1a1a]">
-                    近期开班计划（实时席位看板）
+                    近期开班计划
                   </h3>
                   <span className="text-[12px] font-mono text-[#999999]">
                     LIVE ENROLLMENT BOARD
@@ -1123,7 +1107,7 @@ export const HomeView06: React.FC = () => {
          ===================================================================== */}
       <section
         ref={section3Ref}
-        className="w-full bg-[#ffffff] border-b border-[#eaeaea] py-[120px] overflow-hidden"
+        className="w-full bg-[#ffffff] pt-[120px] pb-[96px] overflow-hidden"
       >
         <div className="w-full max-w-[1280px] mx-auto px-6 sm:px-8">
           {/* 栏目头部 */}
@@ -1271,17 +1255,120 @@ export const HomeView06: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          🛒 栏目四：资源枢纽与生态集市（资源推广与转化）
-          深色背景 (#1a1a1a) + 顶部平滑过渡 + “一大两小”非对称卡片 + 底部粒子汇聚呼应首屏
+          代码 / 粒子“溶解”遮罩过渡带（从纯白 #ffffff 平滑溶解至深黑 #1a1a1a）
+          多层渐进点阵 + SVG Noise 颗粒纹理 + CSS mask-image 渐变遮罩
          ===================================================================== */}
       <div
         aria-hidden="true"
-        className="w-full h-24 bg-gradient-to-b from-[#ffffff] via-[#f0f0f0] to-[#1a1a1a]"
-      />
+        className="relative w-full h-[220px] overflow-hidden select-none pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(180deg, #ffffff 0%, #fbfbfb 14%, #e9e9e9 34%, #9c9c9c 58%, #383838 82%, #1a1a1a 100%)'
+        }}
+      >
+        {/* 第 1 层：细密微点阵（顶部极淡浮现，向下逐步加深） */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(26,26,26,0.72) 1px, transparent 1.25px)',
+            backgroundSize: '6px 6px',
+            maskImage:
+              'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.9) 70%, #000000 100%)',
+            WebkitMaskImage:
+              'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.9) 70%, #000000 100%)'
+          }}
+        />
 
+        {/* 第 2 层：中尺度错位粒子栅格（营造赛博点阵溶解质感） */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(26,26,26,0.92) 2px, transparent 2.3px)',
+            backgroundSize: '12px 12px',
+            backgroundPosition: '6px 6px',
+            maskImage:
+              'linear-gradient(180deg, transparent 18%, rgba(0,0,0,0.55) 52%, rgba(0,0,0,0.95) 82%, #000000 100%)',
+            WebkitMaskImage:
+              'linear-gradient(180deg, transparent 18%, rgba(0,0,0,0.55) 52%, rgba(0,0,0,0.95) 82%, #000000 100%)'
+          }}
+        />
+
+        {/* 第 3 层：大颗粒像素块溶解层（中下部与深黑底座自然咬合） */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'radial-gradient(#1a1a1a 3.4px, transparent 3.7px)',
+            backgroundSize: '18px 18px',
+            backgroundPosition: '3px 9px',
+            maskImage:
+              'linear-gradient(180deg, transparent 42%, rgba(0,0,0,0.78) 76%, #000000 100%)',
+            WebkitMaskImage:
+              'linear-gradient(180deg, transparent 42%, rgba(0,0,0,0.78) 76%, #000000 100%)'
+          }}
+        />
+
+        {/* 第 4 层：SVG Noise 黑色细颗粒噪点纹理（消除阶梯感，呈现平滑砂砾溶解） */}
+        <svg className="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none">
+          <defs>
+            <filter id="xctf-dissolve-noise" x="0%" y="0%" width="100%" height="100%">
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.85"
+                numOctaves="3"
+                stitchTiles="stitch"
+              />
+              <feColorMatrix type="saturate" values="0" />
+            </filter>
+            <linearGradient id="xctf-noise-mask-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="black" stopOpacity="0" />
+              <stop offset="28%" stopColor="white" stopOpacity="0.65" />
+              <stop offset="68%" stopColor="white" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="black" stopOpacity="0" />
+            </linearGradient>
+            <mask id="xctf-noise-mask">
+              <rect width="100%" height="100%" fill="url(#xctf-noise-mask-grad)" />
+            </mask>
+          </defs>
+          <rect
+            width="100%"
+            height="100%"
+            filter="url(#xctf-dissolve-noise)"
+            mask="url(#xctf-noise-mask)"
+          />
+        </svg>
+
+        {/* 第 5 层：极微弱代码粒子字符行（硬核科技视觉暗示） */}
+        <div
+          className="absolute inset-x-0 top-1/2 -translate-y-1/2 max-w-[1280px] mx-auto px-8 flex items-center justify-between text-[10px] font-mono tracking-[0.35em] text-[#1a1a1a]/30"
+          style={{
+            maskImage: 'linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%)',
+            WebkitMaskImage:
+              'linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%)'
+          }}
+        >
+          <span>0x01 // DISSOLVE</span>
+          <span className="hidden sm:inline">::: MATRIX.SYNC :::</span>
+          <span>10110 · 01001</span>
+          <span className="hidden md:inline">[ RESOURCE.HUB ]</span>
+          <span>#1A1A1A</span>
+        </div>
+
+        {/* 底部纯黑融合锚定层，确保与栏目四 #1a1a1a 零缝隙衔接 */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-14"
+          style={{
+            background: 'linear-gradient(180deg, rgba(26,26,26,0) 0%, #1a1a1a 100%)'
+          }}
+        />
+      </div>
+
+      {/* =====================================================================
+          🛒 栏目四：资源枢纽与生态集市（资源推广与转化）
+          深色背景 (#1a1a1a) + “一大两小”非对称卡片 + 底部粒子汇聚呼应首屏
+         ===================================================================== */}
       <section
         ref={section4Ref}
-        className="relative w-full bg-[#1a1a1a] text-[#ffffff] py-[120px] overflow-hidden"
+        className="relative w-full bg-[#1a1a1a] text-[#ffffff] pt-[96px] pb-[120px] overflow-hidden"
       >
         <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 sm:px-8">
           {/* 栏目头部 */}
@@ -1741,95 +1828,26 @@ export const HomeView06: React.FC = () => {
       )}
 
       {/* =====================================================================
-          弹窗 3：近期开班直接报名弹窗
+          弹窗 3：近期开班直接报名联系人弹窗（与认证详情「立即开通」弹窗完全一致）
          ===================================================================== */}
       {selectedClassForSignup && (
-        <div
-          className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/50"
-          onClick={() => setSelectedClassForSignup(null)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div
-            className="relative w-full max-w-[460px] bg-[#ffffff] border border-[#eaeaea] p-8 text-[#1a1a1a]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={() => setSelectedClassForSignup(null)}
-              className="absolute top-5 right-5 p-1.5 text-[#999999] hover:text-[#1a1a1a] cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="text-[12px] font-mono text-[#666666]">
-              {selectedClassForSignup.code} · {selectedClassForSignup.seatsText}
-            </div>
-            <h3 className="mt-1 text-[20px] font-semibold text-[#1a1a1a]">
-              锁定开班席位
-            </h3>
-            <p className="mt-1 text-[13px] text-[#666666]">
-              {selectedClassForSignup.name}（{selectedClassForSignup.date} · {selectedClassForSignup.location}）
-            </p>
-
-            <form onSubmit={handleClassSignupSubmit} className="mt-6 space-y-4">
-              <div>
-                <label className="block text-[12px] font-medium text-[#666666] mb-1">
-                  学员姓名 *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={classSignupForm.name}
-                  onChange={(e) => setClassSignupForm({ ...classSignupForm, name: e.target.value })}
-                  placeholder="请输入您的姓名"
-                  className="w-full px-3.5 py-2.5 bg-[#ffffff] border border-[#eaeaea] focus:border-[#1a1a1a] outline-none text-[14px]"
-                />
-              </div>
-              <div>
-                <label className="block text-[12px] font-medium text-[#666666] mb-1">
-                  联系电话 *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={classSignupForm.phone}
-                  onChange={(e) => setClassSignupForm({ ...classSignupForm, phone: e.target.value })}
-                  placeholder="用于接收开班通知与实训账号"
-                  className="w-full px-3.5 py-2.5 bg-[#ffffff] border border-[#eaeaea] focus:border-[#1a1a1a] outline-none text-[14px]"
-                />
-              </div>
-              <div>
-                <label className="block text-[12px] font-medium text-[#666666] mb-1">
-                  所在单位 / 院校（选填）
-                </label>
-                <input
-                  type="text"
-                  value={classSignupForm.org}
-                  onChange={(e) => setClassSignupForm({ ...classSignupForm, org: e.target.value })}
-                  placeholder="企业或高校名称"
-                  className="w-full px-3.5 py-2.5 bg-[#ffffff] border border-[#eaeaea] focus:border-[#1a1a1a] outline-none text-[14px]"
-                />
-              </div>
-
-              <div className="pt-2 flex items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setSelectedClassForSignup(null)}
-                  className="px-4 py-2.5 border border-[#eaeaea] text-[#666666] text-[13px] cursor-pointer"
-                >
-                  取消
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2.5 bg-[#1a1a1a] hover:bg-[#333333] text-[#ffffff] text-[13px] font-semibold rounded-[4px] cursor-pointer"
-                >
-                  确认报名锁席
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <AdvisorContactModal
+          isOpen={true}
+          onClose={() => setSelectedClassForSignup(null)}
+          subtitlePrefix="咨询班次："
+          certification={{
+            id: selectedClassForSignup.code,
+            systemId: 'aigc',
+            name: `${selectedClassForSignup.name}（${selectedClassForSignup.date} · ${selectedClassForSignup.location}）`,
+            advisorContacts: [
+              { label: '联系人', value: '林顾问（认证服务中心）' },
+              { label: '联系电话', value: '400-886-2026 转 802', copyable: true },
+              { label: '电子邮箱', value: 'certification@qianji-ai.cn', copyable: true },
+              { label: '服务时段', value: '工作日 09:00 - 19:00' }
+            ],
+            advisorQrHint: '扫码添加专属顾问获取报名通道'
+          }}
+        />
       )}
 
       {/* =====================================================================

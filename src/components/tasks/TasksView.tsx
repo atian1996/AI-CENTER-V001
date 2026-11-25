@@ -246,25 +246,17 @@ export const TasksView: React.FC = () => {
   }
 
   return (
-    <div className="w-full space-y-6 animate-fade-in pb-16 select-none font-sans">
+    <div className="w-full max-w-[1320px] mx-auto space-y-6 animate-fade-in pb-16 pt-2 select-none font-sans antialiased">
       
-      {/* 1. Standard Unified Page Header (统一前台菜单风格) */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-2xs shrink-0">
-            <Briefcase className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
-              任务大厅
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                需求悬赏 · 极客接单
-              </span>
-            </h1>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              汇聚高质量 AI 开发、模型调优与工程交付需求，在线接单交付，高额赏金撮合验收
-            </p>
-          </div>
+      {/* 1. Unified Page Header (与培训认证顶部一致) */}
+      <header className="pb-8 border-b border-[var(--border-color)] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="space-y-2">
+          <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+            任务大厅
+          </h1>
+          <p className="text-sm text-[var(--text-secondary)]">
+            汇聚高质量 AI 开发、模型调优与工程交付需求，在线接单交付，高额赏金撮合验收。
+          </p>
         </div>
 
         <button
@@ -274,7 +266,7 @@ export const TasksView: React.FC = () => {
           <Plus className="w-4 h-4" />
           <span>发布新需求任务</span>
         </button>
-      </div>
+      </header>
 
       {/* 2. 领域快捷筛选分类胶囊栏 */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">

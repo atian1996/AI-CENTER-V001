@@ -18,25 +18,17 @@ export const MarketplaceView: React.FC = () => {
   ];
 
   return (
-    <div className="w-full space-y-6 animate-fade-in pb-12 select-none">
+    <div className="w-full max-w-[1320px] mx-auto space-y-6 animate-fade-in pb-16 pt-2 select-none antialiased">
       
-      {/* Standard Unified Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-2xs shrink-0">
-            <Store className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
-              AI集市
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                一站式集市
-              </span>
-            </h1>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              一站式检索与体验 Agent 智能体、大模型底座、高质行业数据集与开放 Skill 插件
-            </p>
-          </div>
+      {/* Unified Page Header (与培训认证顶部一致) */}
+      <header className="pb-8 border-b border-[var(--border-color)] flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+        <div className="space-y-2">
+          <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+            AI集市
+          </h1>
+          <p className="text-sm text-[var(--text-secondary)]">
+            一站式检索与体验 Agent 智能体、大模型底座、高质行业数据集与开放 Skill 插件。
+          </p>
         </div>
 
         {/* Sub Tab Switcher */}
@@ -59,7 +51,7 @@ export const MarketplaceView: React.FC = () => {
             );
           })}
         </div>
-      </div>
+      </header>
 
       {/* Render Selected Tab */}
       {marketplaceTab === 'agent' && <AgentStore />}

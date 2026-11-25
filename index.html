@@ -10,11 +10,11 @@
     <script>
       (function () {
         try {
-          var savedTheme = window.localStorage.getItem('ai_ops_theme');
-          var theme = savedTheme === 'minimal' ? 'minimal' : 'default';
+          var savedTheme = window.localStorage.getItem('ai_ops_theme_v2');
+          var theme = savedTheme === 'default' ? 'default' : 'minimal';
           document.documentElement.setAttribute('data-theme', theme);
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'default');
+          document.documentElement.setAttribute('data-theme', 'minimal');
         }
       })();
     </script>

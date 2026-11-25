@@ -178,16 +178,15 @@ export const PremiumTrialView: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-[#ffffff] text-[#1a1a1a] rounded-[12px] border border-[#eaeaea] px-6 sm:px-10 lg:px-14 py-8 sm:py-10 antialiased">
-      {/* Centered Max-Width 1280px Gallery Container */}
-      <div className="w-full max-w-[1280px] mx-auto">
-        {/* 1. 页面头部 (Header) — 与培训认证页面头部排版保持一致 */}
-        <header className="pb-8 border-b border-[#eaeaea]">
+    <div className="w-full max-w-[1320px] mx-auto pb-16 pt-2 antialiased text-[var(--text-primary)]">
+      <div className="w-full">
+        {/* 1. 页面头部 (Header) — 与培训认证页面头部排版完全一致 */}
+        <header className="pb-8 border-b border-[var(--border-color)]">
           <div className="space-y-2">
-            <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[#1a1a1a] leading-tight">
+            <h1 className="text-2xl sm:text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
               探索企业级 AI 基础设施
             </h1>
-            <p className="text-sm text-[#666666] max-w-3xl leading-relaxed">
+            <p className="text-sm text-[var(--text-secondary)]">
               从大模型实训研发到数字孪生实战推演，打通底层算力到上层应用的全链路，为院校与企业提供低门槛、高可用的 AI 落地平台。
             </p>
           </div>
