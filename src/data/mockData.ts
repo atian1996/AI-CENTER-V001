@@ -3638,5 +3638,214 @@ export const mockCompetitions: CompetitionItem[] = [
         targetUrl: 'http://10.2.89.1/saas/contest/web/contest/ai/enter/805f06cb51fea51263cf33ea15c2b1f6/rank'
       }
     ]
+  },
+  {
+    id: 'comp-05',
+    title: 'Agent 自主规划与多工具协同挑战赛',
+    organizer: 'AI运营中心赛事组委会',
+    organizerBadge: '官方主办',
+    coverImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop&q=80',
+    bannerImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1600&auto=format&fit=crop&q=80',
+    startTime: '2026-11-24 00:00:00',
+    endTime: '2026-12-30 00:00:00',
+    status: 'ongoing',
+    typeTags: ['AI产品创新赛', 'AI安全挑战赛'],
+    tags: ['Agent', 'MCP', 'Tool Use'],
+    viewsCount: 9420,
+    createdAt: '2026-11-24 10:13:47',
+    creator: 'admin',
+    introduction: {
+      summary: '聚焦自主智能体在复杂企业业务流中的任务拆解、工具调用与异常自愈能力评测。',
+      schedule: [
+        { stage: '初赛排榜', time: '2026-11-24 00:00 ~ 2026-12-15 23:59', desc: '开放企业沙箱 API 评测环境。' },
+        { stage: '决赛路演', time: '2026-12-16 00:00 ~ 2026-12-30 00:00', desc: '现场演示多 Agent 协作系统。' }
+      ],
+      awards: [
+        { rank: '一等奖 (1 名)', reward: '¥100,000 现金 + 百万算力券', quota: '1 支队伍' },
+        { rank: '二等奖 (2 名)', reward: '¥40,000 现金 + 生态直通名额', quota: '2 支队伍' }
+      ],
+      evaluationStandards: ['任务完成率（50%）', '调用成本与时延（30%）', '架构鲁棒性（20%）'],
+      organizingCommittee: [{ role: '主办单位', name: 'AI运营中心赛事组委会' }]
+    },
+    tracks: []
+  },
+  {
+    id: 'comp-06',
+    title: '企业级多模态 RAG 检索增强生成工程实战赛',
+    organizer: '长三角人工智能产业联盟',
+    organizerBadge: '产业联盟',
+    coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80',
+    bannerImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&auto=format&fit=crop&q=80',
+    startTime: '2026-11-24 00:00:00',
+    endTime: '2026-12-20 00:00:00',
+    status: 'ongoing',
+    typeTags: ['AI数据科学赛'],
+    tags: ['RAG', '多模态检索', '向量库'],
+    viewsCount: 7850,
+    createdAt: '2026-11-24 10:17:26',
+    creator: 'admin',
+    introduction: {
+      summary: '围绕跨文档图表解析、混合检索召回与低幻觉引用溯源打造高可用多模态 RAG 引擎。',
+      schedule: [
+        { stage: '线上评测', time: '2026-11-24 00:00 ~ 2026-12-20 00:00', desc: '基于标准多模态评测集自动打分。' }
+      ],
+      awards: [
+        { rank: '特等奖 (1 名)', reward: '¥150,000 奖金池 · 生态合作企业直通终面', quota: '1 支队伍' }
+      ],
+      evaluationStandards: ['检索召回 MRR（50%）', '回答忠实度与准确率（50%）'],
+      organizingCommittee: [{ role: '主办单位', name: '长三角人工智能产业联盟' }]
+    },
+    tracks: []
+  },
+  {
+    id: 'comp-07',
+    title: 'AIGC 数字内容创作个人赛',
+    organizer: '数字视觉与创意计算实验室',
+    coverImage: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&auto=format&fit=crop&q=80',
+    bannerImage: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=1600&auto=format&fit=crop&q=80',
+    startTime: '2026-11-24 00:00:00',
+    endTime: '2026-12-18 00:00:00',
+    status: 'ongoing',
+    typeTags: ['AIGC生成赛'],
+    tags: ['ComfyUI', 'Flux', '视觉叙事'],
+    viewsCount: 6120,
+    createdAt: '2026-11-24 10:17:43',
+    creator: 'admin',
+    introduction: {
+      summary: '面向独立 AI 创作者的 AIGC 概念视觉与短片工作流创作大赛。',
+      schedule: [
+        { stage: '作品征集', time: '2026-11-24 00:00 ~ 2026-12-18 00:00', desc: '提交作品与可复现工作流。' }
+      ],
+      awards: [{ rank: '最佳创作奖', reward: '¥30,000 现金 + A100 算力卡', quota: '3 名' }],
+      evaluationStandards: ['美学表现（50%）', '工作流可控性（50%）'],
+      organizingCommittee: [{ role: '主办单位', name: '数字视觉与创意计算实验室' }]
+    },
+    tracks: []
+  },
+  {
+    id: 'comp-08',
+    title: 'AIGC 商业短片创作团队赛',
+    organizer: '数字视觉与创意计算实验室',
+    coverImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+    bannerImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&auto=format&fit=crop&q=80',
+    startTime: '2026-11-24 00:00:00',
+    endTime: '2026-12-22 00:00:00',
+    status: 'ongoing',
+    typeTags: ['AIGC生成赛'],
+    tags: ['视频生成', '角色一致性', '团队赛'],
+    viewsCount: 5430,
+    createdAt: '2026-11-24 10:17:58',
+    creator: 'admin',
+    introduction: {
+      summary: '考察多人协作团队在 AI 商业广告短片分镜、配音与后期合成中的工业化落地效率。',
+      schedule: [
+        { stage: '作品征集', time: '2026-11-24 00:00 ~ 2026-12-22 00:00', desc: '团队提交完整成片。' }
+      ],
+      awards: [{ rank: '最佳团队奖', reward: '¥80,000 奖金池 + 商业订单直推', quota: '2 支队伍' }],
+      evaluationStandards: ['成片完成度（60%）', '制作流程创新（40%）'],
+      organizingCommittee: [{ role: '主办单位', name: '数字视觉与创意计算实验室' }]
+    },
+    tracks: []
+  },
+  {
+    id: 'comp-09',
+    title: 'AI 产品创新个人赛',
+    organizer: 'OPC 超级个体生态联盟',
+    coverImage: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&auto=format&fit=crop&q=80',
+    bannerImage: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1600&auto=format&fit=crop&q=80',
+    startTime: '2026-12-01 00:00:00',
+    endTime: '2027-01-10 00:00:00',
+    status: 'unstarted',
+    typeTags: ['AI产品创新赛'],
+    tags: ['全栈开发', '独立产品', 'OPC'],
+    viewsCount: 4890,
+    createdAt: '2026-11-24 10:18:07',
+    creator: 'admin',
+    introduction: {
+      summary: '鼓励独立开发者在 30 天内从零构建可上线变现的垂直场景 AI 原生 Web 产品。',
+      schedule: [
+        { stage: '报名阶段', time: '2026-12-01 00:00 ~ 2027-01-10 00:00', desc: '提交可访问 Demo 与产品说明。' }
+      ],
+      awards: [{ rank: '最具商业潜力奖', reward: '¥50,000 孵化基金 + OPC 免租工位', quota: '3 名' }],
+      evaluationStandards: ['商业闭环（50%）', '产品体验（50%）'],
+      organizingCommittee: [{ role: '主办单位', name: 'OPC 超级个体生态联盟' }]
+    },
+    tracks: []
+  },
+  {
+    id: 'comp-10',
+    title: 'AI 产品创新团队黑客松',
+    organizer: 'OPC 超级个体生态联盟',
+    coverImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80',
+    bannerImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&auto=format&fit=crop&q=80',
+    startTime: '2026-12-05 00:00:00',
+    endTime: '2027-01-15 00:00:00',
+    status: 'unstarted',
+    typeTags: ['AI产品创新赛'],
+    tags: ['黑客松', 'AI应用', '团队协作'],
+    viewsCount: 4210,
+    createdAt: '2026-11-24 10:18:30',
+    creator: 'admin',
+    introduction: {
+      summary: '72 小时极限协同构建面向教育、医疗与政企场景的 AI 智能应用系统。',
+      schedule: [
+        { stage: '极限开发', time: '2026-12-05 00:00 ~ 2027-01-15 00:00', desc: '线上初筛 + 线下黑客松决赛。' }
+      ],
+      awards: [{ rank: '黑客松冠军', reward: '¥120,000 奖金池 · 5,000万 Digitoken 激励', quota: '1 支队伍' }],
+      evaluationStandards: ['工程完成度（50%）', '场景价值（50%）'],
+      organizingCommittee: [{ role: '主办单位', name: 'OPC 超级个体生态联盟' }]
+    },
+    tracks: []
+  },
+  {
+    id: 'comp-11',
+    title: '2026 XCTF·AI 大模型攻防与安全对齐挑战赛',
+    organizer: 'XCTF 联合安全实验室',
+    organizerBadge: '安全权威',
+    coverImage: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop&q=80',
+    bannerImage: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1600&auto=format&fit=crop&q=80',
+    startTime: '2026-11-10 00:00:00',
+    endTime: '2026-12-15 23:59:59',
+    status: 'ongoing',
+    typeTags: ['AI安全挑战赛'],
+    tags: ['红蓝对抗', '提示词注入', '安全对齐'],
+    viewsCount: 14320,
+    createdAt: '2026-11-10 09:20:15',
+    creator: 'admin',
+    introduction: {
+      summary: '聚焦大语言模型越狱攻防、Agent 权限逃逸与内容安全围栏加固的实战对抗赛。',
+      schedule: [
+        { stage: '线上靶场攻防', time: '2026-11-10 00:00 ~ 2026-12-15 23:59', desc: '实战靶场动态计分。' }
+      ],
+      awards: [{ rank: '一等奖', reward: '奖金池 ¥300,000 · 配套百万算力券补贴', quota: '1 支队伍' }],
+      evaluationStandards: ['攻防得分（70%）', '防御加固报告（30%）'],
+      organizingCommittee: [{ role: '主办单位', name: 'XCTF 联合安全实验室' }]
+    },
+    tracks: []
+  },
+  {
+    id: 'comp-12',
+    title: '2026 秋季大模型轻量化推理优化赛',
+    organizer: '开放算力评测中心',
+    coverImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80',
+    bannerImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&auto=format&fit=crop&q=80',
+    startTime: '2026-09-10 00:00:00',
+    endTime: '2026-10-20 00:00:00',
+    status: 'ended',
+    typeTags: ['AI数据科学赛'],
+    tags: ['vLLM', '量化加速', '推理优化'],
+    viewsCount: 8340,
+    createdAt: '2026-09-05 16:12:45',
+    creator: 'admin',
+    introduction: {
+      summary: '在保证大模型精度无损的前提下，极限优化单卡推理吞吐量与首字延迟（TTFT）。',
+      schedule: [
+        { stage: '已结赛', time: '2026-09-10 00:00 ~ 2026-10-20 00:00', desc: '已完成最终评测与颁奖。' }
+      ],
+      awards: [{ rank: '最佳性能奖', reward: '¥60,000 奖金 + 算力证书', quota: '3 支队伍' }],
+      evaluationStandards: ['Tokens/s 吞吐（60%）', '评测精度保持率（40%）'],
+      organizingCommittee: [{ role: '主办单位', name: '开放算力评测中心' }]
+    },
+    tracks: []
   }
 ];

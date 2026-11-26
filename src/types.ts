@@ -1195,6 +1195,8 @@ export interface CompetitionItem {
   tags?: string[]; // 自定义赛事技术标签 (如 '机器学习', '二分类', 'NLP')
   viewsCount?: number; // 点击量 / 浏览量
   isInternalOnly?: boolean; // 是否为企业内部专有赛事 (仅限受邀人员)
+  createdAt?: string; // 创建时间 YYYY-MM-DD HH:mm:ss
+  creator?: string; // 创建者
   
   // 赛事介绍 TAB 固定内容
   introduction: {
