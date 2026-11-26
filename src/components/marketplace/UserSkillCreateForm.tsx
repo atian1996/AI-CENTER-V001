@@ -3,7 +3,6 @@ import { useApp } from '../../context/AppContext';
 import { MarkdownEditor, DEFAULT_SKILL_OVERVIEW_TEMPLATE } from '../common/MarkdownEditor';
 import {
   ArrowLeft,
-  Wrench,
   Sparkles,
   Zap,
   Terminal,
@@ -13,11 +12,8 @@ import {
   BookOpen,
   Bot,
   Palette,
-  Folder,
   FileArchive,
-  CheckCircle2,
-  Tag,
-  Plus,
+  Check,
   X
 } from 'lucide-react';
 
@@ -26,10 +22,10 @@ interface UserSkillCreateFormProps {
   fromTitle?: string;
 }
 
-export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack, fromTitle }) => {
+export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack }) => {
   const { submitSkillForApproval, showToast, user } = useApp();
 
-  // Form states aligned strictly with SkillAdminView
+  // Form states (功能字段与校验逻辑完全保持不变)
   const [slug, setSlug] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [category, setCategory] = useState('知识管理');
@@ -37,17 +33,18 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
   const [selectedPresetIcon, setSelectedPresetIcon] = useState('Zap');
   const [customIconUrl, setCustomIconUrl] = useState('');
   const [description, setDescription] = useState('');
-  
-  // Tags (最多 5 个，对应前台 skill 详情中顶部 skill 描述下方的几个标签)
+
+  // Tags (最多 5 个)
   const [tags, setTags] = useState<string[]>(['知识管理', '自动化']);
   const [tagInput, setTagInput] = useState('');
 
-  // 概述 (Markdown 编辑器，对应前台 skill 详情中的概述内容)
+  // 概述 (Markdown 编辑器)
   const [overviewMarkdown, setOverviewMarkdown] = useState(DEFAULT_SKILL_OVERVIEW_TEMPLATE);
-  
+
   // File package state
   const [fileUploaded, setFileUploaded] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
+  const [isDragging, setIsDragging] = useState(false);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [submitting, setSubmitting] = useState(false);
@@ -62,16 +59,17 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
     '生活娱乐'
   ];
 
+  // 所有预设图标彻底去除彩色，统一为纯灰 (#999999) / 选中纯黑 (#1A1A1A) 线框图标
   const presetIcons = [
-    { name: 'Zap', label: '闪电/通用', icon: <Zap className="w-5 h-5 text-amber-500" /> },
-    { name: 'Terminal', label: '终端/代码', icon: <Terminal className="w-5 h-5 text-indigo-500" /> },
-    { name: 'FileText', label: '文档/知识', icon: <FileText className="w-5 h-5 text-blue-500" /> },
-    { name: 'BarChart3', label: '图表/数据', icon: <BarChart3 className="w-5 h-5 text-emerald-500" /> },
-    { name: 'Code2', label: '开发/云端', icon: <Code2 className="w-5 h-5 text-sky-500" /> },
-    { name: 'BookOpen', label: '阅读/研报', icon: <BookOpen className="w-5 h-5 text-amber-600" /> },
-    { name: 'Sparkles', label: '智能/AI', icon: <Sparkles className="w-5 h-5 text-purple-500" /> },
-    { name: 'Bot', label: 'Agent机器人', icon: <Bot className="w-5 h-5 text-violet-500" /> },
-    { name: 'Palette', label: '设计/多媒体', icon: <Palette className="w-5 h-5 text-rose-500" /> }
+    { name: 'Zap', label: '闪电/通用', Icon: Zap },
+    { name: 'Terminal', label: '终端/代码', Icon: Terminal },
+    { name: 'FileText', label: '文档/知识', Icon: FileText },
+    { name: 'BarChart3', label: '图表/数据', Icon: BarChart3 },
+    { name: 'Code2', label: '开发/云端', Icon: Code2 },
+    { name: 'BookOpen', label: '阅读/研报', Icon: BookOpen },
+    { name: 'Sparkles', label: '智能/AI', Icon: Sparkles },
+    { name: 'Bot', label: 'Agent机器人', Icon: Bot },
+    { name: 'Palette', label: '设计/多媒体', Icon: Palette }
   ];
 
   // File refs
@@ -79,7 +77,6 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
   const zipInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  // Real Folder Selection
   const handleFolderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -87,11 +84,10 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
       setFileUploaded(true);
       setUploadedFileName(`${folderName}/ (包含 ${files.length} 个文件，已解析 SKILL.md)`);
       showToast(`文件夹【${folderName}】已成功选择并解析！`);
-      if (errors.file) setErrors(prev => ({ ...prev, file: '' }));
+      if (errors.file) setErrors((prev) => ({ ...prev, file: '' }));
     }
   };
 
-  // Real ZIP/File Selection
   const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -100,24 +96,23 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
       setFileUploaded(true);
       setUploadedFileName(`${file.name} (${sizeMB} MB)`);
       showToast(`ZIP/压缩包【${file.name}】选择成功！校验 SKILL.md 结构无误。`);
-      if (errors.file) setErrors(prev => ({ ...prev, file: '' }));
+      if (errors.file) setErrors((prev) => ({ ...prev, file: '' }));
     }
   };
 
-  // Drag and drop handler
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+    setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
       const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
       setFileUploaded(true);
       setUploadedFileName(`${file.name} (${sizeMB} MB)`);
       showToast(`文件【${file.name}】拖拽上传成功！`);
-      if (errors.file) setErrors(prev => ({ ...prev, file: '' }));
+      if (errors.file) setErrors((prev) => ({ ...prev, file: '' }));
     }
   };
 
-  // Real Custom Icon Image Upload
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -126,10 +121,6 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
       setCustomIconUrl(url);
       showToast(`图片【${file.name}】上传成功！`);
     }
-  };
-
-  const handleTriggerFolderSelect = () => {
-    folderInputRef.current?.click();
   };
 
   const handleTriggerZipSelect = () => {
@@ -154,14 +145,14 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
       return;
     }
 
-    setTags(prev => [...prev, rawTag]);
+    setTags((prev) => [...prev, rawTag]);
     if (tagToAdd === undefined) {
       setTagInput('');
     }
   };
 
   const handleRemoveTag = (indexToRemove: number) => {
-    setTags(prev => prev.filter((_, idx) => idx !== indexToRemove));
+    setTags((prev) => prev.filter((_, idx) => idx !== indexToRemove));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -210,39 +201,28 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4 py-6 space-y-6 animate-fade-in text-slate-800">
-      {/* Header */}
-      <div className="flex items-center justify-between bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={onBack}
-            className="w-10 h-10 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition cursor-pointer shrink-0"
-            title="返回 Skill 市场"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div>
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-400">
-              <span>{fromTitle || 'AI 集市 / Skill 市场'}</span>
-              <span>/</span>
-              <span className="text-purple-600">创建 Skill</span>
-            </div>
-            <h1 className="text-xl font-black text-slate-900 tracking-tight mt-0.5 flex items-center gap-2">
-              <Wrench className="w-5 h-5 text-purple-600" />
-              <span>创建 Skill 插件</span>
-            </h1>
-          </div>
+    <div className="w-full max-w-4xl mx-auto pt-2 pb-24 select-none animate-fade-in text-[#1A1A1A] antialiased">
+      {/* 1. 顶部 Header 区：去掉大卡片，与发布新需求任务页、发布新动态页排版保持一致 */}
+      <header className="pb-6 border-b border-[#EAEAEA]">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex items-center gap-1.5 text-[13px] text-[#666666] hover:text-[#000000] transition-colors cursor-pointer"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.6} />
+          <span>返回</span>
+        </button>
+
+        <div className="mt-5 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <h1 className="text-[24px] font-bold text-[#000000] tracking-[-0.02em] leading-tight">
+            创建 Skill
+          </h1>
+          <span className="text-[12px] text-[#888888] font-normal">应用规范保持一致</span>
         </div>
+      </header>
 
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-purple-50 text-purple-700 border border-purple-100">
-          <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-          <span>应用规范保持一致</span>
-        </span>
-      </div>
-
-      {/* Main Form Card (Matches SkillAdminView fields) */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-3xl border border-slate-200/80 p-8 shadow-xs space-y-6">
-        
+      {/* 主表单：纯白极简黑白灰风格 */}
+      <form onSubmit={handleSubmit} className="pt-8 space-y-8">
         {/* Hidden File Inputs */}
         <input
           type="file"
@@ -269,42 +249,44 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
           onChange={handleImageChange}
         />
 
-        {/* 1. Skill 压缩包选择 */}
-        <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-700">
-            选择 ZIP 压缩包 <span className="text-rose-500">*</span>
+        {/* 1. 上传 ZIP 压缩包：浅灰虚线框 + 纯黑线条图标 + 中灰文字 */}
+        <div className="space-y-2.5">
+          <label className="block text-[13px] font-medium text-[#1A1A1A]">
+            选择 ZIP 压缩包 <span className="text-[#999999]">*</span>
           </label>
-          <div 
-            onDragOver={e => e.preventDefault()}
+          <div
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragLeave={() => setIsDragging(false)}
             onDrop={handleDrop}
-            className="p-1 rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/20"
+            onClick={handleTriggerZipSelect}
+            className={`w-full px-6 py-7 rounded-[6px] border border-dashed bg-[#FFFFFF] transition-colors cursor-pointer flex items-center gap-4 ${
+              isDragging
+                ? 'border-[#1A1A1A]'
+                : 'border-[#EAEAEA] hover:border-[#1A1A1A]'
+            }`}
           >
-            <button
-              type="button"
-              onClick={handleTriggerZipSelect}
-              className="w-full p-5 rounded-2xl border border-slate-200 bg-white hover:bg-indigo-50/50 hover:border-indigo-300 text-left transition cursor-pointer flex items-center gap-4 group shadow-2xs"
-            >
-              <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-                <FileArchive className="w-6 h-6" />
+            <FileArchive className="w-7 h-7 text-[#1A1A1A] shrink-0" strokeWidth={1.5} />
+            <div className="flex-1 min-w-0">
+              <div className="text-[14px] font-medium text-[#1A1A1A]">
+                选择 ZIP / 压缩包
+                <span className="ml-2 text-[12px] text-[#999999] font-normal">推荐</span>
               </div>
-              <div className="flex-1">
-                <div className="text-xs font-black text-slate-900 flex items-center gap-2">
-                  <span>选择 ZIP / 压缩包</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-200 font-bold">推荐</span>
-                </div>
-                <div className="text-[11px] text-slate-400 mt-1">自动解压并校验 SKILL.md 结构，支持点击选择或直接拖拽 ZIP 文件到此处</div>
+              <div className="text-[13px] text-[#777777] mt-1">
+                自动解压并校验 SKILL.md 结构，支持点击选择或直接拖拽 ZIP 文件到此处
               </div>
-            </button>
+            </div>
           </div>
 
-          {errors.file && <p className="text-[11px] text-rose-500 font-bold mt-1">{errors.file}</p>}
+          {errors.file && <p className="text-[12px] text-[#1A1A1A]">{errors.file}</p>}
 
-          {/* File status if selected */}
           {fileUploaded && (
-            <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span className="font-mono font-bold">{uploadedFileName}</span>
+            <div className="px-4 py-3 rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] text-[13px] text-[#1A1A1A] flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 min-w-0">
+                <Check className="w-4 h-4 text-[#1A1A1A] shrink-0" strokeWidth={1.8} />
+                <span className="font-mono truncate">{uploadedFileName}</span>
               </div>
               <button
                 type="button"
@@ -312,7 +294,7 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
                   setFileUploaded(false);
                   setUploadedFileName('');
                 }}
-                className="text-emerald-700 hover:text-emerald-900 font-bold underline cursor-pointer text-[11px]"
+                className="text-[12px] text-[#666666] hover:text-[#1A1A1A] underline underline-offset-4 transition-colors cursor-pointer shrink-0"
               >
                 重新选择
               </button>
@@ -320,63 +302,66 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
           )}
         </div>
 
-        {/* 2. Slug * */}
-        <div className="space-y-1.5">
-          <label className="block text-xs font-bold text-slate-700">
-            Slug <span className="text-rose-500">*</span>
-          </label>
-          <input
-            type="text"
-            value={slug}
-            onChange={e => {
-              setSlug(e.target.value);
-              if (errors.slug) setErrors(prev => ({ ...prev, slug: '' }));
-            }}
-            placeholder="Skill 的唯一标识符，仅允许小写字母、数字和连字符"
-            className={`w-full px-4 py-2.5 rounded-xl border text-xs font-mono font-bold transition focus:outline-hidden ${
-              errors.slug ? 'border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-purple-500 bg-slate-50/50'
-            }`}
-          />
-          {errors.slug && <p className="text-[11px] text-rose-500 font-bold">{errors.slug}</p>}
+        {/* 2. Slug 与 显示名称 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label className="block text-[13px] font-medium text-[#1A1A1A]">
+              Slug <span className="text-[#999999]">*</span>
+            </label>
+            <input
+              type="text"
+              value={slug}
+              onChange={(e) => {
+                setSlug(e.target.value);
+                if (errors.slug) setErrors((prev) => ({ ...prev, slug: '' }));
+              }}
+              placeholder="唯一标识符，仅允许小写字母、数字和连字符"
+              className={`w-full px-3.5 py-2.5 rounded-[6px] border bg-[#FFFFFF] text-[14px] font-mono text-[#1A1A1A] placeholder:text-[#999999] outline-none transition-colors ${
+                errors.slug ? 'border-[#1A1A1A]' : 'border-[#EAEAEA] focus:border-[#1A1A1A]'
+              }`}
+            />
+            {errors.slug && <p className="text-[12px] text-[#1A1A1A]">{errors.slug}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-[13px] font-medium text-[#1A1A1A]">
+              显示名称 <span className="text-[#999999]">*</span>
+            </label>
+            <input
+              type="text"
+              value={displayName}
+              onChange={(e) => {
+                setDisplayName(e.target.value);
+                if (errors.displayName) setErrors((prev) => ({ ...prev, displayName: '' }));
+              }}
+              placeholder="请输入 Skill 显示名称"
+              className={`w-full px-3.5 py-2.5 rounded-[6px] border bg-[#FFFFFF] text-[14px] text-[#1A1A1A] placeholder:text-[#999999] outline-none transition-colors ${
+                errors.displayName ? 'border-[#1A1A1A]' : 'border-[#EAEAEA] focus:border-[#1A1A1A]'
+              }`}
+            />
+            {errors.displayName && (
+              <p className="text-[12px] text-[#1A1A1A]">{errors.displayName}</p>
+            )}
+          </div>
         </div>
 
-        {/* 3. 显示名称 * */}
-        <div className="space-y-1.5">
-          <label className="block text-xs font-bold text-slate-700">
-            显示名称 <span className="text-rose-500">*</span>
+        {/* 3. 场景分类 */}
+        <div className="space-y-2.5">
+          <label className="block text-[13px] font-medium text-[#1A1A1A]">
+            场景分类 <span className="text-[#999999]">*</span>
           </label>
-          <input
-            type="text"
-            value={displayName}
-            onChange={e => {
-              setDisplayName(e.target.value);
-              if (errors.displayName) setErrors(prev => ({ ...prev, displayName: '' }));
-            }}
-            placeholder="Skill 显示名称"
-            className={`w-full px-4 py-2.5 rounded-xl border text-xs font-bold transition focus:outline-hidden ${
-              errors.displayName ? 'border-rose-500 bg-rose-50/20' : 'border-slate-200 focus:border-purple-500 bg-slate-50/50'
-            }`}
-          />
-          {errors.displayName && <p className="text-[11px] text-rose-500 font-bold">{errors.displayName}</p>}
-        </div>
-
-        {/* 4. 场景分类 * */}
-        <div className="space-y-1.5">
-          <label className="block text-xs font-bold text-slate-700">
-            场景分类 <span className="text-rose-500">*</span>
-          </label>
-          <div className="flex flex-wrap gap-2 pt-0.5">
-            {categoriesList.map(catItem => {
+          <div className="flex flex-wrap gap-2">
+            {categoriesList.map((catItem) => {
               const isSelected = category === catItem;
               return (
                 <button
                   type="button"
                   key={catItem}
                   onClick={() => setCategory(catItem)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer border ${
+                  className={`px-3.5 py-1.5 rounded-[6px] border text-[13px] font-medium transition-colors cursor-pointer ${
                     isSelected
-                      ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
-                      : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200'
+                      ? 'bg-[#1A1A1A] border-[#1A1A1A] text-[#FFFFFF]'
+                      : 'bg-transparent border-[#EAEAEA] text-[#555555] hover:border-[#1A1A1A] hover:text-[#1A1A1A]'
                   }`}
                 >
                   {catItem}
@@ -386,68 +371,76 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
           </div>
         </div>
 
-        {/* 5. 图标 */}
-        <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-700">
-            图标
-          </label>
+        {/* 4. 图标选择区：彻底消灭彩色，全部纯灰 (#999) 线框图标，选中态 2px 纯黑外边框 + 纯黑图标 */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="block text-[13px] font-medium text-[#1A1A1A]">图标</label>
 
-          {/* Tabs: 预设图标 | 自定义 */}
-          <div className="inline-flex p-1 rounded-xl bg-slate-100 text-xs font-bold">
-            <button
-              type="button"
-              onClick={() => setIconType('preset')}
-              className={`px-4 py-1.5 rounded-lg transition cursor-pointer ${
-                iconType === 'preset'
-                  ? 'bg-white text-slate-900 shadow-2xs'
-                  : 'text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              预设图标
-            </button>
-            <button
-              type="button"
-              onClick={() => setIconType('custom')}
-              className={`px-4 py-1.5 rounded-lg transition cursor-pointer ${
-                iconType === 'custom'
-                  ? 'bg-white text-slate-900 shadow-2xs'
-                  : 'text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              自定义
-            </button>
+            <div className="flex items-center gap-4 text-[13px]">
+              <button
+                type="button"
+                onClick={() => setIconType('preset')}
+                className={`pb-0.5 border-b-2 transition-colors cursor-pointer ${
+                  iconType === 'preset'
+                    ? 'border-[#1A1A1A] text-[#1A1A1A] font-semibold'
+                    : 'border-transparent text-[#999999] hover:text-[#1A1A1A] font-normal'
+                }`}
+              >
+                预设图标
+              </button>
+              <span className="text-[#EAEAEA] select-none">|</span>
+              <button
+                type="button"
+                onClick={() => setIconType('custom')}
+                className={`pb-0.5 border-b-2 transition-colors cursor-pointer ${
+                  iconType === 'custom'
+                    ? 'border-[#1A1A1A] text-[#1A1A1A] font-semibold'
+                    : 'border-transparent text-[#999999] hover:text-[#1A1A1A] font-normal'
+                }`}
+              >
+                自定义
+              </button>
+            </div>
           </div>
 
-          {/* Preset Icon Selector */}
           {iconType === 'preset' ? (
-            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 pt-2">
-              {presetIcons.map(item => {
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
+              {presetIcons.map((item) => {
                 const isSel = selectedPresetIcon === item.name;
+                const IconComponent = item.Icon;
                 return (
                   <button
                     type="button"
                     key={item.name}
                     onClick={() => setSelectedPresetIcon(item.name)}
-                    className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition cursor-pointer ${
+                    className={`p-3.5 rounded-[6px] bg-[#FFFFFF] flex flex-col items-center justify-center gap-2 transition-colors cursor-pointer ${
                       isSel
-                        ? 'bg-purple-50 border-purple-300 text-purple-700 ring-1 ring-purple-300'
-                        : 'bg-slate-50/50 border-slate-200 hover:bg-slate-100 text-slate-600'
+                        ? 'border-2 border-[#1A1A1A] text-[#1A1A1A]'
+                        : 'border border-[#EAEAEA] text-[#999999] hover:border-[#CCCCCC] hover:text-[#666666]'
                     }`}
                   >
-                    {item.icon}
-                    <span className="text-[11px] font-bold">{item.label}</span>
+                    <IconComponent
+                      className={`w-5 h-5 ${isSel ? 'text-[#1A1A1A]' : 'text-[#999999]'}`}
+                      strokeWidth={1.6}
+                    />
+                    <span
+                      className={`text-[12px] ${
+                        isSel ? 'text-[#1A1A1A] font-medium' : 'text-[#777777] font-normal'
+                      }`}
+                    >
+                      {item.label}
+                    </span>
                   </button>
                 );
               })}
             </div>
           ) : (
-            /* Custom Upload Button */
-            <div className="space-y-2 pt-1">
+            <div className="space-y-2.5 pt-1">
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   onClick={handleTriggerImageSelect}
-                  className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition cursor-pointer"
+                  className="h-[38px] px-4 rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] hover:border-[#1A1A1A] text-[#1A1A1A] text-[13px] font-medium transition-colors cursor-pointer"
                 >
                   点击上传图片
                 </button>
@@ -455,129 +448,115 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
                   <img
                     src={customIconUrl}
                     alt="Icon Preview"
-                    className="w-10 h-10 rounded-xl border border-slate-200 object-cover shadow-2xs"
+                    className="w-10 h-10 rounded-[6px] border border-[#EAEAEA] object-cover"
                   />
                 )}
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[12px] text-[#888888]">
                 支持 jpg / png / webp，最大 5MB；上传后需经过合规审核。
               </p>
             </div>
           )}
         </div>
 
-        {/* 6. 描述 */}
-        <div className="space-y-1.5">
-          <label className="block text-xs font-bold text-slate-700">
-            描述
-          </label>
+        {/* 5. 描述 */}
+        <div className="space-y-2">
+          <label className="block text-[13px] font-medium text-[#1A1A1A]">描述</label>
           <textarea
             rows={3}
             value={description}
-            onChange={e => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
             placeholder="请输入 Skill 描述，将展示在插件卡片与详情页顶部简介处"
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs font-medium focus:border-purple-500 focus:outline-hidden transition resize-none"
+            className="w-full px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] bg-[#FFFFFF] text-[14px] text-[#1A1A1A] placeholder:text-[#999999] outline-none focus:border-[#1A1A1A] transition-colors resize-none leading-relaxed"
           />
         </div>
 
-        {/* 7. 标签 (最多5个) - 对应前台skill详情中，顶部skill描述下方的几个标签 */}
-        <div className="space-y-2">
+        {/* 6. 标签与快捷添加区：已添加纯黑底白字带 ×，快捷添加纯中灰文字链悬浮变黑加下划线 */}
+        <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <label className="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <Tag className="w-3.5 h-3.5 text-purple-600" />
-              <span>Skill 标签</span>
-              <span className="text-[11px] font-normal text-slate-400 font-mono">
-                (最多添加 5 个，对应详情页顶部描述下方标签，当前 {tags.length}/5)
+            <label className="text-[13px] font-medium text-[#1A1A1A]">
+              Skill 标签
+              <span className="text-[12px] font-normal text-[#999999] ml-2 font-mono">
+                最多 5 个（{tags.length}/5）
               </span>
             </label>
             {tags.length >= 5 && (
-              <span className="text-[11px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
-                已达上限 5 个
-              </span>
+              <span className="text-[12px] text-[#666666]">已达上限 5 个</span>
             )}
           </div>
 
-          {/* Tags list */}
-          <div className="flex flex-wrap items-center gap-2 min-h-[38px] p-2 bg-slate-50/70 border border-slate-200 rounded-xl">
-            {tags.length === 0 ? (
-              <span className="text-xs text-slate-400 pl-1">暂无标签，请在下方输入或点击快捷推荐添加</span>
-            ) : (
-              tags.map((tag, idx) => (
+          {tags.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              {tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-purple-200 text-purple-700 text-xs font-medium shadow-2xs group"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] bg-[#1A1A1A] text-[#FFFFFF] text-[12px] font-medium"
                 >
                   <span>{tag}</span>
                   <button
                     type="button"
                     onClick={() => handleRemoveTag(idx)}
-                    className="w-4 h-4 rounded-full hover:bg-purple-100 flex items-center justify-center text-purple-400 hover:text-purple-700 transition cursor-pointer"
-                    title="移除此标签"
+                    className="text-white/70 hover:text-white transition-colors cursor-pointer"
+                    aria-label={`移除标签 ${tag}`}
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3 h-3" strokeWidth={1.8} />
                   </button>
                 </span>
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
 
-          {/* Tag Input row */}
           {tags.length < 5 && (
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1">
-                <input
-                  type="text"
-                  value={tagInput}
-                  onChange={e => setTagInput(e.target.value)}
-                  onKeyDown={e => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleAddTag();
-                    }
-                  }}
-                  placeholder="输入自定义标签名称后按回车或点击添加 (如: 投资研究、数据清洗)"
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 placeholder:text-slate-400 focus:border-purple-500 focus:outline-hidden transition"
-                />
-              </div>
+            <div className="flex items-center gap-2.5">
+              <input
+                type="text"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddTag();
+                  }
+                }}
+                placeholder="输入自定义标签名称后按回车或点击添加（如：投资研究、数据清洗）"
+                className="flex-1 px-3.5 py-2.5 rounded-[6px] border border-[#EAEAEA] bg-[#FFFFFF] text-[13px] text-[#1A1A1A] placeholder:text-[#999999] outline-none focus:border-[#1A1A1A] transition-colors"
+              />
               <button
                 type="button"
                 onClick={() => handleAddTag()}
-                className="px-4 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-bold flex items-center gap-1 transition cursor-pointer shrink-0"
+                className="h-[40px] px-4 rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] hover:border-[#1A1A1A] text-[#1A1A1A] text-[13px] font-medium transition-colors cursor-pointer shrink-0"
               >
-                <Plus className="w-3.5 h-3.5" />
-                <span>添加标签</span>
+                添加标签
               </button>
             </div>
           )}
 
-          {/* Suggested tags */}
-          <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-            <span className="text-[11px] text-slate-400">快捷添加:</span>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-0.5 text-[12px]">
+            <span className="text-[#999999]">快捷添加：</span>
             {['金融分析', '行业专业', '代码审查', '多维表格', '自动化', '办公效率', '知识管理', '研报生成']
-              .filter(t => !tags.includes(t))
+              .filter((t) => !tags.includes(t))
               .slice(0, 6)
-              .map(suggested => (
+              .map((suggested) => (
                 <button
                   key={suggested}
                   type="button"
                   disabled={tags.length >= 5}
                   onClick={() => handleAddTag(suggested)}
-                  className="px-2.5 py-0.5 rounded-md bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-purple-700 hover:border-purple-200 border border-slate-200/60 text-[11px] transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="text-[#777777] hover:text-[#1A1A1A] hover:underline underline-offset-4 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  + {suggested}
+                  {suggested}
                 </button>
               ))}
           </div>
         </div>
 
-        {/* 8. 概述 (Markdown 编辑器) - 对应前台skill详情中的概述中的内容 */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 text-purple-600" />
-              <span>Skill 概述 (Markdown 编辑器)</span>
-              <span className="text-[11px] font-normal text-slate-400">
-                (对应前台 Skill 详情页【概述】选项卡中渲染的内容)
+        {/* 7. 概述 (纯白背景 + 1px 浅灰边框 Markdown 编辑器) */}
+        <div className="space-y-2.5">
+          <div className="flex items-baseline justify-between gap-2">
+            <label className="text-[13px] font-medium text-[#1A1A1A]">
+              Skill 概述
+              <span className="text-[12px] font-normal text-[#999999] ml-2">
+                对应前台 Skill 详情页【概述】选项卡中渲染的内容
               </span>
             </label>
           </div>
@@ -585,29 +564,28 @@ export const UserSkillCreateForm: React.FC<UserSkillCreateFormProps> = ({ onBack
           <MarkdownEditor
             value={overviewMarkdown}
             onChange={setOverviewMarkdown}
-            theme="light"
+            theme="minimal"
             placeholder="在此以 Markdown 格式编写 Skill 插件详细概述（知识产权、使用许可、免责声明、架构及核心模块说明）..."
           />
         </div>
 
-        {/* Bottom Actions */}
-        <div className="flex items-center justify-end gap-3 border-t border-slate-100 pt-6">
+        {/* 底部操作栏：左侧取消（白底黑字无边框），右侧提交创建（纯黑底白字） */}
+        <div className="pt-7 border-t border-[#EAEAEA] flex items-center justify-between gap-4">
           <button
             type="button"
             onClick={onBack}
-            className="px-5 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold transition cursor-pointer"
+            className="h-[42px] px-2 bg-[#FFFFFF] border-0 text-[#1A1A1A] hover:opacity-65 text-[13px] font-medium transition-opacity cursor-pointer"
           >
-            取消
+            取消返回
           </button>
           <button
             type="submit"
             disabled={submitting}
-            className="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-black shadow-xs transition cursor-pointer disabled:opacity-50 flex items-center gap-2"
+            className="h-[42px] px-8 rounded-[6px] bg-[#1A1A1A] hover:bg-[#333333] text-[#FFFFFF] text-[13px] font-medium transition-colors cursor-pointer disabled:opacity-50"
           >
             {submitting ? '提交中...' : '提交创建'}
           </button>
         </div>
-
       </form>
     </div>
   );

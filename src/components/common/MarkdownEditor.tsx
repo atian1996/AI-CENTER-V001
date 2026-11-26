@@ -52,7 +52,7 @@ interface MarkdownEditorProps {
   onChange: (val: string) => void;
   placeholder?: string;
   minHeight?: string;
-  theme?: 'light' | 'dark';
+  theme?: 'light' | 'dark' | 'minimal';
   templatePrompt?: string;
 }
 
@@ -65,10 +65,10 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   templatePrompt = '填入标准概述模板'
 }) => {
   const [activeTab, setActiveTab] = useState<'write' | 'preview'>('write');
-  const [copiedTemplate, setCopiedTemplate] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const isDark = theme === 'dark';
+  const isMinimal = theme === 'minimal';
 
   const insertSyntax = (prefix: string, suffix: string = '', defaultPlaceholder: string = '') => {
     const textarea = textareaRef.current;
@@ -93,14 +93,166 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     }, 10);
   };
 
-  const handleApplyTemplate = () => {
-    if (value.trim() && !window.confirm('当前编辑器已有内容，覆盖为标准模板吗？')) {
-      return;
-    }
-    onChange(DEFAULT_SKILL_OVERVIEW_TEMPLATE);
-    setCopiedTemplate(true);
-    setTimeout(() => setCopiedTemplate(false), 2000);
-  };
+  if (isMinimal) {
+    return (
+      <div className="bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] focus-within:border-[#1A1A1A] transition-colors overflow-hidden">
+        {/* Top Bar: Minimalist Text Tabs + Character Count */}
+        <div className="flex items-center justify-between gap-3 px-3.5 py-2.5 bg-[#FFFFFF] border-b border-[#EAEAEA]">
+          <div className="flex items-center gap-4 text-[13px]">
+            <button
+              type="button"
+              onClick={() => setActiveTab('write')}
+              className={`pb-0.5 border-b-2 transition-colors cursor-pointer ${
+                activeTab === 'write'
+                  ? 'border-[#1A1A1A] text-[#1A1A1A] font-semibold'
+                  : 'border-transparent text-[#999999] hover:text-[#1A1A1A] font-normal'
+              }`}
+            >
+              编辑 (Markdown)
+            </button>
+            <span className="text-[#EAEAEA] select-none">|</span>
+            <button
+              type="button"
+              onClick={() => setActiveTab('preview')}
+              className={`pb-0.5 border-b-2 transition-colors cursor-pointer ${
+                activeTab === 'preview'
+                  ? 'border-[#1A1A1A] text-[#1A1A1A] font-semibold'
+                  : 'border-transparent text-[#999999] hover:text-[#1A1A1A] font-normal'
+              }`}
+            >
+              实时预览
+            </button>
+          </div>
+
+          <span className="text-[11px] font-mono text-[#999999] tabular-nums">
+            {value.length} 字符
+          </span>
+        </div>
+
+        {/* Pure White Toolbar with Monochrome Thin-Stroke Black Icons */}
+        {activeTab === 'write' && (
+          <div className="flex flex-wrap items-center gap-1 px-3 py-2 bg-[#FFFFFF] border-b border-[#EAEAEA]">
+            <button
+              type="button"
+              onClick={() => insertSyntax('**', '**', '加粗文字')}
+              title="加粗"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <Bold className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+            <button
+              type="button"
+              onClick={() => insertSyntax('*', '*', '斜体文字')}
+              title="斜体"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <Italic className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+            <button
+              type="button"
+              onClick={() => insertSyntax('## ', '', '二级标题')}
+              title="二级标题"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <Heading2 className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+            <button
+              type="button"
+              onClick={() => insertSyntax('### ', '', '三级标题')}
+              title="三级标题"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <Heading3 className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+
+            <span className="w-px h-3.5 bg-[#EAEAEA] mx-1" />
+
+            <button
+              type="button"
+              onClick={() =>
+                insertSyntax('```python\n# 核心函数实现\n', '\n```\n', 'def run():\n    pass')
+              }
+              title="代码块"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <Code className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+            <button
+              type="button"
+              onClick={() => insertSyntax('> ', '', '引用内容')}
+              title="引用块"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <Quote className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+            <button
+              type="button"
+              onClick={() => insertSyntax('- ', '', '列表项')}
+              title="无序列表"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <List className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+            <button
+              type="button"
+              onClick={() => insertSyntax('1. ', '', '有序步骤')}
+              title="有序列表"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <ListOrdered className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                insertSyntax(
+                  '| 列1 | 列2 | 说明 |\n| :--- | :--- | :--- |\n| 数据A | 数据B | ',
+                  ' |\n',
+                  '示例'
+                )
+              }
+              title="插入表格"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <Table className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+            <button
+              type="button"
+              onClick={() => insertSyntax('[链接文本](', 'https://example.com)', '点击访问')}
+              title="超链接"
+              className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+            >
+              <LinkIcon className="w-3.5 h-3.5" strokeWidth={1.6} />
+            </button>
+          </div>
+        )}
+
+        {/* Pure White Input / Preview Surface */}
+        {activeTab === 'write' ? (
+          <textarea
+            ref={textareaRef}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            style={{ minHeight }}
+            className="w-full p-4 bg-[#FFFFFF] border-0 text-[13px] font-mono text-[#1A1A1A] placeholder:text-[#999999] leading-relaxed outline-none resize-y"
+          />
+        ) : (
+          <div
+            style={{ minHeight }}
+            className="p-5 bg-[#FFFFFF] text-[14px] text-[#1A1A1A] leading-relaxed overflow-y-auto max-h-[500px] prose prose-slate max-w-none"
+          >
+            {value.trim() ? (
+              <Markdown>{value}</Markdown>
+            ) : (
+              <div className="py-12 text-center text-[13px] text-[#999999]">
+                暂无内容，请切换至「编辑 (Markdown)」开始书写。
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={`rounded-2xl border transition overflow-hidden shadow-2xs ${

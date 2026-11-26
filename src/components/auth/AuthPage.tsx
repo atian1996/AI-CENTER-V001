@@ -1,147 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Check, Eye, EyeOff } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
-
-/**
- * 极轻量 2D Canvas 3D 投影莫比乌斯环动态粒子点阵
- * 纯黑白灰配色，无发光、无阴影，缓慢旋转与呼吸
- */
-const MobiusParticleCanvas: React.FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const uSteps = 84;
-    const vSteps = 9;
-    const totalPoints = uSteps * vSteps;
-
-    // Precompute parametric coordinates (u, v) once
-    const uArr = new Float32Array(totalPoints);
-    const vArr = new Float32Array(totalPoints);
-    let idx = 0;
-    for (let i = 0; i < uSteps; i++) {
-      const u = (i / uSteps) * Math.PI * 2;
-      for (let j = 0; j < vSteps; j++) {
-        const v = (j / (vSteps - 1)) * 2 - 1; // [-1, 1]
-        uArr[idx] = u;
-        vArr[idx] = v;
-        idx++;
-      }
-    }
-
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-
-    const resize = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      width = parent.clientWidth || window.innerWidth * 0.55;
-      height = parent.clientHeight || window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-
-    resize();
-    window.addEventListener('resize', resize);
-
-    let rafId = 0;
-    let startTime = performance.now();
-
-    const render = (now: number) => {
-      const t = (now - startTime) * 0.001;
-
-      ctx.clearRect(0, 0, width, height);
-
-      // Slow organic rotation + gentle breathing
-      const rotY = t * 0.16;
-      const rotX = 0.52 + Math.sin(t * 0.28) * 0.14;
-      const rotZ = Math.cos(t * 0.19) * 0.1;
-
-      const cosY = Math.cos(rotY);
-      const sinY = Math.sin(rotY);
-      const cosX = Math.cos(rotX);
-      const sinX = Math.sin(rotX);
-      const cosZ = Math.cos(rotZ);
-      const sinZ = Math.sin(rotZ);
-
-      const breathe = 1 + Math.sin(t * 0.85) * 0.045;
-      const R = 1.62 * breathe;
-      const halfWidth = 0.56 * (1 + Math.cos(t * 0.7) * 0.05);
-
-      const scale = Math.min(width, height) * 0.34;
-      const cx = width * 0.5;
-      const cy = height * 0.5;
-      const cameraDist = 5.4;
-
-      for (let i = 0; i < totalPoints; i++) {
-        const u = uArr[i];
-        const v = vArr[i];
-        const halfU = u * 0.5;
-
-        // Subtle fluid wave ripple along the Möbius ribbon
-        const ripple = Math.sin(u * 3 - t * 1.1 + v * 2) * 0.04;
-        const r = R + (v * halfWidth + ripple) * Math.cos(halfU);
-        const x0 = r * Math.cos(u);
-        const y0 = r * Math.sin(u);
-        const z0 = (v * halfWidth + ripple) * Math.sin(halfU);
-
-        // Rotate around X
-        const y1 = y0 * cosX - z0 * sinX;
-        const z1 = y0 * sinX + z0 * cosX;
-
-        // Rotate around Y
-        const x2 = x0 * cosY + z1 * sinY;
-        const z2 = -x0 * sinY + z1 * cosY;
-
-        // Rotate around Z
-        const x3 = x2 * cosZ - y1 * sinZ;
-        const y3 = x2 * sinZ + y1 * cosZ;
-
-        const perspective = cameraDist / (cameraDist - z2);
-        const sx = cx + x3 * scale * perspective;
-        const sy = cy + y3 * scale * perspective;
-
-        // Normalize depth in [0, 1] for calm monochrome hierarchy
-        const depth = Math.max(0, Math.min(1, (z2 + 2.4) / 4.8));
-        const radius = 0.85 + depth * 1.45;
-        const alpha = 0.06 + depth * 0.24;
-
-        // Pure neutral monochrome ink (#1A1A1A for closer dots, #666666 for mid/far)
-        const shade = Math.round(165 - depth * 135);
-        ctx.fillStyle = `rgba(${shade}, ${shade}, ${shade}, ${alpha.toFixed(3)})`;
-        ctx.beginPath();
-        ctx.arc(sx, sy, radius, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      rafId = requestAnimationFrame(render);
-    };
-
-    rafId = requestAnimationFrame(render);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      className="absolute inset-0 w-full h-full pointer-events-none"
-    />
-  );
-};
+import { AuthParticleScene } from './AuthParticleScene';
 
 export const AuthPage: React.FC = () => {
   const {
@@ -299,11 +159,17 @@ export const AuthPage: React.FC = () => {
       }}
     >
       {/* =====================================================================
-          左侧视觉区 (55%)：极浅暖灰 #F9F9F8 + 莫比乌斯环粒子点阵 + 巨型 Logo 与 Slogan
+          左侧视觉区 (55%)：纯白 #FFFFFF + 极简黑白灰 3D 细点阵星云 + 白色径向遮罩 + 居中大 Logo 与 Slogan
          ===================================================================== */}
-      <section className="hidden lg:flex lg:w-[55%] h-full relative bg-[#F9F9F8] border-r border-[#EAEAEA] flex-col items-center justify-center overflow-hidden">
-        {/* 轻量 3D 莫比乌斯环动态粒子点阵 */}
-        <MobiusParticleCanvas />
+      <section className="hidden lg:flex lg:w-[55%] h-full relative bg-[#FFFFFF] border-r border-[#EAEAEA] flex-col items-center justify-center overflow-hidden">
+        {/* 极细黑白灰 3D GPU 粒子星云（仅 #333/#666/#999，中心留出圆形真空区） */}
+        <AuthParticleScene />
+
+        {/* Logo 与 Slogan 下方的纯白径向渐变遮罩（Radial Gradient Mask），将背后粒子柔和淡出 */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none z-[5] bg-[radial-gradient(ellipse_48%_32%_at_50%_50%,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.88)_48%,rgba(255,255,255,0)_100%)]"
+        />
 
         {/* 左上角极简返回入口 */}
         <button
@@ -315,19 +181,17 @@ export const AuthPage: React.FC = () => {
           <span>返回首页</span>
         </button>
 
-        {/* 正中品牌视觉焦点 */}
-        <div className="relative z-10 text-center px-10 pointer-events-none">
-          <div className="text-[56px] xl:text-[68px] font-bold text-[#000000] tracking-[-0.03em] leading-none">
-            XCTF·AI
-          </div>
-          <p className="mt-5 text-[15px] text-[#555555] font-normal tracking-[2px]">
-            让 AI 能力可见，让技术价值兑现。
+        {/* 正中品牌视觉焦点：放大居中 XCTF AI 大 Logo + 正下方 16px 宽字距灰色 Slogan */}
+        <div className="relative z-10 flex flex-col items-center text-center px-10 pointer-events-none">
+          <img
+            src="/assets/aistudio/XCTFAILOGO_7d972a6f.png"
+            alt="XCTF AI"
+            draggable={false}
+            className="w-[360px] xl:w-[460px] max-w-[85%] h-auto object-contain select-none"
+          />
+          <p className="mt-7 text-[16px] text-[#666666] font-normal tracking-[0.22em]">
+            让 AI 能力可见，让技术价值兑现
           </p>
-        </div>
-
-        {/* 左下角极简版权与版本标识 */}
-        <div className="absolute bottom-8 left-8 z-10 text-[12px] text-[#999999] tracking-[1px]">
-          © 2026 XCTF·AI · ENTERPRISE AI DELIVERY PLATFORM
         </div>
       </section>
 

@@ -3,25 +3,12 @@ import { useApp } from '../../context/AppContext';
 import { TaskDomainType, TaskDifficultyLevel, TaskItem } from '../../types';
 import {
   ArrowLeft,
-  ChevronRight,
-  FileText,
-  AlertCircle,
   Bold,
   Italic,
   Link,
-  Check,
-  ShieldCheck,
-  Coins,
-  Sparkles,
+  ListOrdered,
   Calendar,
-  CheckCircle2,
-  HelpCircle,
-  Layers,
-  Code,
-  Cpu,
-  Zap,
-  Palette,
-  Award
+  X
 } from 'lucide-react';
 
 interface UserTaskPublishFormProps {
@@ -30,7 +17,11 @@ interface UserTaskPublishFormProps {
   fromTitle?: string;
 }
 
-export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack, initialTask, fromTitle }) => {
+export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({
+  onBack,
+  initialTask,
+  fromTitle
+}) => {
   const { addTask, updateTask, showToast, agents, models, datasets, skills } = useApp();
   const effectiveFromTitle = fromTitle || (initialTask ? '我的已发布任务' : '任务大厅');
 
@@ -38,14 +29,10 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
   const [title, setTitle] = useState('');
   const [domain, setDomain] = useState<TaskDomainType>('技术开发');
   const [difficulty, setDifficulty] = useState<TaskDifficultyLevel>('简单');
-  
-  // 富文本编辑器（简易HTML/Markdown内容）
-  const [description, setDescription] = useState(
-    '### 任务内容与背景需求\n详细说明任务目标、技术框架、功能点要求与部署背景。\n\n### 交付细节\n1. 源代码及测试脚本；\n2. 可运行的系统/模型配置文件。'
-  );
-  const [acceptanceCriteria, setAcceptanceCriteria] = useState(
-    '1. 交付经过严格测验的源码包与文档；\n2. 指标达查并在测试数据上顺利通过复核；\n3. 附带本地或云端部署复现说明。'
-  );
+
+  // 富文本编辑器（使用浅灰色占位符替代杂乱内置提示文本）
+  const [description, setDescription] = useState('');
+  const [acceptanceCriteria, setAcceptanceCriteria] = useState('');
 
   // 2. 奖励设置区
   const [cashReward, setCashReward] = useState<number>(2000);
@@ -65,10 +52,10 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
   // 3. 推荐平台资源（可选）状态管理
   const [selectedAgentIds, setSelectedAgentIds] = useState<string[]>(['ag_01']);
   const [pendingAgentId, setPendingAgentId] = useState<string>('');
-  
+
   const [selectedModelIds, setSelectedModelIds] = useState<string[]>(['m_01']);
   const [pendingModelId, setPendingModelId] = useState<string>('');
-  
+
   const [selectedDatasetIds, setSelectedDatasetIds] = useState<string[]>(['ds_01']);
   const [pendingDatasetId, setPendingDatasetId] = useState<string>('');
 
@@ -101,7 +88,7 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
     'DeepLearning Base Python 3.10'
   ];
 
-  // 初始化预填
+  // 初始化预填（编辑模式）
   useEffect(() => {
     if (initialTask) {
       setTitle(initialTask.title || '');
@@ -113,15 +100,19 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
       setPointsReward(initialTask.pointsReward ?? 200);
       setStartTime(initialTask.startTime || new Date().toISOString().slice(0, 19).replace('T', ' '));
       setEndTime(initialTask.endTime || new Date().toISOString().slice(0, 19).replace('T', ' '));
-      
+
       if (initialTask.recommendedResources) {
         setSelectedAgentIds(initialTask.recommendedResources.agents || []);
         setSelectedModelIds(initialTask.recommendedResources.models || []);
         setSelectedDatasetIds(initialTask.recommendedResources.datasets || []);
         setSelectedSkillIds(initialTask.recommendedResources.skills || []);
         if (initialTask.recommendedResources.environment) {
-          setSelectedEnvSpec(initialTask.recommendedResources.environment.spec || 'NVIDIA RTX4090 / 24GB VRAM');
-          setSelectedEnvImage(initialTask.recommendedResources.environment.image || 'Ubuntu 22.04 LTS (PyTorch 2.0)');
+          setSelectedEnvSpec(
+            initialTask.recommendedResources.environment.spec || 'NVIDIA RTX4090 / 24GB VRAM'
+          );
+          setSelectedEnvImage(
+            initialTask.recommendedResources.environment.image || 'Ubuntu 22.04 LTS (PyTorch 2.0)'
+          );
         }
       }
     }
@@ -187,9 +178,9 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
   // 富文本格式化帮助函数
   const insertFormatting = (target: 'desc' | 'criteria', prefix: string, suffix: string = '') => {
     if (target === 'desc') {
-      setDescription(prev => `${prev}\n${prefix}示范内容${suffix}`);
+      setDescription((prev) => `${prev ? `${prev}\n` : ''}${prefix}文本内容${suffix}`);
     } else {
-      setAcceptanceCriteria(prev => `${prev}\n${prefix}验收规则${suffix}`);
+      setAcceptanceCriteria((prev) => `${prev ? `${prev}\n` : ''}${prefix}验收要求${suffix}`);
     }
   };
 
@@ -270,67 +261,49 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
   };
 
   return (
-    <div className="space-y-6 select-none animate-fade-in max-w-5xl mx-auto pb-20 font-sans">
-      
-      {/* 1. 顶部面包屑与返回导航栏 */}
-      <div className="flex items-center justify-between border-b border-slate-200/80 pb-4">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={onBack}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-slate-200/80 text-xs font-bold text-slate-700 hover:text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50/50 shadow-2xs transition cursor-pointer"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>返回{effectiveFromTitle}</span>
-          </button>
+    <div className="max-w-4xl mx-auto pt-2 pb-24 select-none animate-fade-in text-[#1A1A1A] antialiased">
+      {/* 1. 极简顶部标题区：无外框卡片、无图标，仅保留文字返回链 + 28px 纯黑标题 + 14px 浅灰副标题 + 极细分隔线 */}
+      <header className="pb-7 border-b border-[#EAEAEA]">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex items-center gap-1.5 text-[13px] text-[#666666] hover:text-[#000000] transition-colors cursor-pointer"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.6} />
+          <span>返回{effectiveFromTitle}</span>
+        </button>
 
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
-            <span className="cursor-pointer hover:text-indigo-600" onClick={onBack}>{effectiveFromTitle}</span>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-            <span className="text-slate-700 font-bold">
-              {initialTask ? '修改任务需求' : '发布新需求任务'}
-            </span>
-          </div>
-        </div>
-      </div>
+        <h1 className="mt-5 text-[28px] font-bold text-[#000000] tracking-[-0.02em] leading-tight">
+          {initialTask ? '修改并重新发布任务需求' : '发布需求悬赏任务'}
+        </h1>
+        <p className="mt-2 text-[14px] text-[#888888] font-normal leading-relaxed">
+          填写完整任务规范与交付要求，全额悬赏资金托管保障，专业极客高效承接与交付。
+        </p>
+      </header>
 
-      {/* 2. 页面头部 Hero Banner */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 md:p-7 shadow-xs relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-indigo-100/50 via-purple-50/20 to-transparent rounded-bl-full pointer-events-none -z-0" />
-        
-        <div className="relative z-10 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black shadow-md shadow-indigo-200 shrink-0">
-            <FileText className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              {initialTask ? '修改并重新发布任务需求' : '发布需求悬赏任务'}
-            </h1>
-            <p className="text-xs text-slate-500 font-medium mt-1">
-              填写完整任务规范与交付要求，全额悬赏资金托管保障，专业极客高效承接与交付
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. 表单主体 (单栏结构化流畅排版) */}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        
-        {/* 第一个区域：任务基础信息 */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-6">
-          <div className="flex items-center gap-2.5 border-b border-slate-100 pb-4">
-            <span className="w-3 h-3 rounded-full bg-indigo-600" />
-            <h2 className="text-base font-black text-slate-900">1. 任务基础信息</h2>
+      {/* 2. 表单主体：纯白极简黑白灰排版 */}
+      <form onSubmit={handleSubmit} className="divide-y divide-[#EAEAEA]">
+        {/* 区块 1：任务基础信息 */}
+        <section className="py-8 space-y-6">
+          <div className="flex items-baseline gap-2.5">
+            <span className="text-[12px] font-mono text-[#999999]">01</span>
+            <h2 className="text-[16px] font-semibold text-[#1A1A1A] tracking-[-0.01em]">
+              任务基础信息
+            </h2>
           </div>
 
-          {/* 1. 任务标题 */}
-          <div className="space-y-1.5">
+          {/* 任务标题 */}
+          <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-black text-slate-800">
-                <span className="text-red-500 mr-0.5">*</span> 任务标题
+              <label className="text-[13px] font-medium text-[#1A1A1A]">
+                任务标题 <span className="text-[#999999]">*</span>
               </label>
-              <span className={`text-xs font-mono font-bold ${title.length > 30 ? 'text-red-600' : 'text-slate-400'}`}>
-                {title.length} / 30 字
+              <span
+                className={`text-[12px] font-mono tabular-nums ${
+                  title.length > 30 ? 'text-[#1A1A1A] font-semibold' : 'text-[#999999]'
+                }`}
+              >
+                {title.length} / 30
               </span>
             </div>
             <input
@@ -339,21 +312,21 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
               maxLength={30}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="请输入清晰明确的任务标题（例如：基于LoRA微调电商客服问答大模型），限制30字以内"
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs font-semibold outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
+              placeholder="请输入清晰明确的任务标题（例如：基于 LoRA 微调电商客服问答大模型），限 30 字以内"
+              className="w-full px-3.5 py-2.5 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[14px] text-[#1A1A1A] placeholder:text-[#999999] outline-none focus:border-[#1A1A1A] transition-colors"
             />
           </div>
 
-          {/* 2. 所属领域与难度 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div className="space-y-1.5">
-              <label className="text-xs font-black text-slate-800">
-                <span className="text-red-500 mr-0.5">*</span> 所属领域分类
+          {/* 所属领域与难度评级 */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-[13px] font-medium text-[#1A1A1A]">
+                所属领域分类 <span className="text-[#999999]">*</span>
               </label>
               <select
                 value={domain}
                 onChange={(e) => setDomain(e.target.value as TaskDomainType)}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs font-bold outline-none focus:bg-white focus:border-indigo-500 cursor-pointer"
+                className="w-full px-3.5 py-2.5 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[14px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors cursor-pointer"
               >
                 <option value="技术开发">技术开发 (前端/后端/系统)</option>
                 <option value="AI模型与数据">AI模型与数据 (算法/微调/标注)</option>
@@ -363,20 +336,20 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
               </select>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-black text-slate-800">
-                <span className="text-red-500 mr-0.5">*</span> 任务难度评级
+            <div className="space-y-2">
+              <label className="block text-[13px] font-medium text-[#1A1A1A]">
+                任务难度评级 <span className="text-[#999999]">*</span>
               </label>
-              <div className="grid grid-cols-3 gap-2">
-                {(['简单', '中等', '困难'] as TaskDifficultyLevel[]).map(df => (
+              <div className="grid grid-cols-3 gap-2.5">
+                {(['简单', '中等', '困难'] as TaskDifficultyLevel[]).map((df) => (
                   <button
                     key={df}
                     type="button"
                     onClick={() => setDifficulty(df)}
-                    className={`py-2.5 rounded-xl text-xs font-bold border transition cursor-pointer ${
+                    className={`py-2.5 rounded-[6px] text-[13px] font-medium border transition-colors cursor-pointer ${
                       difficulty === df
-                        ? 'bg-slate-900 text-white border-slate-900 shadow-2xs'
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                        ? 'bg-[#1A1A1A] text-[#FFFFFF] border-[#1A1A1A]'
+                        : 'bg-[#FFFFFF] border-[#EAEAEA] text-[#666666] hover:border-[#1A1A1A] hover:text-[#1A1A1A]'
                     }`}
                   >
                     {df}
@@ -386,174 +359,187 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
             </div>
           </div>
 
-          {/* 3. 任务描述 */}
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-black text-slate-800">
-                <span className="text-red-500 mr-0.5">*</span> 任务描述与背景需求
-              </label>
-              {/* 富文本快捷操作 */}
-              <div className="flex items-center gap-1 text-slate-400">
+          {/* 任务描述与背景需求（纯白底 + 极简黑色细线工具栏 + 极细分隔线 + 浅灰占位符） */}
+          <div className="space-y-2">
+            <label className="block text-[13px] font-medium text-[#1A1A1A]">
+              任务描述与背景需求 <span className="text-[#999999]">*</span>
+            </label>
+            <div className="bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] focus-within:border-[#1A1A1A] transition-colors overflow-hidden">
+              <div className="px-3 py-2 bg-[#FFFFFF] border-b border-[#EAEAEA] flex items-center gap-1">
                 <button
                   type="button"
                   onClick={() => insertFormatting('desc', '**', '**')}
-                  className="p-1 hover:text-slate-800 hover:bg-slate-100 rounded text-xs font-bold transition"
                   title="加粗"
+                  className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                 >
-                  <Bold className="w-3.5 h-3.5" />
+                  <Bold className="w-3.5 h-3.5" strokeWidth={1.6} />
                 </button>
                 <button
                   type="button"
                   onClick={() => insertFormatting('desc', '*', '*')}
-                  className="p-1 hover:text-slate-800 hover:bg-slate-100 rounded text-xs font-bold transition"
                   title="斜体"
+                  className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                 >
-                  <Italic className="w-3.5 h-3.5" />
+                  <Italic className="w-3.5 h-3.5" strokeWidth={1.6} />
                 </button>
                 <button
                   type="button"
-                  onClick={() => insertFormatting('desc', '[链接文字](http://...)')}
-                  className="p-1 hover:text-slate-800 hover:bg-slate-100 rounded text-xs font-bold transition"
+                  onClick={() => insertFormatting('desc', '[链接文字](https://...)')}
                   title="插入链接"
+                  className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                 >
-                  <Link className="w-3.5 h-3.5" />
+                  <Link className="w-3.5 h-3.5" strokeWidth={1.6} />
                 </button>
               </div>
+              <textarea
+                required
+                rows={6}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="请详细说明任务背景、技术框架、核心功能要求及需要交付的源代码、配置文件或文档说明..."
+                className="w-full p-4 bg-[#FFFFFF] border-0 text-[14px] text-[#1A1A1A] placeholder:text-[#999999] leading-relaxed outline-none resize-y"
+              />
             </div>
-            <textarea
-              required
-              rows={6}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="请详细说明任务背景、具体功能需求、代码架构及交付物要求..."
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs font-medium leading-relaxed outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
-            />
           </div>
 
-          {/* 4. 验收标准 */}
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-black text-slate-800">
-                <span className="text-red-500 mr-0.5">*</span> 成果验收标准
-              </label>
-              <div className="flex items-center gap-1 text-slate-400">
+          {/* 成果验收标准 */}
+          <div className="space-y-2">
+            <label className="block text-[13px] font-medium text-[#1A1A1A]">
+              成果验收标准 <span className="text-[#999999]">*</span>
+            </label>
+            <div className="bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] focus-within:border-[#1A1A1A] transition-colors overflow-hidden">
+              <div className="px-3 py-2 bg-[#FFFFFF] border-b border-[#EAEAEA] flex items-center gap-1">
                 <button
                   type="button"
                   onClick={() => insertFormatting('criteria', '1. ')}
-                  className="p-1 hover:text-slate-800 hover:bg-slate-100 rounded text-xs font-bold transition"
-                  title="有序序号"
+                  title="有序列表"
+                  className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                 >
-                  <Bold className="w-3.5 h-3.5" />
+                  <ListOrdered className="w-3.5 h-3.5" strokeWidth={1.6} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => insertFormatting('criteria', '**', '**')}
+                  title="加粗"
+                  className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
+                >
+                  <Bold className="w-3.5 h-3.5" strokeWidth={1.6} />
                 </button>
               </div>
+              <textarea
+                required
+                rows={5}
+                value={acceptanceCriteria}
+                onChange={(e) => setAcceptanceCriteria(e.target.value)}
+                placeholder="请明确列出成果验收的量化指标、测试集复核标准以及本地或云端部署复现说明..."
+                className="w-full p-4 bg-[#FFFFFF] border-0 text-[14px] text-[#1A1A1A] placeholder:text-[#999999] leading-relaxed outline-none resize-y"
+              />
             </div>
-            <textarea
-              required
-              rows={5}
-              value={acceptanceCriteria}
-              onChange={(e) => setAcceptanceCriteria(e.target.value)}
-              placeholder="请明确列出成果验收的硬性指标、复现步骤或性能参数标准..."
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs font-medium leading-relaxed outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
-            />
           </div>
-        </div>
+        </section>
 
-        {/* 第二个区域：奖励设置与交付周期 */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-6">
-          <div className="flex items-center gap-2.5 border-b border-slate-100 pb-4">
-            <span className="w-3 h-3 rounded-full bg-amber-500" />
-            <h2 className="text-base font-black text-slate-900">2. 悬赏奖励与交付截止周期</h2>
+        {/* 区块 2：悬赏奖励与交付截止周期 */}
+        <section className="py-8 space-y-6">
+          <div className="flex items-baseline gap-2.5">
+            <span className="text-[12px] font-mono text-[#999999]">02</span>
+            <h2 className="text-[16px] font-semibold text-[#1A1A1A] tracking-[-0.01em]">
+              悬赏奖励与交付截止周期
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div className="space-y-1.5">
-              <label className="text-xs font-black text-slate-800">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-[13px] font-medium text-[#1A1A1A]">
                 现金悬赏奖励（元）
               </label>
               <div className="relative">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">¥</span>
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#999999] font-mono text-[13px]">
+                  ¥
+                </span>
                 <input
                   type="number"
                   min={0}
                   value={cashReward}
-                  onChange={(e) => setCashReward(Math.max(0, parseInt(e.target.value) || 0))}
-                  className="w-full pl-8 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs font-mono font-bold outline-none focus:bg-white focus:border-indigo-500"
+                  onChange={(e) => setCashReward(Math.max(0, parseInt(e.target.value, 10) || 0))}
+                  className="w-full pl-8 pr-4 py-2.5 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[14px] text-[#1A1A1A] font-mono tabular-nums outline-none focus:border-[#1A1A1A] transition-colors"
                 />
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-black text-slate-800">
+            <div className="space-y-2">
+              <label className="block text-[13px] font-medium text-[#1A1A1A]">
                 额外积分奖励（个）
               </label>
               <div className="relative">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">+</span>
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#999999] font-mono text-[13px]">
+                  +
+                </span>
                 <input
                   type="number"
                   min={0}
                   value={pointsReward}
-                  onChange={(e) => setPointsReward(Math.max(0, parseInt(e.target.value) || 0))}
-                  className="w-full pl-8 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs font-mono font-bold outline-none focus:bg-white focus:border-indigo-500"
+                  onChange={(e) => setPointsReward(Math.max(0, parseInt(e.target.value, 10) || 0))}
+                  className="w-full pl-8 pr-4 py-2.5 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[14px] text-[#1A1A1A] font-mono tabular-nums outline-none focus:border-[#1A1A1A] transition-colors"
                 />
               </div>
             </div>
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs font-black text-slate-800">
-              <span className="text-red-500 mr-0.5">*</span> 任务截止交付时间 (到期自动停止接单)
+          <div className="space-y-2">
+            <label className="block text-[13px] font-medium text-[#1A1A1A]">
+              任务截止交付时间（到期自动停止接单） <span className="text-[#999999]">*</span>
             </label>
             <div className="relative">
-              <Calendar className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Calendar
+                className="w-4 h-4 text-[#999999] absolute left-3.5 top-1/2 -translate-y-1/2"
+                strokeWidth={1.6}
+              />
               <input
                 type="text"
                 required
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 placeholder="YYYY-MM-DD HH:mm:ss"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs font-mono font-bold outline-none focus:bg-white focus:border-indigo-500"
+                className="w-full pl-10 pr-4 py-2.5 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[14px] text-[#1A1A1A] font-mono tabular-nums placeholder:text-[#999999] outline-none focus:border-[#1A1A1A] transition-colors"
               />
             </div>
-            <p className="text-[11px] text-slate-400 font-medium pt-0.5">
-              * 提示：任务发布并通过审核后将自动上架并进入【进行中】状态，到达截止时间后若验收通过将结算打款。
+            <p className="text-[12px] text-[#999999] pt-0.5">
+              任务审核通过后将自动上架并进入进行中状态，成果验收通过后结算赏金。
             </p>
           </div>
-        </div>
+        </section>
 
-        {/* 第三个区域：推荐平台资源（可选） */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-3 h-3 rounded-full bg-cyan-500" />
-              <h2 className="text-base font-black text-slate-900">3. 推荐平台资源（可选）</h2>
+        {/* 区块 3：推荐平台资源（可选） */}
+        <section className="py-8 space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-baseline gap-2.5">
+              <span className="text-[12px] font-mono text-[#999999]">03</span>
+              <h2 className="text-[16px] font-semibold text-[#1A1A1A] tracking-[-0.01em]">
+                推荐平台资源（可选）
+              </h2>
             </div>
-            <span className="text-[11px] font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
-              推荐后接单人可见
-            </span>
+            <span className="text-[12px] text-[#999999]">推荐后接单人可见</span>
           </div>
 
-          <p className="text-xs text-slate-500 font-medium leading-relaxed bg-cyan-50/40 p-3.5 rounded-xl border border-cyan-100">
-            💡 以下资源将展示给任务接单人，帮助其快速理解任务背景并高效完成。不选不影响任务发布。
+          <p className="text-[13px] text-[#666666] leading-relaxed">
+            以下平台资源将作为参考展示给任务接单人，帮助其快速启动开发；不选不影响任务发布。
           </p>
 
           <div className="space-y-4">
             {/* Agent 推荐 */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+            <div className="p-4 rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-black text-slate-800 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-indigo-500" />
-                  <span>Agent推荐</span>
-                </label>
-                <span className="text-[11px] font-mono text-slate-400">数量限制：1-3个</span>
+                <label className="text-[13px] font-medium text-[#1A1A1A]">Agent 推荐</label>
+                <span className="text-[12px] font-mono text-[#999999]">限 1-3 个</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <select
                   value={pendingAgentId}
                   onChange={(e) => setPendingAgentId(e.target.value)}
-                  className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium outline-none focus:border-indigo-500 cursor-pointer"
+                  className="flex-1 px-3 py-2 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[13px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors cursor-pointer"
                 >
-                  <option value="">搜索或选择Agent...</option>
-                  {agents.map(ag => (
+                  <option value="">选择推荐 Agent...</option>
+                  {agents.map((ag) => (
                     <option key={ag.id} value={ag.id}>
                       {ag.name} ({ag.category || '智能体'})
                     </option>
@@ -562,26 +548,29 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
                 <button
                   type="button"
                   onClick={handleAddAgent}
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shrink-0"
+                  className="px-4 py-2 bg-[#FFFFFF] border border-[#EAEAEA] hover:border-[#1A1A1A] text-[#1A1A1A] rounded-[6px] text-[13px] font-medium transition-colors cursor-pointer shrink-0"
                 >
                   添加
                 </button>
               </div>
               {selectedAgentIds.length > 0 && (
-                <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-                  <span className="text-slate-500 font-bold">已选：</span>
-                  {selectedAgentIds.map(id => {
-                    const item = agents.find(a => a.id === id);
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  {selectedAgentIds.map((id) => {
+                    const item = agents.find((a) => a.id === id);
                     const name = item ? item.name : id;
                     return (
-                      <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 font-bold">
+                      <span
+                        key={id}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] bg-[#FFFFFF] text-[#1A1A1A] border border-[#EAEAEA] text-[12px]"
+                      >
                         <span>{name}</span>
                         <button
                           type="button"
-                          onClick={() => setSelectedAgentIds(selectedAgentIds.filter(i => i !== id))}
-                          className="hover:text-red-500 transition cursor-pointer"
+                          onClick={() => setSelectedAgentIds(selectedAgentIds.filter((i) => i !== id))}
+                          className="text-[#999999] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+                          aria-label={`移除 ${name}`}
                         >
-                          ✕
+                          <X className="w-3 h-3" strokeWidth={1.6} />
                         </button>
                       </span>
                     );
@@ -591,22 +580,19 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
             </div>
 
             {/* 模型推荐 */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+            <div className="p-4 rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-black text-slate-800 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-purple-500" />
-                  <span>模型推荐</span>
-                </label>
-                <span className="text-[11px] font-mono text-slate-400">数量限制：1-3个</span>
+                <label className="text-[13px] font-medium text-[#1A1A1A]">模型推荐</label>
+                <span className="text-[12px] font-mono text-[#999999]">限 1-3 个</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <select
                   value={pendingModelId}
                   onChange={(e) => setPendingModelId(e.target.value)}
-                  className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium outline-none focus:border-indigo-500 cursor-pointer"
+                  className="flex-1 px-3 py-2 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[13px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors cursor-pointer"
                 >
-                  <option value="">搜索或选择模型...</option>
-                  {models.map(m => (
+                  <option value="">选择推荐模型...</option>
+                  {models.map((m) => (
                     <option key={m.id} value={m.id}>
                       {m.name} ({m.vendor || 'AI底座'})
                     </option>
@@ -615,26 +601,29 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
                 <button
                   type="button"
                   onClick={handleAddModel}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shrink-0"
+                  className="px-4 py-2 bg-[#FFFFFF] border border-[#EAEAEA] hover:border-[#1A1A1A] text-[#1A1A1A] rounded-[6px] text-[13px] font-medium transition-colors cursor-pointer shrink-0"
                 >
                   添加
                 </button>
               </div>
               {selectedModelIds.length > 0 && (
-                <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-                  <span className="text-slate-500 font-bold">已选：</span>
-                  {selectedModelIds.map(id => {
-                    const item = models.find(m => m.id === id);
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  {selectedModelIds.map((id) => {
+                    const item = models.find((m) => m.id === id);
                     const name = item ? item.name : id;
                     return (
-                      <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-purple-50 text-purple-700 border border-purple-200 font-bold">
+                      <span
+                        key={id}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] bg-[#FFFFFF] text-[#1A1A1A] border border-[#EAEAEA] text-[12px]"
+                      >
                         <span>{name}</span>
                         <button
                           type="button"
-                          onClick={() => setSelectedModelIds(selectedModelIds.filter(i => i !== id))}
-                          className="hover:text-red-500 transition cursor-pointer"
+                          onClick={() => setSelectedModelIds(selectedModelIds.filter((i) => i !== id))}
+                          className="text-[#999999] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+                          aria-label={`移除 ${name}`}
                         >
-                          ✕
+                          <X className="w-3 h-3" strokeWidth={1.6} />
                         </button>
                       </span>
                     );
@@ -644,22 +633,19 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
             </div>
 
             {/* 数据集推荐 */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+            <div className="p-4 rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-black text-slate-800 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  <span>数据集推荐</span>
-                </label>
-                <span className="text-[11px] font-mono text-slate-400">数量限制：1-3个</span>
+                <label className="text-[13px] font-medium text-[#1A1A1A]">数据集推荐</label>
+                <span className="text-[12px] font-mono text-[#999999]">限 1-3 个</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <select
                   value={pendingDatasetId}
                   onChange={(e) => setPendingDatasetId(e.target.value)}
-                  className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium outline-none focus:border-indigo-500 cursor-pointer"
+                  className="flex-1 px-3 py-2 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[13px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors cursor-pointer"
                 >
-                  <option value="">搜索或选择数据集...</option>
-                  {datasets.map(d => (
+                  <option value="">选择推荐数据集...</option>
+                  {datasets.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.name} ({d.modalityCategory || '公开数据集'})
                     </option>
@@ -668,26 +654,31 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
                 <button
                   type="button"
                   onClick={handleAddDataset}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shrink-0"
+                  className="px-4 py-2 bg-[#FFFFFF] border border-[#EAEAEA] hover:border-[#1A1A1A] text-[#1A1A1A] rounded-[6px] text-[13px] font-medium transition-colors cursor-pointer shrink-0"
                 >
                   添加
                 </button>
               </div>
               {selectedDatasetIds.length > 0 && (
-                <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-                  <span className="text-slate-500 font-bold">已选：</span>
-                  {selectedDatasetIds.map(id => {
-                    const item = datasets.find(d => d.id === id);
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  {selectedDatasetIds.map((id) => {
+                    const item = datasets.find((d) => d.id === id);
                     const name = item ? item.name : id;
                     return (
-                      <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">
+                      <span
+                        key={id}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] bg-[#FFFFFF] text-[#1A1A1A] border border-[#EAEAEA] text-[12px]"
+                      >
                         <span>{name}</span>
                         <button
                           type="button"
-                          onClick={() => setSelectedDatasetIds(selectedDatasetIds.filter(i => i !== id))}
-                          className="hover:text-red-500 transition cursor-pointer"
+                          onClick={() =>
+                            setSelectedDatasetIds(selectedDatasetIds.filter((i) => i !== id))
+                          }
+                          className="text-[#999999] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+                          aria-label={`移除 ${name}`}
                         >
-                          ✕
+                          <X className="w-3 h-3" strokeWidth={1.6} />
                         </button>
                       </span>
                     );
@@ -697,22 +688,19 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
             </div>
 
             {/* Skill 推荐 */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+            <div className="p-4 rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-black text-slate-800 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-500" />
-                  <span>Skill推荐</span>
-                </label>
-                <span className="text-[11px] font-mono text-slate-400">数量限制：1-3个</span>
+                <label className="text-[13px] font-medium text-[#1A1A1A]">Skill 推荐</label>
+                <span className="text-[12px] font-mono text-[#999999]">限 1-3 个</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <select
                   value={pendingSkillId}
                   onChange={(e) => setPendingSkillId(e.target.value)}
-                  className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium outline-none focus:border-indigo-500 cursor-pointer"
+                  className="flex-1 px-3 py-2 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[13px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors cursor-pointer"
                 >
-                  <option value="">搜索或选择Skill...</option>
-                  {skills.map(s => (
+                  <option value="">选择推荐 Skill...</option>
+                  {skills.map((s) => (
                     <option key={s.id} value={s.id}>
                       {s.name} ({s.category || 'Skill'})
                     </option>
@@ -721,26 +709,29 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
                 <button
                   type="button"
                   onClick={handleAddSkill}
-                  className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shrink-0"
+                  className="px-4 py-2 bg-[#FFFFFF] border border-[#EAEAEA] hover:border-[#1A1A1A] text-[#1A1A1A] rounded-[6px] text-[13px] font-medium transition-colors cursor-pointer shrink-0"
                 >
                   添加
                 </button>
               </div>
               {selectedSkillIds.length > 0 && (
-                <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-                  <span className="text-slate-500 font-bold">已选：</span>
-                  {selectedSkillIds.map(id => {
-                    const item = skills.find(s => s.id === id);
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  {selectedSkillIds.map((id) => {
+                    const item = skills.find((s) => s.id === id);
                     const name = item ? item.name : id;
                     return (
-                      <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-50 text-amber-700 border border-amber-200 font-bold">
+                      <span
+                        key={id}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] bg-[#FFFFFF] text-[#1A1A1A] border border-[#EAEAEA] text-[12px]"
+                      >
                         <span>{name}</span>
                         <button
                           type="button"
-                          onClick={() => setSelectedSkillIds(selectedSkillIds.filter(i => i !== id))}
-                          className="hover:text-red-500 transition cursor-pointer"
+                          onClick={() => setSelectedSkillIds(selectedSkillIds.filter((i) => i !== id))}
+                          className="text-[#999999] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+                          aria-label={`移除 ${name}`}
                         >
-                          ✕
+                          <X className="w-3 h-3" strokeWidth={1.6} />
                         </button>
                       </span>
                     );
@@ -750,65 +741,69 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
             </div>
 
             {/* 环境推荐（算力工坊） */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+            <div className="p-4 rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-black text-slate-800 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-blue-500" />
-                  <span>环境推荐（算力工坊）</span>
+                <label className="text-[13px] font-medium text-[#1A1A1A]">
+                  环境推荐（算力工坊）
                 </label>
-                <span className="text-[11px] font-mono text-slate-400">数量限制：1个</span>
+                <span className="text-[12px] font-mono text-[#999999]">限 1 个</span>
               </div>
 
-              <div className="p-4 rounded-xl bg-white border border-slate-200 space-y-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-bold">规格选择：</span>
-                    <select
-                      value={selectedEnvSpec}
-                      onChange={(e) => setSelectedEnvSpec(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-bold outline-none focus:border-indigo-500 cursor-pointer"
-                    >
-                      {envSpecOptions.map(opt => (
-                        <option key={opt} value={opt}>{opt}</option>
-                      ))}
-                    </select>
-                  </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <span className="block text-[12px] text-[#666666]">规格选择</span>
+                  <select
+                    value={selectedEnvSpec}
+                    onChange={(e) => setSelectedEnvSpec(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[13px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors cursor-pointer"
+                  >
+                    {envSpecOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                  <div className="space-y-1">
-                    <span className="text-slate-500 font-bold">推荐镜像：</span>
-                    <select
-                      value={selectedEnvImage}
-                      onChange={(e) => setSelectedEnvImage(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-bold outline-none focus:border-indigo-500 cursor-pointer"
-                    >
-                      {envImageOptions.map(opt => (
-                        <option key={opt} value={opt}>{opt}</option>
-                      ))}
-                    </select>
-                  </div>
+                <div className="space-y-1.5">
+                  <span className="block text-[12px] text-[#666666]">推荐镜像</span>
+                  <select
+                    value={selectedEnvImage}
+                    onChange={(e) => setSelectedEnvImage(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[13px] text-[#1A1A1A] outline-none focus:border-[#1A1A1A] transition-colors cursor-pointer"
+                  >
+                    {envImageOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
-
           </div>
-        </div>
+        </section>
 
-        {/* 第四个区域：发布合规确认与操作 */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xs space-y-6">
-          <div className="flex items-center gap-2.5 border-b border-slate-100 pb-4">
-            <span className="w-3 h-3 rounded-full bg-emerald-500" />
-            <h2 className="text-base font-black text-slate-900">4. 发布合规确认</h2>
+        {/* 区块 4：发布合规确认与操作 */}
+        <section className="py-8 space-y-6">
+          <div className="flex items-baseline gap-2.5">
+            <span className="text-[12px] font-mono text-[#999999]">04</span>
+            <h2 className="text-[16px] font-semibold text-[#1A1A1A] tracking-[-0.01em]">
+              发布合规确认
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold text-slate-700 bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[13px] text-[#4A4A4A] bg-[#FFFFFF] p-4 rounded-[6px] border border-[#EAEAEA]">
             <label className="flex items-start gap-2.5 cursor-pointer">
               <input
                 type="checkbox"
                 checked={confirmInfoValid}
                 onChange={(e) => setConfirmInfoValid(e.target.checked)}
-                className="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer shrink-0"
+                className="mt-0.5 w-4 h-4 rounded-[2px] border-[#CCCCCC] accent-[#1A1A1A] cursor-pointer shrink-0"
               />
-              <span className="leading-relaxed">我已确认所填写的任务需求、验收指标与奖励信息真实有效</span>
+              <span className="leading-relaxed">
+                我已确认所填写的任务需求、验收指标与奖励信息真实有效
+              </span>
             </label>
 
             <label className="flex items-start gap-2.5 cursor-pointer">
@@ -816,32 +811,32 @@ export const UserTaskPublishForm: React.FC<UserTaskPublishFormProps> = ({ onBack
                 type="checkbox"
                 checked={agreeProtocol}
                 onChange={(e) => setAgreeProtocol(e.target.checked)}
-                className="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer shrink-0"
+                className="mt-0.5 w-4 h-4 rounded-[2px] border-[#CCCCCC] accent-[#1A1A1A] cursor-pointer shrink-0"
               />
-              <span className="leading-relaxed">我已阅读并同意《AI运营中心任务悬赏发布与成果验收协议》</span>
+              <span className="leading-relaxed">
+                我已阅读并同意《AI运营中心任务悬赏发布与成果验收协议》
+              </span>
             </label>
           </div>
 
-          {/* 操作按钮组 */}
-          <div className="pt-2 flex flex-col-reverse sm:flex-row items-center justify-end gap-3.5">
+          {/* 底部极简按钮组 */}
+          <div className="pt-2 flex flex-col-reverse sm:flex-row items-center justify-end gap-3">
             <button
               type="button"
               onClick={onBack}
-              className="w-full sm:w-auto px-8 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs transition cursor-pointer"
+              className="w-full sm:w-auto h-[42px] px-7 rounded-[6px] border border-[#EAEAEA] bg-[#FFFFFF] hover:border-[#1A1A1A] text-[#1A1A1A] font-medium text-[13px] transition-colors cursor-pointer"
             >
               取消返回
             </button>
             <button
               type="submit"
-              className="w-full sm:w-auto px-10 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs shadow-md shadow-indigo-600/25 active:scale-95 transition cursor-pointer"
+              className="w-full sm:w-auto h-[42px] px-8 rounded-[6px] bg-[#1A1A1A] hover:bg-[#333333] text-[#FFFFFF] font-medium text-[13px] transition-colors cursor-pointer"
             >
               {initialTask ? '保存并提交审核' : '提交审核发布'}
             </button>
           </div>
-        </div>
-
+        </section>
       </form>
-
     </div>
   );
 };

@@ -2037,312 +2037,305 @@ export const CommunityView: React.FC = () => {
     );
   }
 
-  // ================= 渲染：我要发帖页面 View Mode === 'publish' =================
+  // ================= 渲染：我要发帖页面 View Mode === 'publish'（黑白灰极简风格） =================
   if (viewMode === 'publish') {
     return (
-      <div className="w-full space-y-6 animate-fade-in pb-12 select-none max-w-4xl mx-auto">
-        
-        {/* Top Header & Back Button Bar */}
-        <div className="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex items-center justify-between gap-4">
+      <div className="w-full max-w-4xl mx-auto pt-2 pb-20 select-none animate-fade-in text-[#1A1A1A] antialiased">
+        {/* 1. 头部与返回：去掉外框宽条卡片，左上角极简文字返回链 + 下方加粗标题 + 极细分隔线 */}
+        <header className="pb-7 border-b border-[#EAEAEA]">
           <button
+            type="button"
             onClick={() => setViewMode('feed')}
-            className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-2 transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-[13px] text-[#666666] hover:text-[#000000] transition-colors cursor-pointer"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>返回社区大厅</span>
+            <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.6} />
+            <span>返回社区</span>
           </button>
 
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold text-slate-800">创作中心 · 我要发帖</span>
-          </div>
-        </div>
+          <h1 className="mt-5 text-[28px] font-bold text-[#000000] tracking-[-0.02em] leading-tight">
+            发布新的社区动态
+          </h1>
+          <p className="mt-2 text-[14px] text-[#888888] font-normal leading-relaxed">
+            分享你的 AI Agent 开发实践、报错排查、副业商业化思考或学习干货（支持 Markdown 编辑）。
+          </p>
+        </header>
 
-        {/* Publish Form Container */}
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
-          
-          <div className="border-b border-slate-100 pb-4">
-            <h1 className="text-xl font-black text-slate-900 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-indigo-600" />
-              发布新的社区动态
-            </h1>
-            <p className="text-xs text-slate-500 mt-1 font-medium">
-              分享你的 AI Agent 开发实践、报错排查、副业商业化思考或学习干货（支持 Markdown 编辑）
-            </p>
+        {/* 2. 极简表单主体 */}
+        <form onSubmit={handlePublishSubmit} className="pt-8 space-y-8">
+          {/* 选择发布板块：标签平铺（Tag）样式，未选中白底灰框，选中纯黑底白字且无圆圈图标 */}
+          <div className="space-y-3">
+            <label className="block text-[13px] font-medium text-[#1A1A1A]">
+              选择发布板块 <span className="text-[#999999]">*</span>
+            </label>
+            <div className="flex flex-wrap items-center gap-2.5">
+              {communityBoards.map((board) => {
+                const isSelected = newPostBoard === board.name;
+                const isDisabled = board.status === '已停用';
+                return (
+                  <button
+                    type="button"
+                    key={board.id}
+                    disabled={isDisabled}
+                    onClick={() => {
+                      if (!isDisabled) {
+                        setNewPostBoard(board.name as CommunityBoard);
+                      }
+                    }}
+                    className={`px-3.5 py-2 rounded-[6px] border text-[13px] font-medium transition-colors ${
+                      isDisabled
+                        ? 'bg-[#F8F9FA] border-[#EAEAEA] text-[#CCCCCC] cursor-not-allowed'
+                        : isSelected
+                          ? 'bg-[#1A1A1A] border-[#1A1A1A] text-[#FFFFFF] cursor-pointer'
+                          : 'bg-[#FFFFFF] border-[#EAEAEA] text-[#666666] hover:border-[#1A1A1A] hover:text-[#1A1A1A] cursor-pointer'
+                    }`}
+                  >
+                    <span>{board.name}</span>
+                    {isDisabled && <span className="ml-1 text-[11px]">(已停用)</span>}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          <form onSubmit={handlePublishSubmit} className="space-y-6">
-            
-            {/* Row 1: Board Selector */}
-            <div>
-              <label className="block text-xs font-bold text-slate-800 mb-2">
-                选择发布板块 <span className="text-rose-500">*</span>
+          {/* 动态标题：纯白底 + 细灰边框 */}
+          <div className="space-y-2">
+            <label className="block text-[13px] font-medium text-[#1A1A1A]">
+              动态标题 <span className="text-[#999999] font-normal">（推荐填写）</span>
+            </label>
+            <input
+              type="text"
+              value={newPostTitle}
+              onChange={(e) => setNewPostTitle(e.target.value)}
+              placeholder="用一句话概括核心观点，例如：DeepSeek-R1 量化部署优化总结..."
+              className="w-full px-3.5 py-2.5 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[14px] text-[#1A1A1A] placeholder:text-[#999999] outline-none focus:border-[#1A1A1A] transition-colors"
+            />
+          </div>
+
+          {/* 正文内容：极简文字 Tab 切换 + 统一纯白工具栏（黑色细线图标） */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-4">
+              <label className="text-[13px] font-medium text-[#1A1A1A]">
+                正文内容 <span className="text-[#999999]">*</span>
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                {communityBoards.map(board => {
-                  const isSelected = newPostBoard === board.name;
-                  const isDisabled = board.status === '已停用';
-                  return (
-                    <button
-                      type="button"
-                      key={board.id}
-                      disabled={isDisabled}
-                      onClick={() => {
-                        if (!isDisabled) {
-                          setNewPostBoard(board.name as CommunityBoard);
-                        }
-                      }}
-                      className={`p-3 rounded-xl border text-xs font-bold transition text-left flex items-center justify-between ${
-                        isDisabled
-                          ? 'opacity-50 bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed'
-                          : isSelected 
-                            ? 'border-indigo-600 bg-indigo-50/80 text-indigo-900 shadow-xs cursor-pointer' 
-                            : 'border-slate-200 bg-slate-50/50 hover:bg-slate-100 text-slate-700 cursor-pointer'
-                      }`}
-                    >
-                      <div className="flex items-center gap-1.5 min-w-0">
-                        <span className="truncate">{board.name}</span>
-                        {isDisabled && (
-                          <span className="text-[10px] text-rose-500 font-semibold shrink-0">
-                            (已停用)
-                          </span>
-                        )}
-                      </div>
-                      {isSelected && !isDisabled && <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />}
-                    </button>
-                  );
-                })}
+
+              {/* 极简文字 Tab 切换：编辑 (Markdown) | 实时预览 */}
+              <div className="flex items-center gap-5 text-[13px]">
+                <button
+                  type="button"
+                  onClick={() => setEditorTab('write')}
+                  className={`pb-1 border-b-2 transition-colors cursor-pointer ${
+                    editorTab === 'write'
+                      ? 'border-[#1A1A1A] text-[#1A1A1A] font-semibold'
+                      : 'border-transparent text-[#999999] hover:text-[#1A1A1A] font-normal'
+                  }`}
+                >
+                  编辑 (Markdown)
+                </button>
+                <span className="text-[#EAEAEA] select-none">|</span>
+                <button
+                  type="button"
+                  onClick={() => setEditorTab('preview')}
+                  className={`pb-1 border-b-2 transition-colors cursor-pointer ${
+                    editorTab === 'preview'
+                      ? 'border-[#1A1A1A] text-[#1A1A1A] font-semibold'
+                      : 'border-transparent text-[#999999] hover:text-[#1A1A1A] font-normal'
+                  }`}
+                >
+                  实时预览
+                </button>
               </div>
             </div>
 
-            {/* Title Field */}
-            <div>
-              <label className="block text-xs font-bold text-slate-800 mb-1.5">
-                动态标题 (推荐填写)
-              </label>
-              <input
-                type="text"
-                value={newPostTitle}
-                onChange={(e) => setNewPostTitle(e.target.value)}
-                placeholder="【标题】用一句话概括核心观点，例如：DeepSeek-R1 量化部署优化总结..."
-                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 outline-none focus:bg-white focus:border-indigo-500 transition font-medium"
-              />
-            </div>
-
-            {/* Markdown Content Editor Component */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <Edit3 className="w-4 h-4 text-indigo-600" />
-                  正文内容 (Markdown 编辑器) <span className="text-rose-500">*</span>
-                </label>
-
-                {/* Editor Tabs: Edit vs Preview */}
-                <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg">
-                  <button
-                    type="button"
-                    onClick={() => setEditorTab('write')}
-                    className={`px-3 py-1 rounded-md text-[11px] font-bold transition cursor-pointer ${
-                      editorTab === 'write' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    编辑 (Markdown)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditorTab('preview')}
-                    className={`px-3 py-1 rounded-md text-[11px] font-bold transition cursor-pointer ${
-                      editorTab === 'preview' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    实时渲染预览
-                  </button>
-                </div>
-              </div>
-
-              {/* Markdown Toolbar (Only visible in 'write' mode) */}
+            <div className="bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] focus-within:border-[#1A1A1A] transition-colors overflow-hidden">
+              {/* Markdown 工具栏：纯白底、统一黑色细线图标 */}
               {editorTab === 'write' && (
-                <div className="p-2 bg-slate-100/90 border border-slate-200 rounded-t-xl flex flex-wrap items-center gap-1">
+                <div className="px-3 py-2 bg-[#FFFFFF] border-b border-[#EAEAEA] flex flex-wrap items-center gap-1">
                   <button
                     type="button"
                     onClick={() => insertMarkdownSyntax('**', '**')}
                     title="加粗"
-                    className="p-1.5 rounded hover:bg-slate-200 text-slate-700 cursor-pointer"
+                    className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                   >
-                    <Bold className="w-3.5 h-3.5" />
+                    <Bold className="w-3.5 h-3.5" strokeWidth={1.6} />
                   </button>
                   <button
                     type="button"
                     onClick={() => insertMarkdownSyntax('*', '*')}
                     title="斜体"
-                    className="p-1.5 rounded hover:bg-slate-200 text-slate-700 cursor-pointer"
+                    className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                   >
-                    <Italic className="w-3.5 h-3.5" />
+                    <Italic className="w-3.5 h-3.5" strokeWidth={1.6} />
                   </button>
                   <button
                     type="button"
                     onClick={() => insertMarkdownSyntax('### ')}
                     title="三级标题"
-                    className="p-1.5 rounded hover:bg-slate-200 text-slate-700 cursor-pointer"
+                    className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                   >
-                    <Heading className="w-3.5 h-3.5" />
+                    <Heading className="w-3.5 h-3.5" strokeWidth={1.6} />
                   </button>
-                  <span className="w-px h-4 bg-slate-300 mx-1" />
+                  <span className="w-px h-3.5 bg-[#EAEAEA] mx-1" />
                   <button
                     type="button"
                     onClick={() => insertMarkdownSyntax('```python\n# 请在此输入代码\n', '\n```')}
                     title="代码块"
-                    className="p-1.5 rounded hover:bg-slate-200 text-slate-700 cursor-pointer"
+                    className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                   >
-                    <Code className="w-3.5 h-3.5" />
+                    <Code className="w-3.5 h-3.5" strokeWidth={1.6} />
                   </button>
                   <button
                     type="button"
                     onClick={() => insertMarkdownSyntax('> ')}
                     title="引用"
-                    className="p-1.5 rounded hover:bg-slate-200 text-slate-700 cursor-pointer"
+                    className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                   >
-                    <Quote className="w-3.5 h-3.5" />
+                    <Quote className="w-3.5 h-3.5" strokeWidth={1.6} />
                   </button>
                   <button
                     type="button"
                     onClick={() => insertMarkdownSyntax('- ')}
                     title="无序列表"
-                    className="p-1.5 rounded hover:bg-slate-200 text-slate-700 cursor-pointer"
+                    className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                   >
-                    <List className="w-3.5 h-3.5" />
+                    <List className="w-3.5 h-3.5" strokeWidth={1.6} />
                   </button>
                   <button
                     type="button"
                     onClick={() => insertMarkdownSyntax('1. ')}
                     title="有序列表"
-                    className="p-1.5 rounded hover:bg-slate-200 text-slate-700 cursor-pointer"
+                    className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                   >
-                    <ListOrdered className="w-3.5 h-3.5" />
+                    <ListOrdered className="w-3.5 h-3.5" strokeWidth={1.6} />
                   </button>
                   <button
                     type="button"
                     onClick={() => insertMarkdownSyntax('[链接名称](', 'https://example.com)')}
                     title="插入超链接"
-                    className="p-1.5 rounded hover:bg-slate-200 text-slate-700 cursor-pointer"
+                    className="p-1.5 rounded-[4px] text-[#1A1A1A] hover:bg-[#F5F5F5] transition-colors cursor-pointer"
                   >
-                    <LinkIcon className="w-3.5 h-3.5" />
+                    <LinkIcon className="w-3.5 h-3.5" strokeWidth={1.6} />
                   </button>
-                  <span className="text-[10px] text-slate-400 font-mono ml-auto pr-2">
-                    支持 Markdown 标准语法
+                  <span className="text-[11px] text-[#999999] font-mono ml-auto pr-1">
+                    {newPostContent.length} 字
                   </span>
                 </div>
               )}
 
-              {/* Textarea or Preview */}
+              {/* 编辑框或实时预览区 */}
               {editorTab === 'write' ? (
                 <textarea
-                  rows={10}
+                  rows={11}
                   value={newPostContent}
                   onChange={(e) => setNewPostContent(e.target.value)}
                   placeholder="在此输入正文内容（支持 Markdown 语法，如加粗 **文字**、代码块 ``` 等）..."
-                  className="w-full p-4 bg-slate-50 border border-slate-200 rounded-b-xl text-xs text-slate-900 placeholder-slate-400 outline-none focus:bg-white focus:border-indigo-500 transition leading-relaxed font-mono"
+                  className="w-full p-4 bg-[#FFFFFF] border-0 text-[14px] text-[#1A1A1A] placeholder:text-[#999999] outline-none leading-relaxed font-mono resize-y"
                 />
               ) : (
-                <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl min-h-[240px] text-xs text-slate-800 leading-relaxed overflow-y-auto">
+                <div className="p-5 bg-[#FFFFFF] min-h-[268px] text-[14px] text-[#1A1A1A] leading-relaxed overflow-y-auto">
                   {newPostContent.trim() ? (
-                    <div className="prose prose-slate max-w-none text-slate-800 text-xs">
+                    <div className="prose prose-slate max-w-none text-[#1A1A1A] text-[14px]">
                       <Markdown>{newPostContent}</Markdown>
                     </div>
                   ) : (
-                    <div className="text-slate-400 italic text-center pt-16">
-                      暂无正文内容，请在“编辑”选项卡中书写...
+                    <div className="text-[#999999] text-[13px] text-center pt-20">
+                      暂无正文内容，请切换至「编辑 (Markdown)」输入内容
                     </div>
                   )}
                 </div>
               )}
-
-              <div className="flex items-center justify-between text-[10px] text-slate-400 mt-1 font-mono">
-                <span>Markdown Editor</span>
-                <span>已输入 {newPostContent.length} 字</span>
-              </div>
             </div>
+          </div>
 
-            {/* Tags Selector */}
-            <div>
-              <label className="block text-xs font-bold text-slate-800 mb-1.5">
-                技术标签
-              </label>
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                {newPostTags.map(t => (
-                  <span key={t} className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-bold flex items-center gap-1 border border-indigo-200">
-                    #{t}
-                    <button type="button" onClick={() => handleRemoveTag(t)} className="hover:text-rose-600">
-                      <X className="w-3 h-3" />
+          {/* 技术标签区 */}
+          <div className="space-y-3">
+            <label className="block text-[13px] font-medium text-[#1A1A1A]">
+              技术标签
+            </label>
+
+            {newPostTags.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2">
+                {newPostTags.map((t) => (
+                  <span
+                    key={t}
+                    className="px-2.5 py-1 rounded-[4px] bg-[#1A1A1A] text-[#FFFFFF] text-[12px] font-medium inline-flex items-center gap-1.5"
+                  >
+                    <span>{t}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTag(t)}
+                      aria-label={`移除标签 ${t}`}
+                      className="text-white/70 hover:text-white transition-colors cursor-pointer"
+                    >
+                      <X className="w-3 h-3" strokeWidth={1.8} />
                     </button>
                   </span>
                 ))}
               </div>
+            )}
 
-              <div className="flex items-center gap-2">
-                <div className="relative flex-1">
-                  <TagIcon className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        handleAddTag(tagInput);
-                      }
-                    }}
-                    placeholder="输入自定义标签按回车添加..."
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 outline-none focus:bg-white focus:border-indigo-500"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => handleAddTag(tagInput)}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition cursor-pointer"
-                >
-                  添加
-                </button>
+            <div className="flex items-center gap-2.5">
+              <div className="relative flex-1">
+                <TagIcon
+                  className="w-3.5 h-3.5 text-[#999999] absolute left-3.5 top-1/2 -translate-y-1/2"
+                  strokeWidth={1.6}
+                />
+                <input
+                  type="text"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleAddTag(tagInput);
+                    }
+                  }}
+                  placeholder="输入自定义标签按回车添加..."
+                  className="w-full pl-9 pr-3 py-2.5 bg-[#FFFFFF] border border-[#EAEAEA] rounded-[6px] text-[13px] text-[#1A1A1A] placeholder:text-[#999999] outline-none focus:border-[#1A1A1A] transition-colors"
+                />
               </div>
-
-              {/* Quick Tags Suggestions */}
-              <div className="flex flex-wrap items-center gap-1.5 pt-2 text-[10px] text-slate-500">
-                <span className="font-bold text-slate-600">推荐标签:</span>
-                {quickTags.map(qt => (
-                  <button
-                    key={qt}
-                    type="button"
-                    onClick={() => handleAddTag(qt)}
-                    className="px-2 py-0.5 rounded bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 cursor-pointer transition font-medium"
-                  >
-                    #{qt}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Submit Buttons */}
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
               <button
                 type="button"
-                onClick={() => setViewMode('feed')}
-                className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
+                onClick={() => handleAddTag(tagInput)}
+                className="h-[40px] px-4 bg-[#FFFFFF] border border-[#EAEAEA] hover:border-[#1A1A1A] text-[#1A1A1A] font-medium text-[13px] rounded-[6px] transition-colors cursor-pointer shrink-0"
               >
-                取消并返回
-              </button>
-              <button
-                type="submit"
-                className="px-8 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold text-xs shadow-md shadow-indigo-500/20 flex items-center gap-2 transition cursor-pointer active:scale-95"
-              >
-                <Send className="w-4 h-4" />
-                <span>确认发表</span>
+                添加
               </button>
             </div>
 
-          </form>
+            {/* 推荐标签：去掉 # 号与彩色底纹，统一浅灰文字，悬浮变黑加下划线 */}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1 text-[12px]">
+              <span className="text-[#999999]">推荐标签：</span>
+              {quickTags.map((qt) => (
+                <button
+                  key={qt}
+                  type="button"
+                  onClick={() => handleAddTag(qt)}
+                  className="text-[#999999] hover:text-[#1A1A1A] hover:underline underline-offset-4 transition-colors cursor-pointer"
+                >
+                  {qt}
+                </button>
+              ))}
+            </div>
+          </div>
 
-        </div>
-
+          {/* 底部按钮：纯黑底白字「确认发表」 + 白底灰框黑字「取消并返回」，等高对齐 */}
+          <div className="pt-6 border-t border-[#EAEAEA] flex items-center justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => setViewMode('feed')}
+              className="h-[42px] px-6 rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] hover:border-[#1A1A1A] text-[#1A1A1A] font-medium text-[13px] transition-colors cursor-pointer"
+            >
+              取消并返回
+            </button>
+            <button
+              type="submit"
+              className="h-[42px] px-7 rounded-[6px] bg-[#1A1A1A] hover:bg-[#333333] text-[#FFFFFF] font-medium text-[13px] inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            >
+              <Send className="w-3.5 h-3.5" strokeWidth={1.6} />
+              <span>确认发表</span>
+            </button>
+          </div>
+        </form>
       </div>
     );
   }
