@@ -759,6 +759,23 @@ export const HomeView06: React.FC = () => {
               探索任务大厅
             </button>
           </div>
+
+          {/* 网安攻防演练极简外链引导（纯文字无边框无背景，居中对齐，距上方按钮组 20px） */}
+          <div className="mt-[20px] flex justify-center">
+            <a
+              href="https://adworld.xctf.org.cn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center text-[13px] leading-relaxed bg-transparent border-0 p-0 hover:underline underline-offset-4 decoration-[#1a1a1a] decoration-[1px] transition-colors duration-200 cursor-pointer whitespace-nowrap"
+            >
+              <span className="text-[#999999] group-hover:text-[#1a1a1a] transition-colors duration-200">
+                网安攻防演练请前往：
+              </span>
+              <span className="text-[#666666] group-hover:text-[#1a1a1a] transition-colors duration-200">
+                攻防世界 ↗
+              </span>
+            </a>
+          </div>
         </div>
 
         {/* 2. 中部业务飞轮区 (Middle 32%, 高度约 300px, 距上方按钮组约 60px) */}

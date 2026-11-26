@@ -179,19 +179,6 @@ export const Header: React.FC = () => {
                已注册登录态：积分栏 + 通知 + 工作台 + 正常头像用户名栏
                ======================================================== */
             <>
-              {/* Points Balance Button */}
-              <button
-                onClick={() => {
-                  setActiveTab('workspace');
-                  setWorkspaceSubTab('points');
-                }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold transition cursor-pointer shadow-xs"
-                title="点击前往我的账户"
-              >
-                <Coins className="w-4 h-4 text-amber-500 animate-pulse" />
-                <span>{user.points.toLocaleString()} 积分</span>
-              </button>
-
               {/* Notifications Dropdown (Bell Icon) */}
               <div className="relative">
                 <button
