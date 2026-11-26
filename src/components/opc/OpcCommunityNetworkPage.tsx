@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useApp } from '../../context/AppContext';
 import {
-  MOCK_OPC_COMMUNITIES,
-  OPC_CITIES,
   OPC_POLICY_KEYS,
   OpcCommunityNode,
   OpcPolicyKey
 } from '../../data/mockOpcCommunities';
+import { maskPhoneNumber } from '../../data/chinaRegions';
 import { StandalonePageHeader } from '../common/StandalonePageHeader';
 import { AdvisorContactModal } from '../training/AdvisorContactModal';
 import {
@@ -31,6 +31,8 @@ const POLICY_ICON_MAP: Record<OpcPolicyKey, React.FC<{ className?: string; strok
 };
 
 export const OpcCommunityNetworkPage: React.FC = () => {
+  const { opcCommunities } = useApp();
+
   // Search & filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState<string>('全部');
@@ -39,6 +41,26 @@ export const OpcCommunityNetworkPage: React.FC = () => {
   // Detail modal & secondary contact modal state
   const [activeCommunity, setActiveCommunity] = useState<OpcCommunityNode | null>(null);
   const [contactCommunity, setContactCommunity] = useState<OpcCommunityNode | null>(null);
+
+  // 仅展示后台状态为「公开」的 OPC 社区，并按排序权重降序展示
+  const visibleCommunities = useMemo(() => {
+    return opcCommunities
+      .filter((node) => node.status !== 'hidden')
+      .sort((a, b) => (b.sortWeight ?? 0) - (a.sortWeight ?? 0));
+  }, [opcCommunities]);
+
+  // 动态聚合所有公开社区覆盖的城市标签
+  const dynamicCities = useMemo(() => {
+    const cityList: string[] = [];
+    const seen = new Set<string>();
+    for (const node of visibleCommunities) {
+      if (node.city && !seen.has(node.city)) {
+        seen.add(node.city);
+        cityList.push(node.city);
+      }
+    }
+    return ['全部', ...cityList];
+  }, [visibleCommunities]);
 
   // Close detail modal on Escape (unless secondary contact modal is open)
   useEffect(() => {
@@ -58,7 +80,7 @@ export const OpcCommunityNetworkPage: React.FC = () => {
 
   const filteredCommunities = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    return MOCK_OPC_COMMUNITIES.filter((node) => {
+    return visibleCommunities.filter((node) => {
       if (selectedCity !== '全部' && node.city !== selectedCity) return false;
       if (selectedPolicies.length > 0) {
         const matchesAll = selectedPolicies.every((p) => node.policies.includes(p));
@@ -67,10 +89,12 @@ export const OpcCommunityNetworkPage: React.FC = () => {
       if (q) {
         const haystack = [
           node.name,
+          node.province || '',
           node.city,
           node.district,
           node.address,
-          node.summary,
+          node.cardSummary || node.summary,
+          node.policyOverview || '',
           ...node.policies
         ]
           .join(' ')
@@ -79,7 +103,7 @@ export const OpcCommunityNetworkPage: React.FC = () => {
       }
       return true;
     });
-  }, [searchQuery, selectedCity, selectedPolicies]);
+  }, [visibleCommunities, searchQuery, selectedCity, selectedPolicies]);
 
   const hasFilters =
     selectedCity !== '全部' || selectedPolicies.length > 0 || searchQuery.trim().length > 0;
@@ -140,7 +164,7 @@ export const OpcCommunityNetworkPage: React.FC = () => {
         <section className="mt-6">
           {/* 城市横向标签（flex 布局，gap: 12px，支持换行展示全国城市节点） */}
           <div className="flex flex-wrap items-center gap-[10px]">
-            {OPC_CITIES.map((city) => {
+            {dynamicCities.map((city) => {
               const isSelected = selectedCity === city;
               return (
                 <button
@@ -273,9 +297,9 @@ export const OpcCommunityNetworkPage: React.FC = () => {
                       <span>{node.address}</span>
                     </div>
 
-                    {/* 社区简介 / 政策概述摘要（参考参考图卡片字段补充） */}
+                    {/* 社区简介（对应后台卡片简介，两行截断） */}
                     <p className="mt-2.5 text-[13px] text-[#666666] leading-[1.65] line-clamp-2">
-                      {node.summary}
+                      {node.cardSummary || node.summary}
                     </p>
                   </div>
 
@@ -370,11 +394,11 @@ export const OpcCommunityNetworkPage: React.FC = () => {
                   政策概述
                 </h3>
                 <p className="mt-2 text-[14px] text-[#666666] leading-[1.8]">
-                  {activeCommunity.summary}
+                  {activeCommunity.policyOverview || activeCommunity.summary}
                 </p>
               </div>
 
-              {/* 支持政策（2x2 网格，无背景色，仅靠排版对齐） */}
+              {/* 支持政策（2x2 网格，关闭项置灰） */}
               <div>
                 <h3 className="text-[14px] font-semibold text-[#1A1A1A]">
                   支持政策
@@ -383,10 +407,13 @@ export const OpcCommunityNetworkPage: React.FC = () => {
                   {activeCommunity.policyDetails.map((item) => {
                     const Icon = POLICY_ICON_MAP[item.key];
                     return (
-                      <div key={item.key} className="flex items-start gap-3">
+                      <div
+                        key={item.key}
+                        className={`flex items-start gap-3 ${item.supported ? '' : 'opacity-45'}`}
+                      >
                         <Icon
                           className={`w-[18px] h-[18px] shrink-0 mt-0.5 ${
-                            item.supported ? 'text-[#1A1A1A]' : 'text-[#CCCCCC]'
+                            item.supported ? 'text-[#1A1A1A]' : 'text-[#BBBBBB]'
                           }`}
                           strokeWidth={1.6}
                         />
@@ -399,7 +426,7 @@ export const OpcCommunityNetworkPage: React.FC = () => {
                             {item.key}
                           </div>
                           <div className="text-[12px] text-[#999999] mt-0.5 leading-relaxed">
-                            {item.statusDesc}
+                            {item.supported ? item.statusDesc : '暂未开放'}
                           </div>
                         </div>
                       </div>
@@ -409,10 +436,11 @@ export const OpcCommunityNetworkPage: React.FC = () => {
               </div>
             </div>
 
-            {/* 3. 底部操作区 (Footer) */}
+            {/* 3. 底部操作区 (Footer)：手机号通过代码自动打码 */}
             <div className="pt-5 border-t border-[#EAEAEA] flex flex-wrap items-center justify-between gap-4">
               <div className="text-[14px] text-[#666666] tabular-nums">
-                联系人：{activeCommunity.contactName} | {activeCommunity.maskedPhone}
+                联系人：{activeCommunity.contactName} |{' '}
+                {maskPhoneNumber(activeCommunity.fullPhone || activeCommunity.maskedPhone)}
               </div>
 
               <button

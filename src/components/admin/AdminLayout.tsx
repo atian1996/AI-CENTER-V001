@@ -20,7 +20,13 @@ import {
   ModelCallsAdminView,
   ModelStatsAdminView
 } from './model/ModelAdminViews';
+import { TrainingAdminView } from './training/TrainingAdminView';
+import { HomeConfigAdminView } from './home/HomeConfigAdminView';
+import { OpcCommunityAdminView } from './opc/OpcCommunityAdminView';
 import {
+  Home,
+  Building2,
+  GraduationCap,
   LayoutDashboard,
   Store,
   Briefcase,
@@ -120,6 +126,11 @@ export const AdminLayout: React.FC = () => {
       id: 'compute_ops_center' as AdminMenuKey,
       label: '算力运营中心',
       icon: <Cpu className="w-4 h-4 text-blue-400" />
+    },
+    {
+      id: 'home_config_admin' as AdminMenuKey,
+      label: '首页配置',
+      icon: <Home className="w-4 h-4" />
     },
     {
       id: 'agent_admin_group',
@@ -298,6 +309,16 @@ export const AdminLayout: React.FC = () => {
       ]
     },
     {
+      id: 'training_admin' as AdminMenuKey,
+      label: '课程培训',
+      icon: <GraduationCap className="w-4 h-4" />
+    },
+    {
+      id: 'opc_community_admin' as AdminMenuKey,
+      label: 'OPC社区',
+      icon: <Building2 className="w-4 h-4" />
+    },
+    {
       id: 'competition_admin' as AdminMenuKey,
       label: '赛事管理',
       icon: <Trophy className="w-4 h-4" />
@@ -458,6 +479,27 @@ export const AdminLayout: React.FC = () => {
           subtitle: '管控多机房 GPU 算力集群节点、容器化实例状态、算力配额与硬件利用率',
           category: '算力管理',
           crumb: ['后台管理', '算力管理']
+        };
+      case 'home_config_admin':
+        return {
+          title: '首页配置管理',
+          subtitle: '配置首页第二栏「开发者生态前沿」展示的近期热门赛事（支持赛事选择与排序）及近期开班计划',
+          category: '首页配置',
+          crumb: ['后台管理', '首页配置']
+        };
+      case 'training_admin':
+        return {
+          title: '课程培训管理',
+          subtitle: '管理前台 AI 核心课程培训中心的课程体系、课程详情配置、上下架公开状态与章节大纲内容',
+          category: '课程培训',
+          crumb: ['后台管理', '课程培训']
+        };
+      case 'opc_community_admin':
+        return {
+          title: 'OPC社区管理',
+          subtitle: '统一维护前台 OPC 生态社区与政策网络节点，配置省市区域、支持政策开关说明、联系人与展示排序权重',
+          category: 'OPC社区',
+          crumb: ['后台管理', 'OPC社区']
         };
       case 'competition_admin':
         return {
@@ -801,6 +843,9 @@ export const AdminLayout: React.FC = () => {
             {activeAdminMenu === 'compute_settlement' && <ComputeSettlementAdminView />}
             {activeAdminMenu === 'compute_admin' && <ComputeSpecAdminView />}
 
+            {activeAdminMenu === 'home_config_admin' && <HomeConfigAdminView />}
+            {activeAdminMenu === 'training_admin' && <TrainingAdminView />}
+            {activeAdminMenu === 'opc_community_admin' && <OpcCommunityAdminView />}
             {activeAdminMenu === 'competition_admin' && <CompetitionAdminView />}
             {activeAdminMenu === 'system_admin' && <SystemAdminView />}
 

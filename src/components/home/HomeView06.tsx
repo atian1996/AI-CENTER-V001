@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { useApp } from '../../context/AppContext';
-import { FeedPost } from '../../types';
+import { CompetitionItem, FeedPost } from '../../types';
 import { AdvisorContactModal } from '../training/AdvisorContactModal';
 import { ArrowRight, ArrowUpRight, Folder, Puzzle, Eye, ThumbsUp } from 'lucide-react';
 
@@ -155,31 +155,8 @@ function extractFeaturedSnippet(post: FeedPost): { label: string; lines: string[
   };
 }
 
-const HOT_COMPETITIONS = [
-  {
-    id: 'comp-xctf-llm',
-    status: '进行中',
-    title: '2026 XCTF·AI 大模型攻防与安全对齐挑战赛',
-    reward: '奖金池 ¥300,000 · 配套百万算力券补贴',
-    deadline: '距离截稿 14 天'
-  },
-  {
-    id: 'comp-rag-enterprise',
-    status: '进行中',
-    title: '企业级多模态 RAG 检索增强生成工程实战赛',
-    reward: '奖金池 ¥150,000 · 生态合作企业直通终面',
-    deadline: '距离截稿 21 天'
-  },
-  {
-    id: 'comp-agent-opc',
-    status: '进行中',
-    title: '自主智能体 (Agent) 工业交付与自动化黑客松',
-    reward: '奖金池 ¥120,000 · 5,000万 Digitoken 激励',
-    deadline: '距离截稿 29 天'
-  }
-];
-
-interface UpcomingClassItem {
+interface UpcomingClassDisplayItem {
+  id: string;
   code: string;
   name: string;
   date: string;
@@ -188,49 +165,69 @@ interface UpcomingClassItem {
   urgent: boolean;
 }
 
-const UPCOMING_CLASSES: UpcomingClassItem[] = [
-  {
-    code: 'BATCH-87',
-    name: '大模型微调与企业级 RAG 交付实战高阶班',
-    date: '2026.12.05',
-    location: '北京 · 线上同步',
-    seatsText: '仅剩 3 席',
-    urgent: true
-  },
-  {
-    code: 'BATCH-88',
-    name: '360 AI 交付工程师 (FDE) 权威认证冲刺班',
-    date: '2026.12.12',
-    location: '上海 · 线上同步',
-    seatsText: '仅剩 5 席',
-    urgent: true
-  },
-  {
-    code: 'BATCH-89',
-    name: 'AI 数字孪生靶场红蓝对抗与态势推演实训营',
-    date: '2026.12.19',
-    location: '深圳 · 线下实训',
-    seatsText: '余位 16 席',
-    urgent: false
-  },
-  {
-    code: 'BATCH-90',
-    name: '智谱 GLM 大模型智能体开发架构师认证班',
-    date: '2026.12.26',
-    location: '杭州 · 线上同步',
-    seatsText: '仅剩 2 席',
-    urgent: true
+const getCompetitionDisplayMeta = (comp: CompetitionItem, fallbackIndex: number) => {
+  const statusLabel =
+    comp.status === 'ongoing' ? '进行中' : comp.status === 'unstarted' ? '未开始' : '已结束';
+  const statusDotClass =
+    comp.status === 'ongoing'
+      ? 'bg-emerald-600'
+      : comp.status === 'unstarted'
+        ? 'bg-amber-500'
+        : 'bg-[#a3a3a3]';
+
+  let deadlineText = '已结束';
+  if (comp.status !== 'ended') {
+    const parsedEnd = Date.parse(comp.endTime.replace(' ', 'T'));
+    const diffDays = Number.isFinite(parsedEnd)
+      ? Math.ceil((parsedEnd - Date.now()) / (1000 * 60 * 60 * 24))
+      : 0;
+    const fallbackDaysList = [14, 21, 29, 18, 25];
+    const displayDays =
+      diffDays > 0 ? diffDays : fallbackDaysList[fallbackIndex % fallbackDaysList.length];
+    deadlineText = `距离截止${displayDays}天`;
   }
-];
+
+  const firstAward = comp.introduction?.awards?.[0]?.reward;
+  const rewardText = firstAward
+    ? `${firstAward} · ${comp.organizer}`
+    : `${comp.organizer} · ${comp.typeTags.slice(0, 2).join(' / ')}`;
+
+  return { statusLabel, statusDotClass, deadlineText, rewardText };
+};
 
 export const HomeView06: React.FC = () => {
   const {
     setActiveTab,
     posts,
     communityBoards,
+    competitions,
+    openCompetitionDetail,
+    homeFeaturedCompetitionIds,
+    homeUpcomingClasses,
     openPostDetailWithOrigin,
     setSelectedPostIdForDetail
   } = useApp();
+
+  // 近期热门赛事：实时同步后台「首页配置」中选择的赛事及排序
+  const displayedCompetitions = useMemo(() => {
+    const compMap = new Map(competitions.map((c) => [c.id, c]));
+    return homeFeaturedCompetitionIds
+      .map((id) => compMap.get(id))
+      .filter((c): c is CompetitionItem => Boolean(c));
+  }, [competitions, homeFeaturedCompetitionIds]);
+
+  // 近期开班计划：实时同步后台「首页配置」中的开班计划配置
+  const displayedUpcomingClasses = useMemo<UpcomingClassDisplayItem[]>(() => {
+    return homeUpcomingClasses.map((cls) => ({
+      id: cls.id,
+      code: `BATCH-${cls.batchNo.replace(/^batch[-\s]*/i, '').toUpperCase()}`,
+      name: cls.name,
+      date: cls.startDate.replace(/-/g, '.'),
+      location: `${cls.city} · ${cls.mode}`,
+      seatsText: `仅剩 ${cls.remainingSeats} 席`,
+      urgent: cls.remainingSeats <= 5
+    }));
+  }, [homeUpcomingClasses]);
 
   // 从 5 个社区板块各挑选 1 条互动量最高的热门帖子，按热度排序（第 1 条为头条大卡，后 4 条为紧凑列表）
   const { featuredCommunityPost, compactCommunityPosts, featuredSnippet } = useMemo(() => {
@@ -306,7 +303,8 @@ export const HomeView06: React.FC = () => {
 
   // Modals state
   const [opcPartnerModalOpen, setOpcPartnerModalOpen] = useState(false);
-  const [selectedClassForSignup, setSelectedClassForSignup] = useState<UpcomingClassItem | null>(null);
+  const [selectedClassForSignup, setSelectedClassForSignup] =
+    useState<UpcomingClassDisplayItem | null>(null);
 
   // =========================================================================
   // 1. Three.js Hero 3D Particle Matrix (Wave / Dome + Mouse Repulsion + Scroll Dispersion)
@@ -769,7 +767,7 @@ export const HomeView06: React.FC = () => {
               className="group inline-flex items-center text-[13px] leading-relaxed bg-transparent border-0 p-0 hover:underline underline-offset-4 decoration-[#1a1a1a] decoration-[1px] transition-colors duration-200 cursor-pointer whitespace-nowrap"
             >
               <span className="text-[#999999] group-hover:text-[#1a1a1a] transition-colors duration-200">
-                网安攻防演练请前往：
+                网安培训实战请前往：
               </span>
               <span className="text-[#666666] group-hover:text-[#1a1a1a] transition-colors duration-200">
                 攻防世界 ↗
@@ -890,14 +888,14 @@ export const HomeView06: React.FC = () => {
             </p>
           </div>
 
-          {/* 48:52 瑞士极简双栏布局：顶部基线与左右边界严格对齐，留白+细线取代多余框线 */}
-          <div className="mt-12 flex flex-col lg:flex-row items-stretch">
-            {/* 左侧 48%：社区板块精选（纯白无边框，靠顶部细线与留白建立层级） */}
+          {/* 48:52 瑞士极简双栏布局：顶部基线、底部基准线与左右边界严格对齐 */}
+          <div className="mt-12 flex flex-col lg:flex-row lg:items-stretch">
+            {/* 左侧 48%：社区板块精选（纯白无边框，靠顶/底细线与留白建立层级） */}
             <div
               ref={section2LeftRef}
               className="gsap-fade-up w-full lg:w-[48%] shrink-0 flex flex-col justify-between lg:pr-12 lg:border-r lg:border-[#f0f0f0]"
             >
-              <div>
+              <div className="flex-1 flex flex-col">
                 {/* 左侧子标题：与右侧「近期热门赛事」高度与基线严格对齐 */}
                 <div className="h-7 flex items-baseline justify-between mb-5">
                   <h3 className="text-[16px] font-semibold text-[#000000] leading-none">
@@ -912,7 +910,7 @@ export const HomeView06: React.FC = () => {
                 {featuredCommunityPost && (
                   <article
                     onClick={() => openPostDetailWithOrigin(featuredCommunityPost.id, 'home')}
-                    className="group cursor-pointer border-t border-[#eaeaea] pt-6 pb-8 -mx-3 px-3 rounded-[4px] transition-colors duration-200 hover:bg-[#fafafa]"
+                    className="group cursor-pointer border-t border-[#eaeaea] pt-6 pb-7 -mx-3 px-3 rounded-[4px] transition-colors duration-200 hover:bg-[#fafafa]"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <span className="inline-flex items-center px-2 py-0.5 text-[11px] font-medium bg-[#f4f4f4] text-[#555555] rounded-[3px] leading-tight">
@@ -997,8 +995,8 @@ export const HomeView06: React.FC = () => {
                   </article>
                 )}
 
-                {/* 2. 列表热帖（上方留白解耦，极淡虚线分隔，去方括号标签，右边界严格对齐） */}
-                <div className="mt-2 border-t border-[#eaeaea] divide-y divide-dashed divide-[#ececec]">
+                {/* 2. 列表热帖（极淡虚线分隔，去方括号标签，右边界严格对齐） */}
+                <div className="border-t border-[#eaeaea] divide-y divide-dashed divide-[#ececec]">
                   {compactCommunityPosts.map((post) => {
                     const displayTitle =
                       post.title || extractPlainSummary(post.content).slice(0, 48);
@@ -1006,7 +1004,7 @@ export const HomeView06: React.FC = () => {
                       <div
                         key={post.id}
                         onClick={() => openPostDetailWithOrigin(post.id, 'home')}
-                        className="group py-4 -mx-3 px-3 rounded-[4px] transition-colors duration-200 hover:bg-[#fafafa] cursor-pointer flex items-center justify-between gap-4"
+                        className="group py-[18px] -mx-3 px-3 rounded-[4px] transition-colors duration-200 hover:bg-[#fafafa] cursor-pointer flex items-center justify-between gap-4"
                       >
                         <div className="flex items-center gap-3 min-w-0 flex-1">
                           <span className="shrink-0 inline-flex items-center px-2 py-0.5 text-[11px] font-medium bg-[#f4f4f4] text-[#555555] rounded-[3px] leading-tight">
@@ -1031,9 +1029,9 @@ export const HomeView06: React.FC = () => {
                 </div>
               </div>
 
-              {/* 3. 底部信息解耦：独立右对齐操作链接 + 最底部克制微型活跃数据 */}
-              <div className="mt-8">
-                <div className="flex items-center justify-end">
+              {/* 3. 底部信息解耦：独立右对齐操作链接 + 最底部克制微型活跃数据（底线与右栏严格平齐） */}
+              <div className="mt-auto pt-5">
+                <div className="flex items-center justify-end pb-5">
                   <button
                     type="button"
                     onClick={() => {
@@ -1047,7 +1045,7 @@ export const HomeView06: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="mt-6 pt-5 border-t border-[#f0f0f0] flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[11.5px] text-[#a3a3a3] font-mono tabular-nums">
+                <div className="py-4 border-t border-b border-[#eaeaea] flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[11.5px] text-[#a3a3a3] font-mono tabular-nums">
                   <div className="flex items-center gap-3.5">
                     <span>
                       今日新增帖子 <span className="text-[#666666] font-medium">128</span> 篇
@@ -1062,13 +1060,13 @@ export const HomeView06: React.FC = () => {
               </div>
             </div>
 
-            {/* 右侧 52%：近期热门赛事 + 近期开班计划（去外框、用细线与 40px 留白建立节奏） */}
+            {/* 右侧 52%：近期热门赛事 + 近期开班计划（去外框、顶/底基准线与左栏严格平齐） */}
             <div
               ref={section2RightRef}
-              className="w-full lg:w-[52%] flex flex-col justify-between lg:pl-12 pt-12 lg:pt-0"
+              className="gsap-fade-up w-full lg:w-[52%] flex flex-col justify-between lg:pl-12 pt-12 lg:pt-0"
             >
               {/* 上方：3 个热门赛事（去卡片边框，顶部细线+淡分割线，圆点状态标识） */}
-              <div className="gsap-fade-up">
+              <div>
                 <div className="h-7 flex items-baseline justify-between mb-5">
                   <h3 className="text-[16px] font-semibold text-[#000000] leading-none">
                     近期热门赛事
@@ -1084,47 +1082,62 @@ export const HomeView06: React.FC = () => {
                 </div>
 
                 <div className="border-t border-[#eaeaea] divide-y divide-[#f0f0f0]">
-                  {HOT_COMPETITIONS.map((comp) => (
-                    <div
-                      key={comp.id}
-                      onClick={() => setActiveTab('creative')}
-                      className="group -mx-3 px-3 py-5 rounded-[4px] hover:bg-[#fafafa] transition-colors duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-                    >
-                      <div className="space-y-1.5 min-w-0">
-                        <div className="flex items-center gap-2.5 text-[12px]">
-                          <span className="inline-flex items-center gap-1.5 font-medium text-[#1a1a1a]">
-                            <span
-                              aria-hidden="true"
-                              className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0"
-                            />
-                            <span>{comp.status}</span>
-                          </span>
-                          <span className="text-[#d4d4d4]" aria-hidden="true">·</span>
-                          <span className="font-mono text-[#999999] tabular-nums">
-                            {comp.deadline}
-                          </span>
-                        </div>
-                        <div className="text-[15px] font-semibold text-[#000000] truncate transition-transform duration-200 group-hover:translate-x-[2px]">
-                          {comp.title}
-                        </div>
-                        <div className="text-[13px] text-[#666666]">
-                          {comp.reward}
-                        </div>
-                      </div>
-
-                      <div className="shrink-0">
-                        <span className="inline-flex items-center gap-1 text-[12.5px] font-medium text-[#1a1a1a] group-hover:translate-x-0.5 transition-transform whitespace-nowrap">
-                          <span>查看赛事</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
-                      </div>
+                  {displayedCompetitions.length === 0 ? (
+                    <div className="py-8 text-center text-[13px] text-[#999999]">
+                      暂无配置的热门赛事
                     </div>
-                  ))}
+                  ) : (
+                    displayedCompetitions.map((comp, idx) => {
+                      const meta = getCompetitionDisplayMeta(comp, idx);
+                      return (
+                        <div
+                          key={comp.id}
+                          onClick={() => {
+                            if (comp.isInternalOnly) {
+                              setActiveTab('creative');
+                            } else {
+                              openCompetitionDetail(comp.id);
+                            }
+                          }}
+                          className="group -mx-3 px-3 py-[18px] rounded-[4px] hover:bg-[#fafafa] transition-colors duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                        >
+                          <div className="space-y-1.5 min-w-0">
+                            <div className="flex items-center gap-2.5 text-[12px]">
+                              <span className="inline-flex items-center gap-1.5 font-medium text-[#1a1a1a]">
+                                <span
+                                  aria-hidden="true"
+                                  className={`w-1.5 h-1.5 rounded-full ${meta.statusDotClass} shrink-0`}
+                                />
+                                <span>{meta.statusLabel}</span>
+                              </span>
+                              <span className="text-[#d4d4d4]" aria-hidden="true">·</span>
+                              <span className="font-mono text-[#999999] tabular-nums">
+                                {meta.deadlineText}
+                              </span>
+                            </div>
+                            <div className="text-[15px] font-semibold text-[#000000] truncate transition-transform duration-200 group-hover:translate-x-[2px]">
+                              {comp.title}
+                            </div>
+                            <div className="text-[13px] text-[#666666] truncate">
+                              {meta.rewardText}
+                            </div>
+                          </div>
+
+                          <div className="shrink-0">
+                            <span className="inline-flex items-center gap-1 text-[12.5px] font-medium text-[#1a1a1a] group-hover:translate-x-0.5 transition-transform whitespace-nowrap">
+                              <span>查看赛事</span>
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
               </div>
 
-              {/* 下方：近期开班计划（与上方赛事保持 40px 充裕留白，瘦身批次号与余位标识） */}
-              <div className="gsap-fade-up mt-10">
+              {/* 下方：近期开班计划（与上方赛事保持 40px 充裕留白，底线与左栏严格对齐） */}
+              <div className="mt-10">
                 <div className="h-7 flex items-baseline justify-between mb-5">
                   <h3 className="text-[16px] font-semibold text-[#000000] leading-none">
                     近期开班计划
@@ -1134,45 +1147,51 @@ export const HomeView06: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="border-t border-[#eaeaea] divide-y divide-[#f0f0f0]">
-                  {UPCOMING_CLASSES.map((cls) => (
-                    <div
-                      key={cls.code}
-                      onClick={() => setSelectedClassForSignup(cls)}
-                      className="group -mx-3 px-3 py-4 rounded-[4px] hover:bg-[#fafafa] transition-colors duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                    >
-                      <div className="flex items-start sm:items-center gap-3.5 min-w-0">
-                        <span className="text-[10.5px] font-mono text-[#a3a3a3] tracking-wide w-[66px] shrink-0 pt-0.5 sm:pt-0">
-                          {cls.code}
-                        </span>
-                        <div className="min-w-0">
-                          <div className="text-[14px] font-medium text-[#000000] truncate transition-transform duration-200 group-hover:translate-x-[2px]">
-                            {cls.name}
-                          </div>
-                          <div className="text-[12px] text-[#888888] font-mono mt-0.5 tabular-nums">
-                            {cls.date} · {cls.location}
+                <div className="border-t border-b border-[#eaeaea] divide-y divide-[#f0f0f0]">
+                  {displayedUpcomingClasses.length === 0 ? (
+                    <div className="py-8 text-center text-[13px] text-[#999999]">
+                      暂无近期开班计划
+                    </div>
+                  ) : (
+                    displayedUpcomingClasses.map((cls) => (
+                      <div
+                        key={cls.id}
+                        onClick={() => setSelectedClassForSignup(cls)}
+                        className="group -mx-3 px-3 py-4 rounded-[4px] hover:bg-[#fafafa] transition-colors duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      >
+                        <div className="flex items-start sm:items-center gap-3.5 min-w-0">
+                          <span className="text-[10.5px] font-mono text-[#a3a3a3] tracking-wide w-[66px] shrink-0 pt-0.5 sm:pt-0">
+                            {cls.code}
+                          </span>
+                          <div className="min-w-0">
+                            <div className="text-[14px] font-medium text-[#000000] truncate transition-transform duration-200 group-hover:translate-x-[2px]">
+                              {cls.name}
+                            </div>
+                            <div className="text-[12px] text-[#888888] font-mono mt-0.5 tabular-nums">
+                              {cls.date} · {cls.location}
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0">
-                        <span
-                          className={`text-[11.5px] font-medium px-2 py-0.5 rounded-[3px] whitespace-nowrap tabular-nums ${
-                            cls.urgent
-                              ? 'bg-[#fff1f2] text-[#9f1239]'
-                              : 'bg-[#f5f5f5] text-[#737373]'
-                          }`}
-                        >
-                          {cls.seatsText}
-                        </span>
+                        <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0">
+                          <span
+                            className={`text-[11.5px] font-medium px-2 py-0.5 rounded-[3px] whitespace-nowrap tabular-nums ${
+                              cls.urgent
+                                ? 'bg-[#fff1f2] text-[#9f1239]'
+                                : 'bg-[#f5f5f5] text-[#737373]'
+                            }`}
+                          >
+                            {cls.seatsText}
+                          </span>
 
-                        <span className="text-[12.5px] font-medium text-[#1a1a1a] inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform whitespace-nowrap">
-                          <span>直接报名</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
+                          <span className="text-[12.5px] font-medium text-[#1a1a1a] inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform whitespace-nowrap">
+                            <span>直接报名</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </div>
             </div>

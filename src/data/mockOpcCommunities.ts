@@ -8,11 +8,18 @@ export interface OpcPolicyDetail {
 
 export interface OpcCommunityNode {
   id: string;
+  /** 所属省份/直辖市/特别行政区（如 江苏省、上海市、香港特别行政区） */
+  province?: string;
   city: string;
   district: string;
   name: string;
   address: string;
+  /** 兼容旧字段：社区摘要 */
   summary: string;
+  /** 列表卡片简介（150字以内） */
+  cardSummary?: string;
+  /** 详情弹窗政策概述（300字以内） */
+  policyOverview?: string;
   policies: OpcPolicyKey[];
   policyDetails: OpcPolicyDetail[];
   contactName: string;
@@ -21,6 +28,12 @@ export interface OpcCommunityNode {
   contactEmail: string;
   serviceHours: string;
   qrHint: string;
+  /** 后台发布状态：public=公开，hidden=隐藏 */
+  status?: 'public' | 'hidden';
+  /** 排序权重（越大越靠前，默认 0） */
+  sortWeight?: number;
+  /** 创建时间 (YYYY-MM-DD HH:mm) */
+  createdAt?: string;
 }
 
 export const OPC_POLICY_KEYS: OpcPolicyKey[] = [

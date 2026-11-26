@@ -15,13 +15,6 @@ export const WorkspaceHeader: React.FC = () => {
             <h1 className="text-base font-semibold text-[#1A1A1A] tracking-tight">
               开发者工作台
             </h1>
-            <span className="text-[11px] px-2 py-0.5 rounded bg-[#F5F5F5] text-[#555555] border border-[#EAEAEA] font-medium">
-              Console v2.5
-            </span>
-            <span className="text-[11px] font-medium text-[#166534] inline-flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
-              服务运行正常
-            </span>
           </div>
           <p className="text-xs text-[#666666] mt-0.5">
             全站 AI 资产控制、任务协同、算力调度与云端数据统一管理平台

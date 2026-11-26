@@ -4,10 +4,7 @@ import {
   CertificationLevel,
   CertificationSystemId
 } from '../../types';
-import {
-  CERTIFICATION_SYSTEMS,
-  MOCK_CERTIFICATIONS
-} from '../../data/mockCertificationData';
+import { useApp } from '../../context/AppContext';
 import { CertificationDetailView } from './CertificationDetailView';
 import {
   ArrowRight,
@@ -26,25 +23,45 @@ const LEVEL_OPTIONS: { value: LevelFilterValue; label: string }[] = [
 ];
 
 export const TrainingCertificationView: React.FC = () => {
+  const { trainingSystems, trainingCourses } = useApp();
   const [selectedSystem, setSelectedSystem] = useState<SystemFilterValue>('all');
   const [selectedLevel, setSelectedLevel] = useState<LevelFilterValue>('all');
   const [selectedCourse, setSelectedCourse] = useState<CertificationItem | null>(null);
 
+  // 前台仅展示状态为「公开」的课程体系及其下的「公开」课程
+  const visibleSystems = useMemo(
+    () => trainingSystems.filter((sys) => sys.status !== 'hidden'),
+    [trainingSystems]
+  );
+
+  const visibleSystemIds = useMemo(
+    () => new Set(visibleSystems.map((s) => s.id)),
+    [visibleSystems]
+  );
+
+  const visibleCourses = useMemo(
+    () =>
+      trainingCourses.filter(
+        (c) => c.status !== 'hidden' && visibleSystemIds.has(c.systemId)
+      ),
+    [trainingCourses, visibleSystemIds]
+  );
+
   const systemCounts = useMemo(() => {
-    const counts: Record<string, number> = { all: MOCK_CERTIFICATIONS.length };
-    for (const sys of CERTIFICATION_SYSTEMS) {
-      counts[sys.id] = MOCK_CERTIFICATIONS.filter((c) => c.systemId === sys.id).length;
+    const counts: Record<string, number> = { all: visibleCourses.length };
+    for (const sys of visibleSystems) {
+      counts[sys.id] = visibleCourses.filter((c) => c.systemId === sys.id).length;
     }
     return counts;
-  }, []);
+  }, [visibleSystems, visibleCourses]);
 
   const filteredCourses = useMemo(() => {
-    return MOCK_CERTIFICATIONS.filter((course) => {
+    return visibleCourses.filter((course) => {
       if (selectedSystem !== 'all' && course.systemId !== selectedSystem) return false;
       if (selectedLevel !== 'all' && course.level !== selectedLevel) return false;
       return true;
     });
-  }, [selectedSystem, selectedLevel]);
+  }, [visibleCourses, selectedSystem, selectedLevel]);
 
   const activeSystemMeta = useMemo(() => {
     if (selectedSystem === 'all') {
@@ -53,11 +70,11 @@ export const TrainingCertificationView: React.FC = () => {
       };
     }
     return (
-      CERTIFICATION_SYSTEMS.find((s) => s.id === selectedSystem) ?? {
+      visibleSystems.find((s) => s.id === selectedSystem) ?? {
         name: '全部课程体系'
       }
     );
-  }, [selectedSystem]);
+  }, [selectedSystem, visibleSystems]);
 
   const hasActiveFilter = selectedSystem !== 'all' || selectedLevel !== 'all';
 
@@ -121,7 +138,7 @@ export const TrainingCertificationView: React.FC = () => {
                 </span>
               </button>
 
-              {CERTIFICATION_SYSTEMS.map((sys) => {
+              {visibleSystems.map((sys) => {
                 const isActive = selectedSystem === sys.id;
                 return (
                   <button

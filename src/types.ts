@@ -1238,6 +1238,8 @@ export type AdminMenuKey =
   | 'compute_stat'        // 算力工坊 - 资源使用统计
   | 'compute_settlement'  // 算力工坊 - 对账结算
   | 'compute_admin'       // 算力管理（兼容主入口）
+  | 'home_config_admin'   // 首页配置
+  | 'opc_community_admin' // OPC社区
   | 'competition_admin'   // 赛事管理
   | 'system_admin'        // 系统管理
   | 'agent_list'          // Agent管理 - 列表及配置
@@ -1254,7 +1256,8 @@ export type AdminMenuKey =
   | 'community_audit'      // 社区管理 - 发帖审核
   | 'community_post'       // 社区管理 - 帖子管理
   | 'community_comment'    // 社区管理 - 评论管理
-  | 'community_stats';     // 社区管理 - 数据统计
+  | 'community_stats'      // 社区管理 - 数据统计
+  | 'training_admin';      // 课程培训管理
 
 export interface AgentOrderItem {
   id: string; // 订单号 (系统生成)
@@ -1740,13 +1743,19 @@ export interface UserFavoriteItem {
 // 课程培训中心类型定义
 export type CertificationLevel = '初级' | '中级' | '高级';
 
-export type CertificationSystemId = 'fde' | 'ade' | 'aigc' | 'ai-security';
+export type CertificationSystemId = string;
 
 export interface CertificationSystem {
   id: CertificationSystemId;
   name: string;
   shortName: string;
   description: string;
+  /** 后台管理展示状态：public=公开，hidden=隐藏 */
+  status?: 'public' | 'hidden';
+  /** 创建人 */
+  creator?: string;
+  /** 创建时间 (YYYY-MM-DD HH:mm) */
+  createdAt?: string;
 }
 
 export interface CertificationSyllabusModule {
@@ -1790,11 +1799,11 @@ export interface CertificationItem {
   customTags: string[];
   /** 一句话简介（100字以内） */
   briefIntro: string;
-  /** 适用人群（20字以内） */
+  /** 适用人群（80字以内） */
   targetAudience: string;
-  /** 核心能力（可自定义多项通过本认证掌握的能力） */
+  /** 核心能力（最多 8 项） */
   coreCapabilities: string[];
-  /** 详情页价格与费用说明（费用说明50字以内） */
+  /** 详情页价格与费用说明 */
   priceDisplay: string;
   feeDescription: string;
   /** 详情页扩展信息 */
@@ -1807,14 +1816,38 @@ export interface CertificationItem {
   enrolledCount: number;
   syllabus: CertificationSyllabusModule[];
   recognitionPoints: string[];
-  /** 二级页面「认证介绍」富文本 Markdown */
+  /** 二级页面「课程介绍」富文本 Markdown */
   introMarkdown: string;
-  /** 二级页面「认证路径」动态子栏目 */
+  /** 二级页面「课程大纲」动态子栏目 */
   learningPath: CertificationPathStep[];
-  /** 「联系认证顾问」留资弹窗配置信息 */
+  /** 「联系课程顾问」留资弹窗配置信息 */
   advisorContacts: CertificationAdvisorField[];
   advisorQrHint?: string;
+  /** 后台管理展示状态：public=公开，hidden=隐藏 */
+  status?: 'public' | 'hidden';
+  /** 创建时间 (YYYY-MM-DD HH:mm) */
+  createdAt?: string;
 }
+
+// 首页第二栏：近期开班计划配置项
+export type HomeUpcomingClassMode = '线上同步' | '线下实训';
+
+export interface HomeUpcomingClassItem {
+  id: string;
+  /** 期数编号（对应前台 BATCH-XX） */
+  batchNo: string;
+  /** 班次名称 */
+  name: string;
+  /** 开班日期 (YYYY-MM-DD) */
+  startDate: string;
+  /** 开班地点（如 北京 / 上海 / 深圳 / 杭州） */
+  city: string;
+  /** 开班方式（线上同步 / 线下实训） */
+  mode: HomeUpcomingClassMode;
+  /** 剩余席位（对应前台“仅剩XX席”） */
+  remainingSeats: number;
+}
+
 
 
 

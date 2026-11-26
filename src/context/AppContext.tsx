@@ -31,7 +31,10 @@ import {
   MyCustomImage,
   DatasetDownloadRecord,
   SkillDownloadRecord,
-  CommunityBoardItem
+  CommunityBoardItem,
+  CertificationSystem,
+  CertificationItem,
+  HomeUpcomingClassItem
 } from '../types';
 import { validateTextOnlyComment } from '../utils/commentValidator';
 import { 
@@ -65,6 +68,15 @@ import {
   mockComputeSettlements,
   mockComputeStats
 } from '../data/mockComputeAdminData';
+import {
+  CERTIFICATION_SYSTEMS,
+  MOCK_CERTIFICATIONS
+} from '../data/mockCertificationData';
+import {
+  MOCK_OPC_COMMUNITIES,
+  OpcCommunityNode
+} from '../data/mockOpcCommunities';
+import { inferProvinceByCity } from '../data/chinaRegions';
 
 interface AppContextType {
   // Navigation State
@@ -133,6 +145,16 @@ interface AppContextType {
   tasks: TaskItem[];
   setTasks: React.Dispatch<React.SetStateAction<TaskItem[]>>;
   courses: CourseItem[];
+  trainingSystems: CertificationSystem[];
+  setTrainingSystems: React.Dispatch<React.SetStateAction<CertificationSystem[]>>;
+  trainingCourses: CertificationItem[];
+  setTrainingCourses: React.Dispatch<React.SetStateAction<CertificationItem[]>>;
+  homeFeaturedCompetitionIds: string[];
+  setHomeFeaturedCompetitionIds: React.Dispatch<React.SetStateAction<string[]>>;
+  homeUpcomingClasses: HomeUpcomingClassItem[];
+  setHomeUpcomingClasses: React.Dispatch<React.SetStateAction<HomeUpcomingClassItem[]>>;
+  opcCommunities: OpcCommunityNode[];
+  setOpcCommunities: React.Dispatch<React.SetStateAction<OpcCommunityNode[]>>;
   gpuInstances: GPUInstance[];
   posts: FeedPost[];
   apiKeys: ApiKeyItem[];
@@ -2216,6 +2238,125 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isAdminMode, setIsAdminMode] = useState<boolean>(false);
   const [activeAdminMenu, setActiveAdminMenu] = useState<AdminMenuKey>('eco_dashboard');
 
+  // 课程培训体系与课程数据（前后台实时同步）
+  const [trainingSystems, setTrainingSystems] = useState<CertificationSystem[]>(() =>
+    CERTIFICATION_SYSTEMS.map((sys, idx) => ({
+      ...sys,
+      status: sys.status ?? 'public',
+      creator: sys.creator ?? '极客小千',
+      createdAt: sys.createdAt ?? `2026-10-1${idx + 1} 09:30`
+    }))
+  );
+  const [trainingCourses, setTrainingCourses] = useState<CertificationItem[]>(() =>
+    MOCK_CERTIFICATIONS.map((course, idx) => ({
+      ...course,
+      status: course.status ?? 'public',
+      createdAt:
+        course.createdAt ??
+        `2026-10-${String(12 + idx).padStart(2, '0')} ${String(10 + (idx % 8)).padStart(2, '0')}:30`
+    }))
+  );
+
+  // 首页第二栏配置（近期热门赛事 ID 列表 + 近期开班计划列表，前后台实时同步）
+  const [homeFeaturedCompetitionIds, setHomeFeaturedCompetitionIds] = useState<string[]>([
+    'comp-01',
+    'comp-04',
+    'comp-02'
+  ]);
+  const [homeUpcomingClasses, setHomeUpcomingClasses] = useState<HomeUpcomingClassItem[]>([
+    {
+      id: 'home-cls-87',
+      batchNo: '87',
+      name: '大模型微调与企业级 RAG 交付实战高阶班',
+      startDate: '2026-12-05',
+      city: '北京',
+      mode: '线上同步',
+      remainingSeats: 3
+    },
+    {
+      id: 'home-cls-88',
+      batchNo: '88',
+      name: '360 AI 交付工程师 (FDE) 权威认证冲刺班',
+      startDate: '2026-12-12',
+      city: '上海',
+      mode: '线上同步',
+      remainingSeats: 5
+    },
+    {
+      id: 'home-cls-89',
+      batchNo: '89',
+      name: 'AI 数字孪生靶场红蓝对抗与态势推演实训营',
+      startDate: '2026-12-19',
+      city: '深圳',
+      mode: '线下实训',
+      remainingSeats: 16
+    },
+    {
+      id: 'home-cls-90',
+      batchNo: '90',
+      name: '智谱 GLM 大模型智能体开发架构师认证班',
+      startDate: '2026-12-26',
+      city: '杭州',
+      mode: '线上同步',
+      remainingSeats: 2
+    }
+  ]);
+
+  // OPC社区数据（前后台实时同步，并持久化至 localStorage 以支持独立标签页实时同步）
+  const OPC_STORAGE_KEY = 'xctf_opc_communities_v1';
+  const buildDefaultOpcCommunities = (): OpcCommunityNode[] =>
+    MOCK_OPC_COMMUNITIES.map((node, idx) => ({
+      ...node,
+      province: node.province ?? inferProvinceByCity(node.city),
+      cardSummary: node.cardSummary ?? node.summary,
+      policyOverview: node.policyOverview ?? node.summary,
+      status: node.status ?? 'public',
+      sortWeight: node.sortWeight ?? 0,
+      createdAt:
+        node.createdAt ??
+        `2026-10-${String((idx % 25) + 1).padStart(2, '0')} ${String(9 + (idx % 9)).padStart(2, '0')}:${String((idx * 7) % 60).padStart(2, '0')}`
+    }));
+
+  const [opcCommunities, setOpcCommunities] = useState<OpcCommunityNode[]>(() => {
+    try {
+      const saved = localStorage.getItem(OPC_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch {
+      // ignore storage errors
+    }
+    return buildDefaultOpcCommunities();
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(OPC_STORAGE_KEY, JSON.stringify(opcCommunities));
+    } catch {
+      // ignore storage quota errors
+    }
+  }, [opcCommunities]);
+
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === OPC_STORAGE_KEY && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (Array.isArray(parsed)) {
+            setOpcCommunities(parsed);
+          }
+        } catch {
+          // ignore
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
   const enterAdminMode = (defaultMenu: AdminMenuKey = 'eco_dashboard') => {
     setIsAdminMode(true);
     setActiveAdminMenu(defaultMenu);
@@ -3616,7 +3757,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       toggleModelStatus,
       modelCallRecords,
       addModelCallRecord,
-      modelUserConsumptions
+      modelUserConsumptions,
+      // 课程培训前后台同步数据
+      trainingSystems,
+      setTrainingSystems,
+      trainingCourses,
+      setTrainingCourses,
+      // 首页第二栏配置前后台同步数据
+      homeFeaturedCompetitionIds,
+      setHomeFeaturedCompetitionIds,
+      homeUpcomingClasses,
+      setHomeUpcomingClasses,
+      // OPC社区前后台同步数据
+      opcCommunities,
+      setOpcCommunities
     }}>
       {children}
     </AppContext.Provider>
