@@ -292,8 +292,6 @@ export const Header: React.FC = () => {
                   <div className="absolute right-0 mt-3 w-64 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 z-50 animate-fade-in text-xs divide-y divide-slate-100 select-none">
                     <div className="p-2.5">
                       <div className="font-bold text-slate-900 text-sm">{user.name}</div>
-                      <div className="text-indigo-600 font-bold text-[11px] mt-0.5">{user.levelBadge}</div>
-                      <div className="text-slate-400 text-[10px] truncate mt-0.5">{user.email}</div>
 
                       {/* Balance & Points Card */}
                       <div className="mt-2.5 p-2.5 rounded-xl bg-slate-50/90 border border-slate-100 space-y-2">
@@ -304,16 +302,6 @@ export const Header: React.FC = () => {
                           </div>
                           <div className="flex items-center gap-1.5">
                             <span className="font-black text-slate-900 text-xs">¥{(user.balance ?? 128.00).toFixed(2)}</span>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                openRechargeModal();
-                                setUserMenuOpen(false);
-                              }}
-                              className="px-1.5 py-0.5 rounded bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] transition cursor-pointer"
-                            >
-                              充值
-                            </button>
                           </div>
                         </div>
                         <div className="flex items-center justify-between">

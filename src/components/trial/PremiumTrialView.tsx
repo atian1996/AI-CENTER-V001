@@ -285,7 +285,7 @@ export const PremiumTrialView: React.FC = () => {
               <PlatformWindowFrame
                 src="/assets/aistudio/138366ca758da7b5bb538abc4ad222be_46b52b8c.png"
                 alt="大模型实验场平台工作台界面截图"
-                urlLabel="lab.qianji-ai.com / workspace"
+                urlLabel="AI TRAINING & R&D PLATFORM"
               />
             </div>
           </section>
@@ -302,7 +302,7 @@ export const PremiumTrialView: React.FC = () => {
               <PlatformWindowFrame
                 src="/assets/aistudio/fe867fb040fa75e0b8443ec8319fa60a_f692ca2b.png"
                 alt="AI 数字孪生靶场网络拓扑与实战演练界面截图"
-                urlLabel="range.qianji-ai.com / digital-twin"
+                urlLabel="DIGITAL TWIN CYBER RANGE"
               />
             </div>
 
