@@ -5,8 +5,6 @@ import {
   Copy,
   Check
 } from 'lucide-react';
-import trialLlmLabImg from '../../assets/images/trial_llm_lab_1795744499153.jpg';
-import trialCyberRangeImg from '../../assets/images/trial_cyber_range_1795744497428.jpg';
 
 interface TrialProductContact {
   productName: string;
@@ -123,7 +121,7 @@ const PlatformWindowFrame: React.FC<{
   alt: string;
   urlLabel: string;
 }> = ({ src, alt, urlLabel }) => (
-  <div className="w-full rounded-[8px] border border-[#EAEAEA] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] bg-[#FFFFFF]">
+  <div className="group w-full rounded-[8px] border border-[#EAEAEA] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] bg-[#FFFFFF]">
     {/* Mac 风格极简顶部窗口栏 */}
     <div className="h-9 px-3.5 bg-[#FAFAFA] border-b border-[#EAEAEA] flex items-center justify-between gap-3">
       <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
@@ -136,11 +134,11 @@ const PlatformWindowFrame: React.FC<{
       </span>
       <div className="w-10 shrink-0" aria-hidden="true" />
     </div>
-    {/* 16:9 平台实景截图 */}
+    {/* 16:9 平台实景截图（默认 100% 灰度融入黑白极简风，悬停平滑恢复原彩） */}
     <img
       src={src}
       alt={alt}
-      className="w-full aspect-video object-cover block"
+      className="w-full aspect-video object-cover object-top block [filter:grayscale(100%)] group-hover:[filter:grayscale(0%)] transition-[filter] duration-500 ease-out"
     />
   </div>
 );
@@ -285,7 +283,7 @@ export const PremiumTrialView: React.FC = () => {
             {/* 右侧（55% 16:9 平台截图区，统一 Mac 窗口外壳） */}
             <div className="min-w-0">
               <PlatformWindowFrame
-                src={trialLlmLabImg}
+                src="/assets/aistudio/138366ca758da7b5bb538abc4ad222be_46b52b8c.png"
                 alt="大模型实验场平台工作台界面截图"
                 urlLabel="lab.qianji-ai.com / workspace"
               />
@@ -302,7 +300,7 @@ export const PremiumTrialView: React.FC = () => {
             {/* 左侧（55% 16:9 平台截图区，统一 Mac 窗口外壳） */}
             <div className="min-w-0 order-2 lg:order-1">
               <PlatformWindowFrame
-                src={trialCyberRangeImg}
+                src="/assets/aistudio/fe867fb040fa75e0b8443ec8319fa60a_f692ca2b.png"
                 alt="AI 数字孪生靶场网络拓扑与实战演练界面截图"
                 urlLabel="range.qianji-ai.com / digital-twin"
               />
