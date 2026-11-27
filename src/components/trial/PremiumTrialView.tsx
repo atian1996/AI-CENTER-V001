@@ -5,6 +5,8 @@ import {
   Copy,
   Check
 } from 'lucide-react';
+import trialLlmLabImg from '../../assets/images/trial_llm_lab_1795744499153.jpg';
+import trialCyberRangeImg from '../../assets/images/trial_cyber_range_1795744497428.jpg';
 
 interface TrialProductContact {
   productName: string;
@@ -114,41 +116,34 @@ const MinimalQrSvg: React.FC<{ seed: string }> = ({ seed }) => {
 };
 
 /**
- * 极简线框行业图标（纯 SVG 绘制）
+ * 统一平台截图展示外框（极简 Mac 浏览器窗口外壳 + 16:9 画面比例）
  */
-const IndustryWireframeIcon: React.FC<{ type: 'defense' | 'energy' | 'industrial' | 'talent' }> = ({ type }) => {
-  switch (type) {
-    case 'defense':
-      return (
-        <svg className="w-4 h-4 text-[#1a1a1a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <path d="M12 3l7 3v6c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V6l7-3z" />
-          <path d="M12 8v8M8.5 12h7" />
-        </svg>
-      );
-    case 'energy':
-      return (
-        <svg className="w-4 h-4 text-[#1a1a1a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" />
-        </svg>
-      );
-    case 'industrial':
-      return (
-        <svg className="w-4 h-4 text-[#1a1a1a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <rect x="3" y="3" width="7" height="7" rx="1" />
-          <rect x="14" y="3" width="7" height="7" rx="1" />
-          <rect x="14" y="14" width="7" height="7" rx="1" />
-          <rect x="3" y="14" width="7" height="7" rx="1" />
-        </svg>
-      );
-    case 'talent':
-      return (
-        <svg className="w-4 h-4 text-[#1a1a1a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <path d="M12 4L2 9l10 5 10-5-10-5z" />
-          <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" />
-        </svg>
-      );
-  }
-};
+const PlatformWindowFrame: React.FC<{
+  src: string;
+  alt: string;
+  urlLabel: string;
+}> = ({ src, alt, urlLabel }) => (
+  <div className="w-full rounded-[8px] border border-[#EAEAEA] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] bg-[#FFFFFF]">
+    {/* Mac 风格极简顶部窗口栏 */}
+    <div className="h-9 px-3.5 bg-[#FAFAFA] border-b border-[#EAEAEA] flex items-center justify-between gap-3">
+      <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#D8D8D8]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#E2E2E2]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#EAEAEA]" />
+      </div>
+      <span className="text-[11px] font-mono text-[#888888] tracking-wide truncate">
+        {urlLabel}
+      </span>
+      <div className="w-10 shrink-0" aria-hidden="true" />
+    </div>
+    {/* 16:9 平台实景截图 */}
+    <img
+      src={src}
+      alt={alt}
+      className="w-full aspect-video object-cover block"
+    />
+  </div>
+);
 
 export const PremiumTrialView: React.FC = () => {
   const [activeModalKey, setActiveModalKey] = useState<string | null>(null);
@@ -195,14 +190,14 @@ export const PremiumTrialView: React.FC = () => {
         {/* 全宽画廊陈列窗：三大平台区块（Z 字形交替，大留白间距） */}
         <div className="py-12 sm:py-16 space-y-20 lg:space-y-[104px]">
           {/* =====================================================================
-              2. 区块一：大模型实验场（左文右图）
+              2. 区块一：大模型实验场（左 45% 文字区，右 55% 16:9 截图区）
              ===================================================================== */}
           <section
             aria-labelledby="trial-section-lab-title"
-            className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
+            className="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-10 lg:gap-12 items-center"
           >
-            {/* 左侧（文字区） */}
-            <div className="lg:col-span-6 space-y-6">
+            {/* 左侧（45% 文字区） */}
+            <div className="min-w-0 space-y-5">
               <div className="space-y-2">
                 <div className="text-[12px] font-mono uppercase tracking-widest text-[var(--text-muted)]">
                   01 / AI TRAINING &amp; R&amp;D PLATFORM
@@ -224,46 +219,46 @@ export const PremiumTrialView: React.FC = () => {
               </div>
 
               {/* 四大核心能力（2x2 极简网格卡片布局，零阴影） */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-5 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
-                  <div className="text-[16px] font-semibold text-[var(--text-main)]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[15px] font-semibold text-[var(--text-main)]">
                     AI实训
                   </div>
-                  <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
+                  <p className="text-[13px] text-[var(--text-sub)] leading-[1.6]">
                     体系化实战教学，包含学习路径、课程训练、比赛测验、人才评估。
                   </p>
                 </div>
 
-                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-5 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
-                  <div className="text-[16px] font-semibold text-[var(--text-main)]">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[15px] font-semibold text-[var(--text-main)]">
                     模型开发
                   </div>
-                  <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
+                  <p className="text-[13px] text-[var(--text-sub)] leading-[1.6]">
                     覆盖数据标注、模型微调、模型评估全流程。
                   </p>
                 </div>
 
-                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-5 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
-                  <div className="text-[16px] font-semibold text-[var(--text-main)]">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[15px] font-semibold text-[var(--text-main)]">
                     智能体开发
                   </div>
-                  <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
+                  <p className="text-[13px] text-[var(--text-sub)] leading-[1.6]">
                     可视化搭建，包含知识库、MCP、Skill 仓库管理。
                   </p>
                 </div>
 
-                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-5 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
-                  <div className="text-[16px] font-semibold text-[var(--text-main)]">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 space-y-1.5 hover:border-[var(--border-dark)] transition-colors">
+                  <div className="text-[15px] font-semibold text-[var(--text-main)]">
                     智能服务
                   </div>
-                  <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
+                  <p className="text-[13px] text-[var(--text-sub)] leading-[1.6]">
                     一键部署，提供模型推理与智能体服务。
                   </p>
                 </div>
               </div>
 
               {/* 亮点标签栏 */}
-              <div className="flex flex-wrap items-center gap-2 pt-1">
+              <div className="flex flex-wrap items-center gap-2 pt-0.5">
                 {['国家职业技术技能标准', '700+ 实训课时', '60%+ 实操'].map((tag) => (
                   <span
                     key={tag}
@@ -287,362 +282,35 @@ export const PremiumTrialView: React.FC = () => {
               </div>
             </div>
 
-            {/* 右侧（纯 CSS 绘制深色后台 UI 示意图，零阴影、6px 圆角） */}
-            <div className="lg:col-span-6">
-              <div className="w-full rounded-[6px] bg-[#1A1A1A] border border-[#2E2E2E] overflow-hidden text-[#FFFFFF]">
-                {/* 顶部窗口栏（带三个浅灰圆点） */}
-                <div className="px-4 py-3 border-b border-[#2e2e2e] bg-[#141414] flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#666666]" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#555555]" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#444444]" />
-                  </div>
-                  <span className="text-[11px] font-mono text-[#999999] tracking-wider">
-                    LLM-LAB STUDIO · WORKSPACE v2.4
-                  </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#262626] text-[#cccccc]">
-                    GPU: 4×A100
-                  </span>
-                </div>
-
-                {/* 内部三栏布局 */}
-                <div className="grid grid-cols-12 min-h-[340px] divide-x divide-[#2a2a2a]">
-                  {/* 左栏：极简模型列表 */}
-                  <div className="col-span-3 p-3.5 space-y-2.5 bg-[#171717]">
-                    <div className="text-[10px] font-mono uppercase tracking-wider text-[#888888] pb-1 border-b border-[#2a2a2a]">
-                      MODELS
-                    </div>
-                    {[
-                      { name: 'GLM-4-9B-SFT', status: 'Active', active: true },
-                      { name: 'Qwen-2.5-72B', status: 'Ready', active: false },
-                      { name: 'DeepSeek-V3', status: 'Ready', active: false },
-                      { name: 'Llama-3.3-70B', status: 'Idle', active: false },
-                      { name: 'BGE-M3-Embed', status: 'Ready', active: false }
-                    ].map((m) => (
-                      <div
-                        key={m.name}
-                        className={`p-2 rounded-[6px] border text-left transition-colors ${
-                          m.active
-                            ? 'bg-[#262626] border-[#555555] text-[#ffffff]'
-                            : 'bg-[#1c1c1c] border-[#2a2a2a] text-[#999999]'
-                        }`}
-                      >
-                        <div className="text-[11px] font-mono font-medium truncate">
-                          {m.name}
-                        </div>
-                        <div className="flex items-center justify-between mt-1">
-                          <span className="text-[9px] font-mono text-[#777777]">LoRA</span>
-                          <span className="text-[9px] font-mono text-[#bbbbbb]">{m.status}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* 中间：数据标注画布（配极简线框图形） */}
-                  <div className="col-span-5 p-3.5 flex flex-col justify-between bg-[#1a1a1a]">
-                    <div className="flex items-center justify-between pb-1 border-b border-[#2a2a2a]">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#888888]">
-                        ANNOTATION CANVAS
-                      </span>
-                      <span className="text-[10px] font-mono text-[#999999]">
-                        #SAMPLE-0418
-                      </span>
-                    </div>
-
-                    {/* 极简几何线框画布 */}
-                    <div className="my-2.5 flex-1 rounded-[8px] border border-dashed border-[#3a3a3a] bg-[#141414] p-3 relative flex flex-col justify-between">
-                      <svg
-                        viewBox="0 0 220 150"
-                        className="w-full h-36 block"
-                        fill="none"
-                      >
-                        {/* 背景基准网格线 */}
-                        <line x1="0" y1="35" x2="220" y2="35" stroke="#242424" strokeWidth="1" />
-                        <line x1="0" y1="75" x2="220" y2="75" stroke="#242424" strokeWidth="1" />
-                        <line x1="0" y1="115" x2="220" y2="115" stroke="#242424" strokeWidth="1" />
-                        <line x1="55" y1="0" x2="55" y2="150" stroke="#242424" strokeWidth="1" />
-                        <line x1="110" y1="0" x2="110" y2="150" stroke="#242424" strokeWidth="1" />
-                        <line x1="165" y1="0" x2="165" y2="150" stroke="#242424" strokeWidth="1" />
-
-                        {/* 标注框 1 */}
-                        <rect
-                          x="22"
-                          y="20"
-                          width="82"
-                          height="66"
-                          stroke="#e5e5e5"
-                          strokeWidth="1.2"
-                          strokeDasharray="3 2"
-                        />
-                        <rect x="22" y="10" width="44" height="10" fill="#e5e5e5" />
-                        <text x="25" y="17.5" fill="#141414" fontSize="6.5" fontFamily="monospace" fontWeight="bold">
-                          OBJ_01 0.98
-                        </text>
-
-                        {/* 标注中心十字与锚点 */}
-                        <circle cx="63" cy="53" r="14" stroke="#888888" strokeWidth="1" />
-                        <line x1="56" y1="53" x2="70" y2="53" stroke="#888888" strokeWidth="1" />
-                        <line x1="63" y1="46" x2="63" y2="60" stroke="#888888" strokeWidth="1" />
-
-                        {/* 多边形语义分割线框 2 */}
-                        <polygon
-                          points="126,38 192,28 202,98 140,122 118,82"
-                          stroke="#999999"
-                          strokeWidth="1.2"
-                          fill="rgba(255,255,255,0.03)"
-                        />
-                        <circle cx="126" cy="38" r="2.2" fill="#ffffff" />
-                        <circle cx="192" cy="28" r="2.2" fill="#ffffff" />
-                        <circle cx="202" cy="98" r="2.2" fill="#ffffff" />
-                        <circle cx="140" cy="122" r="2.2" fill="#ffffff" />
-                        <circle cx="118" cy="82" r="2.2" fill="#ffffff" />
-                      </svg>
-
-                      <div className="flex items-center justify-between text-[10px] font-mono text-[#888888] pt-2 border-t border-[#242424]">
-                        <span>BBOX: 2 · POLY: 5 PTS</span>
-                        <span className="text-[#cccccc]">IAA: 99.2%</span>
-                      </div>
-                    </div>
-
-                    {/* 底部指令标注条 */}
-                    <div className="rounded-[6px] bg-[#141414] border border-[#2a2a2a] px-2.5 py-2 flex items-center justify-between text-[10px] font-mono">
-                      <span className="text-[#888888]">RLHF Reward Score</span>
-                      <span className="text-[#ffffff] font-semibold">+0.942</span>
-                    </div>
-                  </div>
-
-                  {/* 右栏：模型微调参数的深色折线图 */}
-                  <div className="col-span-4 p-3.5 flex flex-col justify-between bg-[#171717]">
-                    <div className="text-[10px] font-mono uppercase tracking-wider text-[#888888] pb-1 border-b border-[#2a2a2a]">
-                      FINE-TUNE METRICS
-                    </div>
-
-                    {/* 折线图 SVG */}
-                    <div className="my-2 rounded-[8px] bg-[#121212] border border-[#2a2a2a] p-2.5">
-                      <div className="flex items-center justify-between text-[9px] font-mono text-[#888888] mb-1.5">
-                        <span>TRAIN LOSS</span>
-                        <span className="text-[#ffffff]">0.184 ↓</span>
-                      </div>
-                      <svg viewBox="0 0 160 84" className="w-full h-24 block" fill="none">
-                        <line x1="0" y1="20" x2="160" y2="20" stroke="#222222" strokeWidth="1" />
-                        <line x1="0" y1="45" x2="160" y2="45" stroke="#222222" strokeWidth="1" />
-                        <line x1="0" y1="70" x2="160" y2="70" stroke="#222222" strokeWidth="1" />
-                        {/* 评估基准虚线 */}
-                        <polyline
-                          points="4,18 32,32 60,44 88,52 116,58 154,61"
-                          stroke="#666666"
-                          strokeWidth="1.2"
-                          strokeDasharray="2 2"
-                        />
-                        {/* 主训练 Loss 折线 */}
-                        <polyline
-                          points="4,12 28,36 54,49 82,60 112,67 136,71 154,73"
-                          stroke="#ffffff"
-                          strokeWidth="1.6"
-                        />
-                        <circle cx="154" cy="73" r="2.5" fill="#ffffff" />
-                      </svg>
-                      <div className="flex items-center justify-between text-[9px] font-mono text-[#666666] mt-1">
-                        <span>Step 0</span>
-                        <span>Step 2.4k</span>
-                        <span>Step 5.0k</span>
-                      </div>
-                    </div>
-
-                    {/* 微调超参数列表 */}
-                    <div className="space-y-1.5 text-[10px] font-mono">
-                      <div className="flex items-center justify-between py-1 px-2 rounded bg-[#1f1f1f]">
-                        <span className="text-[#888888]">Learning Rate</span>
-                        <span className="text-[#e5e5e5]">2.0e-5</span>
-                      </div>
-                      <div className="flex items-center justify-between py-1 px-2 rounded bg-[#1f1f1f]">
-                        <span className="text-[#888888]">LoRA Rank / Alpha</span>
-                        <span className="text-[#e5e5e5]">64 / 128</span>
-                      </div>
-                      <div className="flex items-center justify-between py-1 px-2 rounded bg-[#1f1f1f]">
-                        <span className="text-[#888888]">Epoch Progress</span>
-                        <span className="text-[#ffffff]">3 / 3 (100%)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {/* 右侧（55% 16:9 平台截图区，统一 Mac 窗口外壳） */}
+            <div className="min-w-0">
+              <PlatformWindowFrame
+                src={trialLlmLabImg}
+                alt="大模型实验场平台工作台界面截图"
+                urlLabel="lab.qianji-ai.com / workspace"
+              />
             </div>
           </section>
 
           {/* =====================================================================
-              3. 区块二：AI 数字孪生靶场（左图右文）
+              3. 区块二：AI 数字孪生靶场（左 55% 16:9 截图区，右 45% 数据与文字区）
              ===================================================================== */}
           <section
             aria-labelledby="trial-section-range-title"
-            className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
+            className="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-10 lg:gap-12 items-center"
           >
-            {/* 左侧（纯代码重绘：黑白极简三层架构线框图，纯白底、无红黄蓝杂色、无阴影） */}
-            <div className="lg:col-span-6 order-2 lg:order-1">
-              <div className="w-full rounded-[6px] bg-[#FFFFFF] border border-[#EAEAEA] p-6 space-y-4">
-                {/* 顶部图标题 */}
-                <div className="flex items-center justify-between pb-3 border-b border-[#EAEAEA]">
-                  <span className="text-[12px] font-semibold text-[#1A1A1A] tracking-wide">
-                    AI 数字孪生靶场 · 三层技术架构图
-                  </span>
-                  <span className="text-[12px] font-mono text-[#666666]">
-                    ARCHITECTURE SPEC
-                  </span>
-                </div>
-
-                {/* 第一层：业务层 (Business Layer) */}
-                <div className="border border-[#1A1A1A] rounded-[4px] p-4 bg-[#FFFFFF]">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[12px] font-semibold text-[#1A1A1A]">
-                      业务层 · 场景演练与能力输出
-                    </span>
-                    <span className="text-[11px] font-mono text-[#666666]">
-                      BUSINESS LAYER
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                    {[
-                      { title: '实战学训', sub: '体系化攻防课程' },
-                      { title: '竞技赛事', sub: '高并发多模式对抗' },
-                      { title: '推演演练', sub: '场内 / 场外联动' },
-                      { title: '科学评测', sub: '全维度量化评估' }
-                    ].map((node) => (
-                      <div
-                        key={node.title}
-                        className="border border-[#1A1A1A] rounded-[4px] px-2.5 py-2 text-left bg-[#FFFFFF]"
-                      >
-                        <div className="text-[12px] font-semibold text-[#1A1A1A]">
-                          {node.title}
-                        </div>
-                        <div className="text-[11px] text-[#666666] mt-0.5 leading-snug">
-                          {node.sub}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 虚线连接器 1 -> 2 */}
-                <div className="flex items-center justify-around px-6" aria-hidden="true">
-                  {[0, 1, 2].map((i) => (
-                    <svg key={i} width="16" height="20" viewBox="0 0 16 20" fill="none">
-                      <line
-                        x1="8"
-                        y1="0"
-                        x2="8"
-                        y2="16"
-                        stroke="#1A1A1A"
-                        strokeWidth="1"
-                        strokeDasharray="2.5 2.5"
-                      />
-                      <path d="M5 13L8 17L11 13" stroke="#1A1A1A" strokeWidth="1" />
-                    </svg>
-                  ))}
-                </div>
-
-                {/* 第二层：引擎层 (Engine Layer) */}
-                <div className="border border-[#1A1A1A] rounded-[4px] p-4 bg-[#FFFFFF]">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[12px] font-semibold text-[#1A1A1A]">
-                      引擎层 · 数字孪生仿真与标准流程
-                    </span>
-                    <span className="text-[11px] font-mono text-[#666666]">
-                      ENGINE LAYER
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2">
-                    {[
-                      '方案想定',
-                      '环境构建',
-                      '智能行为模拟',
-                      '攻防数据采集',
-                      '效果评估'
-                    ].map((step, idx, arr) => (
-                      <React.Fragment key={step}>
-                        <div className="flex-1 min-w-[78px] border border-dashed border-[#1A1A1A] rounded-[4px] px-2 py-2 text-center">
-                          <span className="text-[12px] text-[#1A1A1A] font-medium whitespace-nowrap">
-                            {step}
-                          </span>
-                        </div>
-                        {idx < arr.length - 1 && (
-                          <svg
-                            width="14"
-                            height="12"
-                            viewBox="0 0 14 12"
-                            fill="none"
-                            className="shrink-0 hidden sm:block"
-                            aria-hidden="true"
-                          >
-                            <line
-                              x1="0"
-                              y1="6"
-                              x2="11"
-                              y2="6"
-                              stroke="#666666"
-                              strokeWidth="1"
-                              strokeDasharray="2 2"
-                            />
-                            <path d="M8.5 3.5L11.5 6L8.5 8.5" stroke="#666666" strokeWidth="1" />
-                          </svg>
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 虚线连接器 2 -> 3 */}
-                <div className="flex items-center justify-around px-6" aria-hidden="true">
-                  {[0, 1, 2].map((i) => (
-                    <svg key={i} width="16" height="20" viewBox="0 0 16 20" fill="none">
-                      <line
-                        x1="8"
-                        y1="0"
-                        x2="8"
-                        y2="16"
-                        stroke="#1A1A1A"
-                        strokeWidth="1"
-                        strokeDasharray="2.5 2.5"
-                      />
-                      <path d="M5 13L8 17L11 13" stroke="#1A1A1A" strokeWidth="1" />
-                    </svg>
-                  ))}
-                </div>
-
-                {/* 第三层：底层 (Infrastructure Layer) */}
-                <div className="border border-[#1A1A1A] rounded-[4px] p-4 bg-[#FFFFFF]">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[12px] font-semibold text-[#1A1A1A]">
-                      底层 · 云原生底座与异构基础设施
-                    </span>
-                    <span className="text-[11px] font-mono text-[#666666]">
-                      INFRASTRUCTURE LAYER
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2.5">
-                    {[
-                      { name: '虚实互联网络', detail: 'SDN / 协议仿真' },
-                      { name: '弹性算力集群', detail: 'GPU / 容器沙箱' },
-                      { name: '镜像与资产库', detail: '漏洞 / 拓扑模板' }
-                    ].map((infra) => (
-                      <div
-                        key={infra.name}
-                        className="border border-[#EAEAEA] rounded-[4px] px-3 py-2 bg-[#F8F9FA]"
-                      >
-                        <div className="text-[12px] font-medium text-[#1A1A1A]">
-                          {infra.name}
-                        </div>
-                        <div className="text-[11px] text-[#666666] mt-0.5">
-                          {infra.detail}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+            {/* 左侧（55% 16:9 平台截图区，统一 Mac 窗口外壳） */}
+            <div className="min-w-0 order-2 lg:order-1">
+              <PlatformWindowFrame
+                src={trialCyberRangeImg}
+                alt="AI 数字孪生靶场网络拓扑与实战演练界面截图"
+                urlLabel="range.qianji-ai.com / digital-twin"
+              />
             </div>
 
-            {/* 右侧（文字区） */}
-            <div className="lg:col-span-6 space-y-6 order-1 lg:order-2">
+            {/* 右侧（45% 数据与文字区：标题简介 -> 2x3 数据网格 -> 极细横线 -> 领域文字 -> 按钮） */}
+            <div className="min-w-0 order-1 lg:order-2 flex flex-col">
+              {/* 1. 标题与简介 */}
               <div className="space-y-2">
                 <div className="text-[12px] font-mono uppercase tracking-widest text-[var(--text-muted)]">
                   02 / DIGITAL TWIN CYBER RANGE
@@ -658,45 +326,44 @@ export const PremiumTrialView: React.FC = () => {
                 </p>
               </div>
 
-              {/* 简介 */}
-              <p className="text-[14px] text-[var(--text-sub)] leading-[1.6]">
-                基于底层云平台，通过高精度仿真推演与多场景构建，为各行业提供全维度的实战演练与科学评测。
+              <p className="mt-4 text-[14px] text-[var(--text-sub)] leading-[1.65]">
+                基于底层云平台与高精度仿真引擎，内置千余个核心靶标与海量实战资源，为院校与企业提供全维度的实战演练环境。
               </p>
 
-              {/* 适用行业 */}
-              <div className="space-y-3">
-                <div className="text-[12px] font-semibold uppercase tracking-wider text-[var(--text-sub)]">
-                  适用行业场景
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { label: '国防军工', type: 'defense' as const, desc: '复杂电磁与攻防态势推演' },
-                    { label: '能源电力', type: 'energy' as const, desc: '电网关键设施数字孪生防护' },
-                    { label: '工业控制', type: 'industrial' as const, desc: '工控协议仿真与应急演练' },
-                    { label: '人才培养', type: 'talent' as const, desc: '高校与企业攻防实训考核' }
-                  ].map((ind) => (
-                    <div
-                      key={ind.label}
-                      className="bg-[var(--bg-card)] border border-[var(--border-light)] rounded-[6px] p-4 flex items-start gap-3 hover:border-[var(--border-dark)] transition-colors"
-                    >
-                      <div className="w-8 h-8 rounded-[4px] bg-[var(--bg-hover)] border border-[var(--border-light)] flex items-center justify-center shrink-0 mt-0.5">
-                        <IndustryWireframeIcon type={ind.type} />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="text-[14px] font-semibold text-[var(--text-main)]">
-                          {ind.label}
-                        </div>
-                        <div className="text-[12px] text-[var(--text-sub)] mt-0.5 truncate">
-                          {ind.desc}
-                        </div>
-                      </div>
+              {/* 2. 数据网格：2列 x 3行极简无边框网格 */}
+              <div className="mt-7 grid grid-cols-2 gap-x-8 gap-y-6">
+                {[
+                  { value: '6000+', title: '教学课时', desc: '理论、视频与实验全覆盖' },
+                  { value: '3500+', title: '竞赛赛题', desc: '涵盖理论题库与专项挑战' },
+                  { value: '290+', title: '实战靶标', desc: '基础、应用与网络设备' },
+                  { value: '60+', title: '综合场景', desc: '单兵/团队训练与红蓝对抗' },
+                  { value: '1500+', title: '攻防资产', desc: '千余活体漏洞与安全工具' },
+                  { value: '5大', title: '标准体系', desc: '教指委/高职/工控/NIST等' }
+                ].map((metric) => (
+                  <div key={metric.title} className="min-w-0">
+                    <div className="text-[28px] font-bold text-[#000000] tracking-[-0.03em] leading-none tabular-nums">
+                      {metric.value}
                     </div>
-                  ))}
-                </div>
+                    <div className="mt-2 text-[13px] font-medium text-[#333333] leading-snug">
+                      {metric.title}
+                    </div>
+                    <p className="mt-0.5 text-[13px] text-[#777777] leading-[1.5]">
+                      {metric.desc}
+                    </p>
+                  </div>
+                ))}
               </div>
 
-              {/* 行动按钮 */}
-              <div className="pt-2">
+              {/* 3. 极细横线 + 4. 技术领域覆盖独立一行 */}
+              <div className="mt-6 pt-4 border-t border-[#EAEAEA]">
+                <p className="text-[13px] text-[#666666] leading-[1.65]">
+                  <span className="text-[#333333] font-medium">技术领域覆盖：</span>
+                  大模型 · 工控安全 · 车联网 · 数据安全 · 密码学 · 漏洞实战 等 13 大领域。
+                </p>
+              </div>
+
+              {/* 5. 行动按钮（与上方领域说明保持舒展间距） */}
+              <div className="mt-6">
                 <button
                   type="button"
                   onClick={() => setActiveModalKey('range')}
@@ -710,14 +377,14 @@ export const PremiumTrialView: React.FC = () => {
           </section>
 
           {/* =====================================================================
-              4. 区块三：数安词源（左文右图）
+              4. 区块三：数安词源（左 45% 文字区，右 55% 代码框区）
              ===================================================================== */}
           <section
             aria-labelledby="trial-section-digitoken-title"
-            className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
+            className="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-10 lg:gap-12 items-center"
           >
-            {/* 左侧（文字区） */}
-            <div className="lg:col-span-6 space-y-6">
+            {/* 左侧（45% 文字区） */}
+            <div className="min-w-0 space-y-6">
               <div className="space-y-2">
                 <div className="text-[12px] font-mono uppercase tracking-widest text-[var(--text-muted)]">
                   03 / UNIFIED ENTERPRISE AI GATEWAY
@@ -781,9 +448,9 @@ export const PremiumTrialView: React.FC = () => {
               </div>
             </div>
 
-            {/* 右侧（纯 CSS 绘制极简代码终端窗口 Terminal，零阴影、6px 圆角） */}
-            <div className="lg:col-span-6">
-              <div className="w-full rounded-[6px] bg-[#141414] border border-[#2E2E2E] overflow-hidden text-[#E5E5E5]">
+            {/* 右侧（55% 代码终端窗口，与截图外壳保持一致圆角与轻阴影） */}
+            <div className="min-w-0">
+              <div className="w-full rounded-[8px] bg-[#141414] border border-[#2E2E2E] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] text-[#E5E5E5]">
                 {/* 顶部窗口栏（带三个圆点） */}
                 <div className="px-4 py-3 border-b border-[#2a2a2a] bg-[#1a1a1a] flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
