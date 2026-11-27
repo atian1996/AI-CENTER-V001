@@ -437,14 +437,15 @@ export const PremiumTrialView: React.FC = () => {
 
               {/* 行动按钮 */}
               <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveModalKey('digitoken')}
+                <a
+                  href="https://digitoken.cyberpeace.cn/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[4px] bg-[var(--brand-color)] hover:opacity-80 text-[#FFFFFF] text-[14px] font-medium transition-opacity cursor-pointer"
                 >
-                  <span>申请免费试用</span>
+                  <span>前往免费试用</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </a>
               </div>
             </div>
 
